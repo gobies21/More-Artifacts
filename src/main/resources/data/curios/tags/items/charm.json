@@ -2,6 +2,16 @@
   "replace": false,
   "values": [
     "moreartifacts:bezoar",
-    "moreartifacts:vitamins"
+    "moreartifacts:vitamins",
+    "moreartifacts:fast_clock",
+    "moreartifacts:nectar",
+    "moreartifacts:desert_charm",
+    "moreartifacts:shulker_heart",
+    "moreartifacts:wither_shard",
+    "moreartifacts:withered_bezoar",
+    "moreartifacts:shulked_clock",
+    "moreartifacts:purification_charm",
+    "moreartifacts:ankh_charm",
+    "moreartifacts:melody_plushie"
   ]
 }

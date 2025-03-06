@@ -1,5 +1,8 @@
 {
   "replace": false,
   "values": [
+    "moreartifacts:sunglasses",
+    "moreartifacts:sculk_lens",
+    "moreartifacts:sculk_shades"
   ]
 }

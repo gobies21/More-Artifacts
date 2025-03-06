@@ -1,6 +1,24 @@
 {
   "item.moreartifacts.bezoar": "Bezoar",
   "item.moreartifacts.vitamins": "Vitamins",
+  "item.moreartifacts.fast_clock": "Fast Clock",
+  "item.moreartifacts.sunglasses": "Sunglasses",
+  "item.moreartifacts.nectar": "Nectar",
+  "item.moreartifacts.desert_charm": "Desert Charm",
+  "item.moreartifacts.shulker_heart": "Shulker Heart",
+  "item.moreartifacts.wither_shard": "Wither Shard",
+  "item.moreartifacts.sculk_lens": "Sculk Lens",
+  "item.moreartifacts.cobalt_shield": "Cobalt Shield",
+  "item.moreartifacts.withered_bezoar": "Withered Bezoar",
+  "item.moreartifacts.sculk_shades": "Sculk Shades",
+  "item.moreartifacts.shulked_clock": "Shulked Clock",
+  "item.moreartifacts.purification_charm": "Purification Charm",
+  "item.moreartifacts.obsidian_skull": "Obsidian Skull",
+  "item.moreartifacts.obsidian_shield": "Obsidian Shield",
+  "item.moreartifacts.ankh_charm": "Ankh Charm",
+  "item.moreartifacts.ankh_shield": "Ankh Shield",
+  "item.moreartifacts.melody_plushie": "Melody Plushie",
+  "item.moreartifacts.hero_shield": "Hero Shield",
 
   "creativetab.moreartifacts_tab": "More Artifacts"
 }
