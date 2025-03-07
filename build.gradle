@@ -92,6 +92,8 @@ minecraft {
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -104,6 +106,8 @@ minecraft {
         data {
             // example of overriding the workingDirectory set in configureEach above
             workingDirectory project.file('run-data')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
@@ -120,9 +124,13 @@ repositories {
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
-    }
+
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+        }
 }
-    // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
+}   // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
     // flatDir {
     //     dir 'libs'
@@ -135,13 +143,13 @@ dependencies {
     // If the group id is "net.minecraft" and the artifact id is one of ["client", "server", "joined"],
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    // Compile against only the API artifact
-    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0+1.20.1:api"))
-    // Use the full Curios API jar at runtime
-    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0+1.20.1"))
-}
 
-    // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
+    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1:api"))
+    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1"))
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+}   // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")

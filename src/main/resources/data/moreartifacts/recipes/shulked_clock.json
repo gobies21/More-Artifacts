@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:diamond"
+  },
+  "base": {
+    "item": "moreartifacts:fast_clock"
+  },
+  "addition": {
+    "item": "moreartifacts:shulker_heart"
+  },
+  "result": {
+    "item": "moreartifacts:shulked_clock"
+  }
+}

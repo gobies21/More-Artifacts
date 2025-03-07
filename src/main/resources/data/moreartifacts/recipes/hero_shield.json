@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "b": {
+      "item": "minecraft:diamond_block"
+    },
+    "c": {
+      "item": "minecraft:dragon_egg"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:hero_shield",
+    "count": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:echo_shard"
+    },
+    "b": {
+      "item": "minecraft:sculk"
+    },
+    "c": {
+      "item": "minecraft:tinted_glass"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:sculk_lens",
+    "count": 1
+  }
+}

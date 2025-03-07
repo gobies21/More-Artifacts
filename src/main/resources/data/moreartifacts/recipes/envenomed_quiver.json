@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    "ded",
+    "cfa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:coal"
+    },
+    "b": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "c": {
+      "item": "minecraft:slime_ball"
+    },
+    "d": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "e": {
+      "item": "moreartifacts:magic_quiver"
+    },
+    "f": {
+      "item": "minecraft:wither_rose"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:envenomed_quiver",
+    "count": 1
+  }
+}

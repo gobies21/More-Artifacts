@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:diamond"
+  },
+  "base": {
+    "item": "moreartifacts:bezoar"
+  },
+  "addition": {
+    "item": "moreartifacts:wither_shard"
+  },
+  "result": {
+    "item": "moreartifacts:withered_bezoar"
+  }
+}

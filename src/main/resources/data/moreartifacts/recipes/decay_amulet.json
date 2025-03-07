@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a ",
+    "aba",
+    " c "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:string"
+    },
+    "b": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "c": {
+      "item": "minecraft:coal"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:decay_amulet",
+    "count": 1
+  }
+}

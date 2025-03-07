@@ -3,6 +3,7 @@ package net.gobies.moreartifacts;
 import com.mojang.logging.LogUtils;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,6 +30,8 @@ public class MoreArtifacts {
         IEventBus modEventBus = context.getModEventBus();
 
         ModCreativeModeTabs.register(modEventBus);
+
+        ModLootModifiers.register(modEventBus);
 
         ModItems.register(modEventBus);
 

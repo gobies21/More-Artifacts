@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "cde",
+    "afa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:gold_block"
+    },
+    "b": {
+      "item": "moreartifacts:sculk_shades"
+    },
+    "c": {
+      "item": "moreartifacts:shulked_clock"
+    },
+    "d": {
+      "item": "moreartifacts:withered_bezoar"
+    },
+    "e": {
+      "item": "moreartifacts:purification_charm"
+    },
+    "f": {
+      "item": "moreartifacts:vitamins"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:ankh_charm",
+    "count": 1
+  }
+}

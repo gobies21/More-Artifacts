@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "cdc",
+    "c c"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:pink_wool"
+    },
+    "b": {
+      "item": "minecraft:nether_star"
+    },
+    "c": {
+      "item": "minecraft:white_wool"
+    },
+    "d": {
+      "item": "minecraft:red_wool"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:melody_plushie",
+    "count": 1
+  }
+}

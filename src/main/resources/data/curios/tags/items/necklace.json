@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "moreartifacts:enderian_scarf",
+    "moreartifacts:true_enderian_scarf",
+    "moreartifacts:gilded_scarf",
+    "moreartifacts:spectre_amulet",
+    "moreartifacts:venom_amulet",
+    "moreartifacts:decay_amulet",
+    "moreartifacts:necroplasm_amulet"
+  ]
+}

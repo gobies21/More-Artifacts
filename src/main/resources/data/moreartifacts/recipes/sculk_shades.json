@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:diamond"
+  },
+  "base": {
+    "item": "moreartifacts:sunglasses"
+  },
+  "addition": {
+    "item": "moreartifacts:sculk_lens"
+  },
+  "result": {
+    "item": "moreartifacts:sculk_shades"
+  }
+}

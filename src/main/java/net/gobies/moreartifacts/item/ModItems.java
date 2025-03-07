@@ -52,6 +52,35 @@ public class ModItems {
             () -> new MelodyPlushieItem(new Item.Properties()));
     public static final RegistryObject<Item> HeroShield = ITEMS.register("hero_shield",
             () -> new HeroShieldItem(new Item.Properties()));
+    public static final RegistryObject<Item> MechanicalGlove = ITEMS.register("mechanical_glove",
+            () -> new MechanicalGloveItem(new Item.Properties()));
+    public static final RegistryObject<Item> EnderianScarf = ITEMS.register("enderian_scarf",
+            () -> new EnderianScarfItem(new Item.Properties()));
+    public static final RegistryObject<Item> TrueEnderianScarf = ITEMS.register("true_enderian_scarf",
+            () -> new TrueEnderianScarfItem(new Item.Properties()));
+    public static final RegistryObject<Item> GildedScarf = ITEMS.register("gilded_scarf",
+            () -> new GildedScarfItem(new Item.Properties()));
+    public static final RegistryObject<Item> Balloon = ITEMS.register("balloon",
+            () -> new BalloonItem(new Item.Properties()));
+    public static final RegistryObject<Item> LuckyEmeraldRing = ITEMS.register("lucky_emerald_ring",
+            () -> new LuckyEmeraldRingItem(new Item.Properties()));
+    public static final RegistryObject<Item> SpectreAmulet = ITEMS.register("spectre_amulet",
+            () -> new SpectreAmuletItem(new Item.Properties()));
+    public static final RegistryObject<Item> VenomAmulet = ITEMS.register("venom_amulet",
+            () -> new VenomAmuletItem(new Item.Properties()));
+    public static final RegistryObject<Item> DecayAmulet = ITEMS.register("decay_amulet",
+            () -> new DecayAmuletItem(new Item.Properties()));
+    public static final RegistryObject<Item> NecroplasmAmulet = ITEMS.register("necroplasm_amulet",
+            () -> new NecroplasmAmuletItem(new Item.Properties()));
+    public static final RegistryObject<Item> Shackle = ITEMS.register("shackle",
+            () -> new ShackleItem(new Item.Properties()));
+    public static final RegistryObject<Item> MagicQuiver = ITEMS.register("magic_quiver",
+            () -> new MagicQuiverItem(new Item.Properties()));
+    public static final RegistryObject<Item> EnvenomedQuiver = ITEMS.register("envenomed_quiver",
+            () -> new EnvenomedQuiverItem(new Item.Properties()));
+    public static final RegistryObject<Item> MoltenQuiver = ITEMS.register("molten_quiver",
+            () -> new MoltenQuiverItem(new Item.Properties()));
+
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

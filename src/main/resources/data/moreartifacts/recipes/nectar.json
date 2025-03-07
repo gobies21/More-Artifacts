@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    " c ",
+    " c "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:honey_bottle"
+    },
+    "b": {
+      "item": "minecraft:honeycomb"
+    },
+    "c": {
+      "item": "minecraft:white_tulip"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:nectar",
+    "count": 1
+  }
+}

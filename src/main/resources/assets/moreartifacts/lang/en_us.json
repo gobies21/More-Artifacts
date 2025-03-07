@@ -19,6 +19,21 @@
   "item.moreartifacts.ankh_shield": "Ankh Shield",
   "item.moreartifacts.melody_plushie": "Melody Plushie",
   "item.moreartifacts.hero_shield": "Hero Shield",
+  "item.moreartifacts.mechanical_glove": "Mechanical Glove",
+  "item.moreartifacts.enderian_scarf": "Enderian Scarf",
+  "item.moreartifacts.true_enderian_scarf": "True Enderian Scarf",
+  "item.moreartifacts.gilded_scarf": "Gilded Scarf",
+  "item.moreartifacts.balloon": "Balloon",
+  "item.moreartifacts.lucky_emerald_ring": "Lucky Emerald Ring",
+  "item.moreartifacts.spectre_amulet": "Spectre Amulet",
+  "item.moreartifacts.venom_amulet": "Venom Amulet",
+  "item.moreartifacts.decay_amulet": "Decay Amulet",
+  "item.moreartifacts.necroplasm_amulet": "Necroplasm Amulet",
+  "item.moreartifacts.shackle": "Shackle",
+  "item.moreartifacts.magic_quiver": "Magic Quiver",
+  "item.moreartifacts.envenomed_quiver": "Envenomed Quiver",
+  "item.moreartifacts.molten_quiver": "Molten Quiver",
+
 
   "creativetab.moreartifacts_tab": "More Artifacts"
 }

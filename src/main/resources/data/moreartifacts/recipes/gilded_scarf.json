@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "cdc",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:gilded_blackstone"
+    },
+    "b": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "c": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "d": {
+      "item": "moreartifacts:enderian_scarf"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:gilded_scarf",
+    "count": 1
+  }
+}

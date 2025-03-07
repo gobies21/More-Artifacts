@@ -38,6 +38,20 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.AnkhShield.get());
                                 pOutput.accept(ModItems.MelodyPlushie.get());
                                 pOutput.accept(ModItems.HeroShield.get());
+                                pOutput.accept(ModItems.MechanicalGlove.get());
+                                pOutput.accept(ModItems.EnderianScarf.get());
+                                pOutput.accept(ModItems.TrueEnderianScarf.get());
+                                pOutput.accept(ModItems.GildedScarf.get());
+                                pOutput.accept(ModItems.Balloon.get());
+                                pOutput.accept(ModItems.LuckyEmeraldRing.get());
+                                pOutput.accept(ModItems.SpectreAmulet.get());
+                                pOutput.accept(ModItems.VenomAmulet.get());
+                                pOutput.accept(ModItems.DecayAmulet.get());
+                                pOutput.accept(ModItems.NecroplasmAmulet.get());
+                                pOutput.accept(ModItems.Shackle.get());
+                                pOutput.accept(ModItems.MagicQuiver.get());
+                                pOutput.accept(ModItems.EnvenomedQuiver.get());
+                                pOutput.accept(ModItems.MoltenQuiver.get());
                             })
                             .build());
 

@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;;
+import net.minecraftforge.common.MinecraftForge;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 public class BezoarItem extends Item implements ICurioItem {
     public BezoarItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -24,6 +26,7 @@ public class BezoarItem extends Item implements ICurioItem {
             player.removeEffect(MobEffects.POISON);
         }
     }
+
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

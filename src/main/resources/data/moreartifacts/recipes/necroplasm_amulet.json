@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "moreartifacts:spectre_amulet"
+    },
+    {
+      "item": "moreartifacts:venom_amulet"
+    },
+    {
+      "item": "moreartifacts:decay_amulet"
+    }
+  ],
+  "result": {
+    "item": "moreartifacts:necroplasm_amulet",
+    "count": 1
+  }
+}

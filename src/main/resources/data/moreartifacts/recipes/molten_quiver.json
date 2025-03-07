@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    "bdb",
+    "cba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "b": {
+      "item": "minecraft:magma_cream"
+    },
+    "c": {
+      "item": "minecraft:blaze_rod"
+    },
+    "d": {
+      "item": "moreartifacts:magic_quiver"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:molten_quiver",
+    "count": 1
+  }
+}

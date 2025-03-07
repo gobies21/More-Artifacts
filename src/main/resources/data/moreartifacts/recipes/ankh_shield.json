@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:diamond_block"
+  },
+  "base": {
+    "item": "moreartifacts:obsidian_shield"
+  },
+  "addition": {
+    "item": "moreartifacts:ankh_charm"
+  },
+  "result": {
+    "item": "moreartifacts:ankh_shield"
+  }
+}
