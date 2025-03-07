@@ -20,8 +20,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-;
-
 public class MagicQuiverItem extends Item implements ICurioItem {
     public MagicQuiverItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));

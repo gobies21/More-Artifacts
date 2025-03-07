@@ -51,7 +51,6 @@ public class BalloonItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level
             pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

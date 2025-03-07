@@ -1,6 +1,5 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.item.Modifiers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

@@ -41,13 +41,11 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
             }
         }
     }
-
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player entity) {
             entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
-
     static {
         MinecraftForge.EVENT_BUS.register(ObsidianShieldItem.class);
     }
@@ -72,7 +70,6 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
             });
         }
     }
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Knockback and Burning"));

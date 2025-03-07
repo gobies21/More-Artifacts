@@ -20,8 +20,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-;
-
 public class GildedScarfItem extends Item implements ICurioItem {
     public GildedScarfItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));

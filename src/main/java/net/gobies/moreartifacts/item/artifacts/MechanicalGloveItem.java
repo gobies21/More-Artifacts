@@ -16,8 +16,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-;
-
 public class MechanicalGloveItem extends Item implements ICurioItem {
     public MechanicalGloveItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.COMMON));

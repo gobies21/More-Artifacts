@@ -14,8 +14,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-;
-
 public class SculkLensItem extends Item implements ICurioItem {
     public SculkLensItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));

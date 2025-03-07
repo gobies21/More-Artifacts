@@ -17,8 +17,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-;
-
 public class ShackleItem extends Item implements ICurioItem {
     public ShackleItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.COMMON));

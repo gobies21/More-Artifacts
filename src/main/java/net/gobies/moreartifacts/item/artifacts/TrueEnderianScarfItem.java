@@ -27,8 +27,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-;
-
 public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public TrueEnderianScarfItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
@@ -42,14 +40,14 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
             return false;
         }
     }
-   // @SubscribeEvent
-   // public static void onLivingHurt(LivingHurtEvent event) {
-   //     if (event.getEntity() instanceof Player player) {
-   //         CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
-   //             event.setAmount(event.getAmount() * 0.90f);
-   //         });
-   //     }
-   // }
+    @SubscribeEvent
+    public static void onLivingHurt(LivingHurtEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
+                event.setAmount(event.getAmount() * 0.90f);
+            });
+        }
+    }
 
     private static final UUID ENTITY_REACH_UUID = UUID.randomUUID();
     private static final UUID BLOCK_REACH_UUID = UUID.randomUUID();

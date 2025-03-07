@@ -25,7 +25,6 @@ public class VitaminsItem extends Item implements ICurioItem {
             player.removeEffect(MobEffects.DIG_SLOWDOWN);
         }
     }
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Weakness and Mining Fatigue"));

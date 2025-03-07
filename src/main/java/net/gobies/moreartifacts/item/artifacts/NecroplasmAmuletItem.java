@@ -66,8 +66,6 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
         });
     }
     }
-
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants a chance to heal the player upon attacking entities"));

@@ -27,7 +27,6 @@ public class BezoarItem extends Item implements ICurioItem {
         }
     }
 
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Poison"));

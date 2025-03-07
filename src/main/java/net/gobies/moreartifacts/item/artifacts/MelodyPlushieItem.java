@@ -42,7 +42,6 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
             });
         }
     }
-
     private static final UUID MAX_HEALTH = UUID.randomUUID();
     @Override
     public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {

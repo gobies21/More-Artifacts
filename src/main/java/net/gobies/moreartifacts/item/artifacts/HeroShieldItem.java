@@ -45,7 +45,6 @@ public class HeroShieldItem extends Item implements ICurioItem {
     static {
         MinecraftForge.EVENT_BUS.register(HeroShieldItem.class);
     }
-
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {

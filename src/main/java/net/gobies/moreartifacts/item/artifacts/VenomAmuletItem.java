@@ -19,7 +19,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-
 public class VenomAmuletItem extends Item implements ICurioItem {
     public VenomAmuletItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));

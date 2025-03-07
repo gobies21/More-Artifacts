@@ -24,7 +24,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-
 public class SpectreAmuletItem extends Item implements ICurioItem {
     public SpectreAmuletItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
