@@ -42,12 +42,14 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
                 });
             }
         if (target instanceof LivingEntity) {
+            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
             if (player.level().random.nextFloat() < 0.05) {
                 target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
             }
+        });
+    }
         }
     }
-}
 @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Hitting enemies has a §35.0% §6chance to drop emeralds"));

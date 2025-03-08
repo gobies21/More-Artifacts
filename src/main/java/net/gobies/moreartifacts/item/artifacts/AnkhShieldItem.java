@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -26,6 +27,7 @@ import java.util.UUID;
 public class AnkhShieldItem extends Item implements ICurioItem {
     public AnkhShieldItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
@@ -47,8 +49,27 @@ public class AnkhShieldItem extends Item implements ICurioItem {
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
                     attribute.addTransientModifier(
-                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Cobalt Shield knockback immunity", 1000.0, AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Ankh Shield knockback immunity", 1000.0, AttributeModifier.Operation.ADDITION));
                 }
+            }
+        }
+    }
+    @SubscribeEvent
+    public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
+        if (event.getEntity() instanceof Player player) {
+            if (event.getEffectInstance() != null && event.getEffectInstance().getEffect() == MobEffects.POISON ||
+                    event.getEffectInstance().getEffect() == MobEffects.WITHER ||
+                    event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
+                    event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
+                    event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
+                    event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
+                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
+                    event.setResult(MobEffectEvent.Result.DENY);
+                });
             }
         }
     }

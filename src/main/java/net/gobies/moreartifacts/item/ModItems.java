@@ -81,7 +81,6 @@ public class ModItems {
     public static final RegistryObject<Item> MoltenQuiver = ITEMS.register("molten_quiver",
             () -> new MoltenQuiverItem(new Item.Properties()));
 
-
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
