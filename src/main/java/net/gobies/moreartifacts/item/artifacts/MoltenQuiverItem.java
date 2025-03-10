@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -33,13 +34,13 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player attacker) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MoltenQuiver.get(), attacker).ifPresent((slot) -> {
                 if (event.getSource().is(DamageTypes.ARROW)) {
-                    event.setAmount(event.getAmount() * 1.10f);
+                    event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     if (!target.isOnFire()) {
                         target.setSecondsOnFire(5);
                     }
                     if (target.isOnFire()) {
-                        event.setAmount(event.getAmount() * 1.05f);
+                        event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));
                     }
 
                 }
@@ -49,9 +50,9 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§6Increases arrow damage by §310.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§6Increases arrow damage by §3%.1f%%", (Config.MOLTEN_QUIVER_DAMAGE.get() - 1) * 100)));
         pTooltipComponents.add(Component.literal("§6Lights attacked entites on fire"));
-        pTooltipComponents.add(Component.literal("§6Deals §35.0% §6increased damage to ignited entites"));
+        pTooltipComponents.add(Component.literal(String.format("§6Deals §3%.1f%% §6increased damage to ignited entites", (Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

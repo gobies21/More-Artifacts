@@ -1,63 +1,208 @@
 package net.gobies.moreartifacts;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Forge's config APIs
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config
-{
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+public class Config {
+    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final ForgeConfigSpec SPEC;
 
-    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_TAKEN;
+    public static float skull_fire_damage_taken;
 
-    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    public static ForgeConfigSpec.ConfigValue<Double> OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN;
+    public static float obsidian_shield_fire_damage_taken;
 
-    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
+    public static ForgeConfigSpec.ConfigValue<Double> ANKH_SHIELD_FIRE_DAMAGE_TAKEN;
+    public static float ankh_shield_fire_damage_taken;
 
-    // a list of strings that are treated as resource locations for items
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+    public static ForgeConfigSpec.ConfigValue<Double> DECAY_WITHER_CHANCE;
+    public static float decay_wither_chance;
 
-    static final ForgeConfigSpec SPEC = BUILDER.build();
+    public static ForgeConfigSpec.ConfigValue<Double> VENOM_POISON_CHANCE;
+    public static float venom_poison_chance;
 
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
-    public static Set<Item> items;
+    public static ForgeConfigSpec.ConfigValue<Double> SPECTRE_HEAL_CHANCE;
+    public static float spectre_heal_chance;
 
-    private static boolean validateItemName(final Object obj)
-    {
-        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(ResourceLocation.tryParse(itemName));
+    public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_HEAL_CHANCE;
+    public static float necroplasm_heal_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_WITHER_CHANCE;
+    public static float necroplasm_wither_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_POISON_CHANCE;
+    public static float necroplasm_poison_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_ATTACK;
+    public static float mechanical_attack;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SHACKLE_ARMOR;
+    public static float shackle_armor;
+
+    public static ForgeConfigSpec.ConfigValue<Double> IGNORE_DAMAGE_CHANCE;
+    public static float ignore_damage_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> EXPLOSION_DAMAGE_TAKEN;
+    public static float explosion_damage_taken;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_TAKEN;
+    public static float enderian_damage_taken;
+
+    public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_DAMAGE_TAKEN;
+    public static float true_enderian_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_EVADE;
+    public static float true_enderian_evade;
+    public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_REACH;
+    public static float true_enderian_reach;
+
+    public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_TAKEN;
+    public static float gilded_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_DEALT;
+    public static float gilded_damage_dealt;
+
+    public static ForgeConfigSpec.ConfigValue<Double> PLUSHIE_HEALTH;
+    public static float plushie_health;
+
+    public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_DAMAGE;
+    public static float emerald_ring_damage;
+    public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_EMERALDS;
+    public static float emerald_ring_emeralds;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_DAMAGE;
+    public static float magic_quiver_damage;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_DAMAGE;
+    public static float envenomed_quiver_damage;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_DAMAGE;
+    public static float molten_quiver_damage;
+    public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_ONFIRE_DAMAGE;
+    public static float molten_quiver_onfire_damage;
+
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_BEZOAR;
+    public static boolean enable_bezoar;
+
+    public Config() {
     }
 
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event)
-    {
-        logDirtBlock = LOG_DIRT_BLOCK.get();
-        magicNumber = MAGIC_NUMBER.get();
-        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
+    static void onLoad(ModConfigEvent.Loading configEvent) {
+        ignore_damage_chance = (float) ((Double) IGNORE_DAMAGE_CHANCE.get() * (double) 1.0F);
+        explosion_damage_taken = (float) ((Double) EXPLOSION_DAMAGE_TAKEN.get() * (double) 1.0F);
+        skull_fire_damage_taken = (float) ((Double) SKULL_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
+        obsidian_shield_fire_damage_taken = (float) ((Double) ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
+        ankh_shield_fire_damage_taken = (float) ((Double) ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
+        decay_wither_chance = (float) ((Double) DECAY_WITHER_CHANCE.get() * (double) 1.0F);
+        venom_poison_chance = (float) ((Double) VENOM_POISON_CHANCE.get() * (double) 1.0F);
+        spectre_heal_chance = (float) ((Double) SPECTRE_HEAL_CHANCE.get() * (double) 1.0F);
+        necroplasm_heal_chance = (float) ((Double) NECROPLASM_HEAL_CHANCE.get() * (double) 1.0F);
+        necroplasm_wither_chance = (float) ((Double) NECROPLASM_WITHER_CHANCE.get() * (double) 1.0F);
+        necroplasm_poison_chance = (float) ((Double) NECROPLASM_POISON_CHANCE.get() * (double) 1.0F);
+        mechanical_attack = (float) ((Double) MECHANICAL_ATTACK.get() * (double) 1.0F);
+        shackle_armor = (float) ((Double) SHACKLE_ARMOR.get() * (double) 1.0F);
+        plushie_health = (float) ((Double) PLUSHIE_HEALTH.get() * (double) 1.0F);
+        enderian_damage_taken = (float) ((Double) ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
+        true_enderian_damage_taken = (float) ((Double) TRUE_ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
+        true_enderian_evade = (float) ((Double) TRUE_ENDERIAN_EVADE.get() * (double) 1.0F);
+        true_enderian_reach = (float) ((Double) TRUE_ENDERIAN_REACH.get() * (double) 1.0F);
+        gilded_damage_taken = (float) ((Double) GILDED_DAMAGE_TAKEN.get() * (double) 1.0F);
+        gilded_damage_dealt = (float) ((Double) GILDED_DAMAGE_DEALT.get() * (double) 1.0F);
+        emerald_ring_damage = (float) ((Double) EMERALD_RING_DAMAGE.get() * (double) 1.0F);
+        emerald_ring_emeralds = (float) ((Double) EMERALD_RING_EMERALDS.get() * (double) 1.0F);
+        magic_quiver_damage = (float) ((Double) MAGIC_QUIVER_DAMAGE.get() * (double) 1.0F);
+        envenomed_quiver_damage = (float) ((Double) ENVENOMED_QUIVER_DAMAGE.get() * (double) 1.0F);
+        molten_quiver_damage = (float) ((Double) MOLTEN_QUIVER_DAMAGE.get() * (double) 1.0F);
+        molten_quiver_onfire_damage = (float) ((Double) MOLTEN_QUIVER_ONFIRE_DAMAGE.get() * (double) 1.0F);
+        enable_bezoar = (Boolean) ENABLE_BEZOAR.get();
 
-        // convert the list of strings into a set of items
-        items = ITEM_STRINGS.get().stream()
-                .map(itemName -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(itemName)))
-                .collect(Collectors.toSet());
+    }
+
+    static {
+        BUILDER.push("Hero Shield");
+        IGNORE_DAMAGE_CHANCE = BUILDER.comment("Chance that hero shield will ignore damage").define("Chance", 0.10);
+        EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion Damage Taken", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Obsidian Skull");
+        SKULL_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.pop();
+
+        BUILDER.push("Obsidian Shield");
+        OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.pop();
+
+        BUILDER.push("Ankh Shield");
+        ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.pop();
+
+        BUILDER.push("Venom amulet");
+        VENOM_POISON_CHANCE = BUILDER.comment("Chance to apply posion").define("Poison Chance", 0.40);
+        BUILDER.pop();
+
+        BUILDER.push("Decay Amulet");
+        DECAY_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.40);
+        BUILDER.pop();
+
+        BUILDER.push("Spectre Amulet");
+        SPECTRE_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.40);
+        BUILDER.pop();
+
+        BUILDER.push("Necroplasm Amulet");
+        NECROPLASM_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.50);
+        NECROPLASM_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.60);
+        NECROPLASM_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.60);
+        BUILDER.pop();
+
+        BUILDER.push("Mechanical Glove");
+        MECHANICAL_ATTACK = BUILDER.comment("Attack Damage increase").define("Attack Damage", 2.0);
+        BUILDER.pop();
+
+        BUILDER.push("Shackle");
+        SHACKLE_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1.0);
+        BUILDER.pop();
+
+        BUILDER.push("Melody Plushie");
+        PLUSHIE_HEALTH = BUILDER.comment("Max Health Increase percentage").define("Max Health", 0.2);
+        BUILDER.pop();
+
+        BUILDER.push("Enderian Scarf");
+        ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.92);
+        BUILDER.pop();
+
+        BUILDER.push("True Enderian Scarf");
+        TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.90);
+        TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade Chance", 0.1);
+        TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach gain", 1.0);
+        BUILDER.pop();
+
+        BUILDER.push("Gilded Scarf");
+        GILDED_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.88);
+        GILDED_DAMAGE_DEALT = BUILDER.comment("Damage dealt in percentage").define("Damage Dealt", 1.10);
+        BUILDER.pop();
+
+        BUILDER.push("Lucky Emerald Ring");
+        EMERALD_RING_DAMAGE = BUILDER.comment("Damage dealt against illagers in percentage").define("Damage Dealt", 1.25);
+        EMERALD_RING_EMERALDS = BUILDER.comment("Chance for on hit to drop an emerald").define("Emerald Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Magic Quiver");
+        MAGIC_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.08);
+        BUILDER.pop();
+
+        BUILDER.push("Envenomed Quiver");
+        ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.10);
+        BUILDER.pop();
+
+        BUILDER.push("Molten Quiver");
+        MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.10);
+        MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("On fire bonus arrow damage").define("On fire bonus", 1.05);
+        BUILDER.pop();
+
+        BUILDER.push("Enable Bezoar");
+        ENABLE_BEZOAR = BUILDER.comment("Enable bezoar").define("Enable", true);
+        BUILDER.pop();
+
+        SPEC = BUILDER.build();
     }
 }

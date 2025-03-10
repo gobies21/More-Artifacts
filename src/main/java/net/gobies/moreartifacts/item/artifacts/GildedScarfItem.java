@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -38,13 +39,13 @@ public class GildedScarfItem extends Item implements ICurioItem {
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GildedScarf.get(), attacker).ifPresent((slot) -> {
-                event.setAmount(event.getAmount() * 1.10f);
+                event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_DEALT.get()));
             });
 
         }
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GildedScarf.get(), player).ifPresent((slot) -> {
-                event.setAmount(event.getAmount() * 0.88f);
+                event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_TAKEN.get()));
             });
         }
     }
@@ -52,8 +53,8 @@ public class GildedScarfItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§ePiglins are neutral"));
-        pTooltipComponents.add(Component.literal("§6Reduces damage taken by §312.0%"));
-        pTooltipComponents.add(Component.literal("§6Increases damage dealt by §310.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.GILDED_DAMAGE_TAKEN.get() * 100))));
+        pTooltipComponents.add(Component.literal(String.format("§6Increases damage dealt by §3%.1f%%", (Config.GILDED_DAMAGE_DEALT.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

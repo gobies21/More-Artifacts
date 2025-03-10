@@ -1,23 +1,24 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
-public class CobaltShieldItem extends Item implements ICurioItem {
+public class CobaltShieldItem extends ShieldItem implements ICurioItem {
     public CobaltShieldItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
@@ -37,7 +38,7 @@ public class CobaltShieldItem extends Item implements ICurioItem {
 
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player entity) {
-            entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+            Objects.requireNonNull(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
 
@@ -47,6 +48,11 @@ public class CobaltShieldItem extends Item implements ICurioItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
+
+
+
+
+
 
 
 

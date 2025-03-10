@@ -37,13 +37,13 @@ public class GlobalLootModifiers extends GlobalLootModifierProvider {
                 LootItemRandomChanceCondition.randomChance(0.10f).build()}, ModItems.SculkLens.get()));
         add("cat_gift_melody_plushie", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("gameplay/cat_morning_gift")).build(),
-                LootItemRandomChanceCondition.randomChance(0.8f).build()}, ModItems.MelodyPlushie.get()));
+                LootItemRandomChanceCondition.randomChance(0.5f).build()}, ModItems.MelodyPlushie.get()));
         add("dungeon_cobalt_shield", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("chests/simple_dungeon")).build(),
                 LootItemRandomChanceCondition.randomChance(0.20f).build()}, ModItems.CobaltShield.get()));
         add("shulker_shulker_heart", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/shulker")).build(),
-                LootItemRandomChanceCondition.randomChance(0.20f).build()}, ModItems.ShulkerHeart.get()));
+                LootItemRandomChanceCondition.randomChance(0.15f).build()}, ModItems.ShulkerHeart.get()));
         add("enderman_enderian_scarf", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/enderman")).build(),
                 LootItemRandomChanceCondition.randomChance(0.02f).build()}, ModItems.EnderianScarf.get()));

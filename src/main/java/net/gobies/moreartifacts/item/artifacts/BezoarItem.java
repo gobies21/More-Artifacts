@@ -27,10 +27,12 @@ public class BezoarItem extends Item implements ICurioItem {
     @Override
     public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player player) {
-            if (player.hasEffect(MobEffects.POISON));
-            player.removeEffect(MobEffects.POISON);
+            if (player.hasEffect(MobEffects.POISON)) {
+                player.removeEffect(MobEffects.POISON);
+            }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
@@ -48,6 +50,8 @@ public class BezoarItem extends Item implements ICurioItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
+
+
 
 
 

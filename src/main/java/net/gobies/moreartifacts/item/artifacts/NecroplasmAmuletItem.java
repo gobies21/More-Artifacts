@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -38,7 +39,7 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), attacker).ifPresent((slot) -> {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
-                    if (random.nextFloat() < 0.50f) {
+                    if (random.nextFloat() < Config.NECROPLASM_HEAL_CHANCE.get()) {
                         long currentTime = System.currentTimeMillis();
                         long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
 
@@ -56,9 +57,9 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < 0.50f) {
+                    if (player.getRandom().nextFloat() < Config.NECROPLASM_POISON_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
-                        if (player.getRandom().nextFloat() < 0.50f) {
+                        if (player.getRandom().nextFloat() < Config.NECROPLASM_WITHER_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0));
                     }
                 }

@@ -1,9 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
-import net.minecraft.core.BlockPos;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -35,7 +39,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
         LivingEntity var5 = slotContext.entity();
         if (var5 instanceof Player && stack.getItem() instanceof TrueEnderianScarfItem) {
-            return true; // Make Endermen neutral when the TrueEnderianScarfItem is equipped
+            return true;
         } else {
             return false;
         }
@@ -44,7 +48,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
-                event.setAmount(event.getAmount() * 0.90f);
+                event.setAmount((float) (event.getAmount() * Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get()));
             });
         }
     }
@@ -63,9 +67,9 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                     if (attribute.getModifier(ENTITY_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
                         if (attribute2.getModifier(BLOCK_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
                             attribute.addTransientModifier(
-                                    new AttributeModifier(ENTITY_REACH_UUID, "True Scarf Entity Reach", 1.0, AttributeModifier.Operation.ADDITION));
+                                    new AttributeModifier(ENTITY_REACH_UUID, "True Scarf Entity Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
                             attribute2.addTransientModifier(
-                                    new AttributeModifier(BLOCK_REACH_UUID, "True Scarf Block Reach", 1.0, AttributeModifier.Operation.ADDITION));
+                                    new AttributeModifier(BLOCK_REACH_UUID, "True Scarf Block Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
                         }
                     }
                 }
@@ -89,73 +93,71 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(TrueEnderianScarfItem.class);
     }
 
+    //Needs refining
+
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            // Check if the player is wearing the TrueEnderianScarf
+        if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
-                RandomSource random = player.getRandom();
-                if (random.nextFloat() < 0.1f) {
-                    Level level = player.level();
-                    double randomX = player.getX() + (level.random.nextDouble() * 8 - 4);
-                    double randomZ = player.getZ() + (level.random.nextDouble() * 8 - 4);
-                    double groundY = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (int) randomX, (int) randomZ);
+                RandomSource playerRandom = player.getRandom();
+                if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
+                    return;
+                }
+                Level level = player.level();
+                if (!(level instanceof ServerLevel)) {
+                    return;
+                }
+                event.setCanceled(true);
+                LivingEntity livingEntity = event.getEntity();
+                double d0 = livingEntity.getX();
+                double d1 = livingEntity.getY();
+                double d2 = livingEntity.getZ();
+                double maxRadius = 8d;
+                Level entityLevel = livingEntity.level();
+                var entityRandom = livingEntity.getRandom();
 
-                    // Check if teleport target is valid (block below is solid and target block is empty)
-                    if (level.getBlockState(new BlockPos((int) randomX, (int) (groundY - 1), (int) randomZ)).isSolid() &&
-                            level.isEmptyBlock(new BlockPos((int) randomX, (int) groundY, (int) randomZ))) {
-                        if (player.isPassenger()) {
-                            player.stopRiding();
+                for (int i = 0; i < 6; ++i) {
+                    var minRadius = maxRadius / 2;
+                    Vec3 vec = new Vec3((double) entityRandom.nextInt((int) minRadius, (int) maxRadius), 0, 0);
+                    int degrees = entityRandom.nextInt(360);
+                    vec = vec.yRot(degrees * Mth.DEG_TO_RAD);
+
+                    double x = d0 + vec.x;
+                    if (level instanceof ServerLevel serverLevel) {
+                        double y = Mth.clamp(livingEntity.getY() + (double) (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), (double) level.getMinBuildHeight(), (double) (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
+                        double z = d2 + vec.z;
+
+                    if (livingEntity.isPassenger()) {
+                        livingEntity.stopRiding();
+                    }
+
+                    if (livingEntity.randomTeleport(x, y, z, true)) {
+                        if (event.getSource().getEntity() != null) {
+                            livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, event.getSource().getEntity().getEyePosition());
                         }
-
-                        // Spawn portal particles at player's original position
-                        for (int i = 0; i < 15; i++) {
-                            player.level().addParticle(
-                                    net.minecraft.core.particles.ParticleTypes.PORTAL,
-                                    player.getX(),
-                                    player.getY() + player.getEyeHeight(),
-                                    player.getZ(),
-                                    (level.random.nextDouble() - 0.5) * 2.0,
-                                    level.random.nextDouble() - 0.5,
-                                    (level.random.nextDouble() - 0.5) * 2.0
-                            );
-                        }
-
-                        player.teleportTo(randomX, groundY, randomZ); // Teleport player to the ground
                         player.level().playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, player.getSoundSource(), 1.0F, 1.0F);
+                        livingEntity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
+                        break;
+                    }
 
-                        // Spawn portal particles at player's teleportation position
-                        for (int i = 0; i < 15; i++) {
-                            player.level().addParticle(
-                                    net.minecraft.core.particles.ParticleTypes.PORTAL,
-                                    player.getX(),
-                                    player.getY() + player.getEyeHeight(),
-                                    player.getZ(),
-                                    (level.random.nextDouble() - 0.5) * 2.0,
-                                    level.random.nextDouble() - 0.5,
-                                    (level.random.nextDouble() - 0.5) * 2.0
-                            );
-                        }
-
-                        event.setCanceled(true); // Ignore the damage
+                    if (maxRadius > 2) {
+                        maxRadius--;
                     }
                 }
-            });
+            }
+
+        });
         }
     }
-
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§5Endermen are neutral"));
-        pTooltipComponents.add(Component.literal("§6Reduces damage taken by §310.0%"));
-        pTooltipComponents.add(Component.literal("§310.0% §6Chance to evade an attack"));
-        pTooltipComponents.add(Component.literal("§6Increases reach by §31.0"));
+        pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100))));
+        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get()* 100)));
+        pTooltipComponents.add(Component.literal(String.format("§6Increases reach by §3%.1f", Config.TRUE_ENDERIAN_REACH.get())));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
-
-
-
 
 
 

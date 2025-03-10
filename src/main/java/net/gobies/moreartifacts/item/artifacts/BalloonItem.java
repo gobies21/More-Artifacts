@@ -21,7 +21,7 @@ public class BalloonItem extends Item implements ICurioItem {
             var optionalBalloon = top.theillusivec4.curios.api.CuriosApi.getCuriosHelper()
                     .findEquippedCurio(this, player);
             if (optionalBalloon.isPresent()) {
-                player.setDeltaMovement(player.getDeltaMovement().add(0, 0.4, 0)); // Increase jump height
+                player.setDeltaMovement(player.getDeltaMovement().add(0, 0.4, 0));
             }
         }
     }
@@ -32,7 +32,7 @@ public class BalloonItem extends Item implements ICurioItem {
             var optionalBalloon = top.theillusivec4.curios.api.CuriosApi.getCuriosHelper()
                     .findEquippedCurio(this, player);
             if (optionalBalloon.isPresent()) {
-                event.setDistance(event.getDistance() * 0.5f); // Reduces fall damage by halving the fall distance
+                event.setDistance(event.getDistance() * 0.5f);
             }
         }
     }

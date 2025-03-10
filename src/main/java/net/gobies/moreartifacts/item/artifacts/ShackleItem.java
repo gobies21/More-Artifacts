@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,7 +32,7 @@ public class ShackleItem extends Item implements ICurioItem {
             if (attribute != null) {
                 if (attribute.getModifier(ARMOR_UUID) == null && stack.getItem() instanceof ShackleItem) {
                     attribute.addTransientModifier(
-                            new AttributeModifier(ARMOR_UUID, "Shackle Armor", 1.0, AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(ARMOR_UUID, "Shackle Armor", Config.SHACKLE_ARMOR.get(), AttributeModifier.Operation.ADDITION));
                 }
             }
         }
@@ -45,15 +46,7 @@ public class ShackleItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§7+1 Increased armor"));
+        pTooltipComponents.add(Component.literal(String.format("§7+%d Increased armor", Config.SHACKLE_ARMOR.get().intValue())));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
-
-
-
-
-
-
-
-

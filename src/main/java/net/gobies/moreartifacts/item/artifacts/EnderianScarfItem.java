@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -31,14 +32,14 @@ public class EnderianScarfItem extends Item implements ICurioItem {
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnderianScarf.get(), player).ifPresent((slot) -> {
-                event.setAmount(event.getAmount() * 0.92f);
+                event.setAmount((float) (event.getAmount() * Config.ENDERIAN_DAMAGE_TAKEN.get()));
             });
         }
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§7Reduces damage taken by §38.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§7Reduces damage taken by §3%.1f%%", (100 - Config.ENDERIAN_DAMAGE_TAKEN.get() * 100))));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -50,23 +51,23 @@ public class HeroShieldItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.HeroShield.get(), player).ifPresent((slot) -> {
                 RandomSource random = player.getRandom();
-                if (random.nextFloat() < 0.1f) {
+                if (random.nextFloat() < Config.IGNORE_DAMAGE_CHANCE.get()) {
                     event.setCanceled(true);
                     player.displayClientMessage(Component.literal("§6Ow!"), true);
                     player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
                 }
-                //Reduce explosion damage by 75%
                 if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                    event.setAmount(event.getAmount() * 0.25f);
+                    event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
                 }
             });
         }
     }
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants Resistance"));
-        pTooltipComponents.add(Component.literal("§310.0% §6Chance to ignore damage"));
-        pTooltipComponents.add(Component.literal("§6Reduces explosion damage taken by §375.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to ignore damage", Config.IGNORE_DAMAGE_CHANCE.get() * 100)));
+        pTooltipComponents.add(Component.literal(String.format("§6Reduces explosion damage taken by §3%.1f%%", (1.0 - Config.EXPLOSION_DAMAGE_TAKEN.get()) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

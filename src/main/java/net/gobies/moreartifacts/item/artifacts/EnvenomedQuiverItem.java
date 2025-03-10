@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -33,7 +34,7 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player attacker) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnvenomedQuiver.get(), attacker).ifPresent((slot) -> {
                 if (event.getSource().is(DamageTypes.ARROW)) {
-                    event.setAmount(event.getAmount() * 1.10f);
+                    event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0));
@@ -44,7 +45,7 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
     }
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§6Increases arrow damage by §310.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§6Increases arrow damage by §3%.1f%%", (Config.ENVENOMED_QUIVER_DAMAGE.get() - 1) * 100)));
         pTooltipComponents.add(Component.literal("§6Arrows inflict poison and wither to entites"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

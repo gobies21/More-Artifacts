@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -33,7 +34,7 @@ public class DecayAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.DecayAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < 0.40f) {
+                    if (player.getRandom().nextFloat() < Config.DECAY_WITHER_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0)); // Poison for 5 seconds
                     }
                 }

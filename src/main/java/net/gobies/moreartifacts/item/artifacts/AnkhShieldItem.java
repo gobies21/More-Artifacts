@@ -1,11 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +24,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AnkhShieldItem extends Item implements ICurioItem {
@@ -76,7 +79,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
 
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player entity) {
-            entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+            Objects.requireNonNull(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
 
@@ -88,7 +91,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
         if (event.getEntity()instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
-                    event.setAmount(event.getAmount() * 0.50f);
+                    event.setAmount((float) (event.getAmount() * Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
             });
         }
@@ -109,7 +112,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants immunity to Knockback and Burning"));
         pTooltipComponents.add(Component.literal("§6Grants immunity to most debuffs"));
-        pTooltipComponents.add(Component.literal("§6Reduces fire damage taken by §350.0%"));
+        pTooltipComponents.add(Component.literal(String.format("§6Reduces fire damage taken by §3%.1f%%", (1.0 - Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -38,12 +39,12 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
             LivingEntity target = event.getEntity();
             if (target.getMobType() == MobType.ILLAGER) {
                 CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
-                    event.setAmount(event.getAmount() * 1.25f);
+                    event.setAmount((float)(event.getAmount() * Config.EMERALD_RING_DAMAGE.get()));
                 });
             }
         if (target instanceof LivingEntity) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
-            if (player.level().random.nextFloat() < 0.05) {
+            if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
                 target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
             }
         });
@@ -52,8 +53,8 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     }
 @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§6Hitting enemies has a §35.0% §6chance to drop emeralds"));
-        pTooltipComponents.add(Component.literal("§325.0% §6Increased damage dealt against illagers"));
+        pTooltipComponents.add(Component.literal(String.format("§6Hitting enemies has a §3%.1f%% §6chance to drop emeralds", Config.EMERALD_RING_EMERALDS.get() * 100)));
+        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Increased damage dealt against illagers", (Config.EMERALD_RING_DAMAGE.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

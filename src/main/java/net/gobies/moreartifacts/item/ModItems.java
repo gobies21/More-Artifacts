@@ -11,7 +11,6 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item>ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, MoreArtifacts.MOD_ID);
-
     public static final RegistryObject<Item> Bezoar = ITEMS.register("bezoar",
             () -> new BezoarItem(new Item.Properties()));
     public static final RegistryObject<Item> Vitamins = ITEMS.register("vitamins",

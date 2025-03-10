@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -41,7 +42,7 @@ public class SpectreAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.SpectreAmulet.get(), attacker).ifPresent((slot) -> {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
-                    if (random.nextFloat() < 0.40f) {
+                    if (random.nextFloat() < Config.SPECTRE_HEAL_CHANCE.get()) {
                         long currentTime = System.currentTimeMillis();
                         long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
 
