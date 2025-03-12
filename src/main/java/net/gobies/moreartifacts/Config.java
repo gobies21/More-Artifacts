@@ -80,9 +80,6 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_ONFIRE_DAMAGE;
     public static float molten_quiver_onfire_damage;
 
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_BEZOAR;
-    public static boolean enable_bezoar;
-
     public Config() {
     }
 
@@ -114,7 +111,6 @@ public class Config {
         envenomed_quiver_damage = (float) ((Double) ENVENOMED_QUIVER_DAMAGE.get() * (double) 1.0F);
         molten_quiver_damage = (float) ((Double) MOLTEN_QUIVER_DAMAGE.get() * (double) 1.0F);
         molten_quiver_onfire_damage = (float) ((Double) MOLTEN_QUIVER_ONFIRE_DAMAGE.get() * (double) 1.0F);
-        enable_bezoar = (Boolean) ENABLE_BEZOAR.get();
 
     }
 
@@ -178,29 +174,25 @@ public class Config {
 
         BUILDER.push("Gilded Scarf");
         GILDED_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.88);
-        GILDED_DAMAGE_DEALT = BUILDER.comment("Damage dealt in percentage").define("Damage Dealt", 1.10);
+        GILDED_DAMAGE_DEALT = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.10);
         BUILDER.pop();
 
         BUILDER.push("Lucky Emerald Ring");
-        EMERALD_RING_DAMAGE = BUILDER.comment("Damage dealt against illagers in percentage").define("Damage Dealt", 1.25);
+        EMERALD_RING_DAMAGE = BUILDER.comment("Increased damage dealt against illagers in percentage").define("Damage Dealt", 1.25);
         EMERALD_RING_EMERALDS = BUILDER.comment("Chance for on hit to drop an emerald").define("Emerald Chance", 0.05);
         BUILDER.pop();
 
         BUILDER.push("Magic Quiver");
-        MAGIC_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.08);
+        MAGIC_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.08);
         BUILDER.pop();
 
         BUILDER.push("Envenomed Quiver");
-        ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.10);
+        ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
         BUILDER.pop();
 
         BUILDER.push("Molten Quiver");
-        MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Arrow damage dealt").define("Arrow Damage", 1.10);
-        MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("On fire bonus arrow damage").define("On fire bonus", 1.05);
-        BUILDER.pop();
-
-        BUILDER.push("Enable Bezoar");
-        ENABLE_BEZOAR = BUILDER.comment("Enable bezoar").define("Enable", true);
+        MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
+        MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("Increased on fire bonus arrow damage in percentage").define("On fire bonus", 1.05);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

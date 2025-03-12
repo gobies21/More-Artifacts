@@ -2,6 +2,8 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +25,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -31,9 +34,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
+
 public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public TrueEnderianScarfItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
 
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
@@ -44,6 +48,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
             return false;
         }
     }
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -76,6 +81,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
             }
         }
     }
+
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         if (livingEntity instanceof Player entity) {
             var entityReach = entity.getAttribute(ForgeMod.ENTITY_REACH.get());
@@ -112,11 +118,11 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                 double d0 = livingEntity.getX();
                 double d1 = livingEntity.getY();
                 double d2 = livingEntity.getZ();
-                double maxRadius = 8d;
+                double maxRadius = 4d;
                 Level entityLevel = livingEntity.level();
                 var entityRandom = livingEntity.getRandom();
 
-                for (int i = 0; i < 6; ++i) {
+                for (int i = 0; i < 12; ++i) {
                     var minRadius = maxRadius / 2;
                     Vec3 vec = new Vec3((double) entityRandom.nextInt((int) minRadius, (int) maxRadius), 0, 0);
                     int degrees = entityRandom.nextInt(360);
@@ -127,35 +133,48 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                         double y = Mth.clamp(livingEntity.getY() + (double) (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), (double) level.getMinBuildHeight(), (double) (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
                         double z = d2 + vec.z;
 
-                    if (livingEntity.isPassenger()) {
-                        livingEntity.stopRiding();
-                    }
-
-                    if (livingEntity.randomTeleport(x, y, z, true)) {
-                        if (event.getSource().getEntity() != null) {
-                            livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, event.getSource().getEntity().getEyePosition());
+                        if (livingEntity.isPassenger()) {
+                            livingEntity.stopRiding();
                         }
-                        player.level().playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, player.getSoundSource(), 1.0F, 1.0F);
-                        livingEntity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
-                        break;
-                    }
 
-                    if (maxRadius > 2) {
-                        maxRadius--;
+                        if (livingEntity.randomTeleport(x, y, z, true)) {
+                            if (event.getSource().getEntity() != null) {
+                                livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, event.getSource().getEntity().getEyePosition());
+                            }
+                            player.level().playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, player.getSoundSource(), 1.0F, 1.0F);
+                            livingEntity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
+                            break;
+                        }
+
+                        if (maxRadius > 2) {
+                            maxRadius--;
+                        }
                     }
                 }
-            }
 
-        });
+            });
         }
     }
+
+    @Override
+    public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
+        return true;
+    }
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§5Endermen are neutral"));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100))));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get()* 100)));
+        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get() * 100)));
         pTooltipComponents.add(Component.literal(String.format("§6Increases reach by §3%.1f", Config.TRUE_ENDERIAN_REACH.get())));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        if (ModList.get().isLoaded("enhancedvisuals")) {
+            pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+            if (Screen.hasControlDown()) {
+                pTooltipComponents.remove(5);
+                pTooltipComponents.add(Component.literal("§7Disables Endermen static §6(Enhanced Visuals)"));
+            }
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
 }
 

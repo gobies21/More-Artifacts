@@ -1,0 +1,36 @@
+package net.gobies.moreartifacts.compat.spartanweaponry;
+
+import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
+import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.ModItems;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import top.theillusivec4.curios.api.CuriosApi;
+
+public class EnvenomedQuiverCrossbow {
+    public EnvenomedQuiverCrossbow() {
+    }
+
+    public static void loadCompat() {
+        MinecraftForge.EVENT_BUS.register(new EnvenomedQuiverCrossbow());
+    }
+
+    @SubscribeEvent
+    public void onLivingHurt(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player attacker) {
+            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnvenomedQuiver.get(), attacker).ifPresent((slot) -> {
+                if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
+                    event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
+                    LivingEntity target = event.getEntity();
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0));
+                }
+
+            });
+        }
+    }
+}

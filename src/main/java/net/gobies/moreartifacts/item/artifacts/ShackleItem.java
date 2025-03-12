@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
@@ -42,6 +43,11 @@ public class ShackleItem extends Item implements ICurioItem {
         if (livingEntity instanceof Player entity) {
             entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).removeModifier(ARMOR_UUID);
         }
+    }
+
+    @Override
+    public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
+        return true;
     }
 
     @Override

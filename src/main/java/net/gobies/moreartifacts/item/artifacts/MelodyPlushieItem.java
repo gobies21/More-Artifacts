@@ -18,6 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
@@ -39,7 +40,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MelodyPlushie.get(), player).ifPresent((slot) -> {
-                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 4800, 1, false, true));
+                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 4800, 1, true, true));
             });
         }
     }
@@ -66,6 +67,11 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
                 }
                 livingEntity.hurt(livingEntity.damageSources().generic(), 0.1F);
             }
+
+    @Override
+    public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
+        return true;
+    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

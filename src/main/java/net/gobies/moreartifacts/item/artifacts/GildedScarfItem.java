@@ -51,6 +51,11 @@ public class GildedScarfItem extends Item implements ICurioItem {
     }
 
     @Override
+    public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§ePiglins are neutral"));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.GILDED_DAMAGE_TAKEN.get() * 100))));

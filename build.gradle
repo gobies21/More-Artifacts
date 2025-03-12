@@ -155,15 +155,20 @@ dependencies {
 
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1"))
+
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
-    // at runtime, use the full JEI jar for Forge
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
 
     implementation fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
 
     implementation fg.deobf("curse.maven:neat-238372:5838485")
 
     implementation fg.deobf("curse.maven:blessfulled-1182590:6174088")
+
+    implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
+    implementation fg.deobf("curse.maven:creativecore-257814:6109933")
+    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:6289051")
 }   // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
