@@ -10,8 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 public class MagicQuiverCrossbow {
-    public MagicQuiverCrossbow() {
-    }
 
     public static void loadCompat() {
         MinecraftForge.EVENT_BUS.register(new MagicQuiverCrossbow());

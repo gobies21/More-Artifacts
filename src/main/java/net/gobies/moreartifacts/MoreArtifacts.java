@@ -10,10 +10,12 @@ import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -43,12 +45,14 @@ public class MoreArtifacts {
             EnvenomedQuiverCrossbow.loadCompat();
             MoltenQuiverCrossbow.loadCompat();
         }
-
-        if (ModList.get().isLoaded("enhancedvisuals")) {
-            EnhancedVisualsRender.loadCompat();
+    }
+        @SubscribeEvent
+        public static void onClientSetup (FMLClientSetupEvent event){
+            if (ModList.get().isLoaded("enhancedvisuals")) {
+                EnhancedVisualsRender.loadCompat();
+            }
         }
     }
-}
 
 
 

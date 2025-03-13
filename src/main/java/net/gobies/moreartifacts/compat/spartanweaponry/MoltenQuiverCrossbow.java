@@ -11,8 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 public class MoltenQuiverCrossbow {
-    public MoltenQuiverCrossbow() {
-    }
 
     public static void loadCompat() {
         MinecraftForge.EVENT_BUS.register(new MoltenQuiverCrossbow());
