@@ -33,7 +33,9 @@
   "item.moreartifacts.magic_quiver": "Magic Quiver",
   "item.moreartifacts.envenomed_quiver": "Envenomed Quiver",
   "item.moreartifacts.molten_quiver": "Molten Quiver",
-
+  "item.moreartifacts.wooden_headgear": "Wooden Headgear",
+  "item.moreartifacts.golden_headgear": "Golden Headgear",
+  "item.moreartifacts.netherite_headgear": "Netherite Headgear",
 
   "creativetab.moreartifacts_tab": "More Artifacts"
 }

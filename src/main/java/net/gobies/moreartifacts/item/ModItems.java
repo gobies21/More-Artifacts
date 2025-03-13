@@ -79,6 +79,12 @@ public class ModItems {
             () -> new EnvenomedQuiverItem(new Item.Properties()));
     public static final RegistryObject<Item> MoltenQuiver = ITEMS.register("molten_quiver",
             () -> new MoltenQuiverItem(new Item.Properties()));
+    public static final RegistryObject<Item> WoodenHeadgear = ITEMS.register("wooden_headgear",
+            () -> new WoodenHeadgearItem(new Item.Properties()));
+    public static final RegistryObject<Item> GoldenHeadgear = ITEMS.register("golden_headgear",
+            () -> new GoldenHeadgearItem(new Item.Properties()));
+    public static final RegistryObject<Item> NetheriteHeadgear = ITEMS.register("netherite_headgear",
+            () -> new NetheriteHeadgearItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

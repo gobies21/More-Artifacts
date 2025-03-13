@@ -52,7 +52,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
             if (attribute != null) {
                 if (attribute.getModifier(MAX_HEALTH) == null) {
                     attribute.addTransientModifier(
-                            new AttributeModifier(MAX_HEALTH, "Max Health", Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+                            new AttributeModifier(MAX_HEALTH, "Plushie Max Health", Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                     }
                 if (!player.hasEffect(MobEffects.REGENERATION)) {
                     player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, 0, false, false));

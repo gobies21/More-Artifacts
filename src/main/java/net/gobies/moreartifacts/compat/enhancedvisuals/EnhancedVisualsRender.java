@@ -20,21 +20,21 @@ public class EnhancedVisualsRender {
 
     @SubscribeEvent
     public void onEnderRender(SelectEndermanEvent event) {
-        if (mc.player != null) {
+        if (mc.player != null && !event.isCanceled()) {
+            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), mc.player).ifPresent((slot) -> {
+                event.setCanceled(true);
+            });
         }
-        CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), mc.player).ifPresent((slot) -> {
-            event.setCanceled(true);
-        });
     }
 
     //not working???
     @SubscribeEvent
     public void onExplosionRender(VisualExplosionEvent event) {
-        System.out.println("HERO SHIELD.");
-        if (mc.player != null) {
+        //System.out.println("HERO SHIELD.");
+        if (mc.player != null && !event.isCanceled()) {
+            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.HeroShield.get(), mc.player).ifPresent((slot) -> {
+                event.setCanceled(true);
+            });
         }
-        CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.HeroShield.get(), mc.player).ifPresent((slot) -> {
-            event.setCanceled(true);
-        });
     }
 }

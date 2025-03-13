@@ -80,6 +80,21 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_ONFIRE_DAMAGE;
     public static float molten_quiver_onfire_damage;
 
+    public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARMOR;
+    public static float wooden_headgear_armor;
+    public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN;
+    public static float wooden_headgear_arrow_damage_taken;
+
+    public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARMOR;
+    public static float golden_headgear_armor;
+    public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN;
+    public static float golden_headgear_arrow_damage_taken;
+
+    public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARMOR;
+    public static float netherite_headgear_armor;
+    public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN;
+    public static float netherite_headgear_arrow_damage_taken;
+
     public Config() {
     }
 
@@ -111,6 +126,12 @@ public class Config {
         envenomed_quiver_damage = (float) ((Double) ENVENOMED_QUIVER_DAMAGE.get() * (double) 1.0F);
         molten_quiver_damage = (float) ((Double) MOLTEN_QUIVER_DAMAGE.get() * (double) 1.0F);
         molten_quiver_onfire_damage = (float) ((Double) MOLTEN_QUIVER_ONFIRE_DAMAGE.get() * (double) 1.0F);
+        wooden_headgear_armor = (float) ((Double) WOODEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
+        wooden_headgear_arrow_damage_taken = (float) ((Double) WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
+        golden_headgear_armor = (float) ((Double) GOLDEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
+        golden_headgear_arrow_damage_taken = (float) ((Double) GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
+        netherite_headgear_armor = (float) ((Double) NETHERITE_HEADGEAR_ARMOR.get() * (double) 1.0F);
+        netherite_headgear_arrow_damage_taken = (float) ((Double) NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
 
     }
 
@@ -193,6 +214,21 @@ public class Config {
         BUILDER.push("Molten Quiver");
         MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
         MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("Increased on fire bonus arrow damage in percentage").define("On fire bonus", 1.05);
+        BUILDER.pop();
+
+        BUILDER.push("Wooden Headgear");
+        WOODEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1.0);
+        WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.95);
+        BUILDER.pop();
+
+        BUILDER.push("Golden Headgear");
+        GOLDEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 2.0);
+        GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.90);
+        BUILDER.pop();
+
+        BUILDER.push("Netherite Headgear");
+        NETHERITE_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 3.0);
+        NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.85);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

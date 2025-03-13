@@ -52,6 +52,9 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.MagicQuiver.get());
                                 pOutput.accept(ModItems.EnvenomedQuiver.get());
                                 pOutput.accept(ModItems.MoltenQuiver.get());
+                                pOutput.accept(ModItems.WoodenHeadgear.get());
+                                pOutput.accept(ModItems.GoldenHeadgear.get());
+                                pOutput.accept(ModItems.NetheriteHeadgear.get());
                             })
                             .build());
 
