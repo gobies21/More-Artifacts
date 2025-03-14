@@ -168,6 +168,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
     implementation fg.deobf("curse.maven:creativecore-257814:6109933")
+
     implementation fg.deobf("curse.maven:simply-potion-rings-1217574:6289051")
 }   // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

@@ -46,6 +46,7 @@ public class MoreArtifacts {
             MoltenQuiverCrossbow.loadCompat();
         }
     }
+
         @SubscribeEvent
         public static void onClientSetup (FMLClientSetupEvent event){
             if (ModList.get().isLoaded("enhancedvisuals")) {
