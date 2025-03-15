@@ -85,6 +85,8 @@ public class ModItems {
             () -> new GoldenHeadgearItem(new Item.Properties()));
     public static final RegistryObject<Item> NetheriteHeadgear = ITEMS.register("netherite_headgear",
             () -> new NetheriteHeadgearItem(new Item.Properties()));
+//    public static final RegistryObject<Item> EnderianEye = ITEMS.register("enderian_eye",
+//            () -> new EnderienEyeItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

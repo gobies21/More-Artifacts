@@ -9,15 +9,21 @@ import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static net.gobies.moreartifacts.MoreArtifacts.MOD_ID;
 
@@ -26,6 +32,7 @@ public class MoreArtifacts {
 
     public static final String MOD_ID = "moreartifacts";
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Collection<AbstractMap.SimpleEntry<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue();
 
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -44,16 +51,38 @@ public class MoreArtifacts {
             MagicQuiverCrossbow.loadCompat();
             EnvenomedQuiverCrossbow.loadCompat();
             MoltenQuiverCrossbow.loadCompat();
+
+        }
+        if (ModList.get().isLoaded("enhancedvisuals")) {
+            EnhancedVisualsRender.loadCompat();
         }
     }
 
-        @SubscribeEvent
-        public static void onClientSetup (FMLClientSetupEvent event){
-            if (ModList.get().isLoaded("enhancedvisuals")) {
-                EnhancedVisualsRender.loadCompat();
-            }
+    public static void queueServerWork(int tick, Runnable action) {
+        if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
+            workQueue.add(new AbstractMap.SimpleEntry<>(action, tick));
         }
     }
+
+
+
+    @SubscribeEvent
+    public void tick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList();
+            workQueue.forEach((work) -> {
+                work.setValue((Integer)work.getValue() - 1);
+                if ((Integer)work.getValue() == 0) {
+                    actions.add(work);
+                }
+
+            });
+            actions.forEach((e) -> ((Runnable)e.getKey()).run());
+            workQueue.removeAll(actions);
+        }
+
+    }
+}
 
 
 

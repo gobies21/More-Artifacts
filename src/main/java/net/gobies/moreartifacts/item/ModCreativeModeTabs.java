@@ -55,6 +55,7 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.WoodenHeadgear.get());
                                 pOutput.accept(ModItems.GoldenHeadgear.get());
                                 pOutput.accept(ModItems.NetheriteHeadgear.get());
+                                //pOutput.accept(ModItems.EnderianEye.get());
                             })
                             .build());
 
