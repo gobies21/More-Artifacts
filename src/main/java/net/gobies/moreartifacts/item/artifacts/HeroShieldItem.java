@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -53,12 +54,16 @@ public class HeroShieldItem extends Item implements ICurioItem {
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.HeroShield.get(), player).ifPresent((slot) -> {
+                ItemStack pStack = slot.getRight();
+                CompoundTag tag = pStack.getOrCreateTag();
+                int hitCount = tag.getInt("HitCount");
                 hitCount++;
+                tag.putInt("HitCount", hitCount);
                 if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
                     event.setCanceled(true);
                     player.displayClientMessage(Component.literal("§6Ow!"), true);
                     player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
-                    hitCount = 0;
+                    tag.putInt("HitCount", 0); // reset hitCount
                 }
                 if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
                     event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
@@ -74,6 +79,8 @@ public class HeroShieldItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        CompoundTag tag = pStack.getTag();
+        int hitCount = tag != null ? tag.getInt("HitCount") : 0;
         pTooltipComponents.add(Component.literal("§6Grants Resistance"));
         pTooltipComponents.add(Component.literal(String.format("§6Every §3%d §6hits taken ignore the attack §3" + hitCount +"§3/%d", Config.IGNORE_DAMAGE_CHANCE.get(), Config.IGNORE_DAMAGE_CHANCE.get())));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces explosion damage taken by §3%.1f%%", (1.0 - Config.EXPLOSION_DAMAGE_TAKEN.get()) * 100)));
