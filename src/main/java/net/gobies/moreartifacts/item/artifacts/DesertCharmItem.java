@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -36,7 +37,8 @@ public class DesertCharmItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
-            if (event.getEffectInstance() != null && event.getEffectInstance().getEffect() == MobEffects.HUNGER) {
+            event.getEffectInstance();
+            if (event.getEffectInstance().getEffect() == MobEffects.HUNGER) {
                 CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.DesertCharm.get(), player).ifPresent((slot) -> {
                     event.setResult(MobEffectEvent.Result.DENY);
                 });
@@ -50,7 +52,7 @@ public class DesertCharmItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Hunger"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -32,7 +32,7 @@ public class MoreArtifacts {
 
     public static final String MOD_ID = "moreartifacts";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Collection<AbstractMap.SimpleEntry<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue();
+    private static final Collection<AbstractMap.SimpleEntry<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue<>();
 
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -69,7 +69,7 @@ public class MoreArtifacts {
     @SubscribeEvent
     public void tick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList();
+            List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
             workQueue.forEach((work) -> {
                 work.setValue((Integer)work.getValue() - 1);
                 if ((Integer)work.getValue() == 0) {

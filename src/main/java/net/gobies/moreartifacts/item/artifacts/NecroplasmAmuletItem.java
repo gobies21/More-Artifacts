@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -40,12 +41,12 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), attacker).ifPresent((slot) -> {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
-                    if (random.nextFloat() < Config.NECROPLASM_HEAL_CHANCE.get()) {
+                    if (random.nextFloat() < Config.NECROPLASM_AMULET_HEAL_CHANCE.get()) {
                         long currentTime = System.currentTimeMillis();
                         long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
 
                         if (currentTime - lastHealTime >= 1000) {
-                            attacker.heal(1.0f);
+                            attacker.heal(Config.NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue());
                             cooldownMap.put(attacker, currentTime);
                         }
                     }
@@ -58,10 +59,10 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < Config.NECROPLASM_POISON_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
-                        if (player.getRandom().nextFloat() < Config.NECROPLASM_WITHER_CHANCE.get()) {
-                            attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0));
+                    if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
+                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get()));
+                        if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
+                            attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get()));
                         }
                     }
                 }
@@ -75,7 +76,7 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants a chance to heal the player upon attacking entities"));
         pTooltipComponents.add(Component.literal("§6Has a chance to poison and wither attackers"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import net.minecraft.network.chat.Component;
@@ -51,7 +52,7 @@ public class BalloonItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
             pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Increases jump height and reduces fall damage"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

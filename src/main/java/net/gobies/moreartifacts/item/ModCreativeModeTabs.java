@@ -39,6 +39,7 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.MelodyPlushie.get());
                                 pOutput.accept(ModItems.HeroShield.get());
                                 pOutput.accept(ModItems.MechanicalGlove.get());
+                                pOutput.accept(ModItems.MechanicalClaw.get());
                                 pOutput.accept(ModItems.EnderianScarf.get());
                                 pOutput.accept(ModItems.TrueEnderianScarf.get());
                                 pOutput.accept(ModItems.GildedScarf.get());
@@ -55,7 +56,12 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.WoodenHeadgear.get());
                                 pOutput.accept(ModItems.GoldenHeadgear.get());
                                 pOutput.accept(ModItems.NetheriteHeadgear.get());
-                                //pOutput.accept(ModItems.EnderianEye.get());
+                                pOutput.accept(ModItems.EnderianEye.get());
+                                pOutput.accept(ModItems.EnderDragonClaw.get());
+                                pOutput.accept(ModItems.VenomStone.get());
+                                pOutput.accept(ModItems.DecayStone.get());
+                                pOutput.accept(ModItems.FireStone.get());
+                                pOutput.accept(ModItems.IceStone.get());
                             })
                             .build());
 

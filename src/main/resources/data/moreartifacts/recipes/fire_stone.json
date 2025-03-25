@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "cbc",
+    "bab",
+    "cbc"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:obsidian_skull"
+    },
+    "b": {
+      "item": "minecraft:blaze_rod"
+    },
+    "c": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:fire_stone",
+    "count": 1
+  }
+}

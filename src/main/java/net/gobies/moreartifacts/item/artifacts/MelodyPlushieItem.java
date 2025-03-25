@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -74,9 +75,9 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§3+%.1f%% §dMax Health", Config.PLUSHIE_HEALTH.get() * 100)));
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§dGrants Regeneration"));
+        pTooltipComponents.add(Component.literal(String.format("§3+%.1f%% §dIncreased max health", Config.PLUSHIE_HEALTH.get() * 100)));
         pTooltipComponents.add(Component.literal("§dIf equip when sleeping, grants a buff"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

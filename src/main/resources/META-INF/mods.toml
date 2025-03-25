@@ -5,7 +5,7 @@ license = "All rights reserved"
 
 [[mods]]
 modId="moreartifacts"
-version="1.2.7.5"
+version="1.3.0"
 displayName="More Artifacts"
 authors="gobies"
 description='''more artifacts!'''

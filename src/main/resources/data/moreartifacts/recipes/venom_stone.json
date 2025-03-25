@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "cbc",
+    "bab",
+    "cbc"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:bezoar"
+    },
+    "b": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "c": {
+      "item": "minecraft:slime_block"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:venom_stone",
+    "count": 1
+  }
+}

@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -162,7 +163,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§5Endermen are neutral"));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100))));
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get() * 100)));

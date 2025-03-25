@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "cbc",
+    "bab",
+    "cbc"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:wither_shard"
+    },
+    "b": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "c": {
+      "item": "minecraft:coal_block"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:decay_stone",
+    "count": 1
+  }
+}

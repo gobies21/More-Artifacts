@@ -19,6 +19,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -61,16 +62,8 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
-            if (event.getEffectInstance() != null && event.getEffectInstance().getEffect() == MobEffects.POISON ||
-                    event.getEffectInstance().getEffect() == MobEffects.WITHER ||
-                    event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
-                    event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
-                    event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
-                    event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
-                    event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
-                    event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
-                    event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
-                    event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
+            event.getEffectInstance();
+            if (event.getEffectInstance().getEffect() == MobEffects.POISON || event.getEffectInstance().getEffect() == MobEffects.WITHER || event.getEffectInstance().getEffect() == MobEffects.HUNGER || event.getEffectInstance().getEffect() == MobEffects.CONFUSION || event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.BLINDNESS || event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
                 CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
                     event.setResult(MobEffectEvent.Result.DENY);
                 });
@@ -115,7 +108,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants immunity to Knockback and Burning"));
         pTooltipComponents.add(Component.literal("§6Grants immunity to most debuffs"));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces fire damage taken by §3%.1f%%", (1.0 - Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100)));

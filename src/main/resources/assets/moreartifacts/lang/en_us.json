@@ -36,6 +36,16 @@
   "item.moreartifacts.wooden_headgear": "Wooden Headgear",
   "item.moreartifacts.golden_headgear": "Golden Headgear",
   "item.moreartifacts.netherite_headgear": "Netherite Headgear",
+  "item.moreartifacts.ender_dragon_claw": "Ender Dragon Claw",
+  "item.moreartifacts.mechanical_claw": "Mechanical Claw",
+  "item.moreartifacts.enderian_eye": "Enderian Eye",
+  "item.moreartifacts.venom_stone": "Venom Stone",
+  "item.moreartifacts.decay_stone": "Decay Stone",
+  "item.moreartifacts.fire_stone": "Fire Stone",
+  "item.moreartifacts.ice_stone": "Ice Stone",
 
+
+  "key.moreartifacts.teleport": "Enderian Eye Teleport",
+  "key.categories.moreartifacts": "More Artifacts",
   "creativetab.moreartifacts_tab": "More Artifacts"
 }

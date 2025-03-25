@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -37,8 +38,8 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 100, 0));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
 
                 }
             });
@@ -51,9 +52,9 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal(String.format("§6Increases arrow damage by §3%.1f%%", (Config.ENVENOMED_QUIVER_DAMAGE.get() - 1) * 100)));
-        pTooltipComponents.add(Component.literal("§6Arrows inflict poison and wither to entites"));
+        pTooltipComponents.add(Component.literal("§6Arrows inflict poison and wither to enemies"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

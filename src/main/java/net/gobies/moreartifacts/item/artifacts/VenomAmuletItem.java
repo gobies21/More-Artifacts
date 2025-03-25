@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -35,8 +36,8 @@ public class VenomAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.VenomAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < Config.VENOM_POISON_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 100, 0));
+                    if (player.getRandom().nextFloat() < Config.VENOM_AMULET_POISON_CHANCE.get()) {
+                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get()));
                     }
                 }
             });
@@ -49,7 +50,7 @@ public class VenomAmuletItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Has a chance to poison attackers"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -33,7 +34,7 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
             if (attribute != null) {
                 if (attribute.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof MechanicalGloveItem) {
                     attribute.addTransientModifier(
-                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Mechanical Glove Attack Damage", Config.MECHANICAL_ATTACK.get(), AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Mechanical Glove Attack Damage", Config.MECHANICAL_GLOVE_DAMAGE.get(), AttributeModifier.Operation.ADDITION));
                 }
         }
     }
@@ -51,8 +52,8 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§7+%d §7Increased melee damage dealt", Config.MECHANICAL_ATTACK.get().intValue())));
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.literal(String.format("§7+%d §7Increased melee damage dealt", Config.MECHANICAL_GLOVE_DAMAGE.get())));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

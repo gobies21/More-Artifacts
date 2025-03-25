@@ -24,7 +24,7 @@ public class MoltenQuiverCrossbow {
                     event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     if (!target.isOnFire()) {
-                        target.setSecondsOnFire(5);
+                        target.setSecondsOnFire(Config.MOLTEN_QUIVER_DURATION.get());
                     }
                     if (target.isOnFire()) {
                         event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));

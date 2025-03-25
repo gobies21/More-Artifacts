@@ -2,7 +2,9 @@
   "replace": false,
   "values": [
     "moreartifacts:mechanical_glove",
+    "moreartifacts:mechanical_claw",
     "moreartifacts:shackle",
-    "moreartifacts:balloon"
+    "moreartifacts:balloon",
+    "moreartifacts:ender_dragon_claw"
   ]
 }

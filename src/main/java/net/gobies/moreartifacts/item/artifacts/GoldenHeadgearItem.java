@@ -79,7 +79,7 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal(String.format("§7+%d Increased armor", Config.GOLDEN_HEADGEAR_ARMOR.get().intValue())));
         pTooltipComponents.add(Component.literal(String.format("§7Reduces arrow damage taken by §3%.1f%%", (1.0 - Config.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

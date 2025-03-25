@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -38,7 +39,7 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
                     event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     if (!target.isOnFire()) {
-                        target.setSecondsOnFire(5);
+                        target.setSecondsOnFire(Config.MOLTEN_QUIVER_DURATION.get());
                     }
                     if (target.isOnFire()) {
                         event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));
@@ -55,10 +56,10 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal(String.format("§6Increases arrow damage by §3%.1f%%", (Config.MOLTEN_QUIVER_DAMAGE.get() - 1) * 100)));
-        pTooltipComponents.add(Component.literal("§6Lights attacked entites on fire"));
-        pTooltipComponents.add(Component.literal(String.format("§6Deals §3%.1f%% §6increased damage to ignited entites", (Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100)));
+        pTooltipComponents.add(Component.literal("§6Lights attacked enemies on fire"));
+        pTooltipComponents.add(Component.literal(String.format("§6Deals §3%.1f%% §6increased damage to ignited enemies", (Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

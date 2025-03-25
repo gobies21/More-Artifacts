@@ -3,6 +3,8 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -40,16 +43,17 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
             LivingEntity target = event.getEntity();
             if (target.getMobType() == MobType.ILLAGER) {
                 CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
-                    event.setAmount((float)(event.getAmount() * Config.EMERALD_RING_DAMAGE.get()));
+                    event.setAmount((float) (event.getAmount() * Config.EMERALD_RING_DAMAGE.get()));
                 });
             }
-        if (target instanceof LivingEntity) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
-            if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
-                target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
+            if (target instanceof LivingEntity) {
+                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
+                    if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
+                        target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.6f, 1.8f);
+                    }
+                });
             }
-        });
-    }
         }
     }
 
@@ -59,7 +63,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     }
 
 @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal(String.format("§6Hitting enemies has a §3%.1f%% §6chance to drop emeralds", Config.EMERALD_RING_EMERALDS.get() * 100)));
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Increased damage dealt against illagers", (Config.EMERALD_RING_DAMAGE.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
