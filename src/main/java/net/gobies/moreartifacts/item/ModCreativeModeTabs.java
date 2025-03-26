@@ -40,6 +40,7 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.HeroShield.get());
                                 pOutput.accept(ModItems.MechanicalGlove.get());
                                 pOutput.accept(ModItems.MechanicalClaw.get());
+                                pOutput.accept(ModItems.EchoGlove.get());
                                 pOutput.accept(ModItems.EnderianScarf.get());
                                 pOutput.accept(ModItems.TrueEnderianScarf.get());
                                 pOutput.accept(ModItems.GildedScarf.get());

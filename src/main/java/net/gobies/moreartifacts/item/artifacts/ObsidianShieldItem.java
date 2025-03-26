@@ -41,7 +41,7 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
                     attribute.addTransientModifier(
-                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Cobalt Shield knockback immunity", 1000.0, AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Obsidian Shield knockback immunity", 1000.0, AttributeModifier.Operation.ADDITION));
                 }
             }
         }

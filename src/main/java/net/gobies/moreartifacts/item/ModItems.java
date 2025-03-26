@@ -50,6 +50,7 @@ public class ModItems {
     public static final RegistryObject<Item> EnderianEye = ITEMS.register("enderian_eye", () -> new EnderianEyeItem(new Item.Properties()));
     public static final RegistryObject<Item> EnderDragonClaw = ITEMS.register("ender_dragon_claw", () -> new EnderDragonClawItem(new Item.Properties()));
     public static final RegistryObject<Item> MechanicalClaw = ITEMS.register("mechanical_claw", () -> new MechanicalClawItem(new Item.Properties()));
+    public static final RegistryObject<Item> EchoGlove = ITEMS.register("echo_glove", () -> new EchoGloveItem(new Item.Properties()));
     public static final RegistryObject<Item> VenomStone = ITEMS.register("venom_stone", () -> new VenomStoneItem(new Item.Properties()));
     public static final RegistryObject<Item> DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
     public static final RegistryObject<Item> FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));

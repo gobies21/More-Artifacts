@@ -139,6 +139,13 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_CLAW_BLEED_DURATION;
     public static int mechanical_claw_bleed_duration;
 
+    public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_DAMAGE;
+    public static float echo_glove_damage;
+    public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_ATTACK_SPEED;
+    public static float echo_glove_attack_speed;
+    public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_IGNORE_CHANCE;
+    public static float echo_glove_ignore_chance;
+
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_DAMAGE;
     public static float venom_stone_damage;
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_CHANCE;
@@ -229,6 +236,9 @@ public class Config {
         mechanical_claw_bleed_chance = (float) ((Double) MECHANICAL_CLAW_BLEED_CHANCE.get() * (double) 1.0F);
         mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
         mechanical_claw_bleed_duration = MECHANICAL_CLAW_BLEED_DURATION.get();
+        echo_glove_damage = (float) ((Double) ECHO_GLOVE_DAMAGE.get() * (double) 1.0F);
+        echo_glove_attack_speed = (float) ((Double) ECHO_GLOVE_ATTACK_SPEED.get() * (double) 1.0F);
+        echo_glove_ignore_chance = (float) ((Double) ECHO_GLOVE_ATTACK_SPEED.get() * (double) 1.0F);
         venom_stone_damage = (float) ((Double) VENOM_STONE_DAMAGE.get() * (double) 1.0F);
         venom_stone_chance = (float) ((Double) VENOM_STONE_CHANCE.get() * (double) 1.0F);
         venom_stone_level = VENOM_STONE_LEVEL.get();
@@ -301,6 +311,12 @@ public class Config {
         MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed Chance", 0.25);
         MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed Damage", 1);
         MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed Duration", 5);
+        BUILDER.pop();
+
+        BUILDER.push("Echo Glove");
+        ECHO_GLOVE_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage Increase", 0.05);
+        ECHO_GLOVE_ATTACK_SPEED = BUILDER.comment("Attack speed increased in percentage").define("Attack Speed Increase", 0.15);
+        ECHO_GLOVE_IGNORE_CHANCE = BUILDER.comment("Chance to ignore invulnerability frames on hit").define("Ignore Chance", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Shackle");
@@ -392,7 +408,7 @@ public class Config {
         BUILDER.push("Ice Stone");
         ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
-        ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 3);
+        ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

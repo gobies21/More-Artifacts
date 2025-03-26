@@ -53,7 +53,7 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§7+%d §7Increased melee damage dealt", Config.MECHANICAL_GLOVE_DAMAGE.get())));
+        pTooltipComponents.add(Component.literal(String.format("§7Increases melee damage by §3+%d", Config.MECHANICAL_GLOVE_DAMAGE.get())));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

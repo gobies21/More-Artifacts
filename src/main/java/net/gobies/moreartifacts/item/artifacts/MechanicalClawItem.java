@@ -119,7 +119,7 @@ public class MechanicalClawItem extends Item implements ICurioItem {
 
         @Override
         public void appendHoverText (@NotNull ItemStack pStack, @Nullable Level pLevel, List < Component > pTooltipComponents, @NotNull TooltipFlag pIsAdvanced){
-            pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Increased melee damage dealt", (Config.MECHANICAL_CLAW_DAMAGE.get() * 100))));
+            pTooltipComponents.add(Component.literal(String.format("§6Increases melee damage dealt by §3%.1f%%", (Config.MECHANICAL_CLAW_DAMAGE.get() * 100))));
             pTooltipComponents.add(Component.literal(String.format("§6Attacks have a §3%.1f%% §6chance to inflict §cBleed §6on hit", (Config.MECHANICAL_CLAW_BLEED_CHANCE.get() * 100))));
             pTooltipComponents.add(Component.literal(String.format("§cBleed §6deals §3%d §6damage every second for §3%d §6seconds", (Config.MECHANICAL_CLAW_BLEED_DAMAGE.get()), (Config.MECHANICAL_CLAW_BLEED_DURATION.get()))));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

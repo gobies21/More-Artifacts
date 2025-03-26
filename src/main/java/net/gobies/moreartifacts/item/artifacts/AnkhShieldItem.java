@@ -35,6 +35,10 @@ public class AnkhShieldItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    static {
+        MinecraftForge.EVENT_BUS.register(AnkhShieldItem.class);
+    }
+
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
 
     @Override
@@ -77,9 +81,6 @@ public class AnkhShieldItem extends Item implements ICurioItem {
         }
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(AnkhShieldItem.class);
-    }
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity()instanceof Player player) {
