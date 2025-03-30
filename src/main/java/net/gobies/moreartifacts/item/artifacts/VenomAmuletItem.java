@@ -37,7 +37,7 @@ public class VenomAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.VenomAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.VENOM_AMULET_POISON_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get()));
+                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get() - 1));
                     }
                 }
             });

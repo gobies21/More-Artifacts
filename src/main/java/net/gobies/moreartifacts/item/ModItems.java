@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;
+import net.gobies.moreartifacts.item.materials.ShadowGemItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -55,6 +56,7 @@ public class ModItems {
     public static final RegistryObject<Item> DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
     public static final RegistryObject<Item> FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
     public static final RegistryObject<Item> IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
+    public static final RegistryObject<Item> ShadowGem = ITEMS.register("shadow_gem", () -> new ShadowGemItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

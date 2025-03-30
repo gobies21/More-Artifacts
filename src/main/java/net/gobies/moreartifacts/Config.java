@@ -130,6 +130,11 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_CHANCE;
     public static float ender_dragon_claw_chance;
 
+    public static ForgeConfigSpec.ConfigValue<Integer> ENDERIAN_EYE_RADIUS;
+    public static int enderian_eye_radius;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_EYE_COOLDOWN;
+    public static float enderian_eye_cooldown;
+
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_DAMAGE;
     public static float mechanical_claw_damage;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_BLEED_CHANCE;
@@ -232,6 +237,8 @@ public class Config {
         netherite_headgear_arrow_damage_taken = (float) ((Double) NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
         ender_dragon_claw_damage = (float) ((Double) ENDER_DRAGON_CLAW_DAMAGE.get() * (double) 1.0F);
         ender_dragon_claw_chance = (float) ((Double) ENDER_DRAGON_CLAW_CHANCE.get() * (double) 1.0F);
+        enderian_eye_cooldown = (float) ((Double) ENDERIAN_EYE_COOLDOWN.get() * (double) 1.0F);
+        enderian_eye_radius = ENDERIAN_EYE_RADIUS.get();
         mechanical_claw_damage = (float) ((Double) MECHANICAL_CLAW_DAMAGE.get() * (double) 1.0F);
         mechanical_claw_bleed_chance = (float) ((Double) MECHANICAL_CLAW_BLEED_CHANCE.get() * (double) 1.0F);
         mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
@@ -274,15 +281,15 @@ public class Config {
         ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
         BUILDER.pop();
 
-        BUILDER.push("Venom amulet");
+        BUILDER.push("Venom Amulet");
         VENOM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply posion").define("Poison Chance", 0.40);
-        VENOM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").define("Level (0 = Poison I)", 0);
+        VENOM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5);
         VENOM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 5);
         BUILDER.pop();
 
         BUILDER.push("Decay Amulet");
         DECAY_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.40);
-        DECAY_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").define("Level (0 = Wither I)", 0);
+        DECAY_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither Level", 1, 1, 5);
         DECAY_AMULET_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 5);
         BUILDER.pop();
 
@@ -295,10 +302,10 @@ public class Config {
         NECROPLASM_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.50);
         NECROPLASM_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 1.0);
         NECROPLASM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.60);
-        NECROPLASM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").define("Level (0 = Poison I)", 0);
+        NECROPLASM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5 );
         NECROPLASM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);
         NECROPLASM_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.60);
-        NECROPLASM_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").define("Level (0 = Wither I)", 0);
+        NECROPLASM_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither Level", 1, 1, 5);
         NECROPLASM_AMULET_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither Duration", 5);
         BUILDER.pop();
 
@@ -353,9 +360,9 @@ public class Config {
 
         BUILDER.push("Envenomed Quiver");
         ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
-        ENVENOMED_QUIVER_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").define("Level (0 = Poison I)", 0);
+        ENVENOMED_QUIVER_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5);
         ENVENOMED_QUIVER_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);
-        ENVENOMED_QUIVER_WITHER_LEVEL = BUILDER.comment("Level of poison inflicted").define("Level (0 = Wither I)", 0);
+        ENVENOMED_QUIVER_WITHER_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Wither Level", 1, 1, 5);
         ENVENOMED_QUIVER_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither Duration", 5);
         BUILDER.pop();
 
@@ -385,17 +392,22 @@ public class Config {
         ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.15);
         BUILDER.pop();
 
+        BUILDER.push("Enderian Eye");
+        ENDERIAN_EYE_RADIUS = BUILDER.comment("Max teleportation radius").define("Radius", 25);
+        ENDERIAN_EYE_COOLDOWN = BUILDER.comment("Cooldown for teleporting").define("Cooldown", 5.0);
+        BUILDER.pop();
+
         BUILDER.push("Venom Stone");
         VENOM_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
         VENOM_STONE_CHANCE = BUILDER.comment("Chance to inflict poison").define("Chance", 0.25);
-        VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").define("Level (1 = Poison II)", 1);
+        VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").defineInRange("Poison Level", 2, 1, 5);
         VENOM_STONE_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 3);
         BUILDER.pop();
 
         BUILDER.push("Decay Stone");
         DECAY_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
         DECAY_STONE_CHANCE = BUILDER.comment("Chance to inflict wither").define("Chance", 0.25);
-        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").define("Level (1 = Wither II)", 1);
+        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither Level", 2, 1, 5);
         DECAY_STONE_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 3);
         BUILDER.pop();
 

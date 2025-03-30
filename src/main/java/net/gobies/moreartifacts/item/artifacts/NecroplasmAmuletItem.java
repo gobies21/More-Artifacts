@@ -60,9 +60,9 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get()));
+                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));
                         if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
-                            attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get()));
+                            attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get() - 1));
                         }
                     }
                 }

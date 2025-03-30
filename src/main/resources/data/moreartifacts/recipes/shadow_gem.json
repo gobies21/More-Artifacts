@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:redstone"
+    },
+    "b": {
+      "item": "minecraft:ender_pearl"
+    },
+    "c": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:shadow_gem",
+    "count": 1
+  }
+}

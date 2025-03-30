@@ -151,9 +151,11 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                             maxRadius--;
                         }
                     }
+
                 }
 
             });
+            
         }
     }
 

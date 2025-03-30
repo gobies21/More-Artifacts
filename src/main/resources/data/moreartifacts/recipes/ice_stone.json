@@ -8,13 +8,13 @@
   ],
   "key": {
     "a": {
-      "item": "moreartifacts:obsidian_skull"
+      "item": "minecraft:blue_ice"
     },
     "b": {
       "item": "minecraft:powder_snow_bucket"
     },
     "c": {
-      "item": "minecraft:blue_ice"
+      "item": "moreartifacts:shadow_gem"
     }
   },
   "result": {

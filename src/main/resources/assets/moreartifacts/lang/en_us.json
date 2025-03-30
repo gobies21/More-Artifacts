@@ -44,6 +44,9 @@
   "item.moreartifacts.decay_stone": "Decay Stone",
   "item.moreartifacts.fire_stone": "Fire Stone",
   "item.moreartifacts.ice_stone": "Ice Stone",
+  "item.moreartifacts.shadow_gem": "Shadow Gem",
+
+  "moreartifacts.shadow_gem.tooltip": "§eCrafting Material",
 
 
   "key.moreartifacts.teleport": "Enderian Eye Teleport",

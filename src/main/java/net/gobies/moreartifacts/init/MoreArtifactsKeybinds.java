@@ -5,6 +5,6 @@ import net.minecraft.client.KeyMapping;
 
 public class MoreArtifactsKeybinds {
 
-    public static final KeyMapping TELEPORT_KEY = new KeyMapping("key.moreartifacts.teleport", InputConstants.KEY_T, "key.categories.moreartifacts");
+   // public static final KeyMapping TELEPORT_KEY = new KeyMapping("key.moreartifacts.teleport", InputConstants.KEY_T, "key.categories.moreartifacts");
 
 }

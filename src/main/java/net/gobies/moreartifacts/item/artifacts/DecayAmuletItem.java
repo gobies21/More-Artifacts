@@ -37,7 +37,7 @@ public class DecayAmuletItem extends Item implements ICurioItem {
             CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.DecayAmulet.get(), player).ifPresent(slot -> {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.DECAY_AMULET_WITHER_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_AMULET_WITHER_DURATION.get(), Config.DECAY_AMULET_WITHER_DURATION.get()));
+                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_AMULET_WITHER_DURATION.get(), Config.DECAY_AMULET_WITHER_LEVEL.get() - 1));
                     }
                 }
             });

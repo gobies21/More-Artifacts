@@ -61,7 +61,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
                     RandomSource random = attacker.getRandom();
                     LivingEntity target = event.getEntity();
                     if (random.nextFloat() < Config.DECAY_STONE_CHANCE.get()) {
-                        target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_STONE_DURATION.get(), Config.DECAY_STONE_LEVEL.get()));
+                        target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_STONE_DURATION.get(), Config.DECAY_STONE_LEVEL.get() - 1));
                     }
                     if (target.hasEffect(MobEffects.WITHER)) {
                         event.setAmount((float) (event.getAmount() * Config.DECAY_STONE_DAMAGE.get()));
@@ -79,7 +79,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
         @Override
         public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
             pTooltipComponents.add(Component.literal("§6Grants immunity to Wither"));
-            pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to inflict wither §3%d §6for §3%d §6seconds", (Config.DECAY_STONE_CHANCE.get() * 100), (Config.DECAY_STONE_LEVEL.get() + 1), (Config.DECAY_STONE_DURATION.get()))));
+            pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to inflict wither §3%d §6for §3%d §6seconds", (Config.DECAY_STONE_CHANCE.get() * 100), (Config.DECAY_STONE_LEVEL.get()), (Config.DECAY_STONE_DURATION.get()))));
             pTooltipComponents.add(Component.literal(String.format("§6Deal §3%.1f%% §6increased damage to targets inflicted with wither", (Config.DECAY_STONE_DAMAGE.get() - 1) * 100)));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }

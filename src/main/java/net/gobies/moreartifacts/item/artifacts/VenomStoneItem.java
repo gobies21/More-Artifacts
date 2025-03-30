@@ -61,7 +61,7 @@ public class VenomStoneItem extends Item implements ICurioItem {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.VENOM_STONE_CHANCE.get()) {
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get()));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
                 }
                 if (target.hasEffect(MobEffects.POISON)) {
                     event.setAmount((float) (event.getAmount() * Config.VENOM_STONE_DAMAGE.get()));
@@ -79,7 +79,7 @@ public class VenomStoneItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§aGrants immunity to Poison"));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §aChance to inflict poison §3%d §afor §3%d §aseconds", (Config.VENOM_STONE_CHANCE.get() * 100), (Config.VENOM_STONE_LEVEL.get() + 1), (Config.VENOM_STONE_DURATION.get()))));
+        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §aChance to inflict poison §3%d §afor §3%d §aseconds", (Config.VENOM_STONE_CHANCE.get() * 100), (Config.VENOM_STONE_LEVEL.get()), (Config.VENOM_STONE_DURATION.get()))));
         pTooltipComponents.add(Component.literal(String.format("§aDeal §3%.1f%% §aincreased damage to targets inflicted with poison", (Config.VENOM_STONE_DAMAGE.get() - 1) * 100)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

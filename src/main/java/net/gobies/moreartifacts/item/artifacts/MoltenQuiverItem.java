@@ -4,7 +4,6 @@ import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -49,6 +48,8 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
             });
         }
     }
+
+
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

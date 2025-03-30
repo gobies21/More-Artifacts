@@ -38,8 +38,8 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get() - 1));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get() - 1));
 
                 }
             });
