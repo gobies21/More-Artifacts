@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,12 +13,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class ShulkedClockItem extends Item implements ICurioItem {
     public ShulkedClockItem(Properties properties) {
@@ -27,12 +27,14 @@ public class ShulkedClockItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
-            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN));
-            player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-            if (player.hasEffect(MobEffects.LEVITATION));
-            player.removeEffect(MobEffects.LEVITATION);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+            }
+            if (player.hasEffect(MobEffects.LEVITATION)) {
+                player.removeEffect(MobEffects.LEVITATION);
+            }
         }
     }
     @SubscribeEvent
@@ -40,9 +42,9 @@ public class ShulkedClockItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.ShulkedClock.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.ShulkedClock.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
-                });
+                }
             }
         }
     }

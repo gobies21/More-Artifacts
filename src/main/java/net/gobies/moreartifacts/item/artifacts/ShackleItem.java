@@ -2,8 +2,6 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +16,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ShackleItem extends Item implements ICurioItem {
@@ -28,9 +27,9 @@ public class ShackleItem extends Item implements ICurioItem {
     private static final UUID ARMOR_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(Attributes.ARMOR);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var attribute = player.getAttribute(Attributes.ARMOR);
             if (attribute != null) {
                 if (attribute.getModifier(ARMOR_UUID) == null && stack.getItem() instanceof ShackleItem) {
                     attribute.addTransientModifier(
@@ -40,9 +39,9 @@ public class ShackleItem extends Item implements ICurioItem {
         }
     }
 
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).removeModifier(ARMOR_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
         }
     }
 

@@ -5,7 +5,6 @@ import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +19,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -28,6 +26,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class AnkhShieldItem extends Item implements ICurioItem {
     public AnkhShieldItem(Properties properties) {
@@ -42,19 +42,19 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            entity.removeEffect(MobEffects.POISON);
-            entity.removeEffect(MobEffects.WITHER);
-            entity.removeEffect(MobEffects.HUNGER);
-            entity.removeEffect(MobEffects.CONFUSION);
-            entity.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-            entity.removeEffect(MobEffects.LEVITATION);
-            entity.removeEffect(MobEffects.DIG_SLOWDOWN);
-            entity.removeEffect(MobEffects.WEAKNESS);
-            entity.removeEffect(MobEffects.BLINDNESS);
-            entity.removeEffect(MobEffects.DARKNESS);
-            var attribute = entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            player.removeEffect(MobEffects.POISON);
+            player.removeEffect(MobEffects.WITHER);
+            player.removeEffect(MobEffects.HUNGER);
+            player.removeEffect(MobEffects.CONFUSION);
+            player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+            player.removeEffect(MobEffects.LEVITATION);
+            player.removeEffect(MobEffects.DIG_SLOWDOWN);
+            player.removeEffect(MobEffects.WEAKNESS);
+            player.removeEffect(MobEffects.BLINDNESS);
+            player.removeEffect(MobEffects.DARKNESS);
+            var attribute = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
                     attribute.addTransientModifier(
@@ -68,38 +68,36 @@ public class AnkhShieldItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON || event.getEffectInstance().getEffect() == MobEffects.WITHER || event.getEffectInstance().getEffect() == MobEffects.HUNGER || event.getEffectInstance().getEffect() == MobEffects.CONFUSION || event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.BLINDNESS || event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
-                });
+                }
             }
         }
     }
-
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            Objects.requireNonNull(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity()instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
+        if (event.getEntity() instanceof Player player) {
+            if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
-            });
+            }
         }
     }
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.AnkhShield.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
-
                 }
-            });
+            }
         }
     }
 

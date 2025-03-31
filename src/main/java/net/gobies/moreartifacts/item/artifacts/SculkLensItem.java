@@ -14,12 +14,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class SculkLensItem extends Item implements ICurioItem {
     public SculkLensItem(Properties properties) {
@@ -27,10 +28,11 @@ public class SculkLensItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
-            if (player.hasEffect(MobEffects.DARKNESS));
-            player.removeEffect(MobEffects.DARKNESS);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            if (player.hasEffect(MobEffects.DARKNESS)) {
+                player.removeEffect(MobEffects.DARKNESS);
+            }
         }
     }
     @SubscribeEvent
@@ -38,9 +40,9 @@ public class SculkLensItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.SculkLens.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.SculkLens.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
-                });
+                }
             }
         }
     }

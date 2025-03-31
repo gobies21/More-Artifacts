@@ -5,11 +5,7 @@ import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
@@ -21,12 +17,13 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     public LuckyEmeraldRingItem(Properties properties) {
@@ -42,17 +39,17 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
             LivingEntity target = event.getEntity();
             if (target.getMobType() == MobType.ILLAGER) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
                     event.setAmount((float) (event.getAmount() * Config.EMERALD_RING_DAMAGE.get()));
-                });
+                }
             }
             if (target instanceof LivingEntity) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.LuckyEmeraldRing.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
                     if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
                         target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
                         player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.6f, 1.8f);
                     }
-                });
+                }
             }
         }
     }

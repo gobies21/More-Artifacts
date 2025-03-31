@@ -22,6 +22,8 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 import static net.gobies.moreartifacts.item.ModItems.VenomStone;
 
 public class VenomStoneItem extends Item implements ICurioItem {
@@ -29,13 +31,13 @@ public class VenomStoneItem extends Item implements ICurioItem {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
 
-        static {
+    static {
         MinecraftForge.EVENT_BUS.register(VenomStoneItem.class);
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             if (player.hasEffect(MobEffects.POISON)) {
                 player.removeEffect(MobEffects.POISON);
             }
@@ -47,27 +49,26 @@ public class VenomStoneItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON) {
-                    CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.VenomStone.get(), player).ifPresent((slot) -> {
-                        event.setResult(MobEffectEvent.Result.DENY);
-                    });
+                if (isCurioEquipped(player, VenomStone.get())) {
+                    event.setResult(MobEffectEvent.Result.DENY);
                 }
             }
         }
+    }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(VenomStone.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, VenomStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.VENOM_STONE_CHANCE.get()) {
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
+                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
                 }
                 if (target.hasEffect(MobEffects.POISON)) {
                     event.setAmount((float) (event.getAmount() * Config.VENOM_STONE_DAMAGE.get()));
                 }
-
-            });
+            }
         }
     }
 

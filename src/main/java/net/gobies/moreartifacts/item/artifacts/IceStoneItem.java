@@ -18,12 +18,13 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class IceStoneItem extends Item implements ICurioItem {
     public IceStoneItem(Properties properties) {
@@ -35,8 +36,8 @@ public class IceStoneItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             if (player.isFreezing()) {
                 player.setTicksFrozen(-1);
             }
@@ -46,19 +47,19 @@ public class IceStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.IceStone.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.IceStone.get())) {
                 if (event.getSource().is(DamageTypes.FREEZE)) {
                     event.setCanceled(true);
 
                 }
-            });
+            }
         }
     }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.IceStone.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.IceStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.ICE_STONE_CHANCE.get()) {
@@ -68,8 +69,7 @@ public class IceStoneItem extends Item implements ICurioItem {
                 if (target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
                     event.setAmount((float) (event.getAmount() * Config.ICE_STONE_DAMAGE.get()));
                 }
-
-            });
+            }
         }
     }
 

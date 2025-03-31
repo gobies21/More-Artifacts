@@ -26,6 +26,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
+
 public class EnderianScarfItem extends Item implements ICurioItem {
     public EnderianScarfItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -38,9 +40,9 @@ public class EnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnderianScarf.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.EnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.ENDERIAN_DAMAGE_TAKEN.get()));
-            });
+            }
         }
     }
 

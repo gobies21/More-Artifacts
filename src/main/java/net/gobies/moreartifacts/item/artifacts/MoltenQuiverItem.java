@@ -15,12 +15,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class MoltenQuiverItem extends Item implements ICurioItem {
     public MoltenQuiverItem(Properties properties) {
@@ -33,7 +34,7 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MoltenQuiver.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.MoltenQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
@@ -43,13 +44,10 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
                     if (target.isOnFire()) {
                         event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));
                     }
-
                 }
-            });
+            }
         }
     }
-
-
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

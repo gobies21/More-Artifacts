@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,7 +23,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-;import static net.gobies.moreartifacts.item.ModItems.EnderDragonClaw;
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class EnderDragonClawItem extends Item implements ICurioItem {
     public EnderDragonClawItem(Properties properties) {
@@ -36,14 +37,13 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(EnderDragonClaw.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.EnderDragonClaw.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ENDER_DRAGON_CLAW_CHANCE.get()) {
                     event.setAmount((float) (event.getAmount() * Config.ENDER_DRAGON_CLAW_DAMAGE.get()));
                     attacker.level().playSound(null, attacker.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, 1.4f);
                 }
-
-            });
+            }
         }
     }
 

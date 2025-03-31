@@ -4,7 +4,6 @@ import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -26,6 +24,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class ObsidianShieldItem extends Item implements ICurioItem {
     public ObsidianShieldItem(Properties properties) {
@@ -35,9 +35,9 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
                     attribute.addTransientModifier(
@@ -46,9 +46,9 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
             }
         }
     }
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            Objects.requireNonNull(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
     static {
@@ -57,22 +57,22 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity()instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.ObsidianShield.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.ObsidianShield.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
-            });
+            }
         }
     }
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.ObsidianShield.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.ObsidianShield.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
 
                 }
-            });
+            }
         }
     }
 

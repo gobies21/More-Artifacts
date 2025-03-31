@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -27,13 +26,14 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 
 public class TrueEnderianScarfItem extends Item implements ICurioItem {
@@ -43,19 +43,15 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
 
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
         LivingEntity var5 = slotContext.entity();
-        if (var5 instanceof Player && stack.getItem() instanceof TrueEnderianScarfItem) {
-            return true;
-        } else {
-            return false;
-        }
+        return var5 instanceof Player && stack.getItem() instanceof TrueEnderianScarfItem;
     }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get()));
-            });
+            }
         }
     }
 
@@ -83,10 +79,10 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         }
     }
 
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var entityReach = entity.getAttribute(ForgeMod.ENTITY_REACH.get());
-            var blockReach = entity.getAttribute(ForgeMod.BLOCK_REACH.get());
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var entityReach = player.getAttribute(ForgeMod.ENTITY_REACH.get());
+            var blockReach = player.getAttribute(ForgeMod.BLOCK_REACH.get());
             if (entityReach != null) {
                 entityReach.removeModifier(ENTITY_REACH_UUID);
             }
@@ -105,7 +101,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.TrueEnderianScarf.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 RandomSource playerRandom = player.getRandom();
                 if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
                     return;
@@ -151,11 +147,8 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                             maxRadius--;
                         }
                     }
-
                 }
-
-            });
-            
+            }
         }
     }
 

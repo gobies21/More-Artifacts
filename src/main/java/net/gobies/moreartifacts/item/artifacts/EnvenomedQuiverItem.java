@@ -23,6 +23,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
+
 public class EnvenomedQuiverItem extends Item implements ICurioItem {
     public EnvenomedQuiverItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
@@ -34,15 +36,14 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnvenomedQuiver.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.EnvenomedQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get() - 1));
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get() - 1));
-
                 }
-            });
+            }
         }
     }
 

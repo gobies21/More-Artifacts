@@ -9,7 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import top.theillusivec4.curios.api.CuriosApi;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class EnvenomedQuiverCrossbow {
 
@@ -20,15 +21,15 @@ public class EnvenomedQuiverCrossbow {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.EnvenomedQuiver.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.EnvenomedQuiver.get())) {
                 if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
                     event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
                 }
-
-            });
+            }
         }
     }
 }
+

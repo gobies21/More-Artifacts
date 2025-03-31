@@ -3,8 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +19,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class GildedScarfItem extends Item implements ICurioItem {
     public GildedScarfItem(Properties properties) {
@@ -39,17 +39,16 @@ public class GildedScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GildedScarf.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.GildedScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_DEALT.get()));
-            });
-
+            }
         }
-        if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GildedScarf.get(), player).ifPresent((slot) -> {
-                event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_TAKEN.get()));
-            });
+            if (event.getEntity() instanceof Player player) {
+                if (isCurioEquipped(player, ModItems.GildedScarf.get())) {
+                    event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_TAKEN.get()));
+                }
+            }
         }
-    }
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

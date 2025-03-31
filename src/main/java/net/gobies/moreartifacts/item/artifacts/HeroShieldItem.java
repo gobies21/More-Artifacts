@@ -1,16 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,21 +25,20 @@ import net.minecraftforge.common.MinecraftForge;
 import java.util.List;
 
 public class HeroShieldItem extends Item implements ICurioItem {
-    public static int hitCount = 0;
     public HeroShieldItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             if (!player.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {
                 player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false));
             }
         }
     }
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
         }
 
@@ -53,21 +49,26 @@ public class HeroShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.HeroShield.get(), player).ifPresent((slot) -> {
-                ItemStack pStack = slot.getRight();
-                CompoundTag tag = pStack.getOrCreateTag();
-                int hitCount = tag.getInt("HitCount");
-                hitCount++;
-                tag.putInt("HitCount", hitCount);
-                if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
-                    event.setCanceled(true);
-                    player.displayClientMessage(Component.literal("§6Ow!"), true);
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
-                    tag.putInt("HitCount", 0); // reset hitCount
-                }
-                if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                    event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
-                }
+            CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
+                handler.findFirstCurio(stack -> stack.getItem() instanceof HeroShieldItem).ifPresent(slotResult -> {
+                    ItemStack stack = slotResult.stack();
+                    if (stack.getItem() instanceof HeroShieldItem) {
+                        ItemStack pStack = slotResult.stack();
+                        CompoundTag tag = pStack.getOrCreateTag();
+                        int hitCount = tag.getInt("HitCount");
+                        hitCount++;
+                        tag.putInt("HitCount", hitCount);
+                        if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
+                            event.setCanceled(true);
+                            player.displayClientMessage(Component.literal("§6Ow!"), true);
+                            player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
+                            tag.putInt("HitCount", 0); // reset hitCount
+                        }
+                        if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
+                            event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
+                        }
+                    }
+                });
             });
         }
     }

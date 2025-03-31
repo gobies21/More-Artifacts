@@ -1,9 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class CobaltShieldItem extends ShieldItem implements ICurioItem {
+public class CobaltShieldItem extends Item implements ICurioItem {
     public CobaltShieldItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
@@ -26,9 +23,9 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null && stack.getItem() instanceof CobaltShieldItem) {
                     attribute.addTransientModifier(
@@ -38,9 +35,9 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
         }
     }
 
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            Objects.requireNonNull(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
         }
     }
 

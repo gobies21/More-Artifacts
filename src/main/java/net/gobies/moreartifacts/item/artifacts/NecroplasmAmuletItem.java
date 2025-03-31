@@ -16,7 +16,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -24,6 +23,8 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 
 public class NecroplasmAmuletItem extends Item implements ICurioItem {
@@ -38,7 +39,7 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.NecroplasmAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
                     if (random.nextFloat() < Config.NECROPLASM_AMULET_HEAL_CHANCE.get()) {
@@ -51,13 +52,13 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
                         }
                     }
                 }
-            });
+            }
         }
     }
     @SubscribeEvent
     public static void onPlayerAttacked(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.NecroplasmAmulet.get(), player).ifPresent(slot -> {
+            if (isCurioEquipped(player, ModItems.NecroplasmAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));
@@ -66,7 +67,7 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
                         }
                     }
                 }
-            });
+            }
         }
     }
 

@@ -1,8 +1,6 @@
 package net.gobies.moreartifacts.init;
 
-import top.theillusivec4.curios.api.SlotTypePreset;
-import top.theillusivec4.curios.api.SlotTypeMessage;
-import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.*;
 
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.common.Mod;

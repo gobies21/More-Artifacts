@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,12 +13,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class NectarItem extends Item implements ICurioItem {
     public NectarItem(Properties properties) {
@@ -28,8 +28,8 @@ public class NectarItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             if (player.hasEffect(MobEffects.CONFUSION));
             player.removeEffect(MobEffects.CONFUSION);
         }
@@ -39,9 +39,9 @@ public class NectarItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.CONFUSION) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.Nectar.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.Nectar.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
-                });
+                }
             }
         }
     }

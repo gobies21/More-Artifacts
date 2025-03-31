@@ -1,9 +1,9 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,25 +13,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static net.gobies.moreartifacts.item.ModItems.EchoGlove;
-import static net.gobies.moreartifacts.item.ModItems.EnderDragonClaw;
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class EchoGloveItem extends Item implements ICurioItem {
     public EchoGloveItem(Properties properties) {
@@ -66,10 +58,10 @@ public class EchoGloveItem extends Item implements ICurioItem {
         }
     }
 
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var entityReach = entity.getAttribute(Attributes.ATTACK_DAMAGE);
-            var blockReach = entity.getAttribute(Attributes.ATTACK_SPEED);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var entityReach = player.getAttribute(Attributes.ATTACK_DAMAGE);
+            var blockReach = player.getAttribute(Attributes.ATTACK_SPEED);
             if (entityReach != null) {
                 entityReach.removeModifier(ATTACK_DAMAGE_UUID);
             }
@@ -83,13 +75,13 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity attacker) {
             LivingEntity attackedEntity = event.getEntity();
-            CuriosApi.getCuriosHelper().findEquippedCurio(EchoGlove.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ECHO_GLOVE_IGNORE_CHANCE.get()) {
-                    // Reduce the invincibility time by a fixed number of ticks
+                    // reduce the invincibility time by a fixed number of ticks
                     attackedEntity.invulnerableTime = Math.max(0, attackedEntity.invulnerableTime - 5);
                 }
-            });
+            }
         }
     }
 

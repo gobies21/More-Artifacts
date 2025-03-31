@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
@@ -16,34 +17,30 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
+
 public class BalloonItem extends Item implements ICurioItem {
+    public BalloonItem(Properties properties) {
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
-            var optionalBalloon = top.theillusivec4.curios.api.CuriosApi.getCuriosHelper()
-                    .findEquippedCurio(this, player);
-            if (optionalBalloon.isPresent()) {
-                player.setDeltaMovement(player.getDeltaMovement().add(0, 0.4, 0));
-            }
+          if (isCurioEquipped(player, ModItems.Balloon.get())) {
+                  player.setDeltaMovement(player.getDeltaMovement().add(0, 0.4, 0));
+              }
+          }
         }
-    }
 
     @SubscribeEvent
     public void onFallDamageReduction(net.minecraftforge.event.entity.living.LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            var optionalBalloon = top.theillusivec4.curios.api.CuriosApi.getCuriosHelper()
-                    .findEquippedCurio(this, player);
-            if (optionalBalloon.isPresent()) {
+            if (isCurioEquipped(player, ModItems.Balloon.get())) {
                 event.setDistance(event.getDistance() * 0.5f);
             }
         }
-    }
-
-    private static int jumpTimer = 0;
-
-    public BalloonItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.COMMON));
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -53,7 +50,7 @@ public class BalloonItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
-            pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+            pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Increases jump height and reduces fall damage"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

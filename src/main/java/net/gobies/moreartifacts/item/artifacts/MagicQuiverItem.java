@@ -14,11 +14,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class MagicQuiverItem extends Item implements ICurioItem {
     public MagicQuiverItem(Properties properties) {super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -31,11 +32,11 @@ public class MagicQuiverItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MagicQuiver.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.MagicQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.MAGIC_QUIVER_DAMAGE.get()));
                 }
-            });
+            }
         }
     }
 

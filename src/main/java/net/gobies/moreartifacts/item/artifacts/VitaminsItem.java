@@ -2,7 +2,6 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,12 +12,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 import javax.annotation.Nullable;
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class VitaminsItem extends Item implements ICurioItem {
     public VitaminsItem(Properties properties) {
@@ -26,12 +25,14 @@ public class VitaminsItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player player) {
-            if (player.hasEffect(MobEffects.WEAKNESS));
-            player.removeEffect(MobEffects.WEAKNESS);
-            if (player.hasEffect(MobEffects.DIG_SLOWDOWN));
-            player.removeEffect(MobEffects.DIG_SLOWDOWN);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            if (player.hasEffect(MobEffects.WEAKNESS)) {
+                player.removeEffect(MobEffects.WEAKNESS);
+            }
+            if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+                player.removeEffect(MobEffects.DIG_SLOWDOWN);
+            }
         }
     }
     @SubscribeEvent
@@ -39,9 +40,9 @@ public class VitaminsItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.Vitamins.get(), player).ifPresent((slot) -> {
+                if (isCurioEquipped(player, ModItems.Vitamins.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
-                });
+                }
             }
         }
     }

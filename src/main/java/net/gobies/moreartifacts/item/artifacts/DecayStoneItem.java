@@ -17,12 +17,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-import static net.gobies.moreartifacts.item.ModItems.DecayStone;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class DecayStoneItem extends Item implements ICurioItem {
     public DecayStoneItem(Properties properties) {
@@ -34,8 +34,8 @@ public class DecayStoneItem extends Item implements ICurioItem {
         }
 
         @Override
-        public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-            if (livingEntity instanceof Player player) {
+        public void curioTick(SlotContext slotContext, ItemStack stack) {
+            if (slotContext.entity() instanceof Player player) {
                 if (player.hasEffect(MobEffects.WITHER)) {
                     player.removeEffect(MobEffects.WITHER);
                 }
@@ -47,9 +47,9 @@ public class DecayStoneItem extends Item implements ICurioItem {
             if (event.getEntity() instanceof Player player) {
                 event.getEffectInstance();
                 if (event.getEffectInstance().getEffect() == MobEffects.WITHER) {
-                    CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.DecayStone.get(), player).ifPresent((slot) -> {
+                    if (isCurioEquipped(player, ModItems.DecayStone.get())) {
                         event.setResult(MobEffectEvent.Result.DENY);
-                    });
+                    }
                 }
             }
         }
@@ -57,7 +57,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
             if (event.getSource().getEntity() instanceof Player attacker) {
-                CuriosApi.getCuriosHelper().findEquippedCurio(DecayStone.get(), attacker).ifPresent((slot) -> {
+                if (isCurioEquipped(attacker, ModItems.DecayStone.get())) {
                     RandomSource random = attacker.getRandom();
                     LivingEntity target = event.getEntity();
                     if (random.nextFloat() < Config.DECAY_STONE_CHANCE.get()) {
@@ -66,8 +66,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
                     if (target.hasEffect(MobEffects.WITHER)) {
                         event.setAmount((float) (event.getAmount() * Config.DECAY_STONE_DAMAGE.get()));
                     }
-
-                });
+                }
             }
         }
 

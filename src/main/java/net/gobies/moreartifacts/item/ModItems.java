@@ -4,6 +4,7 @@ import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;
 import net.gobies.moreartifacts.item.materials.ShadowGemItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

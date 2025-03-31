@@ -15,12 +15,13 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class ObsidianSkullItem extends Item implements ICurioItem {
     public ObsidianSkullItem(Properties properties) {
@@ -33,22 +34,22 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity()instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.ObsidianSkull.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.SKULL_FIRE_DAMAGE_TAKEN.get()));
                 }
-            });
+            }
         }
     }
 @SubscribeEvent
 public static void onEntityAttacked(LivingAttackEvent event) {
     if (event.getEntity() instanceof Player player) {
-        CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.ObsidianSkull.get(), player).ifPresent((slot) -> {
+        if (isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
             if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                 event.setCanceled(true);
 
             }
-        });
+        }
     }
 }
 

@@ -1,6 +1,5 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import com.google.common.collect.Maps;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.ModItems;
@@ -30,18 +29,17 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
+
 public class MechanicalClawItem extends Item implements ICurioItem {
     public MechanicalClawItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
-
-    private static final Map<Entity, Long> hitEntities = Maps.newHashMap();
 
     static {
         MinecraftForge.EVENT_BUS.register(MechanicalClawItem.class);
@@ -50,9 +48,9 @@ public class MechanicalClawItem extends Item implements ICurioItem {
     private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attribute != null) {
                 if (attribute.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof MechanicalClawItem) {
                     attribute.addTransientModifier(
@@ -62,9 +60,9 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         }
     }
 
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            Objects.requireNonNull(entity.getAttribute(Attributes.ATTACK_DAMAGE)).removeModifier(ATTACK_DAMAGE_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_DAMAGE)).removeModifier(ATTACK_DAMAGE_UUID);
         }
 
     }
@@ -77,14 +75,10 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         }
     }
 
-    public static void execute(LevelAccessor world, double x, double y, double z, Entity entity, Entity sourceentity) {
-        execute(null, world, x, y, z, entity, sourceentity);
-    }
-
     private static void execute(@Nullable Event event, LevelAccessor world, double x, double y, double z, Entity entity, Entity sourceentity) {
         if (entity == null || sourceentity == null)
             return;
-        if (sourceentity instanceof LivingEntity lv && CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MechanicalClaw.get(), lv).isPresent()) {
+        if (isCurioEquipped((LivingEntity) sourceentity, ModItems.MechanicalClaw.get())) {
             if (!(entity.getType().is(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("minecraft:skeletons"))) || entity.getType().is(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("minecraft:frog_food")))
                     || entity instanceof AbstractGolem || entity instanceof SkeletonHorse)) {
                 RandomSource random = ((LivingEntity) sourceentity).getRandom();

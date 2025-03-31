@@ -5,7 +5,6 @@ import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -28,6 +26,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
+
 public class GoldenHeadgearItem extends Item implements ICurioItem {
     public GoldenHeadgearItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -36,9 +36,9 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
     private static final UUID ARMOR_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(Attributes.ARMOR);
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            var attribute = player.getAttribute(Attributes.ARMOR);
             if (attribute != null) {
                 if (attribute.getModifier(ARMOR_UUID) == null && stack.getItem() instanceof GoldenHeadgearItem) {
                     attribute.addTransientModifier(
@@ -47,9 +47,9 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
             }
         }
     }
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
-        if (livingEntity instanceof Player entity) {
-            Objects.requireNonNull(entity.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
+            Objects.requireNonNull(player.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
         }
     }
 
@@ -60,11 +60,11 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GoldenHeadgear.get(), player).ifPresent((slot) -> {
+            if (isCurioEquipped(player, ModItems.GoldenHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }
-            });
+            }
         }
     }
 

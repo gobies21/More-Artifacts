@@ -7,7 +7,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import top.theillusivec4.curios.api.CuriosApi;
+
+import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class MagicQuiverCrossbow {
 
@@ -18,11 +19,11 @@ public class MagicQuiverCrossbow {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.MagicQuiver.get(), attacker).ifPresent((slot) -> {
+            if (isCurioEquipped(attacker, ModItems.MagicQuiver.get())) {
                 if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
                     event.setAmount((float) (event.getAmount() * Config.MAGIC_QUIVER_DAMAGE.get()));
                 }
-            });
+            }
         }
     }
 }
