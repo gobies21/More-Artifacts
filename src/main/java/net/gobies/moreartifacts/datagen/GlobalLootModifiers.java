@@ -11,15 +11,13 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 
-import java.util.List;
-
 public class GlobalLootModifiers extends GlobalLootModifierProvider {
     public GlobalLootModifiers(PackOutput output) {
         super(output, MoreArtifacts.MOD_ID);
     }
 
 //chances are broken
-    //tripleing the lower ones for now (also tripleing some looting chances) these chances are to broken
+    //tripling the lower ones for now (also tripling some looting chances) these chances are to broken
     @Override
     protected void start() {
         add("cave_spider_bezoar", new AddItemModifier(new LootItemCondition[] {

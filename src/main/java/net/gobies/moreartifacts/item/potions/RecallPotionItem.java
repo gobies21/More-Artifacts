@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.potions;
 
 import net.gobies.moreartifacts.Config;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
@@ -50,10 +51,11 @@ public class RecallPotionItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entityLiving) {
         if (!level.isClientSide && entityLiving instanceof ServerPlayer serverPlayer) {
-            ServerLevel serverWorld = serverPlayer.server.getLevel(serverPlayer.getRespawnDimension());
             boolean interDimensional = Config.RECALL_POTION_INTERDIMENSIONAL.get();
-            if (serverWorld != null && (interDimensional || serverWorld.dimension() == Level.OVERWORLD)) {
-                if (level.dimension() == Level.OVERWORLD || interDimensional) {
+            ResourceKey<Level> currentDimension = level.dimension();
+            ResourceKey<Level> respawnDimension = serverPlayer.getRespawnDimension();
+            ServerLevel serverWorld = interDimensional ? serverPlayer.server.getLevel(respawnDimension) : (currentDimension == respawnDimension ? Objects.requireNonNull(level.getServer()).getLevel(currentDimension) : null);
+            if (serverWorld != null) {
                     try {
                         Optional<Vec3> respawnLocation = Player.findRespawnPositionAndUseSpawnBlock(serverWorld, Objects.requireNonNull(serverPlayer.getRespawnPosition()), serverPlayer.getRespawnAngle(), false, false);
                         if (respawnLocation.isPresent()) {
@@ -64,12 +66,9 @@ public class RecallPotionItem extends Item {
                             serverPlayer.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
                             serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * Config.RECALL_POTION_COOLDOWN.get()); // 20 ticks = 1 second
                             if (!serverPlayer.isCreative()) {
-                                // Check the size of the stack
                                 if (stack.getCount() == 1) {
-                                    // Replace the recall potion with a glass bottle
                                     serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
                                 } else {
-                                    // Add a glass bottle to the inventory and decrease the stack size by 1
                                     stack.shrink(1);
                                     serverPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
                                 }
@@ -87,7 +86,6 @@ public class RecallPotionItem extends Item {
                     serverPlayer.displayClientMessage(Component.translatable("moreartifacts.recall.potion.dimension"), true);
                 }
             }
-        }
         return stack;
     }
 }

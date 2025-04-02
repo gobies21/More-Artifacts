@@ -5,14 +5,15 @@ import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsRender;
 import net.gobies.moreartifacts.compat.spartanweaponry.EnvenomedQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
+import net.gobies.moreartifacts.init.MoreArtifactsBrewing;
 import net.gobies.moreartifacts.init.MoreArtifactsCurioHandler;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
-import net.gobies.moreartifacts.item.potions.RecallPotionItem;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -20,16 +21,18 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
+import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import static net.gobies.moreartifacts.MoreArtifacts.MOD_ID;
+
 
 @Mod(MOD_ID)
 public class MoreArtifacts {
@@ -46,6 +49,8 @@ public class MoreArtifacts {
         ModLootModifiers.register(modBus);
 
         MoreArtifactsCurioHandler.register();
+
+        MoreArtifactsBrewing.register(modBus);
 
         ModItems.register(modBus);
 
@@ -64,6 +69,7 @@ public class MoreArtifacts {
             EnhancedVisualsRender.loadCompat();
         }
     }
+
 
     public static void queueServerWork(int tick, Runnable action) {
         if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {

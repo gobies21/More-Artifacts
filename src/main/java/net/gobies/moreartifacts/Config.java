@@ -276,7 +276,6 @@ public class Config {
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
         recall_potion_glow = (Boolean)RECALL_POTION_GLOW.get();
-
     }
 
     static {
@@ -298,7 +297,7 @@ public class Config {
         BUILDER.pop();
 
         BUILDER.push("Venom Amulet");
-        VENOM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply posion").define("Poison Chance", 0.40);
+        VENOM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.40);
         VENOM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5);
         VENOM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 5);
         BUILDER.pop();

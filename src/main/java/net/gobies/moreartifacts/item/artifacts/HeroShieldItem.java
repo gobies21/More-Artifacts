@@ -49,27 +49,25 @@ public class HeroShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
-            CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-                handler.findFirstCurio(stack -> stack.getItem() instanceof HeroShieldItem).ifPresent(slotResult -> {
-                    ItemStack stack = slotResult.stack();
-                    if (stack.getItem() instanceof HeroShieldItem) {
-                        ItemStack pStack = slotResult.stack();
-                        CompoundTag tag = pStack.getOrCreateTag();
-                        int hitCount = tag.getInt("HitCount");
-                        hitCount++;
-                        tag.putInt("HitCount", hitCount);
-                        if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
-                            event.setCanceled(true);
-                            player.displayClientMessage(Component.literal("§6Ow!"), true);
-                            player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
-                            tag.putInt("HitCount", 0); // reset hitCount
-                        }
-                        if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                            event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
-                        }
+            CuriosApi.getCuriosInventory(player).ifPresent(handler -> handler.findFirstCurio(stack -> stack.getItem() instanceof HeroShieldItem).ifPresent(slotResult -> {
+                ItemStack stack = slotResult.stack();
+                if (stack.getItem() instanceof HeroShieldItem) {
+                    ItemStack pStack = slotResult.stack();
+                    CompoundTag tag = pStack.getOrCreateTag();
+                    int hitCount = tag.getInt("HitCount");
+                    hitCount++;
+                    tag.putInt("HitCount", hitCount);
+                    if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
+                        event.setCanceled(true);
+                        player.displayClientMessage(Component.literal("§6Ow!"), true);
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
+                        tag.putInt("HitCount", 0); // reset hitCount
                     }
-                });
-            });
+                    if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
+                        event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));
+                    }
+                }
+            }));
         }
     }
 
