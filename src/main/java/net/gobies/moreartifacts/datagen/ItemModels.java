@@ -1,7 +1,6 @@
 package net.gobies.moreartifacts.datagen;
 
 import net.gobies.moreartifacts.MoreArtifacts;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

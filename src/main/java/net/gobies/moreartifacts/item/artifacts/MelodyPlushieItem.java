@@ -39,7 +39,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
             if (isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
-                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 4800, 1, true, true));
+                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_LEVEL.get() - 1, true, true));
             }
         }
     }

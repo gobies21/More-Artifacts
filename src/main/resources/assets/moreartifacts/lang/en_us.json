@@ -45,6 +45,10 @@
   "item.moreartifacts.fire_stone": "Fire Stone",
   "item.moreartifacts.ice_stone": "Ice Stone",
   "item.moreartifacts.shadow_gem": "Shadow Gem",
+  "item.moreartifacts.recall_potion": "Recall Potion",
+
+  "moreartifacts.recall.potion.respawn": "No respawn point found!",
+  "moreartifacts.recall.potion.dimension": "Home seems so far away...",
 
   "moreartifacts.shadow_gem.tooltip": "§eCrafting Material",
 

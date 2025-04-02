@@ -8,6 +8,7 @@ import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
 import net.gobies.moreartifacts.init.MoreArtifactsCurioHandler;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.potions.RecallPotionItem;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
@@ -74,18 +76,17 @@ public class MoreArtifacts {
         if (event.phase == TickEvent.Phase.END) {
             List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
             workQueue.forEach((work) -> {
-                work.setValue((Integer)work.getValue() - 1);
-                if ((Integer)work.getValue() == 0) {
+                work.setValue((Integer) work.getValue() - 1);
+                if ((Integer) work.getValue() == 0) {
                     actions.add(work);
                 }
 
             });
-            actions.forEach((e) -> ((Runnable)e.getKey()).run());
+            actions.forEach((e) -> ((Runnable) e.getKey()).run());
             workQueue.removeAll(actions);
         }
     }
 }
-
 
 
 

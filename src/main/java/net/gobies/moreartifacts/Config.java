@@ -83,6 +83,10 @@ public class Config {
 
     public static ForgeConfigSpec.ConfigValue<Double> PLUSHIE_HEALTH;
     public static float plushie_health;
+    public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_LEVEL;
+    public static int plushie_level;
+    public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_DURATION;
+    public static int plushie_duration;
 
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_DAMAGE;
     public static float emerald_ring_damage;
@@ -183,6 +187,11 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_DURATION;
     public static int ice_stone_duration;
 
+    public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_COOLDOWN;
+    public static int recall_potion_cooldown;
+    public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_INTERDIMENSIONAL;
+    public static boolean recall_potion_interdimensional;
+
     public Config() {
     }
 
@@ -212,6 +221,8 @@ public class Config {
         mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
         shackle_armor = SHACKLE_ARMOR.get();
         plushie_health = (float) ((Double) PLUSHIE_HEALTH.get() * (double) 1.0F);
+        plushie_level = PLUSHIE_LEVEL.get();
+        plushie_duration = PLUSHIE_DURATION.get();
         enderian_damage_taken = (float) ((Double) ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
         true_enderian_damage_taken = (float) ((Double) TRUE_ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
         true_enderian_evade = (float) ((Double) TRUE_ENDERIAN_EVADE.get() * (double) 1.0F);
@@ -260,6 +271,8 @@ public class Config {
         ice_stone_damage = (float) ((Double) ICE_STONE_DAMAGE.get() * (double) 1.0F);
         ice_stone_chance = (float) ((Double) ICE_STONE_CHANCE.get() * (double) 1.0F);
         ice_stone_duration = ICE_STONE_DURATION.get();
+        recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
+        recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
 
     }
 
@@ -332,6 +345,8 @@ public class Config {
 
         BUILDER.push("Melody Plushie");
         PLUSHIE_HEALTH = BUILDER.comment("Max Health Increase percentage").define("Max Health", 0.2);
+        PLUSHIE_LEVEL = BUILDER.comment("Level of health boost from waking up").define("Level", 2);
+        PLUSHIE_DURATION = BUILDER.comment("Duration of health boost in seconds").define("Duration", 240);
         BUILDER.pop();
 
         BUILDER.push("Enderian Scarf");
@@ -421,6 +436,11 @@ public class Config {
         ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
         ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
+        BUILDER.pop();
+
+        BUILDER.push("Recall Potion");
+        RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 5);
+        RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Weither or not you can recall to spawn from other dimensions").define("Interdimensional", false);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

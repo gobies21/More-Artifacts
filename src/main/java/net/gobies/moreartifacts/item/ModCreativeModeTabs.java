@@ -64,6 +64,7 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.FireStone.get());
                                 pOutput.accept(ModItems.IceStone.get());
                                 pOutput.accept(ModItems.ShadowGem.get());
+                                pOutput.accept(ModItems.RecallPotion.get());
                             })
                             .build());
 
