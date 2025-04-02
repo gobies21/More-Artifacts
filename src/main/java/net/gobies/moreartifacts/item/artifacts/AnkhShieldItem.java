@@ -44,16 +44,36 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            player.removeEffect(MobEffects.POISON);
-            player.removeEffect(MobEffects.WITHER);
-            player.removeEffect(MobEffects.HUNGER);
-            player.removeEffect(MobEffects.CONFUSION);
-            player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-            player.removeEffect(MobEffects.LEVITATION);
-            player.removeEffect(MobEffects.DIG_SLOWDOWN);
-            player.removeEffect(MobEffects.WEAKNESS);
-            player.removeEffect(MobEffects.BLINDNESS);
-            player.removeEffect(MobEffects.DARKNESS);
+            if (player.hasEffect(MobEffects.POISON)) {
+                player.removeEffect(MobEffects.POISON);
+            }
+            if (player.hasEffect(MobEffects.WITHER)) {
+                player.removeEffect(MobEffects.WITHER);
+            }
+            if (player.hasEffect(MobEffects.HUNGER)) {
+                player.removeEffect(MobEffects.HUNGER);
+            }
+            if (player.hasEffect(MobEffects.CONFUSION)) {
+                player.removeEffect(MobEffects.CONFUSION);
+            }
+            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+            }
+            if (player.hasEffect(MobEffects.LEVITATION)) {
+                player.removeEffect(MobEffects.LEVITATION);
+            }
+            if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+                player.removeEffect(MobEffects.DIG_SLOWDOWN);
+            }
+            if (player.hasEffect(MobEffects.WEAKNESS)) {
+                player.removeEffect(MobEffects.WEAKNESS);
+            }
+            if (player.hasEffect(MobEffects.BLINDNESS)) {
+                player.removeEffect(MobEffects.BLINDNESS);
+            }
+            if (player.hasEffect(MobEffects.DARKNESS)) {
+                player.removeEffect(MobEffects.DARKNESS);
+            }
             var attribute = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {

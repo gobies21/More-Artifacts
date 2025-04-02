@@ -191,6 +191,8 @@ public class Config {
     public static int recall_potion_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_INTERDIMENSIONAL;
     public static boolean recall_potion_interdimensional;
+    public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_GLOW;
+    public static boolean recall_potion_glow;
 
     public Config() {
     }
@@ -273,6 +275,7 @@ public class Config {
         ice_stone_duration = ICE_STONE_DURATION.get();
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
+        recall_potion_glow = (Boolean)RECALL_POTION_GLOW.get();
 
     }
 
@@ -440,7 +443,8 @@ public class Config {
 
         BUILDER.push("Recall Potion");
         RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 5);
-        RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Weither or not you can recall to spawn from other dimensions").define("Interdimensional", false);
+        RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
+        RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

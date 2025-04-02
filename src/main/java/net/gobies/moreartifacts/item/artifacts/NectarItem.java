@@ -30,8 +30,9 @@ public class NectarItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.CONFUSION));
-            player.removeEffect(MobEffects.CONFUSION);
+            if (player.hasEffect(MobEffects.CONFUSION)) {
+                player.removeEffect(MobEffects.CONFUSION);
+            }
         }
     }
     @SubscribeEvent
