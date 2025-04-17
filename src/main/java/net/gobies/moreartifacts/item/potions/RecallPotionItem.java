@@ -30,7 +30,7 @@ public class RecallPotionItem extends Item {
 
     @Override
     public int getUseDuration(@NotNull ItemStack stack) {
-        return 32;
+        return Config.RECALL_POTION_USE_TIME.get();
     }
 
     @Override

@@ -65,6 +65,8 @@ public class Config {
     public static int ignore_damage_chance;
     public static ForgeConfigSpec.ConfigValue<Double> EXPLOSION_DAMAGE_TAKEN;
     public static float explosion_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Integer> HERO_SHIELD_RES_LEVEL;
+    public static int hero_shield_res_level;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_TAKEN;
     public static float enderian_damage_taken;
@@ -83,10 +85,12 @@ public class Config {
 
     public static ForgeConfigSpec.ConfigValue<Double> PLUSHIE_HEALTH;
     public static float plushie_health;
-    public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_LEVEL;
-    public static int plushie_level;
+    public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_HEALTH_BOOST_LEVEL;
+    public static int plushie_health_boost_level;
     public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_DURATION;
     public static int plushie_duration;
+    public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_REGEN_LEVEL;
+    public static int plushie_regen_level;
 
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_DAMAGE;
     public static float emerald_ring_damage;
@@ -187,6 +191,8 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_DURATION;
     public static int ice_stone_duration;
 
+    public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_USE_TIME;
+    public static int recall_potion_use_time;
     public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_COOLDOWN;
     public static int recall_potion_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_INTERDIMENSIONAL;
@@ -201,6 +207,7 @@ public class Config {
     static void onLoad(ModConfigEvent.Loading configEvent) {
         ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
         explosion_damage_taken = (float) ((Double) EXPLOSION_DAMAGE_TAKEN.get() * (double) 1.0F);
+        hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
         skull_fire_damage_taken = (float) ((Double) SKULL_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
         obsidian_shield_fire_damage_taken = (float) ((Double) ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
         ankh_shield_fire_damage_taken = (float) ((Double) ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get() * (double) 1.0F);
@@ -223,8 +230,9 @@ public class Config {
         mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
         shackle_armor = SHACKLE_ARMOR.get();
         plushie_health = (float) ((Double) PLUSHIE_HEALTH.get() * (double) 1.0F);
-        plushie_level = PLUSHIE_LEVEL.get();
+        plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
         plushie_duration = PLUSHIE_DURATION.get();
+        plushie_regen_level = PLUSHIE_REGEN_LEVEL.get();
         enderian_damage_taken = (float) ((Double) ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
         true_enderian_damage_taken = (float) ((Double) TRUE_ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
         true_enderian_evade = (float) ((Double) TRUE_ENDERIAN_EVADE.get() * (double) 1.0F);
@@ -273,6 +281,7 @@ public class Config {
         ice_stone_damage = (float) ((Double) ICE_STONE_DAMAGE.get() * (double) 1.0F);
         ice_stone_chance = (float) ((Double) ICE_STONE_CHANCE.get() * (double) 1.0F);
         ice_stone_duration = ICE_STONE_DURATION.get();
+        recall_potion_use_time = RECALL_POTION_USE_TIME.get();
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
         recall_potion_glow = (Boolean)RECALL_POTION_GLOW.get();
@@ -282,6 +291,7 @@ public class Config {
         BUILDER.push("Hero Shield");
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
         EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion Damage Taken", 0.25);
+        HERO_SHIELD_RES_LEVEL = BUILDER.comment("Level of resistance hero shield provides").define("Level", 1);
         BUILDER.pop();
 
         BUILDER.push("Obsidian Skull");
@@ -329,7 +339,7 @@ public class Config {
         BUILDER.pop();
 
         BUILDER.push("Mechanical Claw");
-        MECHANICAL_CLAW_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage Increase", 0.10);
+        MECHANICAL_CLAW_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage Increase", 0.15);
         MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed Chance", 0.25);
         MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed Damage", 1);
         MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed Duration", 5);
@@ -347,8 +357,9 @@ public class Config {
 
         BUILDER.push("Melody Plushie");
         PLUSHIE_HEALTH = BUILDER.comment("Max Health Increase percentage").define("Max Health", 0.2);
-        PLUSHIE_LEVEL = BUILDER.comment("Level of health boost from waking up").define("Level", 2);
+        PLUSHIE_HEALTH_BOOST_LEVEL = BUILDER.comment("Level of health boost from waking up").define("Health Boost Level", 2);
         PLUSHIE_DURATION = BUILDER.comment("Duration of health boost in seconds").define("Duration", 240);
+        PLUSHIE_REGEN_LEVEL = BUILDER.comment("Level regeneration melody plushie provides").define("Regen Level", 1);
         BUILDER.pop();
 
         BUILDER.push("Enderian Scarf");
@@ -441,7 +452,8 @@ public class Config {
         BUILDER.pop();
 
         BUILDER.push("Recall Potion");
-        RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 5);
+        RECALL_POTION_USE_TIME = BUILDER.comment("Recall potion use time in ticks").define("Use Time", 32);
+        RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 0);
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
         BUILDER.pop();

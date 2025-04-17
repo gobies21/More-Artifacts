@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.network;
 
+import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
 import net.gobies.moreartifacts.util.Teleport;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -34,9 +35,7 @@ public class TeleportBindMessage {
 
     public static void handler(TeleportBindMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            pressAction(Objects.requireNonNull(context.getSender()), message.type, message.pressedms);
-        });
+        context.enqueueWork(() -> pressAction(Objects.requireNonNull(context.getSender()), message.type, message.pressedms));
         context.setPacketHandled(true);
     }
 
@@ -47,14 +46,13 @@ public class TeleportBindMessage {
         double z = entity.getZ();
 
         // security measure to prevent arbitrary chunk generation
-        if (!world.hasChunkAt(entity.blockPosition()))
+        if (!world.isLoaded(entity.blockPosition()))
             return;
 
         if (type == 0) {
-
-            Teleport.execute(world, x, y, z, entity);
+            Teleport.teleportPlayer(world, x, y, z, entity);
+            EnderianEyeItem.enderianEyeParticles(entity, Teleport.solveTeleportDestination(world, entity, entity.blockPosition(), entity.getEyePosition(1f)));
         }
-
     }
 
     @SubscribeEvent

@@ -6,7 +6,10 @@ import net.gobies.moreartifacts.network.NetworkHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -36,18 +39,18 @@ public class ClientEvents {
         }
     };
 
-        @SubscribeEvent
-        public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-            event.register(TELEPORT_KEY);
-        }
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(TELEPORT_KEY);
+    }
 
-        @Mod.EventBusSubscriber({Dist.CLIENT})
-        public static class KeyEventListener {
-            @SubscribeEvent
-            public static void onClientTick(TickEvent.ClientTickEvent event) {
-                if (Minecraft.getInstance().screen == null) {
-                    TELEPORT_KEY.consumeClick();
-                }
+    @Mod.EventBusSubscriber({Dist.CLIENT})
+    public static class KeyEventListener {
+        @SubscribeEvent
+        public static void onClientTick(TickEvent.ClientTickEvent event) {
+            if (Minecraft.getInstance().screen == null) {
+                TELEPORT_KEY.consumeClick();
             }
         }
     }
+}

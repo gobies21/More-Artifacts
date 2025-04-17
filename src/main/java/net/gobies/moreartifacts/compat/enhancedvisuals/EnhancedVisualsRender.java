@@ -27,7 +27,6 @@ public class EnhancedVisualsRender {
                     }
                 }
             }
-
     //not working???
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent

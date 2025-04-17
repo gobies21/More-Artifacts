@@ -37,10 +37,10 @@ public class NetworkHandler {
     }
 
         public static void sendToClient(Object message, ServerPlayer player) {
-        if (!player.level().isClientSide()) {
-            INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+            if (!player.level().isClientSide()) {
+                INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+            }
         }
-    }
 
     public static void sendToServer(Object message) {
         if (FMLEnvironment.dist == Dist.CLIENT) {

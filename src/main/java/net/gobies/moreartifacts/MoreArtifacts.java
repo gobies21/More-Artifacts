@@ -13,18 +13,14 @@ import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
-import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ import static net.gobies.moreartifacts.MoreArtifacts.MOD_ID;
 
 @Mod(MOD_ID)
 public class MoreArtifacts {
-
     public static final String MOD_ID = "moreartifacts";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Collection<AbstractMap.SimpleEntry<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue<>();

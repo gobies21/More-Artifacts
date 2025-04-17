@@ -33,19 +33,22 @@ public class HeroShieldItem extends Item implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (!player.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {
-                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, Config.HERO_SHIELD_RES_LEVEL.get() - 1, false, false));
             }
         }
     }
+
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
         }
 
     }
+
     static {
         MinecraftForge.EVENT_BUS.register(HeroShieldItem.class);
     }
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
@@ -60,8 +63,8 @@ public class HeroShieldItem extends Item implements ICurioItem {
                     if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
                         event.setCanceled(true);
                         player.displayClientMessage(Component.literal("§6Ow!"), true);
-                        player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.1f);
-                        tag.putInt("HitCount", 0); // reset hitCount
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, 1.1f);
+                        tag.putInt("HitCount", 0);
                     }
                     if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
                         event.setAmount((float) (event.getAmount() * Config.EXPLOSION_DAMAGE_TAKEN.get()));

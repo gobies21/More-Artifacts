@@ -22,7 +22,7 @@ public class MoreArtifactsBrewing {
     private static void registerBrewingRecipes(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.POTIONS, (helper) -> BrewingRecipeRegistry.addRecipe(
                 Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
-                Ingredient.of(Items.ENDER_PEARL),
+                Ingredient.of(Items.ENDER_EYE),
                 (ModItems.RecallPotion.get()).getDefaultInstance()));
     }
 }

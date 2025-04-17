@@ -66,7 +66,7 @@ public class GlobalLootModifiers extends GlobalLootModifierProvider {
 
         add("cat_gift_melody_plushie", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("gameplay/cat_morning_gift")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05f).build()}, ModItems.MelodyPlushie.get()));
+                LootItemRandomChanceCondition.randomChance(0.10f).build()}, ModItems.MelodyPlushie.get()));
 
         add("dungeon_cobalt_shield", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("chests/simple_dungeon")).build(),
@@ -74,7 +74,7 @@ public class GlobalLootModifiers extends GlobalLootModifierProvider {
 
         add("ender_dragon_dragon_claw", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/ender_dragon")).build(),
-                LootItemRandomChanceCondition.randomChance(0.75f).build()}, ModItems.EnderDragonClaw.get()));
+                LootItemRandomChanceCondition.randomChance(0.65f).build()}, ModItems.EnderDragonClaw.get()));
 
     }
 }

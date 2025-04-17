@@ -39,7 +39,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
             if (isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
-                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_LEVEL.get() - 1, true, true));
+                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
         }
     }
@@ -56,7 +56,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
                             new AttributeModifier(MAX_HEALTH, "Plushie Max Health", Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                 }
                 if (!player.hasEffect(MobEffects.REGENERATION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, 0, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, Config.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
                 }
             }
         }

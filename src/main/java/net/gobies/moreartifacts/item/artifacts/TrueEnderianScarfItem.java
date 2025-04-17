@@ -100,51 +100,53 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
 
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
+        if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null && !event.isCanceled()) {
             if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
-                RandomSource playerRandom = player.getRandom();
-                if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
-                    return;
-                }
-                Level level = player.level();
-                if (!(level instanceof ServerLevel)) {
-                    return;
-                }
-                event.setCanceled(true);
-                LivingEntity livingEntity = event.getEntity();
-                double d0 = livingEntity.getX();
-                double d1 = livingEntity.getY();
-                double d2 = livingEntity.getZ();
-                double maxRadius = 4d;
-                Level entityLevel = livingEntity.level();
-                var entityRandom = livingEntity.getRandom();
+                if (!player.isCreative() || !player.isSpectator()) {
+                    RandomSource playerRandom = player.getRandom();
+                    if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
+                        return;
+                    }
+                    Level level = player.level();
+                    if (!(level instanceof ServerLevel)) {
+                        return;
+                    }
+                    event.setCanceled(true);
+                    LivingEntity livingEntity = event.getEntity();
+                    double d0 = livingEntity.getX();
+                    double d1 = livingEntity.getY();
+                    double d2 = livingEntity.getZ();
+                    double maxRadius = 4d;
+                    Level entityLevel = livingEntity.level();
+                    var entityRandom = livingEntity.getRandom();
 
-                for (int i = 0; i < 12; ++i) {
-                    var minRadius = maxRadius / 2;
-                    Vec3 vec = new Vec3((double) entityRandom.nextInt((int) minRadius, (int) maxRadius), 0, 0);
-                    int degrees = entityRandom.nextInt(360);
-                    vec = vec.yRot(degrees * Mth.DEG_TO_RAD);
+                    for (int i = 0; i < 12; ++i) {
+                        var minRadius = maxRadius / 2;
+                        Vec3 vec = new Vec3((double) entityRandom.nextInt((int) minRadius, (int) maxRadius), 0, 0);
+                        int degrees = entityRandom.nextInt(360);
+                        vec = vec.yRot(degrees * Mth.DEG_TO_RAD);
 
-                    double x = d0 + vec.x;
-                    if (level instanceof ServerLevel serverLevel) {
-                        double y = Mth.clamp(livingEntity.getY() + (double) (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), (double) level.getMinBuildHeight(), (double) (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
-                        double z = d2 + vec.z;
+                        double x = d0 + vec.x;
+                        if (level instanceof ServerLevel serverLevel) {
+                            double y = Mth.clamp(livingEntity.getY() + (double) (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), (double) level.getMinBuildHeight(), (double) (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
+                            double z = d2 + vec.z;
 
-                        if (livingEntity.isPassenger()) {
-                            livingEntity.stopRiding();
-                        }
-
-                        if (livingEntity.randomTeleport(x, y, z, true)) {
-                            if (event.getSource().getEntity() != null) {
-                                livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, event.getSource().getEntity().getEyePosition());
+                            if (livingEntity.isPassenger()) {
+                                livingEntity.stopRiding();
                             }
-                            player.level().playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, player.getSoundSource(), 1.0F, 1.0F);
-                            livingEntity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
-                            break;
-                        }
 
-                        if (maxRadius > 2) {
-                            maxRadius--;
+                            if (livingEntity.randomTeleport(x, y, z, true)) {
+                                if (event.getSource().getEntity() != null) {
+                                    livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, event.getSource().getEntity().getEyePosition());
+                                }
+                                player.level().playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, player.getSoundSource(), 1.0F, 1.0F);
+                                livingEntity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
+                                break;
+                            }
+
+                            if (maxRadius > 2) {
+                                maxRadius--;
+                            }
                         }
                     }
                 }

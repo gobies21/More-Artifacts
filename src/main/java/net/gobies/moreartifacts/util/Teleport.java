@@ -1,11 +1,14 @@
 package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.event.ClientEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -49,7 +52,7 @@ public class Teleport {
     }
 
     // method to handle the teleportation
-    public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
+    public static void teleportPlayer(LevelAccessor world, double x, double y, double z, Entity entity) {
         if (entity == null) return;
 
         // define the start and end points of the raycast
@@ -72,8 +75,8 @@ public class Teleport {
                 cooldownMap.put(entity, currentTime);
                 if (world instanceof Level level) {
                     if (!level.isClientSide()) {
-                        level.playSound(null, entity.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, entity.getSoundSource(), 1.0F, 1.0F);
-                        entity.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
+                        level.playSound(null, BlockPos.containing(targetPosition), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        serverPlayer.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
                     }
                 }
             }
