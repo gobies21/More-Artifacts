@@ -21,34 +21,60 @@ import java.util.Map;
 public class Teleport {
     private static final Map<Entity, Long> cooldownMap = new HashMap<>();
 
-    // NEEDS REFINING BADLY
+    //not perfect but it works for now
     public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos blockPos, Vec3 vec3) {
-        // define the start and end points of the raycast based on the entity's direction
         Vec3 start = entity.getEyePosition(1f);
-        Vec3 end = start.add(entity.getViewVector(1f).scale(Config.ENDERIAN_EYE_RADIUS.get()));
+        Vec3 direction = entity.getViewVector(1f);
+        double distance = Math.min(Config.ENDERIAN_EYE_RADIUS.get(), entity.getEyePosition(1f).distanceTo(vec3));
+        Vec3 end = start.add(direction.scale(distance));
 
-        // perform the first raycast to find a potential ledge within 3 blocks above the entity's position
         HitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         Vec3 hitVec = hitResult.getLocation();
-        double hitY = hitVec.y;
 
-        // check if the block above the hit position is air
-        BlockPos targetPos = new BlockPos((int) hitVec.x, (int) hitY, (int) hitVec.z);
-        boolean isAir = level.getBlockState(targetPos.above()).isAir();
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            BlockPos hitPos = BlockPos.containing(hitVec);
+            Vec3 adjustedPos = hitVec.subtract(direction.scale(0.2)); // step back from hit surface
+            BlockPos standPos = BlockPos.containing(adjustedPos);
 
-        // check if there is a line of sight to the hit position
-        boolean los = level.clip(new ClipContext(start, hitVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity)).getType() == HitResult.Type.BLOCK;
+            // if looking at block side (not top), try to teleport on top
+            if (Math.abs(direction.y) < 0.9) { // not looking straight up/down
+                BlockPos topPos = hitPos.above();
+                if (level.getBlockState(topPos).isAir() &&
+                        level.getBlockState(topPos.above()).isAir() &&
+                        !level.getBlockState(hitPos).isAir()) {
+                    return new Vec3(hitPos.getX() + 0.5, topPos.getY(), hitPos.getZ() + 0.5);
+                }
+            }
 
-        // if the block above the hit position is air and there is a line of sight, teleport the entity
-        if (isAir && !los && Math.abs(hitY - entity.getY()) <= 3) {
-            return new Vec3(hitVec.x, hitY + 0.001, hitVec.z);
+            // check for safe standing position
+            if (!level.getBlockState(standPos.below()).isAir()) {
+                if (level.getBlockState(standPos).isAir() &&
+                        level.getBlockState(standPos.above()).isAir()) {
+                    return new Vec3(adjustedPos.x, standPos.getY(), adjustedPos.z);
+                }
+            }
         } else {
-            // Otherwise, find a suitable position below the hit position that is not inside a block
-            Vec3 belowVec = new Vec3(hitVec.x, hitY - entity.getBbHeight(), hitVec.z);
-            HitResult belowResult = level.clip(new ClipContext(hitVec, belowVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
-            Vec3 belowLocation = belowResult.getLocation();
-            return belowLocation.add(0, 0.001, 0);
+            BlockPos groundPos = BlockPos.containing(hitVec);
+            int maxSearchDepth = 5;
+            int searchDepth = 0;
+
+            while (groundPos.getY() > level.getMinBuildHeight() &&
+                    level.getBlockState(groundPos).isAir() &&
+                    searchDepth < maxSearchDepth) {
+                groundPos = groundPos.below();
+                searchDepth++;
+            }
+
+            if (searchDepth < maxSearchDepth &&
+                    !level.getBlockState(groundPos).isAir() &&
+                    level.getBlockState(groundPos.above()).isAir() &&
+                    level.getBlockState(groundPos.above(2)).isAir()) {
+                return new Vec3(hitVec.x, groundPos.getY() + 1.0, hitVec.z);
+            }
         }
+
+        Vec3 fallbackPos = hitVec.subtract(direction.scale(0.3));
+        return new Vec3(fallbackPos.x, fallbackPos.y, fallbackPos.z);
     }
 
     // method to handle the teleportation
@@ -75,8 +101,8 @@ public class Teleport {
                 cooldownMap.put(entity, currentTime);
                 if (world instanceof Level level) {
                     if (!level.isClientSide()) {
-                        level.playSound(null, BlockPos.containing(targetPosition), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        serverPlayer.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
+                        level.playSound((Player) null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
                     }
                 }
             }

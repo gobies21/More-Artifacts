@@ -48,7 +48,7 @@ public class MechanicalClawItem extends Item implements ICurioItem {
     private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             var attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attribute != null) {

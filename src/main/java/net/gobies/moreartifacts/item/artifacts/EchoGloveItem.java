@@ -38,7 +38,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
     private static final UUID ATTACK_SPEED_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (livingEntity instanceof Player entity) {
             var attribute = entity.getAttribute(Attributes.ATTACK_DAMAGE);

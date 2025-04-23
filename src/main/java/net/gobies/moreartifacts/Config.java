@@ -200,6 +200,17 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_GLOW;
     public static boolean recall_potion_glow;
 
+    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_DAMAGE_INCREASE;
+    public static float vanir_mask_damage_increase;
+    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_HEALTH_INCREASE;
+    public static float vanir_mask_health_increase;
+    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_SPEED_INCREASE;
+    public static float vanir_mask_speed_increase;
+    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_INCREASE;
+    public static float vanir_mask_armor_increase;
+    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
+    public static float vanir_mask_armor_toughness_increase;
+
     public Config() {
     }
 
@@ -285,6 +296,11 @@ public class Config {
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
         recall_potion_glow = (Boolean)RECALL_POTION_GLOW.get();
+        vanir_mask_damage_increase = (float) ((Double) VANIR_MASK_DAMAGE_INCREASE.get() * (double) 1.0F);
+        vanir_mask_health_increase = (float) ((Double) VANIR_MASK_HEALTH_INCREASE.get() * (double) 1.0F);
+        vanir_mask_speed_increase = (float) ((Double) VANIR_MASK_SPEED_INCREASE.get() * (double) 1.0F);
+        vanir_mask_armor_increase = (float) ((Double) VANIR_MASK_ARMOR_INCREASE.get() * (double) 1.0F);
+        vanir_mask_armor_toughness_increase = (float) ((Double) VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * (double) 1.0F);
     }
 
     static {
@@ -456,6 +472,14 @@ public class Config {
         RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 0);
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
+        BUILDER.pop();
+
+        BUILDER.push("Vanir Mask");
+        VANIR_MASK_DAMAGE_INCREASE = BUILDER.comment("Increased damage dealt to hit enemies").define("Damage Increase", 2.0);
+        VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health Increase", 0.1);
+        VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed Increase", 0.25);
+        VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor Increase", 0.25);
+        VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor Toughness Increase", 0.25);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

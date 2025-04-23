@@ -35,7 +35,7 @@ public class ObsidianShieldItem extends Item implements ICurioItem {
     private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {

@@ -41,12 +41,12 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
             }
         }
     }
-@SubscribeEvent
-public static void onEntityAttacked(LivingAttackEvent event) {
-    if (event.getEntity() instanceof Player player) {
-        if (isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
-            if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
-                event.setCanceled(true);
+    @SubscribeEvent
+    public static void onEntityAttacked(LivingAttackEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
+                if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
+                    event.setCanceled(true);
 
             }
         }

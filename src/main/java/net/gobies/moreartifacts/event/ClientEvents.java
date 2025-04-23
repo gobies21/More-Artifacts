@@ -6,10 +6,7 @@ import net.gobies.moreartifacts.network.NetworkHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -20,7 +17,7 @@ import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEqu
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
-    public static final KeyMapping TELEPORT_KEY = new KeyMapping("key.moreartifacts.teleport", GLFW.GLFW_KEY_T, "key.categories.misc") {
+    public static final KeyMapping TELEPORT_KEY = new KeyMapping("key.moreartifacts.teleport", GLFW.GLFW_KEY_E, "key.moreartifacts.category") {
         private boolean isDownOld = false;
 
         @Override

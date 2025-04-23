@@ -59,7 +59,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     private static final UUID BLOCK_REACH_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (livingEntity instanceof Player entity) {
             var attribute = entity.getAttribute(ForgeMod.ENTITY_REACH.get());

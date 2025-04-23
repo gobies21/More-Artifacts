@@ -33,7 +33,7 @@ public class EnhancedVisualsRender {
     public void onExplosionRender(team.creative.enhancedvisuals.api.event.VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player != null && !event.isCanceled()) {
+        if (player != null) {
             if (isCurioEquipped(player, ModItems.HeroShield.get())) {
                 event.setCanceled(true);
             }

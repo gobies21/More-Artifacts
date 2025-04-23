@@ -27,7 +27,7 @@ public class ShackleItem extends Item implements ICurioItem {
     private static final UUID ARMOR_UUID = UUID.randomUUID();
 
     @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             var attribute = player.getAttribute(Attributes.ARMOR);
             if (attribute != null) {

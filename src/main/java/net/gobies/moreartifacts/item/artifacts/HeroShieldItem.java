@@ -42,7 +42,6 @@ public class HeroShieldItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
         }
-
     }
 
     static {

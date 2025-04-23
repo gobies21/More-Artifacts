@@ -49,18 +49,24 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
+            if (!player.hasEffect(MobEffects.REGENERATION)) {
+                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, Config.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
+            }
+        }
+    }
+
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
             if (attribute != null) {
                 if (attribute.getModifier(MAX_HEALTH) == null) {
                     attribute.addTransientModifier(
                             new AttributeModifier(MAX_HEALTH, "Plushie Max Health", Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                 }
-                if (!player.hasEffect(MobEffects.REGENERATION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, Config.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
-                }
             }
         }
     }
+
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.REGENERATION);

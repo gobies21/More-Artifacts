@@ -74,6 +74,11 @@ public class AnkhShieldItem extends Item implements ICurioItem {
             if (player.hasEffect(MobEffects.DARKNESS)) {
                 player.removeEffect(MobEffects.DARKNESS);
             }
+        }
+    }
+    @Override
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+        if (slotContext.entity() instanceof Player player) {
             var attribute = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
             if (attribute != null) {
                 if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
@@ -83,6 +88,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {

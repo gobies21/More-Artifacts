@@ -46,13 +46,17 @@
   "item.moreartifacts.ice_stone": "Ice Stone",
   "item.moreartifacts.shadow_gem": "Shadow Gem",
   "item.moreartifacts.recall_potion": "Recall Potion",
+  "item.moreartifacts.vanir_mask": "Vanir Mask",
+
+  "tooltip.moreartifacts.wooden_headgear.armor": "§7+%d Increased armor",
+  "tooltip.moreartifacts.wooden_headgear.arrow_reduction":"§7Reduces arrow damage taken by §3%.1f%%",
 
   "moreartifacts.recall.potion.respawn": "No respawn point found!",
   "moreartifacts.recall.potion.dimension": "Home seems so far away...",
 
   "moreartifacts.shadow_gem.tooltip": "§eCrafting Material",
 
-
+  "key.moreartifacts.category": "More Artifacts",
   "key.moreartifacts.teleport": "Enderian Eye Teleport",
   "key.categories.moreartifacts": "More Artifacts",
   "creativetab.moreartifacts_tab": "More Artifacts"
