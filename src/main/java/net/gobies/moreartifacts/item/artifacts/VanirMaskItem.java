@@ -4,7 +4,6 @@ import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +13,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +34,6 @@ public class VanirMaskItem extends Item implements ICurioItem {
 
     public VanirMaskItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     static {
@@ -55,27 +52,27 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var armorAttr = player.getAttribute(Attributes.ARMOR);
-            if (armorAttr != null && armorAttr.getModifier(ARMOR_UUID) == null) {
-                armorAttr.addTransientModifier(
+            var Armor = player.getAttribute(Attributes.ARMOR);
+            if (Armor != null && Armor.getModifier(ARMOR_UUID) == null) {
+                Armor.addTransientModifier(
                         new AttributeModifier(ARMOR_UUID, "Vanir Mask Armor", Config.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
 
-            var toughnessAttr = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
-            if (toughnessAttr != null && toughnessAttr.getModifier(ARMOR_TOUGHNESS_UUID) == null) {
-                toughnessAttr.addTransientModifier(
+            var ArmorToughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
+            if (ArmorToughness != null && ArmorToughness.getModifier(ARMOR_TOUGHNESS_UUID) == null) {
+                ArmorToughness.addTransientModifier(
                         new AttributeModifier(ARMOR_TOUGHNESS_UUID, "Vanir Mask Armor Toughness", Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
 
-            var healthAttr = player.getAttribute(Attributes.MAX_HEALTH);
-            if (healthAttr != null && healthAttr.getModifier(MAX_HEALTH_UUID) == null) {
-                healthAttr.addTransientModifier(
+            var MaxHealth = player.getAttribute(Attributes.MAX_HEALTH);
+            if (MaxHealth != null && MaxHealth.getModifier(MAX_HEALTH_UUID) == null) {
+                MaxHealth.addTransientModifier(
                         new AttributeModifier(MAX_HEALTH_UUID, "Vanir Mask Health", Config.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
 
-            var speedAttr = player.getAttribute(Attributes.MOVEMENT_SPEED);
-            if (speedAttr != null && speedAttr.getModifier(MOVEMENT_SPEED_UUID) == null) {
-                speedAttr.addTransientModifier(
+            var Speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (Speed != null && Speed.getModifier(MOVEMENT_SPEED_UUID) == null) {
+                Speed.addTransientModifier(
                         new AttributeModifier(MOVEMENT_SPEED_UUID, "Vanir Mask Speed", Config.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
         }
@@ -98,8 +95,8 @@ public class VanirMaskItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§6Increases bloodflow"));
-        pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
             pTooltipComponents.add(Component.literal(" §3+" + Config.VANIR_MASK_DAMAGE_INCREASE.get() + " §6Damage Dealt"));
@@ -110,6 +107,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }
+
 }
 
 

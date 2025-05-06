@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "moreartifacts:item/artifact_upgrade_smithing_template"
+  }
+}

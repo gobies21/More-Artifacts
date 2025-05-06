@@ -63,8 +63,10 @@ public class ModCreativeModeTabs {
                                 pOutput.accept(ModItems.DecayStone.get());
                                 pOutput.accept(ModItems.FireStone.get());
                                 pOutput.accept(ModItems.IceStone.get());
-                                pOutput.accept(ModItems.ShadowGem.get());
+                                pOutput.accept(ModItems.VanirMask.get());
                                 pOutput.accept(ModItems.RecallPotion.get());
+                                pOutput.accept(ModItems.ShadowDust.get());
+                                pOutput.accept(ModItems.ArtifactSmithingTemplate.get());
                             })
                             .build());
 

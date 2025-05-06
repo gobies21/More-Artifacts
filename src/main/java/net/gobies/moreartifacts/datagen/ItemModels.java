@@ -20,6 +20,7 @@ public class ItemModels extends ItemModelProvider {
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
+        assert item.getId() != null;
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(MoreArtifacts.MOD_ID,"item/" + item.getId().getPath()));

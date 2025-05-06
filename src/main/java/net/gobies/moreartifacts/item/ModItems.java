@@ -2,7 +2,8 @@ package net.gobies.moreartifacts.item;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;
-import net.gobies.moreartifacts.item.materials.ShadowGemItem;
+import net.gobies.moreartifacts.item.materials.ArtifactSmithingTemplateItem;
+import net.gobies.moreartifacts.item.materials.ShadowDustItem;
 import net.gobies.moreartifacts.item.potions.RecallPotionItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -57,9 +58,10 @@ public class ModItems {
     public static final RegistryObject<Item> DecayStone;
     public static final RegistryObject<Item> FireStone;
     public static final RegistryObject<Item> IceStone;
-    public static final RegistryObject<Item> ShadowGem;
+    public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> VanirMask;
+    public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
     public ModItems() {
     }
@@ -115,8 +117,9 @@ public class ModItems {
         DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
         FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
         IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
-        ShadowGem = ITEMS.register("shadow_gem", () -> new ShadowGemItem(new Item.Properties()));
+        ShadowDust = ITEMS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
         RecallPotion = ITEMS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
         VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
+        ArtifactSmithingTemplate = ITEMS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
     }
 }

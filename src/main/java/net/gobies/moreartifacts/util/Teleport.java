@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -103,6 +104,8 @@ public class Teleport {
                     if (!level.isClientSide()) {
                         level.playSound((Player) null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                         level.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+                        EnderianEyeItem.enderianEyeParticles((Player) entity, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
+
                     }
                 }
             }

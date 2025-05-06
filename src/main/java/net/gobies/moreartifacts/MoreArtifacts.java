@@ -7,10 +7,13 @@ import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
 import net.gobies.moreartifacts.init.MoreArtifactsBrewing;
 import net.gobies.moreartifacts.init.MoreArtifactsCurioHandler;
+import net.gobies.moreartifacts.init.MoreArtifactsModelLayer;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -42,6 +45,8 @@ public class MoreArtifacts {
         ModCreativeModeTabs.register(modBus);
 
         ModLootModifiers.register(modBus);
+
+        modBus.addListener(this::setupEntityModelLayers);
 
         MoreArtifactsCurioHandler.register();
 
@@ -87,6 +92,13 @@ public class MoreArtifacts {
             workQueue.removeAll(actions);
         }
     }
+    public static ResourceLocation asResource(String path) {
+        return new ResourceLocation(MOD_ID, path);
+    }
+    private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+        MoreArtifactsModelLayer.registers(event);
+    }
+
 }
 
 

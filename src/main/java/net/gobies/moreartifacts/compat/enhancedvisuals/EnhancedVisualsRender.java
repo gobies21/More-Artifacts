@@ -23,17 +23,17 @@ public class EnhancedVisualsRender {
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
             if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
-                        event.setCanceled(true);
-                    }
-                }
+                event.setCanceled(true);
             }
-    //not working???
+        }
+    }
+    //not working for some unknown reason
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onExplosionRender(team.creative.enhancedvisuals.api.event.VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player != null) {
+        if (player != null && !event.isCanceled()) {
             if (isCurioEquipped(player, ModItems.HeroShield.get())) {
                 event.setCanceled(true);
             }

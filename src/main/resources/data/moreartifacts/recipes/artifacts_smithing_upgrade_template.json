@@ -2,23 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
+    "cac",
     "aba",
-    "bcb",
-    "aba"
+    "cac"
   ],
   "key": {
     "a": {
-      "item": "moreartifacts:shadow_dust"
+      "item": "minecraft:iron_ingot"
     },
     "b": {
-      "item": "minecraft:ender_pearl"
+      "item": "moreartifacts:shadow_dust"
     },
     "c": {
-      "item": "minecraft:ender_eye"
+      "item": "minecraft:stone"
     }
   },
   "result": {
-    "item": "moreartifacts:enderian_eye",
+    "item": "moreartifacts:artifact_upgrade_smithing_template",
     "count": 1
   }
 }

@@ -51,7 +51,6 @@ public class TeleportBindMessage {
 
         if (type == 0) {
             Teleport.teleportPlayer(world, x, y, z, entity);
-            EnderianEyeItem.enderianEyeParticles(entity, Teleport.solveTeleportDestination(world, entity, entity.blockPosition(), entity.getEyePosition(1f)));
         }
     }
 

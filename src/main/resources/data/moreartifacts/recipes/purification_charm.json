@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "template": {
-    "item": "minecraft:diamond"
+    "item": "moreartifacts:artifact_upgrade_smithing_template"
   },
   "base": {
     "item": "moreartifacts:nectar"

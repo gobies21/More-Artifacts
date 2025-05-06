@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ShadowGemItem extends Item {
-    public ShadowGemItem(Properties properties) {
+public class ShadowDustItem extends Item {
+    public ShadowDustItem(Properties properties) {
         super(new Properties().stacksTo(64).rarity(Rarity.UNCOMMON));
     }
     @Override

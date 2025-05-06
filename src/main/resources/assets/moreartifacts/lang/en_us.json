@@ -44,9 +44,18 @@
   "item.moreartifacts.decay_stone": "Decay Stone",
   "item.moreartifacts.fire_stone": "Fire Stone",
   "item.moreartifacts.ice_stone": "Ice Stone",
-  "item.moreartifacts.shadow_gem": "Shadow Gem",
+  "item.moreartifacts.shadow_dust": "Shadow Dust",
   "item.moreartifacts.recall_potion": "Recall Potion",
   "item.moreartifacts.vanir_mask": "Vanir Mask",
+
+  "tooltip.moreartifacts.vanir.mask.ctrl": "§8<Hold Ctrl>",
+  "tooltip.moreartifacts.vanir.mask.bloodflow": "§6Increases Bloodflow",
+
+  "item.moreartifacts.artifact_upgrade_smithing_template": "Smithing Template",
+  "item.moreartifacts.artifact_upgrade_smithing_template.upgrade": "Artifact Upgrade",
+  "item.moreartifacts.artifact_upgrade_smithing_template.applies_to": "Applies to:",
+  "item.moreartifacts.artifact_upgrade_smithing_template.artifacts": " Artifacts",
+  "item.moreartifacts.artifact_upgrade_smithing_template.ingredients": "Ingredients:",
 
   "tooltip.moreartifacts.wooden_headgear.armor": "§7+%d Increased armor",
   "tooltip.moreartifacts.wooden_headgear.arrow_reduction":"§7Reduces arrow damage taken by §3%.1f%%",

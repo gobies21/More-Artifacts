@@ -66,7 +66,7 @@ public class IceStoneItem extends Item implements ICurioItem {
                     target.setTicksFrozen(100 * Config.ICE_STONE_DURATION.get());
                     target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * Config.ICE_STONE_DURATION.get(), 0));
                 }
-                if (target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                if (target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) || (target.isFreezing())) {
                     event.setAmount((float) (event.getAmount() * Config.ICE_STONE_DAMAGE.get()));
                 }
             }

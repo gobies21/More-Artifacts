@@ -199,6 +199,8 @@ public class Config {
     public static boolean recall_potion_interdimensional;
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_GLOW;
     public static boolean recall_potion_glow;
+    public static ForgeConfigSpec.ConfigValue<String> RECALL_POTION_INGREDIENT;
+    public static String recall_potion_ingredient;
 
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_DAMAGE_INCREASE;
     public static float vanir_mask_damage_increase;
@@ -296,6 +298,7 @@ public class Config {
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = (Boolean)RECALL_POTION_INTERDIMENSIONAL.get();
         recall_potion_glow = (Boolean)RECALL_POTION_GLOW.get();
+        recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
         vanir_mask_damage_increase = (float) ((Double) VANIR_MASK_DAMAGE_INCREASE.get() * (double) 1.0F);
         vanir_mask_health_increase = (float) ((Double) VANIR_MASK_HEALTH_INCREASE.get() * (double) 1.0F);
         vanir_mask_speed_increase = (float) ((Double) VANIR_MASK_SPEED_INCREASE.get() * (double) 1.0F);
@@ -472,6 +475,7 @@ public class Config {
         RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 0);
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
+        RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_eye");
         BUILDER.pop();
 
         BUILDER.push("Vanir Mask");
