@@ -93,13 +93,23 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.POISON || event.getEffectInstance().getEffect() == MobEffects.WITHER || event.getEffectInstance().getEffect() == MobEffects.HUNGER || event.getEffectInstance().getEffect() == MobEffects.CONFUSION || event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.BLINDNESS || event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
+            if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
+                    event.getEffectInstance().getEffect() == MobEffects.WITHER ||
+                    event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
+                    event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
+                    event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
+                    event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
                 if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }
         }
     }
+
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);

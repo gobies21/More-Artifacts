@@ -339,12 +339,12 @@ public class Config {
 
         BUILDER.push("Spectre Amulet");
         SPECTRE_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.40);
-        SPECTRE_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 1.0);
+        SPECTRE_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 2.0);
         BUILDER.pop();
 
         BUILDER.push("Necroplasm Amulet");
         NECROPLASM_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.50);
-        NECROPLASM_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 1.0);
+        NECROPLASM_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 2.0);
         NECROPLASM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.60);
         NECROPLASM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5 );
         NECROPLASM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);

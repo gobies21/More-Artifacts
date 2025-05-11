@@ -68,8 +68,19 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (isCurioEquipped(player, ModItems.AnkhCharm.get())) {
-                event.setResult(MobEffectEvent.Result.DENY);
+            if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
+                    event.getEffectInstance().getEffect() == MobEffects.WITHER ||
+                    event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
+                    event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
+                    event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
+                    event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
+                    event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
+                    event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
+                if (isCurioEquipped(player, ModItems.AnkhCharm.get())) {
+                    event.setResult(MobEffectEvent.Result.DENY);
+                }
             }
         }
     }
