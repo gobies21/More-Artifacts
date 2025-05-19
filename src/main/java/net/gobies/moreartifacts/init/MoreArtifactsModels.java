@@ -27,7 +27,7 @@ public class MoreArtifactsModels {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent evt) {
-        CuriosRendererRegistry.register(ModItems.Sunglasses.get(), SunglassesRenderer::new);
+       // CuriosRendererRegistry.register(ModItems.Sunglasses.get(), SunglassesRenderer::new);
     }
 
     @SubscribeEvent

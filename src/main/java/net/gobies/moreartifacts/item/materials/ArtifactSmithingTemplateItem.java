@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Properties;
 
 public class ArtifactSmithingTemplateItem extends Item {
     public ArtifactSmithingTemplateItem(Item.Properties properties) {
