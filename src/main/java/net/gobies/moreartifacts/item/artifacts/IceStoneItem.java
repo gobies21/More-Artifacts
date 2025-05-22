@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.item.ModItems;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -17,6 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -31,7 +33,7 @@ public class IceStoneItem extends Item implements ICurioItem {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
 
-        static {
+    static {
         MinecraftForge.EVENT_BUS.register(IceStoneItem.class);
     }
 
@@ -83,7 +85,14 @@ public class IceStoneItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.literal("§bGrants immunity to Freezing"));
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §bChance to freeze enemies for §3%d §bseconds", (Config.ICE_STONE_CHANCE.get() * 100), (Config.ICE_STONE_DURATION.get()))));
         pTooltipComponents.add(Component.literal(String.format("§bDeal §3%.1f%% §bincreased damage to freezing targets", (Config.ICE_STONE_DAMAGE.get() - 1) * 100)));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
+            pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+            if (Screen.hasControlDown()) {
+                pTooltipComponents.remove(4);
+                pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §7Chance to encase enemies in ice for §3%d §7seconds §6(Ice and Fire)", (Config.ICE_STONE_ENCASED_CHANCE.get() * 100), (Config.ICE_STONE_ENCASED_DURATION.get()))));
+            }
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
 }
 

@@ -77,6 +77,8 @@ public class Config {
     public static float true_enderian_evade;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_REACH;
     public static float true_enderian_reach;
+    public static ForgeConfigSpec.ConfigValue<Boolean> TRUE_ENDERIAN_COMPAT;
+    public static boolean true_enderian_compat;
 
     public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_TAKEN;
     public static float gilded_damage_taken;
@@ -190,6 +192,12 @@ public class Config {
     public static float ice_stone_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_DURATION;
     public static int ice_stone_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> ICE_STONE_ENCASED_CHANCE;
+    public static float ice_stone_encased_chance;
+    public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_ENCASED_DURATION;
+    public static int ice_stone_encased_duration;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ICE_STONE_COMPAT;
+    public static boolean ice_stone_compat;
 
     public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_USE_TIME;
     public static int recall_potion_use_time;
@@ -250,6 +258,7 @@ public class Config {
         true_enderian_damage_taken = (float) (TRUE_ENDERIAN_DAMAGE_TAKEN.get() * (double) 1.0F);
         true_enderian_evade = (float) (TRUE_ENDERIAN_EVADE.get() * (double) 1.0F);
         true_enderian_reach = (float) (TRUE_ENDERIAN_REACH.get() * (double) 1.0F);
+        true_enderian_compat = TRUE_ENDERIAN_COMPAT.get();
         gilded_damage_taken = (float) (GILDED_DAMAGE_TAKEN.get() * (double) 1.0F);
         gilded_damage_dealt = (float) (GILDED_DAMAGE_DEALT.get() * (double) 1.0F);
         emerald_ring_damage = (float) (EMERALD_RING_DAMAGE.get() * (double) 1.0F);
@@ -294,6 +303,9 @@ public class Config {
         ice_stone_damage = (float) (ICE_STONE_DAMAGE.get() * (double) 1.0F);
         ice_stone_chance = (float) (ICE_STONE_CHANCE.get() * (double) 1.0F);
         ice_stone_duration = ICE_STONE_DURATION.get();
+        ice_stone_compat = ICE_STONE_COMPAT.get();
+        ice_stone_encased_chance = (float) (ICE_STONE_ENCASED_CHANCE.get() * (double) 1.0F);
+        ice_stone_encased_duration = ICE_STONE_ENCASED_DURATION.get();
         recall_potion_use_time = RECALL_POTION_USE_TIME.get();
         recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
         recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
@@ -389,6 +401,7 @@ public class Config {
         TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.90);
         TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade Chance", 0.1);
         TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach gain", 1.0);
+        TRUE_ENDERIAN_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals Compat", true);
         BUILDER.pop();
 
         BUILDER.push("Gilded Scarf");
@@ -468,6 +481,9 @@ public class Config {
         ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
         ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
+        ICE_STONE_COMPAT= BUILDER.comment("Enable compat to use ice and fire's freezing mechanic").define("IceandFire Compat", true);
+        ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase Chance", 0.1);
+        ICE_STONE_ENCASED_DURATION = BUILDER.comment("Duration of how long enemies stay encased in ice for (iceandfire)").define("Encased Duration", 5);
         BUILDER.pop();
 
         BUILDER.push("Recall Potion");

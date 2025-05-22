@@ -165,7 +165,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100))));
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get() * 100)));
         pTooltipComponents.add(Component.literal(String.format("§6Increases reach by §3%.1f", Config.TRUE_ENDERIAN_REACH.get())));
-        if (ModList.get().isLoaded("enhancedvisuals")) {
+        if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
             pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(5);

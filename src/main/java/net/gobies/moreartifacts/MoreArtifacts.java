@@ -2,6 +2,7 @@ package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsRender;
+import net.gobies.moreartifacts.compat.iceandfire.IceStoneFreeze;
 import net.gobies.moreartifacts.compat.spartanweaponry.EnvenomedQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
@@ -46,9 +48,11 @@ public class MoreArtifacts {
 
         ModLootModifiers.register(modBus);
 
+        MoreArtifactsCurioHandler.register();
+
         modBus.addListener(this::setupEntityModelLayers);
 
-        MoreArtifactsCurioHandler.register();
+        modBus.addListener(this::setup);
 
         MoreArtifactsBrewing.register(modBus);
 
@@ -60,16 +64,24 @@ public class MoreArtifacts {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
-        if (ModList.get().isLoaded("spartanweaponry")) {
-            MagicQuiverCrossbow.loadCompat();
-            EnvenomedQuiverCrossbow.loadCompat();
-            MoltenQuiverCrossbow.loadCompat();
-        }
-        if (ModList.get().isLoaded("enhancedvisuals")) {
-            EnhancedVisualsRender.loadCompat();
-        }
     }
 
+        private void setup(final FMLCommonSetupEvent event) {
+            event.enqueueWork(() -> {
+
+                if (ModList.get().isLoaded("spartanweaponry")) {
+                    MagicQuiverCrossbow.loadCompat();
+                    EnvenomedQuiverCrossbow.loadCompat();
+                    MoltenQuiverCrossbow.loadCompat();
+                }
+                if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
+                    EnhancedVisualsRender.loadCompat();
+                }
+                if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
+                    IceStoneFreeze.loadCompat();
+                }
+            });
+        }
 
     public static void queueServerWork(int tick, Runnable action) {
         if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {

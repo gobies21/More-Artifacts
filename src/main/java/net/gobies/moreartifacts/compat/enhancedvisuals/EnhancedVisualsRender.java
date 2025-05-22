@@ -7,6 +7,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import team.creative.enhancedvisuals.api.event.SelectEndermanEvent;
+import team.creative.enhancedvisuals.api.event.VisualExplosionEvent;
 
 import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
@@ -18,7 +20,7 @@ public class EnhancedVisualsRender {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onEnderRender(team.creative.enhancedvisuals.api.event.SelectEndermanEvent event) {
+    public void onEnderRender(SelectEndermanEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
@@ -30,7 +32,7 @@ public class EnhancedVisualsRender {
     //not working for some unknown reason
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onExplosionRender(team.creative.enhancedvisuals.api.event.VisualExplosionEvent event) {
+    public void onExplosionRender(VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
