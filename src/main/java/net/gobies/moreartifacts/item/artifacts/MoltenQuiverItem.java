@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -21,8 +22,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class MoltenQuiverItem extends Item implements ICurioItem {
     public MoltenQuiverItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
@@ -34,7 +33,7 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (isCurioEquipped(attacker, ModItems.MoltenQuiver.get())) {
+            if (MACurioHandler.isCurioEquipped(attacker, ModItems.MoltenQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();

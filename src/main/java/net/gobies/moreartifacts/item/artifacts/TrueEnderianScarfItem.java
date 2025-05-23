@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -33,9 +34,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
-
 public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public TrueEnderianScarfItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
@@ -49,7 +47,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get()));
             }
         }
@@ -101,7 +99,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null && !event.isCanceled()) {
-            if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 if (!player.isCreative() || !player.isSpectator()) {
                     RandomSource playerRandom = player.getRandom();
                     if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {

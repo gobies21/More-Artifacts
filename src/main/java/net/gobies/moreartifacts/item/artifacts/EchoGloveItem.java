@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -22,8 +23,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class EchoGloveItem extends Item implements ICurioItem {
     public EchoGloveItem(Properties properties) {
@@ -75,7 +74,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity attacker) {
             LivingEntity attackedEntity = event.getEntity();
-            if (isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
+            if (MACurioHandler.isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ECHO_GLOVE_IGNORE_CHANCE.get()) {
                     // reduce the invincibility time by a fixed number of ticks

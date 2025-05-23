@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -18,8 +19,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class ShulkedClockItem extends Item implements ICurioItem {
     public ShulkedClockItem(Properties properties) {
@@ -42,7 +41,7 @@ public class ShulkedClockItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                if (isCurioEquipped(player, ModItems.ShulkedClock.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.ShulkedClock.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -17,12 +18,9 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class WoodenHeadgearItem extends Item implements ICurioItem {
     public WoodenHeadgearItem(Properties properties) {
@@ -30,10 +28,6 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
     }
 
     private static final UUID ARMOR_UUID = UUID.randomUUID();
-
-    @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
-    }
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
@@ -62,7 +56,7 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.WoodenHeadgear.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.WoodenHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }

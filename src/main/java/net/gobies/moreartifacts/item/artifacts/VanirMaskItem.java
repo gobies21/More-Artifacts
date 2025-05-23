@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -24,8 +25,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class VanirMaskItem extends Item implements ICurioItem {
     private static final UUID ARMOR_UUID = UUID.randomUUID();
     private static final UUID ARMOR_TOUGHNESS_UUID = UUID.randomUUID();
@@ -43,7 +42,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.VanirMask.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.VanirMask.get())) {
                 event.setAmount((float) (event.getAmount() + Config.VANIR_MASK_DAMAGE_INCREASE.get()));
             }
         }

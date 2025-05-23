@@ -1,13 +1,12 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.event.ClientEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,9 +20,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
-
-import static net.gobies.moreartifacts.event.ClientEvents.TELEPORT_KEY;
 
 public class EnderianEyeItem extends Item implements ICurioItem {
     public EnderianEyeItem(Properties properties) {
@@ -44,7 +40,7 @@ public class EnderianEyeItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§6Grants the ability to teleport where you are looking"));
         pTooltipComponents.add(Component.literal(String.format("§6Max radius of §3%d §6blocks with a §3%.1f §6second cooldown", Config.ENDERIAN_EYE_RADIUS.get(), Config.ENDERIAN_EYE_COOLDOWN.get())));
-        pTooltipComponents.add(Component.literal("§6Press ").append(Component.literal(TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.DARK_AQUA)).append(Component.literal("§6 to teleport")));
+        pTooltipComponents.add(Component.literal("§6Press ").append(Component.literal(ClientEvents.TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.DARK_AQUA)).append(Component.literal("§6 to teleport")));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

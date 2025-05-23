@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -27,8 +28,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.*;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class MechanicalClawItem extends Item implements ICurioItem {
     public MechanicalClawItem(Properties properties) {
@@ -75,7 +74,7 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         if (target instanceof AbstractSkeleton || target instanceof AbstractGolem || target instanceof Slime)
             return;
 
-        if (isCurioEquipped(player, ModItems.MechanicalClaw.get())) {
+        if (MACurioHandler.isCurioEquipped(player, ModItems.MechanicalClaw.get())) {
             UUID targetId = target.getUUID();
             if (target.getRandom().nextFloat() < Config.MECHANICAL_CLAW_BLEED_CHANCE.get()) {
                 BLEEDING_ENTITIES.put(targetId, Config.MECHANICAL_CLAW_BLEED_DURATION.get() * 20);

@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.compat.spartanweaponry;
 
 import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -10,8 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class EnvenomedQuiverCrossbow {
 
@@ -22,7 +21,7 @@ public class EnvenomedQuiverCrossbow {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (isCurioEquipped(attacker, ModItems.EnvenomedQuiver.get())) {
+            if (MACurioHandler.isCurioEquipped(attacker, ModItems.EnvenomedQuiver.get())) {
                 if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
                     event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();

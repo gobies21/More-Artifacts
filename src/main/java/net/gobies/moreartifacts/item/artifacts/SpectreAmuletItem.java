@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -23,8 +24,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class SpectreAmuletItem extends Item implements ICurioItem {
     public SpectreAmuletItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -38,7 +37,7 @@ public class SpectreAmuletItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (isCurioEquipped(attacker, ModItems.SpectreAmulet.get())) {
+            if (MACurioHandler.isCurioEquipped(attacker, ModItems.SpectreAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
                     if (random.nextFloat() < Config.SPECTRE_AMULET_HEAL_CHANCE.get()) {

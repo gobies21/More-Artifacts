@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +18,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 import javax.annotation.Nullable;
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class VitaminsItem extends Item implements ICurioItem {
     public VitaminsItem(Properties properties) {
@@ -40,7 +40,7 @@ public class VitaminsItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN) {
-                if (isCurioEquipped(player, ModItems.Vitamins.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.Vitamins.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

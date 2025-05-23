@@ -6,9 +6,9 @@ import net.gobies.moreartifacts.compat.iceandfire.IceStoneFreeze;
 import net.gobies.moreartifacts.compat.spartanweaponry.EnvenomedQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
-import net.gobies.moreartifacts.init.MoreArtifactsBrewing;
-import net.gobies.moreartifacts.init.MoreArtifactsCurioHandler;
-import net.gobies.moreartifacts.init.MoreArtifactsModelLayer;
+import net.gobies.moreartifacts.init.MABrewing;
+import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
@@ -23,6 +23,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
@@ -32,10 +33,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import static net.gobies.moreartifacts.MoreArtifacts.MOD_ID;
 
-
-@Mod(MOD_ID)
+@Mod(MoreArtifacts.MOD_ID)
 public class MoreArtifacts {
     public static final String MOD_ID = "moreartifacts";
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -48,13 +47,15 @@ public class MoreArtifacts {
 
         ModLootModifiers.register(modBus);
 
-        MoreArtifactsCurioHandler.register();
+        MACurioHandler.register();
 
         modBus.addListener(this::setupEntityModelLayers);
 
-        modBus.addListener(this::setup);
+        modBus.addListener(this::commonSetup);
 
-        MoreArtifactsBrewing.register(modBus);
+        modBus.addListener(this::clientSetup);
+
+        MABrewing.register(modBus);
 
         ModItems.register(modBus);
 
@@ -66,22 +67,28 @@ public class MoreArtifacts {
 
     }
 
-        private void setup(final FMLCommonSetupEvent event) {
-            event.enqueueWork(() -> {
-
-                if (ModList.get().isLoaded("spartanweaponry")) {
-                    MagicQuiverCrossbow.loadCompat();
-                    EnvenomedQuiverCrossbow.loadCompat();
-                    MoltenQuiverCrossbow.loadCompat();
-                }
-                if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
-                    EnhancedVisualsRender.loadCompat();
-                }
-                if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
-                    IceStoneFreeze.loadCompat();
-                }
-            });
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        if (ModList.get().isLoaded("spartanweaponry")) {
+            MagicQuiverCrossbow.loadCompat();
+            EnvenomedQuiverCrossbow.loadCompat();
+            MoltenQuiverCrossbow.loadCompat();
+            LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
+        if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
+            EnhancedVisualsRender.loadCompat();
+            LOGGER.info("[More Artifacts] Enhanced Visuals Compat Loaded");
+        }
+        if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
+            IceStoneFreeze.loadCompat();
+            LOGGER.info("[More Artifacts] Ice and Fire Compat Loaded");
+        }
+        if (ModList.get().isLoaded("potionrings2")) {
+            LOGGER.info("[More Artifacts] Potion Rings Compat Mixin Loaded");
+        }
+    }
+
+    private void clientSetup(final FMLClientSetupEvent event) {
+    }
 
     public static void queueServerWork(int tick, Runnable action) {
         if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
@@ -94,21 +101,23 @@ public class MoreArtifacts {
         if (event.phase == TickEvent.Phase.END) {
             List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
             workQueue.forEach((work) -> {
-                work.setValue((Integer) work.getValue() - 1);
-                if ((Integer) work.getValue() == 0) {
+                work.setValue(work.getValue() - 1);
+                if (work.getValue() == 0) {
                     actions.add(work);
                 }
 
             });
-            actions.forEach((e) -> ((Runnable) e.getKey()).run());
+            actions.forEach((e) -> (e.getKey()).run());
             workQueue.removeAll(actions);
         }
     }
+
     public static ResourceLocation asResource(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
+
     private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {
-        MoreArtifactsModelLayer.registers(event);
+        MAModelLayer.registers(event);
     }
 
 }

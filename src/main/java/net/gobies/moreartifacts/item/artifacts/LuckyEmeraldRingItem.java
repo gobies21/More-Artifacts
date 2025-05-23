@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -23,8 +24,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     public LuckyEmeraldRingItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
@@ -39,12 +38,12 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
             LivingEntity target = event.getEntity();
             if (target.getMobType() == MobType.ILLAGER) {
-                if (isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
                     event.setAmount((float) (event.getAmount() * Config.EMERALD_RING_DAMAGE.get()));
                 }
             }
             if (target instanceof LivingEntity) {
-                if (isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.LuckyEmeraldRing.get())) {
                     if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
                         target.spawnAtLocation(net.minecraft.world.item.Items.EMERALD, 1);
                         player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.6f, 1.8f);

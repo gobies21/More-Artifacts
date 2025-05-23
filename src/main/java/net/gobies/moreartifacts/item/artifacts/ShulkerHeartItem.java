@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -19,8 +20,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class ShulkerHeartItem extends Item implements ICurioItem {
     public ShulkerHeartItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
@@ -34,12 +33,13 @@ public class ShulkerHeartItem extends Item implements ICurioItem {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                if (isCurioEquipped(player, ModItems.ShulkerHeart.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.ShulkerHeart.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

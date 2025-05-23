@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;
@@ -13,7 +14,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
@@ -25,7 +25,7 @@ public class ClientEvents {
             super.setDown(isDown);
             Player player = Minecraft.getInstance().player;
             if (player == null) return;
-            if (isCurioEquipped(player, ModItems.EnderianEye.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.EnderianEye.get())) {
                 if (isDownOld != isDown && isDown) {
                     NetworkHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
                     assert Minecraft.getInstance().player != null;

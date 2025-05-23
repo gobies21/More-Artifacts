@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -26,8 +27,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class AnkhShieldItem extends Item implements ICurioItem {
     public AnkhShieldItem(Properties properties) {
@@ -103,7 +102,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
                     event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
                     event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
                     event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }
@@ -119,7 +118,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
@@ -129,7 +128,7 @@ public class AnkhShieldItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.AnkhShield.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
                 }

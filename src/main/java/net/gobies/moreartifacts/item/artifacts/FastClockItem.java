@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -18,8 +19,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class FastClockItem extends Item implements ICurioItem {
     public FastClockItem(Properties properties) {
@@ -40,7 +39,7 @@ public class FastClockItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN) {
-                if (isCurioEquipped(player, ModItems.FastClock.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.FastClock.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

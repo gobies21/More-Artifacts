@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.gobies.moreartifacts.client.models.SunglassesModel;
 
 @OnlyIn(Dist.CLIENT)
-public class MoreArtifactsModelLayer {
+public class MAModelLayer {
         public static final ModelLayerLocation SUNGLASSES = createLocation("sunglasses", "main");
 
         public static void registers(EntityRenderersEvent.RegisterLayerDefinitions event) {

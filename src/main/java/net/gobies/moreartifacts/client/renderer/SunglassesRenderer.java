@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.client.models.SunglassesModel;
-import net.gobies.moreartifacts.init.MoreArtifactsModelLayer;
+import net.gobies.moreartifacts.init.MAModelLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,7 +26,7 @@ public class SunglassesRenderer implements ICurioRenderer {
     private final SunglassesModel model;
 
     public SunglassesRenderer() {
-        this.model = new SunglassesModel(Minecraft.getInstance().getEntityModels().bakeLayer(MoreArtifactsModelLayer.SUNGLASSES));
+        this.model = new SunglassesModel(Minecraft.getInstance().getEntityModels().bakeLayer(MAModelLayer.SUNGLASSES));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -19,8 +20,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class SculkLensItem extends Item implements ICurioItem {
     public SculkLensItem(Properties properties) {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -39,7 +38,7 @@ public class SculkLensItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                if (isCurioEquipped(player, ModItems.SculkLens.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.SculkLens.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

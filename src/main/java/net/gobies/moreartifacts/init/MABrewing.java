@@ -15,12 +15,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
-public class MoreArtifactsBrewing {
-    public MoreArtifactsBrewing() {
+public class MABrewing {
+
+    public MABrewing() {
     }
 
     public static void register(IEventBus eventBus) {
-        eventBus.addListener(MoreArtifactsBrewing::registerBrewingRecipes);
+        eventBus.addListener(MABrewing::registerBrewingRecipes);
     }
 
     private static void registerBrewingRecipes(FMLCommonSetupEvent event) {

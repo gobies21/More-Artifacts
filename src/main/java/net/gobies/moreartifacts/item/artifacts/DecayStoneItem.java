@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -21,8 +22,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class DecayStoneItem extends Item implements ICurioItem {
     public DecayStoneItem(Properties properties) {
@@ -47,7 +46,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
             if (event.getEntity() instanceof Player player) {
                 event.getEffectInstance();
                 if (event.getEffectInstance().getEffect() == MobEffects.WITHER) {
-                    if (isCurioEquipped(player, ModItems.DecayStone.get())) {
+                    if (MACurioHandler.isCurioEquipped(player, ModItems.DecayStone.get())) {
                         event.setResult(MobEffectEvent.Result.DENY);
                     }
                 }
@@ -57,7 +56,7 @@ public class DecayStoneItem extends Item implements ICurioItem {
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
             if (event.getSource().getEntity() instanceof Player attacker) {
-                if (isCurioEquipped(attacker, ModItems.DecayStone.get())) {
+                if (MACurioHandler.isCurioEquipped(attacker, ModItems.DecayStone.get())) {
                     RandomSource random = attacker.getRandom();
                     LivingEntity target = event.getEntity();
                     if (random.nextFloat() < Config.DECAY_STONE_CHANCE.get()) {

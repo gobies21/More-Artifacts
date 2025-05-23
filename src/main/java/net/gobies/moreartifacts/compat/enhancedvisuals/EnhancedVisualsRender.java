@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.compat.enhancedvisuals;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -10,8 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.enhancedvisuals.api.event.SelectEndermanEvent;
 import team.creative.enhancedvisuals.api.event.VisualExplosionEvent;
 
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-
 public class EnhancedVisualsRender {
 
     public static void loadCompat() {
@@ -20,11 +19,11 @@ public class EnhancedVisualsRender {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onEnderRender(SelectEndermanEvent event) {
+    public void SelectEndermanEvent(SelectEndermanEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
-            if (isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 event.setCanceled(true);
             }
         }
@@ -32,11 +31,11 @@ public class EnhancedVisualsRender {
     //not working for some unknown reason
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onExplosionRender(VisualExplosionEvent event) {
+    public void VisualExplosionEvent(VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
-            if (isCurioEquipped(player, ModItems.HeroShield.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.HeroShield.get())) {
                 event.setCanceled(true);
             }
         }

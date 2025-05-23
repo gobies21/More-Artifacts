@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -17,8 +18,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.network.chat.Component;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class BezoarItem extends Item implements ICurioItem {
     public BezoarItem(Properties properties) {
@@ -40,7 +39,7 @@ public class BezoarItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON) {
-                if (isCurioEquipped(player, ModItems.Bezoar.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.Bezoar.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

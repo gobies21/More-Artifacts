@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,7 +24,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class MelodyPlushieItem extends Item implements ICurioItem {
     public MelodyPlushieItem(Properties properties) {
@@ -38,7 +38,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
-            if (isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
         }

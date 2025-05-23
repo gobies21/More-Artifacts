@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -24,7 +25,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
 
 public class NetheriteHeadgearItem extends Item implements ICurioItem {
     public NetheriteHeadgearItem(Properties properties) {
@@ -45,6 +45,7 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
             }
         }
     }
+
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             Objects.requireNonNull(player.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
@@ -58,7 +59,7 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (isCurioEquipped(player, ModItems.NetheriteHeadgear.get())) {
+            if (MACurioHandler.isCurioEquipped(player, ModItems.NetheriteHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }

@@ -1,6 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
@@ -20,9 +22,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static net.gobies.moreartifacts.init.MoreArtifactsCurioHandler.isCurioEquipped;
-import static net.gobies.moreartifacts.item.ModItems.VenomStone;
 
 public class VenomStoneItem extends Item implements ICurioItem {
     public VenomStoneItem(Properties properties) {
@@ -47,7 +46,7 @@ public class VenomStoneItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON) {
-                if (isCurioEquipped(player, VenomStone.get())) {
+                if (MACurioHandler.isCurioEquipped(player, ModItems.VenomStone.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }
@@ -57,7 +56,7 @@ public class VenomStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (isCurioEquipped(attacker, VenomStone.get())) {
+            if (MACurioHandler.isCurioEquipped(attacker, ModItems.VenomStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.VENOM_STONE_CHANCE.get()) {
