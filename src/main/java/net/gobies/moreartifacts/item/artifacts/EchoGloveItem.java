@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class EchoGloveItem extends Item implements ICurioItem {
     public EchoGloveItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
     static {

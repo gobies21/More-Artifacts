@@ -111,21 +111,19 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
                     event.setCanceled(true);
                     LivingEntity livingEntity = event.getEntity();
                     double d0 = livingEntity.getX();
-                    double d1 = livingEntity.getY();
                     double d2 = livingEntity.getZ();
                     double maxRadius = 4d;
-                    Level entityLevel = livingEntity.level();
                     var entityRandom = livingEntity.getRandom();
 
                     for (int i = 0; i < 12; ++i) {
                         var minRadius = maxRadius / 2;
-                        Vec3 vec = new Vec3((double) entityRandom.nextInt((int) minRadius, (int) maxRadius), 0, 0);
+                        Vec3 vec = new Vec3((entityRandom.nextInt((int) minRadius, (int) maxRadius)), 0, 0);
                         int degrees = entityRandom.nextInt(360);
                         vec = vec.yRot(degrees * Mth.DEG_TO_RAD);
 
                         double x = d0 + vec.x;
                         if (level instanceof ServerLevel serverLevel) {
-                            double y = Mth.clamp(livingEntity.getY() + (double) (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), (double) level.getMinBuildHeight(), (double) (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
+                            double y = Mth.clamp(livingEntity.getY() + (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), level.getMinBuildHeight(), (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
                             double z = d2 + vec.z;
 
                             if (livingEntity.isPassenger()) {
