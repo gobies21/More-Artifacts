@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.compat.spartanweaponry;
 
 import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public class MoltenQuiverCrossbow {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.MoltenQuiver.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.MoltenQuiver.get())) {
                 if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
                     event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
                     LivingEntity target = event.getEntity();

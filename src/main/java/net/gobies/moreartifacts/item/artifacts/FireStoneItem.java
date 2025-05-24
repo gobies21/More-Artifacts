@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -25,10 +25,10 @@ import java.util.List;
 
 public class FireStoneItem extends Item implements ICurioItem {
     public FireStoneItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
 
-        static {
+    static {
         MinecraftForge.EVENT_BUS.register(FireStoneItem.class);
     }
 
@@ -44,7 +44,7 @@ public class FireStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.FireStone.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.FireStone.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || (event.getSource().is(DamageTypes.IN_FIRE) || (event.getSource().is(DamageTypes.HOT_FLOOR)))) {
                     event.setCanceled(true);
 
@@ -56,7 +56,7 @@ public class FireStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.FireStone.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.FireStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.FIRE_STONE_CHANCE.get()) {

@@ -1,16 +1,20 @@
 package net.gobies.moreartifacts.init;
 
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.gobies.moreartifacts.item.ModItems;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class MAProperties {
-    @SubscribeEvent
-    public static void clientLoad(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-        });
+    public static void addCustomItemProperties() {
+        makeShield(ModItems.CobaltShield.get());
+        makeShield(ModItems.ObsidianShield.get());
+        makeShield(ModItems.AnkhShield.get());
+    }
+
+    private static void makeShield(Item item) {
+        ItemProperties.register(item, new ResourceLocation("blocking"), (stack, client, entity, number)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 }
 

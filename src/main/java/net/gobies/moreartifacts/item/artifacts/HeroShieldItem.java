@@ -16,7 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
@@ -27,7 +26,11 @@ import java.util.List;
 
 public class HeroShieldItem extends Item implements ICurioItem {
     public HeroShieldItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        super(properties.stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+    }
+
+    static {
+        MinecraftForge.EVENT_BUS.register(HeroShieldItem.class);
     }
 
     @Override
@@ -43,10 +46,6 @@ public class HeroShieldItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
         }
-    }
-
-    static {
-        MinecraftForge.EVENT_BUS.register(HeroShieldItem.class);
     }
 
     @SubscribeEvent

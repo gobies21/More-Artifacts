@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -28,7 +28,11 @@ import java.util.UUID;
 
 public class NetheriteHeadgearItem extends Item implements ICurioItem {
     public NetheriteHeadgearItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
+    }
+
+    static {
+        MinecraftForge.EVENT_BUS.register(NetheriteHeadgearItem.class);
     }
 
     private static final UUID ARMOR_UUID = UUID.randomUUID();
@@ -52,14 +56,10 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
         }
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(NetheriteHeadgearItem.class);
-    }
-
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.NetheriteHeadgear.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.NetheriteHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }

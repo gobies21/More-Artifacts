@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DesertCharmItem extends Item implements ICurioItem {
     public DesertCharmItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -39,7 +39,7 @@ public class DesertCharmItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.HUNGER) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.DesertCharm.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.DesertCharm.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

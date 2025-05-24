@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class IceStoneItem extends Item implements ICurioItem {
     public IceStoneItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
     static {
@@ -48,7 +48,7 @@ public class IceStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.IceStone.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.IceStone.get())) {
                 if (event.getSource().is(DamageTypes.FREEZE)) {
                     event.setCanceled(true);
 
@@ -60,7 +60,7 @@ public class IceStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.IceStone.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.IceStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.ICE_STONE_CHANCE.get()) {

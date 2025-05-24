@@ -23,8 +23,7 @@ import java.util.List;
 
 public class EnderianEyeItem extends Item implements ICurioItem {
     public EnderianEyeItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
-
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
     static {

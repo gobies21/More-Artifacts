@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -36,8 +36,15 @@ import java.util.UUID;
 
 public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public TrueEnderianScarfItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
+
+    static {
+        MinecraftForge.EVENT_BUS.register(TrueEnderianScarfItem.class);
+    }
+
+    private static final UUID ENTITY_REACH_UUID = UUID.randomUUID();
+    private static final UUID BLOCK_REACH_UUID = UUID.randomUUID();
 
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
         LivingEntity var5 = slotContext.entity();
@@ -47,35 +54,33 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get()));
             }
         }
     }
 
-    private static final UUID ENTITY_REACH_UUID = UUID.randomUUID();
-    private static final UUID BLOCK_REACH_UUID = UUID.randomUUID();
-
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(ForgeMod.ENTITY_REACH.get());
-            var attribute2 = entity.getAttribute(ForgeMod.BLOCK_REACH.get());
-            if (attribute != null) {
-                if (attribute2 != null) {
-                    if (attribute.getModifier(ENTITY_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
-                        if (attribute2.getModifier(BLOCK_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
-                            attribute.addTransientModifier(
-                                    new AttributeModifier(ENTITY_REACH_UUID, "True Scarf Entity Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
-                            attribute2.addTransientModifier(
-                                    new AttributeModifier(BLOCK_REACH_UUID, "True Scarf Block Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
-                        }
-                    }
+            var entityReach = entity.getAttribute(ForgeMod.ENTITY_REACH.get());
+            if (entityReach != null) {
+                if (entityReach.getModifier(ENTITY_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
+                    entityReach.addTransientModifier(
+                            new AttributeModifier(ENTITY_REACH_UUID, "True Scarf Entity Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
+                }
+            }
+            var blockReach = entity.getAttribute(ForgeMod.BLOCK_REACH.get());
+            if (blockReach != null) {
+                if (blockReach.getModifier(BLOCK_REACH_UUID) == null && stack.getItem() instanceof TrueEnderianScarfItem) {
+                    blockReach.addTransientModifier(
+                            new AttributeModifier(BLOCK_REACH_UUID, "True Scarf Block Reach", Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
                 }
             }
         }
     }
+
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
@@ -90,16 +95,10 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         }
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(TrueEnderianScarfItem.class);
-    }
-
-    //Needs refining
-
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null && !event.isCanceled()) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 if (!player.isCreative() || !player.isSpectator()) {
                     RandomSource playerRandom = player.getRandom();
                     if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {

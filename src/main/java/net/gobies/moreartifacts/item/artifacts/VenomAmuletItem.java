@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class VenomAmuletItem extends Item implements ICurioItem {
     public VenomAmuletItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
     static {
@@ -34,7 +34,7 @@ public class VenomAmuletItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onPlayerAttacked(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.VenomAmulet.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.VenomAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.VENOM_AMULET_POISON_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get() - 1));

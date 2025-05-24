@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SculkShadesItem extends Item implements ICurioItem {
     public SculkShadesItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -37,12 +37,13 @@ public class SculkShadesItem extends Item implements ICurioItem {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.BLINDNESS || event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.SculkShades.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.SculkShades.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

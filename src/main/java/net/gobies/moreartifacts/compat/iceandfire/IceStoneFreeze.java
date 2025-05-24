@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.compat.iceandfire;
 
 import com.github.alexthe666.iceandfire.entity.props.EntityDataProvider;
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +20,7 @@ public class IceStoneFreeze {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.IceStone.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.IceStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.ICE_STONE_ENCASED_CHANCE.get()) {

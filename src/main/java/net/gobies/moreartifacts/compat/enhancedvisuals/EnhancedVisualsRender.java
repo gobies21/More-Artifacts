@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.compat.enhancedvisuals;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -23,7 +23,7 @@ public class EnhancedVisualsRender {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
                 event.setCanceled(true);
             }
         }
@@ -35,7 +35,7 @@ public class EnhancedVisualsRender {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null && !event.isCanceled()) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.HeroShield.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.HeroShield.get())) {
                 event.setCanceled(true);
             }
         }

@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -26,18 +26,19 @@ import java.util.List;
 
 public class SpectreAmuletItem extends Item implements ICurioItem {
     public SpectreAmuletItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
-    private static final Map<Player, Long> cooldownMap = new HashMap<>();
 
     static {
         MinecraftForge.EVENT_BUS.register(SpectreAmuletItem.class);
     }
 
+    private static final Map<Player, Long> cooldownMap = new HashMap<>();
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.SpectreAmulet.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.SpectreAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
                     if (random.nextFloat() < Config.SPECTRE_AMULET_HEAL_CHANCE.get()) {

@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     private static final UUID MOVEMENT_SPEED_UUID = UUID.randomUUID();
 
     public VanirMaskItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
     static {
@@ -42,7 +42,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.VanirMask.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.VanirMask.get())) {
                 event.setAmount((float) (event.getAmount() + Config.VANIR_MASK_DAMAGE_INCREASE.get()));
             }
         }

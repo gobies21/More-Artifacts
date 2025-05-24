@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.init;
+package net.gobies.moreartifacts.util;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -8,13 +8,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.stream.IntStream;
 
-public class MACurioHandler {
-
-    public MACurioHandler() {
-    }
-
-    public static void register() {
-    }
+public class CurioHandler {
 
     public static boolean isCurioEquipped(LivingEntity entity, Item targetItem) {
         return CuriosApi.getCuriosInventory(entity).resolve()

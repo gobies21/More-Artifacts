@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -22,9 +22,10 @@ import java.util.List;
 
 public class WitherShardItem extends Item implements ICurioItem {
     public WitherShardItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
         MinecraftForge.EVENT_BUS.register(this);
     }
+
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
@@ -38,7 +39,7 @@ public class WitherShardItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.WITHER) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.WitherShard.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.WitherShard.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,24 +27,25 @@ import java.util.UUID;
 
 public class MelodyPlushieItem extends Item implements ICurioItem {
     public MelodyPlushieItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
     static {
         MinecraftForge.EVENT_BUS.register(MelodyPlushieItem.class);
     }
 
+    private static final UUID MAX_HEALTH = UUID.randomUUID();
+
     @SubscribeEvent
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
         }
     }
 
-    private static final UUID MAX_HEALTH = UUID.randomUUID();
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {

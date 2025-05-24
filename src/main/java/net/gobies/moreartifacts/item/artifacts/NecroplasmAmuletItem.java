@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -27,17 +27,19 @@ import java.util.Map;
 
 public class NecroplasmAmuletItem extends Item implements ICurioItem {
     public NecroplasmAmuletItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
-    private static final Map<Player, Long> cooldownMap = new HashMap<>();
 
     static {
         MinecraftForge.EVENT_BUS.register(NecroplasmAmuletItem.class);
     }
+
+    private static final Map<Player, Long> cooldownMap = new HashMap<>();
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.NecroplasmAmulet.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.NecroplasmAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
                     if (random.nextFloat() < Config.NECROPLASM_AMULET_HEAL_CHANCE.get()) {
@@ -56,7 +58,7 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onPlayerAttacked(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.NecroplasmAmulet.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.NecroplasmAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
                         attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));

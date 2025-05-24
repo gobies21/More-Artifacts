@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class ShackleItem extends Item implements ICurioItem {
     public ShackleItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
     private static final UUID ARMOR_UUID = UUID.randomUUID();

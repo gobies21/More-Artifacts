@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -28,7 +28,7 @@ public class BalloonItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
-          if (MACurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
+          if (CurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
                   player.setDeltaMovement(player.getDeltaMovement().add(0, 0.15, 0));
               }
           }
@@ -37,7 +37,7 @@ public class BalloonItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onFallDamageReduction(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
                 event.setDistance(event.getDistance() * 0.8f);
             }
         }

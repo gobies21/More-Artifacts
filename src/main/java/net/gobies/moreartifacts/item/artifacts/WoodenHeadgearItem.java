@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -27,6 +27,10 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
+    static {
+        MinecraftForge.EVENT_BUS.register(WoodenHeadgearItem.class);
+    }
+
     private static final UUID ARMOR_UUID = UUID.randomUUID();
 
     @Override
@@ -49,14 +53,10 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
         }
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(WoodenHeadgearItem.class);
-    }
-
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.WoodenHeadgear.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.WoodenHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }

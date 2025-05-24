@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -24,16 +24,17 @@ import java.util.List;
 
 public class ObsidianSkullItem extends Item implements ICurioItem {
     public ObsidianSkullItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     static {
         MinecraftForge.EVENT_BUS.register(ObsidianSkullItem.class);
     }
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity()instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.SKULL_FIRE_DAMAGE_TAKEN.get()));
                 }
@@ -43,7 +44,7 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (MACurioHandler.isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.ObsidianSkull.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
 

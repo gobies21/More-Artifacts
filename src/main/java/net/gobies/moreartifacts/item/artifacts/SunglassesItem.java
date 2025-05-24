@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SunglassesItem extends Item implements ICurioItem {
     public SunglassesItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
         MinecraftForge.EVENT_BUS.register(this);
     }
     @Override
@@ -33,12 +33,13 @@ public class SunglassesItem extends Item implements ICurioItem {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.BLINDNESS) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.Sunglasses.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.Sunglasses.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

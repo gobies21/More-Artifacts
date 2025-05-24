@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class EnderDragonClawItem extends Item implements ICurioItem {
     public EnderDragonClawItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
         static {
@@ -35,7 +35,7 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.EnderDragonClaw.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.EnderDragonClaw.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ENDER_DRAGON_CLAW_CHANCE.get()) {
                     event.setAmount((float) (event.getAmount() * Config.ENDER_DRAGON_CLAW_DAMAGE.get()));

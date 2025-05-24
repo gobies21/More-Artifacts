@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class MechanicalGloveItem extends Item implements ICurioItem {
     public MechanicalGloveItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
     private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();

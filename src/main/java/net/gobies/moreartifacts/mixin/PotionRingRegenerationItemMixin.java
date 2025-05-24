@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.mixin;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.potionrings2.item.potionrings.PotionRingRegenerationItem;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,7 +20,7 @@ public abstract class PotionRingRegenerationItemMixin {
     @Overwrite(remap = false)
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         LivingEntity entity = slotContext.entity();
-        int ringCount = MACurioHandler.getEquippedCuriosCount(entity, net.gobies.potionrings2.item.ModItems.PotionRingRegeneration.get(), ModItems.MelodyPlushie.get());
+        int ringCount = CurioHandler.getEquippedCuriosCount(entity, net.gobies.potionrings2.item.ModItems.PotionRingRegeneration.get(), ModItems.MelodyPlushie.get());
 
         int effectLevel = Math.min(ringCount - 1, 2);
         entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, effectLevel, true, false));
@@ -33,7 +33,7 @@ public abstract class PotionRingRegenerationItemMixin {
     @Overwrite(remap = false)
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         LivingEntity entity = slotContext.entity();
-        int ringCount = MACurioHandler.getEquippedCuriosCount(entity, net.gobies.potionrings2.item.ModItems.PotionRingRegeneration.get(), ModItems.MelodyPlushie.get());
+        int ringCount = CurioHandler.getEquippedCuriosCount(entity, net.gobies.potionrings2.item.ModItems.PotionRingRegeneration.get(), ModItems.MelodyPlushie.get());
 
         if (ringCount > 0) {
             int effectLevel = Math.min(ringCount - 1, 2);

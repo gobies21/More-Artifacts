@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -40,18 +40,18 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (livingEntity instanceof Player entity) {
-            var attribute = entity.getAttribute(Attributes.ATTACK_DAMAGE);
-            var attribute2 = entity.getAttribute(Attributes.ATTACK_SPEED);
-            if (attribute != null) {
-                if (attribute2 != null) {
-                    if (attribute.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
-                        if (attribute2.getModifier(ATTACK_SPEED_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
-                            attribute.addTransientModifier(
-                                    new AttributeModifier(ATTACK_DAMAGE_UUID, "Echo Glove Attack Damage", Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                            attribute2.addTransientModifier(
-                                    new AttributeModifier(ATTACK_SPEED_UUID, "Echo Glove Attack Speed", Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                        }
-                    }
+            var attackDamage = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (attackDamage != null) {
+                if (attackDamage.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
+                    attackDamage.addTransientModifier(
+                            new AttributeModifier(ATTACK_SPEED_UUID, "Echo Glove Attack Speed", Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+                }
+            }
+            var attackSpeed = entity.getAttribute(Attributes.ATTACK_SPEED);
+            if (attackSpeed != null) {
+                if (attackSpeed.getModifier(ATTACK_SPEED_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
+                    attackSpeed.addTransientModifier(
+                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Echo Glove Attack Damage", Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
         }
@@ -74,7 +74,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity attacker) {
             LivingEntity attackedEntity = event.getEntity();
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ECHO_GLOVE_IGNORE_CHANCE.get()) {
                     // reduce the invincibility time by a fixed number of ticks

@@ -76,5 +76,9 @@ public class GlobalLootModifiers extends GlobalLootModifierProvider {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/ender_dragon")).build(),
                 LootItemRandomChanceCondition.randomChance(0.65f).build()}, ModItems.EnderDragonClaw.get()));
 
+        add("dungeon_recall_potion", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("chests/simple_dungeon")).build(),
+                LootItemRandomChanceCondition.randomChance(0.50f).build()}, ModItems.RecallPotion.get()));
+
     }
 }

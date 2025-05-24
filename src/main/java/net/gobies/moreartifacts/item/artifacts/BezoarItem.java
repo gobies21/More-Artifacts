@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +21,7 @@ import net.minecraft.network.chat.Component;
 
 public class BezoarItem extends Item implements ICurioItem {
     public BezoarItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
+        super(properties.stacksTo(1).rarity(Rarity.COMMON));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -39,7 +39,7 @@ public class BezoarItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.Bezoar.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.Bezoar.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

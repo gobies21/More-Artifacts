@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,11 @@ import java.util.List;
 
 public class GildedScarfItem extends Item implements ICurioItem {
     public GildedScarfItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
+    }
+
+    static {
+        MinecraftForge.EVENT_BUS.register(GildedScarfItem.class);
     }
 
     @Override
@@ -30,19 +34,15 @@ public class GildedScarfItem extends Item implements ICurioItem {
         return true;
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(GildedScarfItem.class);
-    }
-
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (MACurioHandler.isCurioEquipped(attacker, ModItems.GildedScarf.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, ModItems.GildedScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_DEALT.get()));
             }
         }
             if (event.getEntity() instanceof Player player) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.GildedScarf.get())) {
+                if (CurioHandler.isCurioEquipped(player, ModItems.GildedScarf.get())) {
                     event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_TAKEN.get()));
                 }
             }

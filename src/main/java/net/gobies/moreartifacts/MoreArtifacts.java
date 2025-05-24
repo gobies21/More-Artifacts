@@ -7,8 +7,8 @@ import net.gobies.moreartifacts.compat.spartanweaponry.EnvenomedQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
 import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
 import net.gobies.moreartifacts.init.MABrewing;
-import net.gobies.moreartifacts.init.MACurioHandler;
 import net.gobies.moreartifacts.init.MAModelLayer;
+import net.gobies.moreartifacts.init.MAProperties;
 import net.gobies.moreartifacts.item.ModCreativeModeTabs;
 import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
@@ -46,8 +46,6 @@ public class MoreArtifacts {
         ModCreativeModeTabs.register(modBus);
 
         ModLootModifiers.register(modBus);
-
-        MACurioHandler.register();
 
         modBus.addListener(this::setupEntityModelLayers);
 
@@ -88,6 +86,7 @@ public class MoreArtifacts {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
+        MAProperties.addCustomItemProperties();
     }
 
     public static void queueServerWork(int tick, Runnable action) {

@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.init.MACurioHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AnkhCharmItem extends Item implements ICurioItem {
     public AnkhCharmItem(Properties properties) {
-        super(new Properties().stacksTo(1).rarity(Rarity.EPIC));
+        super(properties.stacksTo(1).rarity(Rarity.EPIC));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -66,6 +66,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
+            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhCharm.get())) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
                     event.getEffectInstance().getEffect() == MobEffects.WITHER ||
@@ -77,7 +78,6 @@ public class AnkhCharmItem extends Item implements ICurioItem {
                     event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
                     event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
                     event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                if (MACurioHandler.isCurioEquipped(player, ModItems.AnkhCharm.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }
