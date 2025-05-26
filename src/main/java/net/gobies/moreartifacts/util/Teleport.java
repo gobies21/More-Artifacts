@@ -1,7 +1,6 @@
 package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +21,7 @@ import java.util.Map;
 public class Teleport {
     private static final Map<Entity, Long> cooldownMap = new HashMap<>();
 
-    //not perfect but it works for now
+    //not perfect, but it works for now
     public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos blockPos, Vec3 vec3) {
         Vec3 start = entity.getEyePosition(1f);
         Vec3 direction = entity.getViewVector(1f);
@@ -102,8 +101,8 @@ public class Teleport {
                 cooldownMap.put(entity, currentTime);
                 if (world instanceof Level level) {
                     if (!level.isClientSide()) {
-                        level.playSound((Player) null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        level.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+                        level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
                         EnderianEyeItem.enderianEyeParticles((Player) entity, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
 
                     }

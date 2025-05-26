@@ -29,7 +29,7 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+            var attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attribute != null) {
                 if (attribute.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof MechanicalGloveItem) {
                     attribute.addTransientModifier(

@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -66,7 +66,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhCharm.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhCharm.get())) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
                     event.getEffectInstance().getEffect() == MobEffects.WITHER ||

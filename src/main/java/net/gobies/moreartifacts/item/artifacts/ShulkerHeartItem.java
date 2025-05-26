@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +39,7 @@ public class ShulkerHeartItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                if (CurioHandler.isCurioEquipped(player, ModItems.ShulkerHeart.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ShulkerHeart.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +40,7 @@ public class SculkLensItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                if (CurioHandler.isCurioEquipped(player, ModItems.SculkLens.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.SculkLens.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

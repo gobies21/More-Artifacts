@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "moreartifacts.mixins.refmap.json",
   "mixins": [
+    "ArrowItemMixin",
+    "BoltItemMixin",
     "PotionRingRegenerationItemMixin",
     "PotionRingResistanceItemMixin"
   ],

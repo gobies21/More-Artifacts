@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -9,10 +10,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,7 +57,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
                     int hitCount = tag.getInt("HitCount");
                     hitCount++;
                     tag.putInt("HitCount", hitCount);
-                    if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0) {
+                    if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                         event.setCanceled(true);
                         player.displayClientMessage(Component.literal("§6Ow!"), true);
                         player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, 1.1f);

@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
@@ -74,7 +74,7 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         if (target instanceof AbstractSkeleton || target instanceof AbstractGolem || target instanceof Slime)
             return;
 
-        if (CurioHandler.isCurioEquipped(player, ModItems.MechanicalClaw.get())) {
+        if (CurioHandler.isCurioEquipped(player, MAItems.MechanicalClaw.get())) {
             UUID targetId = target.getUUID();
             if (target.getRandom().nextFloat() < Config.MECHANICAL_CLAW_BLEED_CHANCE.get()) {
                 BLEEDING_ENTITIES.put(targetId, Config.MECHANICAL_CLAW_BLEED_DURATION.get() * 20);

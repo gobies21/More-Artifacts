@@ -1,15 +1,15 @@
 package net.gobies.moreartifacts.init;
 
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 public class MAProperties {
-    public static void addCustomItemProperties() {
-        makeShield(ModItems.CobaltShield.get());
-        makeShield(ModItems.ObsidianShield.get());
-        makeShield(ModItems.AnkhShield.get());
+    public static void addItemProperties() {
+        makeShield(MAItems.CobaltShield.get());
+        makeShield(MAItems.ObsidianShield.get());
+        makeShield(MAItems.AnkhShield.get());
     }
 
     private static void makeShield(Item item) {

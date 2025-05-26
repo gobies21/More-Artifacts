@@ -101,6 +101,8 @@ public class Config {
 
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_DAMAGE;
     public static float magic_quiver_damage;
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_AMMO;
+    public static float magic_quiver_ammo;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_DAMAGE;
     public static float envenomed_quiver_damage;
@@ -112,6 +114,8 @@ public class Config {
     public static int envenomed_quiver_wither_level;
     public static ForgeConfigSpec.ConfigValue<Integer> ENVENOMED_QUIVER_WITHER_DURATION;
     public static int envenomed_quiver_wither_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_AMMO;
+    public static float envenomed_quiver_ammo;
 
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_DAMAGE;
     public static float molten_quiver_damage;
@@ -119,6 +123,8 @@ public class Config {
     public static float molten_quiver_onfire_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> MOLTEN_QUIVER_DURATION;
     public static int molten_quiver_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_AMMO;
+    public static float molten_quiver_ammo;
 
     public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARMOR;
     public static float wooden_headgear_armor;
@@ -264,14 +270,17 @@ public class Config {
         emerald_ring_damage = (float) (EMERALD_RING_DAMAGE.get() * (double) 1.0F);
         emerald_ring_emeralds = (float) (EMERALD_RING_EMERALDS.get() * (double) 1.0F);
         magic_quiver_damage = (float) (MAGIC_QUIVER_DAMAGE.get() * (double) 1.0F);
+        magic_quiver_ammo = (float) (MAGIC_QUIVER_AMMO.get() * (double) 1.0F);
         envenomed_quiver_damage = (float) (ENVENOMED_QUIVER_DAMAGE.get() * (double) 1.0F);
         envenomed_quiver_poison_level = ENVENOMED_QUIVER_POISON_LEVEL.get();
         envenomed_quiver_poison_duration = ENVENOMED_QUIVER_POISON_DURATION.get();
         envenomed_quiver_wither_level = ENVENOMED_QUIVER_WITHER_LEVEL.get();
         envenomed_quiver_wither_duration = ENVENOMED_QUIVER_WITHER_DURATION.get();
+        envenomed_quiver_ammo = (float) (ENVENOMED_QUIVER_AMMO.get() * (double) 1.0F);
         molten_quiver_damage = (float) (MOLTEN_QUIVER_DAMAGE.get() * (double) 1.0F);
         molten_quiver_onfire_damage = (float) (MOLTEN_QUIVER_ONFIRE_DAMAGE.get() * (double) 1.0F);
         molten_quiver_duration = MOLTEN_QUIVER_DURATION.get();
+        molten_quiver_ammo = (float) (MOLTEN_QUIVER_AMMO.get() * (double) 1.0F);
         wooden_headgear_armor = (float) ( WOODEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
         wooden_headgear_arrow_damage_taken = (float) ( WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
         golden_headgear_armor = (float) (GOLDEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
@@ -399,7 +408,7 @@ public class Config {
 
         BUILDER.push("True Enderian Scarf");
         TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.90);
-        TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade Chance", 0.1);
+        TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade Chance", 0.10);
         TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach gain", 1.0);
         TRUE_ENDERIAN_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals Compat", true);
         BUILDER.pop();
@@ -416,6 +425,7 @@ public class Config {
 
         BUILDER.push("Magic Quiver");
         MAGIC_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
+        MAGIC_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
         BUILDER.pop();
 
         BUILDER.push("Envenomed Quiver");
@@ -424,12 +434,14 @@ public class Config {
         ENVENOMED_QUIVER_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);
         ENVENOMED_QUIVER_WITHER_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Wither Level", 1, 1, 5);
         ENVENOMED_QUIVER_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither Duration", 5);
+        ENVENOMED_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
         BUILDER.pop();
 
         BUILDER.push("Molten Quiver");
         MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.15);
         MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("Increased on fire bonus arrow damage in percentage").define("On fire bonus", 1.05);
         MOLTEN_QUIVER_DURATION = BUILDER.comment("Duration of enemies on fire in seconds").define("Fire Duration", 5);
+        MOLTEN_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
         BUILDER.pop();
 
         BUILDER.push("Wooden Headgear");
@@ -482,7 +494,7 @@ public class Config {
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
         ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
         ICE_STONE_COMPAT= BUILDER.comment("Enable compat to use ice and fire's freezing mechanic").define("IceandFire Compat", true);
-        ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase Chance", 0.1);
+        ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase Chance", 0.10);
         ICE_STONE_ENCASED_DURATION = BUILDER.comment("Duration of how long enemies stay encased in ice for (iceandfire)").define("Encased Duration", 5);
         BUILDER.pop();
 
@@ -496,7 +508,7 @@ public class Config {
 
         BUILDER.push("Vanir Mask");
         VANIR_MASK_DAMAGE_INCREASE = BUILDER.comment("Increased damage dealt to hit enemies").define("Damage Increase", 2.0);
-        VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health Increase", 0.1);
+        VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health Increase", 0.10);
         VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed Increase", 0.25);
         VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor Increase", 0.25);
         VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor Toughness Increase", 0.25);

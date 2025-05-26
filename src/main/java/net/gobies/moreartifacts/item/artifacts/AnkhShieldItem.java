@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -42,8 +42,8 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get())) {
-                removeEffect(player);
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
+                removeEffects(player);
             }
         }
     }
@@ -52,13 +52,13 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
-            if (ShieldHandler.isShieldEquipped(player, ModItems.AnkhShield.get())) {
-                removeEffect(player);
+            if (ShieldHandler.isShieldEquipped(player, Items.OBSIDIAN)) {
+                removeEffects(player);
             }
         }
     }
 
-    public static void removeEffect(Player player) {
+    public static void removeEffects(Player player) {
         if (player.hasEffect(MobEffects.POISON)) {
             player.removeEffect(MobEffects.POISON);
         }
@@ -113,7 +113,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, ModItems.AnkhShield.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 event.getEffectInstance();
                 if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
                         event.getEffectInstance().getEffect() == MobEffects.WITHER ||
@@ -135,7 +135,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public static void onLivingKnockBack(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (ShieldHandler.isShieldEquipped(player, ModItems.AnkhShield.get())) {
+            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 event.setCanceled(true);
             }
         }
@@ -144,7 +144,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, ModItems.AnkhShield.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
@@ -155,7 +155,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, ModItems.AnkhShield.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
                 }
@@ -165,7 +165,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, @NotNull ItemStack repair) {
-        return toRepair.getItem() == this && repair.getItem() == ModItems.ShadowDust.get();
+        return toRepair.getItem() == this && repair.getItem() == Items.OBSIDIAN;
     }
 
     @Override
@@ -173,10 +173,11 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
         pTooltipComponents.add(Component.literal("§6Grants immunity to Knockback and Burning"));
         pTooltipComponents.add(Component.literal("§6Grants immunity to most debuffs"));
         pTooltipComponents.add(Component.literal(String.format("§6Reduces fire damage taken by §3%.1f%%", (1.0 - Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100)));
-        pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.literal("§7Can be used as a normal shield"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.obsidian"));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

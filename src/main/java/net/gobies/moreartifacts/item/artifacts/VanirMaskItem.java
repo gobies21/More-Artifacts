@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -42,7 +42,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.VanirMask.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.VanirMask.get())) {
                 event.setAmount((float) (event.getAmount() + Config.VANIR_MASK_DAMAGE_INCREASE.get()));
             }
         }
@@ -95,7 +95,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow"));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.ctrl"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
             pTooltipComponents.add(Component.literal(" §3+" + Config.VANIR_MASK_DAMAGE_INCREASE.get() + " §6Damage Dealt"));

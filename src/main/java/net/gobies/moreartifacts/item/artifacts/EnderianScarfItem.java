@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -32,7 +32,7 @@ public class EnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.EnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.EnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.ENDERIAN_DAMAGE_TAKEN.get()));
             }
         }

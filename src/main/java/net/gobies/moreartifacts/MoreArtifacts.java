@@ -3,17 +3,14 @@ package net.gobies.moreartifacts;
 import com.mojang.logging.LogUtils;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsRender;
 import net.gobies.moreartifacts.compat.iceandfire.IceStoneFreeze;
-import net.gobies.moreartifacts.compat.spartanweaponry.EnvenomedQuiverCrossbow;
-import net.gobies.moreartifacts.compat.spartanweaponry.MagicQuiverCrossbow;
-import net.gobies.moreartifacts.compat.spartanweaponry.MoltenQuiverCrossbow;
+import net.gobies.moreartifacts.compat.spartanweaponry.CrossbowQuiver;
 import net.gobies.moreartifacts.init.MABrewing;
 import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
-import net.gobies.moreartifacts.item.ModCreativeModeTabs;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.item.MACreativeTab;
 import net.gobies.moreartifacts.loot.ModLootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -28,6 +25,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +41,9 @@ public class MoreArtifacts {
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModCreativeModeTabs.register(modBus);
+        MAItems.register(modBus);
+
+        MACreativeTab.register(modBus);
 
         ModLootModifiers.register(modBus);
 
@@ -55,8 +55,6 @@ public class MoreArtifacts {
 
         MABrewing.register(modBus);
 
-        ModItems.register(modBus);
-
         NetworkHandler.register();
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -67,9 +65,7 @@ public class MoreArtifacts {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         if (ModList.get().isLoaded("spartanweaponry")) {
-            MagicQuiverCrossbow.loadCompat();
-            EnvenomedQuiverCrossbow.loadCompat();
-            MoltenQuiverCrossbow.loadCompat();
+            CrossbowQuiver.loadCompat();
             LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
         if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
@@ -86,7 +82,7 @@ public class MoreArtifacts {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        MAProperties.addCustomItemProperties();
+        MAProperties.addItemProperties();
     }
 
     public static void queueServerWork(int tick, Runnable action) {
@@ -109,10 +105,6 @@ public class MoreArtifacts {
             actions.forEach((e) -> (e.getKey()).run());
             workQueue.removeAll(actions);
         }
-    }
-
-    public static ResourceLocation asResource(String path) {
-        return new ResourceLocation(MOD_ID, path);
     }
 
     private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {

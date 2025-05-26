@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -41,7 +41,7 @@ public class ShulkedClockItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                if (CurioHandler.isCurioEquipped(player, ModItems.ShulkedClock.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ShulkedClock.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

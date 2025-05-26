@@ -1,6 +1,5 @@
 package net.gobies.moreartifacts.network;
 
-import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
 import net.gobies.moreartifacts.util.Teleport;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;

@@ -48,8 +48,12 @@
   "item.moreartifacts.recall_potion": "Recall Potion",
   "item.moreartifacts.vanir_mask": "Vanir Mask",
 
-  "tooltip.moreartifacts.vanir.mask.ctrl": "§8<Hold Ctrl>",
+  "tooltip.moreartifacts.hold.ctrl": "§8<Hold Ctrl>",
   "tooltip.moreartifacts.vanir.mask.bloodflow": "§6Increases Bloodflow",
+
+  "tooltip.moreartifacts.normal.shield": "§7Functions like a normal shield",
+  "tooltip.moreartifacts.shield.iron": "§7Can be repaired with Iron Ingots",
+  "tooltip.moreartifacts.shield.obsidian": "§7Can be repaired with Obsidian",
 
   "item.moreartifacts.artifact_upgrade_smithing_template": "Smithing Template",
   "item.moreartifacts.artifact_upgrade_smithing_template.upgrade": "Artifact Upgrade",

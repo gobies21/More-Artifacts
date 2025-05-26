@@ -11,7 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModItems {
+public class MAItems {
     public static final DeferredRegister<Item> ITEMS;
     public static final RegistryObject<Item> Bezoar;
     public static final RegistryObject<Item> Vitamins;
@@ -63,7 +63,7 @@ public class ModItems {
     public static final RegistryObject<Item> VanirMask;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
-    public ModItems() {
+    public MAItems() {
     }
 
     public static void register(IEventBus eventBus) {

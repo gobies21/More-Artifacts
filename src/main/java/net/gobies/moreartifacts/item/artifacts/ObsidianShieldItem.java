@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -64,7 +64,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public static void onLivingKnockBack(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (ShieldHandler.isShieldEquipped(player, ModItems.ObsidianShield.get())) {
+            if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
                 event.setCanceled(true);
             }
         }
@@ -72,8 +72,8 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity()instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.ObsidianShield.get()) || ShieldHandler.isShieldEquipped(player, ModItems.ObsidianShield.get())) {
+        if (event.getEntity() instanceof Player player) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
                 if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                     event.setAmount((float) (event.getAmount() * Config.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get()));
                 }
@@ -84,7 +84,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.ObsidianShield.get()) || ShieldHandler.isShieldEquipped(player, ModItems.ObsidianShield.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
                 if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
                     event.setCanceled(true);
                 }
@@ -94,18 +94,19 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, @NotNull ItemStack repair) {
-        return toRepair.getItem() == this && repair.getItem() == ModItems.ShadowDust.get();
+        return toRepair.getItem() == this && repair.getItem() == Items.OBSIDIAN;
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Knockback and Burning"));
         pTooltipComponents.add(Component.literal(String.format("§7Reduces fire damage taken by §3%.1f%%", (1.0 - Config.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100)));
-        pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(3);
-        pTooltipComponents.add(Component.literal("§7Can be used as a normal shield"));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.obsidian"));
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
-}
 }

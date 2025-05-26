@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class BalloonItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
-          if (CurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
+          if (CurioHandler.isCurioEquipped(player, MAItems.Balloon.get())) {
                   player.setDeltaMovement(player.getDeltaMovement().add(0, 0.15, 0));
               }
           }
@@ -37,7 +37,7 @@ public class BalloonItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onFallDamageReduction(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.Balloon.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.Balloon.get())) {
                 event.setDistance(event.getDistance() * 0.8f);
             }
         }
@@ -49,8 +49,7 @@ public class BalloonItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
-            pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Increases jump height and reduces fall damage"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

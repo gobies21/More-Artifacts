@@ -16,7 +16,7 @@ public class ItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        //simpleItem(ModItems.Bezoar);
+        //simpleItem(MAItems.Bezoar);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {

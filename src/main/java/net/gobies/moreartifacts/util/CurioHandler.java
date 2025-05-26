@@ -16,6 +16,7 @@ public class CurioHandler {
                         stack.getItem() == targetItem)).isPresent();
     }
 
+    //Made for potionrings2 compat
     public static int getEquippedCuriosCount(LivingEntity entity, @NotNull Item targetItem, @Nullable Item optionalItem) {
         return CuriosApi.getCuriosInventory(entity).resolve()
                 .map(handler -> (int) handler.getCurios().values().stream().flatMap(curio -> {

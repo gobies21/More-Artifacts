@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -74,7 +74,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity attacker) {
             LivingEntity attackedEntity = event.getEntity();
-            if (CurioHandler.isCurioEquipped(attacker, ModItems.EchoGlove.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, MAItems.EchoGlove.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ECHO_GLOVE_IGNORE_CHANCE.get()) {
                     // reduce the invincibility time by a fixed number of ticks

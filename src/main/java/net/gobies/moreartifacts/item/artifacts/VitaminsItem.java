@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -42,7 +42,7 @@ public class VitaminsItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN) {
-                if (CurioHandler.isCurioEquipped(player, ModItems.Vitamins.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.Vitamins.get())) {
                     event.setResult(MobEffectEvent.Result.DENY);
                 }
             }

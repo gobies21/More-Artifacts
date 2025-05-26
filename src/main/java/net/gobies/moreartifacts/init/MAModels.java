@@ -18,7 +18,7 @@ public class MAModels {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
-       // CuriosRendererRegistry.register(ModItems.Sunglasses.get(), SunglassesRenderer::new);
+       // CuriosRendererRegistry.register(MAItems.Sunglasses.get(), SunglassesRenderer::new);
     }
 
     @SubscribeEvent

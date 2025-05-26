@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -60,7 +60,7 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.GoldenHeadgear.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     event.setAmount((float) (event.getAmount() * Config.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
                 }

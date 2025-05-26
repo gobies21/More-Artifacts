@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -40,7 +40,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.MelodyPlushie.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
         }
@@ -72,7 +72,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.REGENERATION);
             Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).removeModifier(MAX_HEALTH);
-            player.hurt(player.damageSources().generic(), 0.1F);
+            player.setHealth(player.getHealth() - 0.1F);
         }
     }
 

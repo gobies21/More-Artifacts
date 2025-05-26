@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
@@ -54,7 +54,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.TrueEnderianScarf.get())) {
                 event.setAmount((float) (event.getAmount() * Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get()));
             }
         }
@@ -98,7 +98,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null && !event.isCanceled()) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.TrueEnderianScarf.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.TrueEnderianScarf.get())) {
                 if (!player.isCreative() || !player.isSpectator()) {
                     RandomSource playerRandom = player.getRandom();
                     if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
@@ -161,7 +161,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to evade an attack", Config.TRUE_ENDERIAN_EVADE.get() * 100)));
         pTooltipComponents.add(Component.literal(String.format("§6Increases reach by §3%.1f", Config.TRUE_ENDERIAN_REACH.get())));
         if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
-            pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(5);
                 pTooltipComponents.add(Component.literal("§7Disables Endermen static §6(Enhanced Visuals)"));

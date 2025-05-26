@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.ModItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -48,7 +48,7 @@ public class IceStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, ModItems.IceStone.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get())) {
                 if (event.getSource().is(DamageTypes.FREEZE)) {
                     event.setCanceled(true);
 
@@ -60,7 +60,7 @@ public class IceStoneItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (CurioHandler.isCurioEquipped(attacker, ModItems.IceStone.get())) {
+            if (CurioHandler.isCurioEquipped(attacker, MAItems.IceStone.get())) {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.ICE_STONE_CHANCE.get()) {
@@ -85,7 +85,7 @@ public class IceStoneItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §bChance to freeze enemies for §3%d §bseconds", (Config.ICE_STONE_CHANCE.get() * 100), (Config.ICE_STONE_DURATION.get()))));
         pTooltipComponents.add(Component.literal(String.format("§bDeal §3%.1f%% §bincreased damage to freezing targets", (Config.ICE_STONE_DAMAGE.get() - 1) * 100)));
         if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
-            pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(4);
                 pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §7Chance to encase enemies in ice for §3%d §7seconds §6(Ice and Fire)", (Config.ICE_STONE_ENCASED_CHANCE.get() * 100), (Config.ICE_STONE_ENCASED_DURATION.get()))));

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
-import net.gobies.moreartifacts.item.ModItems;
+import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -56,7 +57,7 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
     public static void onLivingKnockBack(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (ShieldHandler.isShieldEquipped(player, ModItems.CobaltShield.get())) {
+            if (ShieldHandler.isShieldEquipped(player, MAItems.CobaltShield.get())) {
                 event.setCanceled(true);
             }
         }
@@ -64,16 +65,17 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, @NotNull ItemStack repair) {
-        return toRepair.getItem() == this && repair.getItem() == ModItems.ShadowDust.get();
+        return toRepair.getItem() == this && repair.getItem() == Items.IRON_INGOT;
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("§7Grants immunity to Knockback"));
-        pTooltipComponents.add(Component.literal("§8<Hold Ctrl>"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
-            pTooltipComponents.add(Component.literal("§7Can be used as a normal shield"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.iron"));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }
