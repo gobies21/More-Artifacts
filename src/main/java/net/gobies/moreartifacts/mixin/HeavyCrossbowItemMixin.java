@@ -13,13 +13,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HeavyCrossbowItem.class)
-public class BoltItemMixin {
+public class HeavyCrossbowItemMixin {
     @Inject(
             method = "releaseUsing",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"),
-            remap = false,
-            cancellable = true)
-
+            cancellable = true
+    )
     private void quiverSaveBolt(ItemStack stack, Level levelIn, LivingEntity entityLiving, int timeLeft, CallbackInfo ci) {
         if (CurioHandler.isCurioEquipped(entityLiving, MAItems.MagicQuiver.get())) {
             if (entityLiving.getRandom().nextFloat() < Config.MAGIC_QUIVER_AMMO.get()) {

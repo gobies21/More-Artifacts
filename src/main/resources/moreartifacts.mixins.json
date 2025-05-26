@@ -5,7 +5,7 @@
   "refmap": "moreartifacts.mixins.refmap.json",
   "mixins": [
     "ArrowItemMixin",
-    "BoltItemMixin",
+    "HeavyCrossbowItemMixin",
     "PotionRingRegenerationItemMixin",
     "PotionRingResistanceItemMixin"
   ],

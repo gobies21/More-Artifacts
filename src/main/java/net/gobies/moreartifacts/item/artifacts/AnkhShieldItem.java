@@ -52,7 +52,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
-            if (ShieldHandler.isShieldEquipped(player, Items.OBSIDIAN)) {
+            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 removeEffects(player);
             }
         }
