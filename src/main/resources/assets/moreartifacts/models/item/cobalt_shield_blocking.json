@@ -1,7 +1,8 @@
 {
   "gui_light": "front",
   "textures": {
-    "1": "moreartifacts:item/cobalt_shield"
+    "1": "moreartifacts:item/cobalt_shield",
+    "particle": "minecraft:block/dark_oak_planks"
   },
   "elements": [
     {
