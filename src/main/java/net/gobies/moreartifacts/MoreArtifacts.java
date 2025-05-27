@@ -9,7 +9,7 @@ import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
 import net.gobies.moreartifacts.item.MAItems;
 import net.gobies.moreartifacts.item.MACreativeTab;
-import net.gobies.moreartifacts.loot.ModLootModifiers;
+import net.gobies.moreartifacts.loot.MALootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -45,15 +45,15 @@ public class MoreArtifacts {
 
         MACreativeTab.register(modBus);
 
-        ModLootModifiers.register(modBus);
+        MABrewing.register(modBus);
+
+        MALootModifiers.register(modBus);
 
         modBus.addListener(this::setupEntityModelLayers);
 
         modBus.addListener(this::commonSetup);
 
         modBus.addListener(this::clientSetup);
-
-        MABrewing.register(modBus);
 
         NetworkHandler.register();
 

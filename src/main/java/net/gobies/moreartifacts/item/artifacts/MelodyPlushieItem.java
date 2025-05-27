@@ -72,7 +72,9 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.REGENERATION);
             Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).removeModifier(MAX_HEALTH);
-            player.setHealth(player.getHealth() - 0.1F);
+            if (!player.isCreative() && !player.isSpectator()) {
+                player.setHealth(player.getHealth() - 0.1F);
+            }
         }
     }
 

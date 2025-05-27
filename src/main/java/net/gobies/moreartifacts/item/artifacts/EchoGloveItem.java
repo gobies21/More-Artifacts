@@ -44,14 +44,14 @@ public class EchoGloveItem extends Item implements ICurioItem {
             if (attackDamage != null) {
                 if (attackDamage.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
                     attackDamage.addTransientModifier(
-                            new AttributeModifier(ATTACK_SPEED_UUID, "Echo Glove Attack Speed", Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Echo Glove Attack Speed", Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
             var attackSpeed = entity.getAttribute(Attributes.ATTACK_SPEED);
             if (attackSpeed != null) {
                 if (attackSpeed.getModifier(ATTACK_SPEED_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
                     attackSpeed.addTransientModifier(
-                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Echo Glove Attack Damage", Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+                            new AttributeModifier(ATTACK_SPEED_UUID, "Echo Glove Attack Damage", Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
         }
@@ -59,13 +59,13 @@ public class EchoGloveItem extends Item implements ICurioItem {
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var entityReach = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            var blockReach = player.getAttribute(Attributes.ATTACK_SPEED);
-            if (entityReach != null) {
-                entityReach.removeModifier(ATTACK_DAMAGE_UUID);
+            var attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
+            var attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
+            if (attackDamage != null) {
+                attackDamage.removeModifier(ATTACK_DAMAGE_UUID);
             }
-            if (blockReach != null) {
-                blockReach.removeModifier(ATTACK_SPEED_UUID);
+            if (attackSpeed != null) {
+                attackSpeed.removeModifier(ATTACK_SPEED_UUID);
             }
         }
     }
