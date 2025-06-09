@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ArtifactSmithingTemplateItem extends Item {
-    public ArtifactSmithingTemplateItem(Item.Properties properties) {
-        super(new Item.Properties().stacksTo(64).rarity(Rarity.COMMON));
+    public ArtifactSmithingTemplateItem(Properties properties) {
+        super(properties.stacksTo(64).rarity(Rarity.COMMON));
     }
 
     @Override

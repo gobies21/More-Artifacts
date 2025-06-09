@@ -7,8 +7,8 @@ import net.gobies.moreartifacts.compat.spartanweaponry.CrossbowQuiver;
 import net.gobies.moreartifacts.init.MABrewing;
 import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
-import net.gobies.moreartifacts.item.MAItems;
-import net.gobies.moreartifacts.item.MACreativeTab;
+import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.init.MACreativeTab;
 import net.gobies.moreartifacts.loot.MALootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -45,8 +45,6 @@ public class MoreArtifacts {
 
         MACreativeTab.register(modBus);
 
-        MABrewing.register(modBus);
-
         MALootModifiers.register(modBus);
 
         modBus.addListener(this::setupEntityModelLayers);
@@ -64,6 +62,8 @@ public class MoreArtifacts {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(MABrewing::register);
+
         if (ModList.get().isLoaded("spartanweaponry")) {
             CrossbowQuiver.loadCompat();
             LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");

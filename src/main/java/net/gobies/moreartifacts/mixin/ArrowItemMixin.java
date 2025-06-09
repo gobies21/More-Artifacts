@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.mixin;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;

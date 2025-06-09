@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;

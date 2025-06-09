@@ -4,7 +4,7 @@
   "pattern": [
     "abc",
     "bdb",
-    "cba"
+    "eba"
   ],
   "key": {
     "a": {
@@ -18,6 +18,9 @@
     },
     "d": {
       "item": "moreartifacts:magic_quiver"
+    },
+    "e": {
+      "item": "moreartifacts:shadow_dust"
     }
   },
   "result": {

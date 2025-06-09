@@ -1,6 +1,5 @@
 package net.gobies.moreartifacts.init;
 
-import net.gobies.moreartifacts.item.MAItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

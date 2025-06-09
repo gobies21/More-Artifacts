@@ -8,7 +8,7 @@ modId="moreartifacts"
 version="1.4.1.6"
 displayName="More Artifacts"
 authors="gobies"
-description='''more artifacts!'''
+description='''An accessory expansion made for Minecraft!'''
 
 [[dependencies.moreartifacts]]
 modId= "forge"

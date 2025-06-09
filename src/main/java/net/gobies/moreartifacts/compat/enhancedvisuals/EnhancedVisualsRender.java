@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.compat.enhancedvisuals;
 
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;

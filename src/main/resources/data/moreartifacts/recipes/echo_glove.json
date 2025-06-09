@@ -3,7 +3,7 @@
   "category": "misc",
   "pattern": [
     "ada",
-    "bbb",
+    "beb",
     "bcb"
   ],
   "key": {
@@ -18,6 +18,9 @@
     },
     "d": {
       "item": "minecraft:sculk_shrieker"
+    },
+    "e": {
+      "item": "moreartifacts:shadow_dust"
     }
   },
     "result": {

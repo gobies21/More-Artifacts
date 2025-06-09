@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.datagen;
 
 import net.gobies.moreartifacts.MoreArtifacts;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.loot.AddItemModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

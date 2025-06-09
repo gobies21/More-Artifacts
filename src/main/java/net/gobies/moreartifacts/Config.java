@@ -325,193 +325,194 @@ public class Config {
         vanir_mask_speed_increase = (float) (VANIR_MASK_SPEED_INCREASE.get() * (double) 1.0F);
         vanir_mask_armor_increase = (float) (VANIR_MASK_ARMOR_INCREASE.get() * (double) 1.0F);
         vanir_mask_armor_toughness_increase = (float) (VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * (double) 1.0F);
+
     }
 
     static {
-        BUILDER.push("Hero Shield");
+        BUILDER.push("Hero_Shield");
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
-        EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion Damage Taken", 0.25);
+        EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion_Damage_Taken", 0.25);
         HERO_SHIELD_RES_LEVEL = BUILDER.comment("Level of resistance hero shield provides").define("Level", 1);
         BUILDER.pop();
 
-        BUILDER.push("Obsidian Skull");
-        SKULL_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.push("Obsidian_Skull");
+        SKULL_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
         BUILDER.pop();
 
-        BUILDER.push("Obsidian Shield");
-        OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.push("Obsidian_Shield");
+        OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
         BUILDER.pop();
 
-        BUILDER.push("Ankh Shield");
-        ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire Damage Taken", 0.50);
+        BUILDER.push("Ankh_Shield");
+        ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
         BUILDER.pop();
 
-        BUILDER.push("Venom Amulet");
-        VENOM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.40);
-        VENOM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5);
+        BUILDER.push("Venom_Amulet");
+        VENOM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison_Chance", 0.40);
+        VENOM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison_Level", 1, 1, 5);
         VENOM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 5);
         BUILDER.pop();
 
-        BUILDER.push("Decay Amulet");
-        DECAY_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.40);
-        DECAY_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither Level", 1, 1, 5);
+        BUILDER.push("Decay_Amulet");
+        DECAY_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither_Chance", 0.40);
+        DECAY_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither_Level", 1, 1, 5);
         DECAY_AMULET_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 5);
         BUILDER.pop();
 
-        BUILDER.push("Spectre Amulet");
-        SPECTRE_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.40);
-        SPECTRE_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 2.0);
+        BUILDER.push("Spectre_Amulet");
+        SPECTRE_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal_Chance", 0.40);
+        SPECTRE_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal_Amount", 2.0);
         BUILDER.pop();
 
-        BUILDER.push("Necroplasm Amulet");
-        NECROPLASM_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal Chance", 0.50);
-        NECROPLASM_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal Amount", 2.0);
-        NECROPLASM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison Chance", 0.60);
-        NECROPLASM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5 );
-        NECROPLASM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);
-        NECROPLASM_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither Chance", 0.60);
-        NECROPLASM_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither Level", 1, 1, 5);
-        NECROPLASM_AMULET_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither Duration", 5);
+        BUILDER.push("Necroplasm_Amulet");
+        NECROPLASM_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal_Chance", 0.50);
+        NECROPLASM_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal_Amount", 2.0);
+        NECROPLASM_AMULET_POISON_CHANCE = BUILDER.comment("Chance to apply poison").define("Poison_Chance", 0.60);
+        NECROPLASM_AMULET_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison_Level", 1, 1, 5 );
+        NECROPLASM_AMULET_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison_Duration", 5);
+        NECROPLASM_AMULET_WITHER_CHANCE = BUILDER.comment("Chance to apply wither").define("Wither_Chance", 0.60);
+        NECROPLASM_AMULET_WITHER_LEVEL = BUILDER.comment("Level of wither inflicted").defineInRange("Wither_Level", 1, 1, 5);
+        NECROPLASM_AMULET_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither_Duration", 5);
         BUILDER.pop();
 
-        BUILDER.push("Mechanical Glove");
-        MECHANICAL_GLOVE_DAMAGE= BUILDER.comment("Attack Damage increase").define("Attack Damage", 2);
+        BUILDER.push("Mechanical_Glove");
+        MECHANICAL_GLOVE_DAMAGE= BUILDER.comment("Attack Damage increase").define("Attack_Damage", 2);
         BUILDER.pop();
 
-        BUILDER.push("Mechanical Claw");
-        MECHANICAL_CLAW_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage Increase", 0.15);
-        MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed Chance", 0.25);
-        MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed Damage", 1);
-        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed Duration", 5);
+        BUILDER.push("Mechanical_Claw");
+        MECHANICAL_CLAW_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage_Increase", 0.15);
+        MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed_Chance", 0.25);
+        MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed_Damage", 1);
+        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 5);
         BUILDER.pop();
 
-        BUILDER.push("Echo Glove");
-        ECHO_GLOVE_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage Increase", 0.05);
-        ECHO_GLOVE_ATTACK_SPEED = BUILDER.comment("Attack speed increased in percentage").define("Attack Speed Increase", 0.15);
-        ECHO_GLOVE_IGNORE_CHANCE = BUILDER.comment("Chance to ignore invulnerability frames on hit").define("Ignore Chance", 0.10);
+        BUILDER.push("Echo_Glove");
+        ECHO_GLOVE_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage_Increase", 0.05);
+        ECHO_GLOVE_ATTACK_SPEED = BUILDER.comment("Attack speed increased in percentage").define("Attack_Speed_Increase", 0.15);
+        ECHO_GLOVE_IGNORE_CHANCE = BUILDER.comment("Chance to ignore invulnerability frames on hit").define("Ignore_Chance", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Shackle");
         SHACKLE_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1);
         BUILDER.pop();
 
-        BUILDER.push("Melody Plushie");
-        PLUSHIE_HEALTH = BUILDER.comment("Max Health Increase percentage").define("Max Health", 0.2);
-        PLUSHIE_HEALTH_BOOST_LEVEL = BUILDER.comment("Level of health boost from waking up").define("Health Boost Level", 2);
+        BUILDER.push("Melody_Plushie");
+        PLUSHIE_HEALTH = BUILDER.comment("Max Health Increase percentage").define("Max_Health", 0.2);
+        PLUSHIE_HEALTH_BOOST_LEVEL = BUILDER.comment("Level of health boost from waking up").define("Health_Boost_Level", 2);
         PLUSHIE_DURATION = BUILDER.comment("Duration of health boost in seconds").define("Duration", 240);
-        PLUSHIE_REGEN_LEVEL = BUILDER.comment("Level regeneration melody plushie provides").define("Regen Level", 1);
+        PLUSHIE_REGEN_LEVEL = BUILDER.comment("Level regeneration melody plushie provides").define("Regen_Level", 1);
         BUILDER.pop();
 
-        BUILDER.push("Enderian Scarf");
-        ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.92);
+        BUILDER.push("Enderian_Scarf");
+        ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.92);
         BUILDER.pop();
 
-        BUILDER.push("True Enderian Scarf");
-        TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.90);
-        TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade Chance", 0.10);
-        TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach gain", 1.0);
-        TRUE_ENDERIAN_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals Compat", true);
+        BUILDER.push("True_Enderian_Scarf");
+        TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.90);
+        TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade_Chance", 0.10);
+        TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach_Gain", 1.0);
+        TRUE_ENDERIAN_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals_Compat", true);
         BUILDER.pop();
 
-        BUILDER.push("Gilded Scarf");
-        GILDED_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage Taken", 0.88);
-        GILDED_DAMAGE_DEALT = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.10);
+        BUILDER.push("Gilded_Scarf");
+        GILDED_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.88);
+        GILDED_DAMAGE_DEALT = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.10);
         BUILDER.pop();
 
-        BUILDER.push("Lucky Emerald Ring");
-        EMERALD_RING_DAMAGE = BUILDER.comment("Increased damage dealt against illagers in percentage").define("Damage Dealt", 1.25);
-        EMERALD_RING_EMERALDS = BUILDER.comment("Chance for on hit to drop an emerald").define("Emerald Chance", 0.05);
+        BUILDER.push("Lucky_Emerald_Ring");
+        EMERALD_RING_DAMAGE = BUILDER.comment("Increased damage dealt against illagers in percentage").define("Damage_Dealt", 1.25);
+        EMERALD_RING_EMERALDS = BUILDER.comment("Chance for on hit to drop an emerald").define("Emerald_Chance", 0.05);
         BUILDER.pop();
 
-        BUILDER.push("Magic Quiver");
-        MAGIC_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.10);
-        MAGIC_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
+        BUILDER.push("Magic_Quiver");
+        MAGIC_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow_Damage", 1.10);
+        MAGIC_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save_Arrow_Chance", 0.20);
         BUILDER.pop();
 
-        BUILDER.push("Envenomed Quiver");
-        ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.15);
-        ENVENOMED_QUIVER_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison Level", 1, 1, 5);
-        ENVENOMED_QUIVER_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison Duration", 5);
-        ENVENOMED_QUIVER_WITHER_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Wither Level", 1, 1, 5);
-        ENVENOMED_QUIVER_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither Duration", 5);
-        ENVENOMED_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
+        BUILDER.push("Envenomed_Quiver");
+        ENVENOMED_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow_Damage", 1.15);
+        ENVENOMED_QUIVER_POISON_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Poison_Level", 1, 1, 5);
+        ENVENOMED_QUIVER_POISON_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Poison_Duration", 5);
+        ENVENOMED_QUIVER_WITHER_LEVEL = BUILDER.comment("Level of poison inflicted").defineInRange("Wither_Level", 1, 1, 5);
+        ENVENOMED_QUIVER_WITHER_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Wither_Duration", 5);
+        ENVENOMED_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save_Arrow_Chance", 0.20);
         BUILDER.pop();
 
-        BUILDER.push("Molten Quiver");
-        MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow Damage", 1.15);
-        MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("Increased on fire bonus arrow damage in percentage").define("On fire bonus", 1.05);
-        MOLTEN_QUIVER_DURATION = BUILDER.comment("Duration of enemies on fire in seconds").define("Fire Duration", 5);
-        MOLTEN_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save Arrow Chance", 0.20);
+        BUILDER.push("Molten_Quiver");
+        MOLTEN_QUIVER_DAMAGE = BUILDER.comment("Increased arrow damage dealt in percentage").define("Arrow_Damage", 1.15);
+        MOLTEN_QUIVER_ONFIRE_DAMAGE = BUILDER.comment("Increased on fire bonus arrow damage in percentage").define("On_Fire_Bonus", 1.05);
+        MOLTEN_QUIVER_DURATION = BUILDER.comment("Duration of enemies on fire in seconds").define("Fire_Duration", 5);
+        MOLTEN_QUIVER_AMMO = BUILDER.comment("Chance to not consume arrows in percentage").define("Save_Arrow_Chance", 0.20);
         BUILDER.pop();
 
-        BUILDER.push("Wooden Headgear");
+        BUILDER.push("Wooden_Headgear");
         WOODEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1.0);
-        WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.95);
+        WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.95);
         BUILDER.pop();
 
-        BUILDER.push("Golden Headgear");
+        BUILDER.push("Golden_Headgear");
         GOLDEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 2.0);
-        GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.90);
+        GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.90);
         BUILDER.pop();
 
-        BUILDER.push("Netherite Headgear");
+        BUILDER.push("Netherite_Headgear");
         NETHERITE_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 3.0);
-        NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage taken", 0.85);
+        NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.85);
         BUILDER.pop();
 
-        BUILDER.push("Ender Dragon Claw");
-        ENDER_DRAGON_CLAW_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.50);
+        BUILDER.push("Ender_Dragon_Claw");
+        ENDER_DRAGON_CLAW_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.50);
         ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.15);
         BUILDER.pop();
 
-        BUILDER.push("Enderian Eye");
+        BUILDER.push("Enderian_Eye");
         ENDERIAN_EYE_RADIUS = BUILDER.comment("Max teleportation radius").define("Radius", 25);
         ENDERIAN_EYE_COOLDOWN = BUILDER.comment("Cooldown for teleporting").define("Cooldown", 5.0);
         BUILDER.pop();
 
-        BUILDER.push("Venom Stone");
-        VENOM_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
+        BUILDER.push("Venom_Stone");
+        VENOM_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
         VENOM_STONE_CHANCE = BUILDER.comment("Chance to inflict poison").define("Chance", 0.25);
-        VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").defineInRange("Poison Level", 2, 1, 5);
+        VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").defineInRange("Poison_Level", 2, 1, 5);
         VENOM_STONE_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 3);
         BUILDER.pop();
 
-        BUILDER.push("Decay Stone");
-        DECAY_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
+        BUILDER.push("Decay_Stone");
+        DECAY_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
         DECAY_STONE_CHANCE = BUILDER.comment("Chance to inflict wither").define("Chance", 0.25);
-        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither Level", 2, 1, 5);
+        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither_Level", 2, 1, 5);
         DECAY_STONE_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 3);
         BUILDER.pop();
 
-        BUILDER.push("Fire Stone");
-        FIRE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.30);
+        BUILDER.push("Fire_Stone");
+        FIRE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.30);
         FIRE_STONE_CHANCE = BUILDER.comment("Chance to set enemies ablaze").define("Chance", 0.25);
         FIRE_STONE_DURATION = BUILDER.comment("Duration of enemies on fire in seconds").define("Duration", 3);
         BUILDER.pop();
 
-        BUILDER.push("Ice Stone");
-        ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage Dealt", 1.20);
+        BUILDER.push("Ice_Stone");
+        ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
         ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
-        ICE_STONE_COMPAT= BUILDER.comment("Enable compat to use ice and fire's freezing mechanic").define("IceandFire Compat", true);
-        ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase Chance", 0.10);
-        ICE_STONE_ENCASED_DURATION = BUILDER.comment("Duration of how long enemies stay encased in ice for (iceandfire)").define("Encased Duration", 5);
+        ICE_STONE_COMPAT= BUILDER.comment("Enable compat to use ice and fire's freezing mechanic").define("IceandFire_Compat", true);
+        ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase_Chance", 0.10);
+        ICE_STONE_ENCASED_DURATION = BUILDER.comment("Duration of how long enemies stay encased in ice for (iceandfire)").define("Encased_Duration", 5);
         BUILDER.pop();
 
-        BUILDER.push("Recall Potion");
-        RECALL_POTION_USE_TIME = BUILDER.comment("Recall potion use time in ticks").define("Use Time", 32);
+        BUILDER.push("Recall_Potion");
+        RECALL_POTION_USE_TIME = BUILDER.comment("Recall potion use time in ticks").define("Use_Time", 32);
         RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 0);
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
         RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_eye");
         BUILDER.pop();
 
-        BUILDER.push("Vanir Mask");
-        VANIR_MASK_DAMAGE_INCREASE = BUILDER.comment("Increased damage dealt to hit enemies").define("Damage Increase", 2.0);
-        VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health Increase", 0.10);
-        VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed Increase", 0.25);
-        VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor Increase", 0.25);
-        VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor Toughness Increase", 0.25);
+        BUILDER.push("Vanir_Mask");
+        VANIR_MASK_DAMAGE_INCREASE = BUILDER.comment("Increased damage dealt to hit enemies").define("Damage_Increase", 2.0);
+        VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health_Increase", 0.10);
+        VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.25);
+        VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.25);
+        VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.25);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

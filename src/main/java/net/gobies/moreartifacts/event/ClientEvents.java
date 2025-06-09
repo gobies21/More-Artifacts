@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.MoreArtifacts;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;

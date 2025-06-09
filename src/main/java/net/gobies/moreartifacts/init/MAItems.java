@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.item;
+package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;

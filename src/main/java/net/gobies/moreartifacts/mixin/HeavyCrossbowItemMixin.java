@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.mixin;
 
 import com.oblivioussp.spartanweaponry.item.HeavyCrossbowItem;
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

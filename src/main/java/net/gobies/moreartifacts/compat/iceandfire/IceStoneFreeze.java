@@ -3,7 +3,7 @@ package net.gobies.moreartifacts.compat.iceandfire;
 import com.github.alexthe666.iceandfire.entity.props.EntityDataProvider;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

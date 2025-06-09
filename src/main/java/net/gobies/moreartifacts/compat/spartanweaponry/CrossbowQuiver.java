@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.compat.spartanweaponry;
 
 import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.item.MAItems;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

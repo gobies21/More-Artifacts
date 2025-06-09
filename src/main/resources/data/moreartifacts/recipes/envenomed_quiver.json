@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "abc",
+    "abg",
     "ded",
     "cfa"
   ],
@@ -14,7 +14,7 @@
       "item": "minecraft:wither_skeleton_skull"
     },
     "c": {
-      "item": "minecraft:slime_ball"
+      "item": "moreartifacts:shadow_dust"
     },
     "d": {
       "item": "minecraft:fermented_spider_eye"
@@ -24,6 +24,9 @@
     },
     "f": {
       "item": "minecraft:wither_rose"
+    },
+    "g": {
+      "item": "minecraft:slime_ball"
     }
   },
   "result": {

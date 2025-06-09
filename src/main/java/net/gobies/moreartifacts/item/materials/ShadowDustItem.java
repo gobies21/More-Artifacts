@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ShadowDustItem extends Item {
     public ShadowDustItem(Properties properties) {
-        super(new Properties().stacksTo(64).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(64).rarity(Rarity.UNCOMMON));
     }
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
