@@ -21,7 +21,7 @@ public class NetworkHandler {
     private static int messageID = 0;
 
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(MoreArtifacts.MOD_ID, "moreartifacts_channel"),
+            new ResourceLocation("moreartifacts", "moreartifacts_channel"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -36,11 +36,11 @@ public class NetworkHandler {
         messageID++;
     }
 
-        public static void sendToClient(Object message, ServerPlayer player) {
-            if (!player.level().isClientSide()) {
-                INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
-            }
+    public static void sendToClient(Object message, ServerPlayer player) {
+        if (!player.level().isClientSide()) {
+            INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
         }
+    }
 
     public static void sendToServer(Object message) {
         if (FMLEnvironment.dist == Dist.CLIENT) {

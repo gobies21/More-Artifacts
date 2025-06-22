@@ -10,6 +10,7 @@ public class Config {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
+    //Artifacts
     public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_TAKEN;
     public static float skull_fire_damage_taken;
 
@@ -227,6 +228,52 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
     public static float vanir_mask_armor_toughness_increase;
 
+    //Loot
+    public static ForgeConfigSpec.ConfigValue<Double> BEZOAR_DROP_CHANCE;
+    public static float bezoar_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> VITAMINS_DROP_CHANCE;
+    public static float vitamins_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> FAST_CLOCK_DROP_CHANCE;
+    public static float fast_clock_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> DESERT_CHARM_DROP_CHANCE;
+    public static float desert_charm_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> WITHER_SHARD_DROP_CHANCE;
+    public static float wither_shard_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SHULKER_HEART_DROP_CHANCE;
+    public static float shulker_heart_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_SCARF_DROP_CHANCE;
+    public static float enderian_scarf_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SHACKLE_DROP_CHANCE;
+    public static float shackle_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_SKELETON_DROP_CHANCE;
+    public static float magic_quiver_skeleton_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_PILLAGER_DROP_CHANCE;
+    public static float magic_quiver_pillager_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_DROP_CHANCE;
+    public static float ender_dragon_claw_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SCULK_LENS_DROP_CHANCE;
+    public static float sculk_lens_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> RECALL_POTION_DROP_CHANCE;
+    public static float recall_potion_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> COBALT_SHIELD_DROP_CHANCE;
+    public static float cobalt_shield_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MELODY_PLUSHIE_DROP_CHANCE;
+    public static float melody_plushie_drop_chance;
+
     public Config() {
     }
 
@@ -281,8 +328,8 @@ public class Config {
         molten_quiver_onfire_damage = (float) (MOLTEN_QUIVER_ONFIRE_DAMAGE.get() * (double) 1.0F);
         molten_quiver_duration = MOLTEN_QUIVER_DURATION.get();
         molten_quiver_ammo = (float) (MOLTEN_QUIVER_AMMO.get() * (double) 1.0F);
-        wooden_headgear_armor = (float) ( WOODEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
-        wooden_headgear_arrow_damage_taken = (float) ( WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
+        wooden_headgear_armor = (float) (WOODEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
+        wooden_headgear_arrow_damage_taken = (float) (WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
         golden_headgear_armor = (float) (GOLDEN_HEADGEAR_ARMOR.get() * (double) 1.0F);
         golden_headgear_arrow_damage_taken = (float) (GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get() * (double) 1.0F);
         netherite_headgear_armor = (float) (NETHERITE_HEADGEAR_ARMOR.get() * (double) 1.0F);
@@ -325,10 +372,93 @@ public class Config {
         vanir_mask_speed_increase = (float) (VANIR_MASK_SPEED_INCREASE.get() * (double) 1.0F);
         vanir_mask_armor_increase = (float) (VANIR_MASK_ARMOR_INCREASE.get() * (double) 1.0F);
         vanir_mask_armor_toughness_increase = (float) (VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * (double) 1.0F);
-
+        bezoar_drop_chance = (float) (BEZOAR_DROP_CHANCE.get() * (double) 1.0F);
+        vitamins_drop_chance = (float) (VITAMINS_DROP_CHANCE.get() * (double) 1.0F);
+        fast_clock_drop_chance = (float) (FAST_CLOCK_DROP_CHANCE.get() * (double) 1.0F);
+        desert_charm_drop_chance = (float) (DESERT_CHARM_DROP_CHANCE.get() * (double) 1.0F);
+        wither_shard_drop_chance = (float) (WITHER_SHARD_DROP_CHANCE.get() * (double) 1.0F);
+        shulker_heart_drop_chance = (float) (SHULKER_HEART_DROP_CHANCE.get() * (double) 1.0F);
+        enderian_scarf_drop_chance = (float) (ENDERIAN_SCARF_DROP_CHANCE.get() * (double) 1.0F);
+        shackle_drop_chance = (float) (SHACKLE_DROP_CHANCE.get() * (double) 1.0F);
+        magic_quiver_skeleton_drop_chance = (float) (MAGIC_QUIVER_SKELETON_DROP_CHANCE.get() * (double) 1.0F);
+        magic_quiver_pillager_drop_chance = (float) (MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get() * (double) 1.0F);
+        ender_dragon_claw_drop_chance = (float) (ENDER_DRAGON_CLAW_DROP_CHANCE.get() * (double) 1.0F);
+        sculk_lens_drop_chance = (float) (SCULK_LENS_DROP_CHANCE.get() * (double) 1.0F);
+        recall_potion_drop_chance = (float) (RECALL_POTION_DROP_CHANCE.get() * (double) 1.0F);
+        cobalt_shield_drop_chance = (float) (COBALT_SHIELD_DROP_CHANCE.get() * (double) 1.0F);
+        melody_plushie_drop_chance = (float) (MELODY_PLUSHIE_DROP_CHANCE.get() * (double) 1.0F);
     }
 
     static {
+        // Loot Category
+        BUILDER.push("Loot");
+        //
+
+        BUILDER.push("Bezoar");
+        BEZOAR_DROP_CHANCE = BUILDER.comment("Bezoar drop chance from cave spiders in percentage").define("Drop_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Vitamins");
+        VITAMINS_DROP_CHANCE = BUILDER.comment("Vitamins drop chance from elder guardians in percentage").define("Drop_Chance", 0.40);
+        BUILDER.pop();
+
+        BUILDER.push("Fast_Clock");
+        FAST_CLOCK_DROP_CHANCE = BUILDER.comment("Fast Clock drop chance from strays in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Desert_Charm");
+        DESERT_CHARM_DROP_CHANCE = BUILDER.comment("Desert Charm drop chance from husks in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Wither_Shard");
+        WITHER_SHARD_DROP_CHANCE = BUILDER.comment("Wither Shard drop chance from the wither in percentage").define("Drop_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Shulker_Heart");
+        SHULKER_HEART_DROP_CHANCE = BUILDER.comment("Shulker Heart drop chance from shulkers in percentage").define("Drop_Chance", 0.15);
+        BUILDER.pop();
+
+        BUILDER.push("Enderian_Scarf");
+        ENDERIAN_SCARF_DROP_CHANCE = BUILDER.comment("Enderian Scarf drop chance from endermen in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Shackle");
+        SHACKLE_DROP_CHANCE = BUILDER.comment("Shackle drop chance from zombies in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Magic_Quiver");
+        MAGIC_QUIVER_SKELETON_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from skeletons in percentage").define("Drop_Chance", 0.02);
+        MAGIC_QUIVER_PILLAGER_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from pillagers in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Ender_Dragon_Claw");
+        ENDER_DRAGON_CLAW_DROP_CHANCE = BUILDER.comment("Ender Dragon Claw drop chance from the ender dragon in percentage").define("Drop_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Melody_Plushie");
+        MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Sculk_Lens");
+        SCULK_LENS_DROP_CHANCE = BUILDER.comment("Sculk Lens loot chance from ancient cities in percentage").define("Loot_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Recall_Potion");
+        RECALL_POTION_DROP_CHANCE = BUILDER.comment("Recall Potion loot chance from simple dungeons in percentage").define("Loot_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Cobalt_Shield");
+        COBALT_SHIELD_DROP_CHANCE = BUILDER.comment("Cobalt Shield loot chance from simple dungeon in percentage").define("Loot_Chance", 0.10);
+        BUILDER.pop();
+
+        // Loot Category End
+        BUILDER.pop();
+        //
+
+        // Artifact Category
+        BUILDER.push("Artifacts");
+        //
+
         BUILDER.push("Hero_Shield");
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
         EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion_Damage_Taken", 0.25);
@@ -514,6 +644,10 @@ public class Config {
         VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.25);
         VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.25);
         BUILDER.pop();
+
+        // Artifact Category End
+        BUILDER.pop();
+        //
 
         SPEC = BUILDER.build();
     }

@@ -22,7 +22,7 @@ public class Teleport {
     private static final Map<Entity, Long> cooldownMap = new HashMap<>();
 
     //not perfect, but it works for now
-    public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos blockPos, Vec3 vec3) {
+    public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos ignoreblockPos, Vec3 vec3) {
         Vec3 start = entity.getEyePosition(1f);
         Vec3 direction = entity.getViewVector(1f);
         double distance = Math.min(Config.ENDERIAN_EYE_RADIUS.get(), entity.getEyePosition(1f).distanceTo(vec3));

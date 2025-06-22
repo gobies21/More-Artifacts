@@ -72,19 +72,20 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
+    }
 
-        maven {
-            name = "Jared's maven"
-            url = "https://maven.blamejared.com/"
-        }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
 
-        maven {
-            name = "CurseMaven"
-            url = "https://cursemaven.com/"
-        }
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com/"
     }
 }
 
@@ -112,6 +113,12 @@ dependencies {
 
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
+
+    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:6631787")
+
+    implementation fg.deobf("curse.maven:configured-457570:5180900")
+    implementation fg.deobf("curse.maven:catalogue-459701:4766090")
+
 }
 
 mixin {

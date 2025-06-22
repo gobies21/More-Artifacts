@@ -34,6 +34,7 @@ public class DesertCharmItem extends Item implements ICurioItem {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {

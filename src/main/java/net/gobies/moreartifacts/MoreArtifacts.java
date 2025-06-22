@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
+import net.gobies.moreartifacts.compat.apothecary.EffectImmunity;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsRender;
 import net.gobies.moreartifacts.compat.iceandfire.IceStoneFreeze;
 import net.gobies.moreartifacts.compat.spartanweaponry.CrossbowQuiver;
@@ -9,7 +10,6 @@ import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MACreativeTab;
-import net.gobies.moreartifacts.loot.MALootModifiers;
 import net.gobies.moreartifacts.network.NetworkHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -45,8 +45,6 @@ public class MoreArtifacts {
 
         MACreativeTab.register(modBus);
 
-        MALootModifiers.register(modBus);
-
         modBus.addListener(this::setupEntityModelLayers);
 
         modBus.addListener(this::commonSetup);
@@ -78,6 +76,10 @@ public class MoreArtifacts {
         }
         if (ModList.get().isLoaded("potionrings2")) {
             LOGGER.info("[More Artifacts] Potion Rings Compat Mixin Loaded");
+        }
+        if (ModList.get().isLoaded("apothecary")) {
+            EffectImmunity.loadCompat();
+            LOGGER.info("[More Artifacts] Apothecary Compat Loaded");
         }
     }
 
