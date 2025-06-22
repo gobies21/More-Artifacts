@@ -390,70 +390,6 @@ public class Config {
     }
 
     static {
-        // Loot Category
-        BUILDER.push("Loot");
-        //
-
-        BUILDER.push("Bezoar");
-        BEZOAR_DROP_CHANCE = BUILDER.comment("Bezoar drop chance from cave spiders in percentage").define("Drop_Chance", 0.05);
-        BUILDER.pop();
-
-        BUILDER.push("Vitamins");
-        VITAMINS_DROP_CHANCE = BUILDER.comment("Vitamins drop chance from elder guardians in percentage").define("Drop_Chance", 0.40);
-        BUILDER.pop();
-
-        BUILDER.push("Fast_Clock");
-        FAST_CLOCK_DROP_CHANCE = BUILDER.comment("Fast Clock drop chance from strays in percentage").define("Drop_Chance", 0.02);
-        BUILDER.pop();
-
-        BUILDER.push("Desert_Charm");
-        DESERT_CHARM_DROP_CHANCE = BUILDER.comment("Desert Charm drop chance from husks in percentage").define("Drop_Chance", 0.02);
-        BUILDER.pop();
-
-        BUILDER.push("Wither_Shard");
-        WITHER_SHARD_DROP_CHANCE = BUILDER.comment("Wither Shard drop chance from the wither in percentage").define("Drop_Chance", 0.25);
-        BUILDER.pop();
-
-        BUILDER.push("Shulker_Heart");
-        SHULKER_HEART_DROP_CHANCE = BUILDER.comment("Shulker Heart drop chance from shulkers in percentage").define("Drop_Chance", 0.15);
-        BUILDER.pop();
-
-        BUILDER.push("Enderian_Scarf");
-        ENDERIAN_SCARF_DROP_CHANCE = BUILDER.comment("Enderian Scarf drop chance from endermen in percentage").define("Drop_Chance", 0.01);
-        BUILDER.pop();
-
-        BUILDER.push("Shackle");
-        SHACKLE_DROP_CHANCE = BUILDER.comment("Shackle drop chance from zombies in percentage").define("Drop_Chance", 0.01);
-        BUILDER.pop();
-
-        BUILDER.push("Magic_Quiver");
-        MAGIC_QUIVER_SKELETON_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from skeletons in percentage").define("Drop_Chance", 0.02);
-        MAGIC_QUIVER_PILLAGER_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from pillagers in percentage").define("Drop_Chance", 0.02);
-        BUILDER.pop();
-
-        BUILDER.push("Ender_Dragon_Claw");
-        ENDER_DRAGON_CLAW_DROP_CHANCE = BUILDER.comment("Ender Dragon Claw drop chance from the ender dragon in percentage").define("Drop_Chance", 0.25);
-        BUILDER.pop();
-
-        BUILDER.push("Melody_Plushie");
-        MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.05);
-        BUILDER.pop();
-
-        BUILDER.push("Sculk_Lens");
-        SCULK_LENS_DROP_CHANCE = BUILDER.comment("Sculk Lens loot chance from ancient cities in percentage").define("Loot_Chance", 0.05);
-        BUILDER.pop();
-
-        BUILDER.push("Recall_Potion");
-        RECALL_POTION_DROP_CHANCE = BUILDER.comment("Recall Potion loot chance from simple dungeons in percentage").define("Loot_Chance", 0.25);
-        BUILDER.pop();
-
-        BUILDER.push("Cobalt_Shield");
-        COBALT_SHIELD_DROP_CHANCE = BUILDER.comment("Cobalt Shield loot chance from simple dungeon in percentage").define("Loot_Chance", 0.10);
-        BUILDER.pop();
-
-        // Loot Category End
-        BUILDER.pop();
-        //
 
         // Artifact Category
         BUILDER.push("Artifacts");
@@ -646,6 +582,71 @@ public class Config {
         BUILDER.pop();
 
         // Artifact Category End
+        BUILDER.pop();
+        //
+
+        // Loot Category
+        BUILDER.push("Loot");
+        //
+
+        BUILDER.push("Bezoar");
+        BEZOAR_DROP_CHANCE = BUILDER.comment("Bezoar drop chance from cave spiders in percentage").define("Drop_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Vitamins");
+        VITAMINS_DROP_CHANCE = BUILDER.comment("Vitamins drop chance from elder guardians in percentage").define("Drop_Chance", 0.40);
+        BUILDER.pop();
+
+        BUILDER.push("Fast_Clock");
+        FAST_CLOCK_DROP_CHANCE = BUILDER.comment("Fast Clock drop chance from strays in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Desert_Charm");
+        DESERT_CHARM_DROP_CHANCE = BUILDER.comment("Desert Charm drop chance from husks in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Wither_Shard");
+        WITHER_SHARD_DROP_CHANCE = BUILDER.comment("Wither Shard drop chance from the wither in percentage").define("Drop_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Shulker_Heart");
+        SHULKER_HEART_DROP_CHANCE = BUILDER.comment("Shulker Heart drop chance from shulkers in percentage").define("Drop_Chance", 0.15);
+        BUILDER.pop();
+
+        BUILDER.push("Enderian_Scarf");
+        ENDERIAN_SCARF_DROP_CHANCE = BUILDER.comment("Enderian Scarf drop chance from endermen in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Shackle");
+        SHACKLE_DROP_CHANCE = BUILDER.comment("Shackle drop chance from zombies in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Magic_Quiver");
+        MAGIC_QUIVER_SKELETON_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from skeletons in percentage").define("Skeleton_Drop_Chance", 0.01);
+        MAGIC_QUIVER_PILLAGER_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from pillagers in percentage").define("Pillager_Drop_Chance", 0.04);
+        BUILDER.pop();
+
+        BUILDER.push("Ender_Dragon_Claw");
+        ENDER_DRAGON_CLAW_DROP_CHANCE = BUILDER.comment("Ender Dragon Claw drop chance from the ender dragon in percentage").define("Drop_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Melody_Plushie");
+        MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Sculk_Lens");
+        SCULK_LENS_DROP_CHANCE = BUILDER.comment("Sculk Lens loot chance from ancient cities in percentage").define("Loot_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Recall_Potion");
+        RECALL_POTION_DROP_CHANCE = BUILDER.comment("Recall Potion loot chance from simple dungeons in percentage").define("Loot_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Cobalt_Shield");
+        COBALT_SHIELD_DROP_CHANCE = BUILDER.comment("Cobalt Shield loot chance from simple dungeon in percentage").define("Loot_Chance", 0.10);
+        BUILDER.pop();
+
+        // Loot Category End
         BUILDER.pop();
         //
 
