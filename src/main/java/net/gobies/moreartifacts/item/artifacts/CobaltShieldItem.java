@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.ShieldHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -69,12 +70,12 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§7Grants immunity to Knockback"));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cobalt_shield").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl").withStyle(ChatFormatting.GRAY));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield"));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.iron"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.iron").withStyle(ChatFormatting.GRAY));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

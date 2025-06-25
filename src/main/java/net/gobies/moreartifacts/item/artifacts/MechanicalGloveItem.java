@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -52,7 +53,8 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§7Increases melee damage by §3+%d", Config.MECHANICAL_GLOVE_DAMAGE.get())));
+        int gloveDamage = Config.MECHANICAL_GLOVE_DAMAGE.get();
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_glove.damage", gloveDamage).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.materials;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +19,7 @@ public class ShadowDustItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
             pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("moreartifacts.shadow_gem.tooltip"));
+        pTooltipComponents.add(Component.translatable("moreartifacts.shadow_gem.tooltip").withStyle(ChatFormatting.YELLOW));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

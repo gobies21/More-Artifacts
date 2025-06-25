@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -91,9 +92,12 @@ public class EchoGloveItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§6Increases melee damage dealt by §3%.1f%%", (Config.ECHO_GLOVE_DAMAGE.get() * 100))));
-        pTooltipComponents.add(Component.literal(String.format("§6Increases melee attack speed by §3%.1f%%", (Config.ECHO_GLOVE_ATTACK_SPEED.get() * 100))));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to ignore invulnerability frames on hit", (Config.ECHO_GLOVE_IGNORE_CHANCE.get() * 100))));
+        double attackDamage = (Config.ECHO_GLOVE_DAMAGE.get() * 100);
+        double attackSpeed = (Config.ECHO_GLOVE_ATTACK_SPEED.get() * 100);
+        double ignoreChance = (Config.ECHO_GLOVE_IGNORE_CHANCE.get() * 100);
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.damage", String.format("%.1f", attackDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.speed", String.format("%.1f", attackSpeed)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.ignore_chance", String.format("%.1f", ignoreChance)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

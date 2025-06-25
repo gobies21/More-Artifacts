@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
@@ -60,8 +61,9 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        double fireDamageReduction = (1.0 - Config.SKULL_FIRE_DAMAGE_TAKEN.get()) * 100;
         pTooltipComponents.add(Component.literal("§7Grants immunity to Burning"));
-        pTooltipComponents.add(Component.literal(String.format("§7Reduces fire damage taken by §3%.1f%%", (1.0 - Config.SKULL_FIRE_DAMAGE_TAKEN.get()) * 100)));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_skull.fire_damage", String.format("%.1f", fireDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

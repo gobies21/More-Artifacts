@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
@@ -45,8 +46,10 @@ public class MagicQuiverItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§7Increases arrow damage by §3%.1f%%", (Config.MAGIC_QUIVER_DAMAGE.get() - 1) * 100)));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §7Chance to not consume arrows", (Config.MAGIC_QUIVER_AMMO.get() * 100))));
+        double arrowDamage = (Config.MAGIC_QUIVER_DAMAGE.get() - 1) * 100;
+        double arrowSave = (Config.MAGIC_QUIVER_AMMO.get() * 100);
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

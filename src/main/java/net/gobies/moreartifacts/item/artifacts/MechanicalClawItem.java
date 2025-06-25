@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
@@ -113,9 +114,13 @@ public class MechanicalClawItem extends Item implements ICurioItem {
 
         @Override
         public void appendHoverText (@NotNull ItemStack pStack, @Nullable Level pLevel, List < Component > pTooltipComponents, @NotNull TooltipFlag pIsAdvanced){
-            pTooltipComponents.add(Component.literal(String.format("§6Increases melee damage dealt by §3%.1f%%", (Config.MECHANICAL_CLAW_DAMAGE.get() * 100))));
-            pTooltipComponents.add(Component.literal(String.format("§6Attacks have a §3%.1f%% §6chance to inflict §cBleed §6on hit", (Config.MECHANICAL_CLAW_BLEED_CHANCE.get() * 100))));
-            pTooltipComponents.add(Component.literal(String.format("§cBleed §6deals §3%d §6damage every second for §3%d §6seconds", (Config.MECHANICAL_CLAW_BLEED_DAMAGE.get()), (Config.MECHANICAL_CLAW_BLEED_DURATION.get()))));
+            double clawDamage = (Config.MECHANICAL_CLAW_DAMAGE.get() * 100);
+            double bleedChance = (Config.MECHANICAL_CLAW_BLEED_CHANCE.get() * 100);
+            int bleedDamage = (Config.MECHANICAL_CLAW_BLEED_DAMAGE.get());
+            int bleedDuration = (Config.MECHANICAL_CLAW_BLEED_DURATION.get());
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.damage", String.format("%.1f", clawDamage)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_chance", String.format("%.1f", bleedChance)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_duration", bleedDamage, bleedDuration).withStyle(ChatFormatting.DARK_AQUA));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

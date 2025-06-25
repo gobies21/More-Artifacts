@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -76,9 +77,12 @@ public class FireStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§cGrants immunity to Fire"));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §cChance to set enemies ablaze for §3%d §cseconds", (Config.FIRE_STONE_CHANCE.get() * 100), (Config.FIRE_STONE_DURATION.get()))));
-        pTooltipComponents.add(Component.literal(String.format("§cDeal §3%.1f%% §cincreased damage to targets on fire", (Config.FIRE_STONE_DAMAGE.get() - 1) * 100)));
+        double fireChance = Config.FIRE_STONE_CHANCE.get() * 100;
+        int fireDuration = Config.FIRE_STONE_DURATION.get();
+        double increasedDamage = (Config.FIRE_STONE_DAMAGE.get() - 1) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(ChatFormatting.RED));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", String.format("%.1f", fireChance), fireDuration).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

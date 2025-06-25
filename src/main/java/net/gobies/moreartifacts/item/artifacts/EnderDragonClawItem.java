@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -52,7 +53,9 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to deal §3%.1f%% §6increased damage on hit", (Config.ENDER_DRAGON_CLAW_CHANCE.get() * 100), (Config.ENDER_DRAGON_CLAW_DAMAGE.get() - 1) * 100)));
+        double clawChance = (Config.ENDER_DRAGON_CLAW_CHANCE.get() * 100);
+        double clawDamage = (Config.ENDER_DRAGON_CLAW_DAMAGE.get() - 1) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ender_dragon_claw.chance.damage", String.format("%.1f", clawChance), String.format("%.1f", clawDamage)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

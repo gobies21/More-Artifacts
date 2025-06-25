@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
@@ -76,9 +77,13 @@ public class DecayStoneItem extends Item implements ICurioItem {
 
         @Override
         public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-            pTooltipComponents.add(Component.literal("§6Grants immunity to Wither"));
-            pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to inflict wither §3%d §6for §3%d §6seconds", (Config.DECAY_STONE_CHANCE.get() * 100), (Config.DECAY_STONE_LEVEL.get()), (Config.DECAY_STONE_DURATION.get()))));
-            pTooltipComponents.add(Component.literal(String.format("§6Deal §3%.1f%% §6increased damage to targets inflicted with wither", (Config.DECAY_STONE_DAMAGE.get() - 1) * 100)));
+            double poisonChance = Config.DECAY_STONE_CHANCE.get() * 100;
+            int poisonLevel = Config.DECAY_STONE_LEVEL.get();
+            int poisonDuration = Config.DECAY_STONE_DURATION.get();
+            double increasedDamage = (Config.DECAY_STONE_DAMAGE.get() - 1) * 100;
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.immunity").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.inflict_wither", String.format("%.1f", poisonChance), poisonLevel, poisonDuration).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -79,8 +80,10 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§7+%d Increased armor", Config.NETHERITE_HEADGEAR_ARMOR.get().intValue())));
-        pTooltipComponents.add(Component.literal(String.format("§7Reduces arrow damage taken by §3%.1f%%", (1.0 - Config.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()) * 100)));
+        int increasedArmor = Config.NETHERITE_HEADGEAR_ARMOR.get().intValue();
+        double arrowDamageReduction = (1.0 - Config.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.netherite_headgear.armor", String.format("%d", increasedArmor)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.netherite_headgear.arrow.damage", String.format("%.1f", arrowDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

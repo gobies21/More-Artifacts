@@ -35,14 +35,6 @@ public class EnderianEyeItem extends Item implements ICurioItem {
         return true;
     }
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§6Grants the ability to teleport where you are looking"));
-        pTooltipComponents.add(Component.literal(String.format("§6Max radius of §3%d §6blocks with a §3%.1f §6second cooldown", Config.ENDERIAN_EYE_RADIUS.get(), Config.ENDERIAN_EYE_COOLDOWN.get())));
-        pTooltipComponents.add(Component.literal("§6Press ").append(Component.literal(ClientEvents.TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.DARK_AQUA)).append(Component.literal("§6 to teleport")));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
     public static void enderianEyeParticles(Player player, Vec3 targetPosition) {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
@@ -61,5 +53,14 @@ public class EnderianEyeItem extends Item implements ICurioItem {
                 }
             }
         }
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        int radius = Config.ENDERIAN_EYE_RADIUS.get();
+        double cooldown = Config.ENDERIAN_EYE_COOLDOWN.get();
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.teleport").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.radius.cooldown", radius, cooldown).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.press").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.DARK_AQUA)).append(Component.translatable("tooltip.moreartifacts.teleport").withStyle(ChatFormatting.GOLD)));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

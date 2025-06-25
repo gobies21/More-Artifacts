@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -81,14 +82,19 @@ public class IceStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§bGrants immunity to Freezing"));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §bChance to freeze enemies for §3%d §bseconds", (Config.ICE_STONE_CHANCE.get() * 100), (Config.ICE_STONE_DURATION.get()))));
-        pTooltipComponents.add(Component.literal(String.format("§bDeal §3%.1f%% §bincreased damage to freezing targets", (Config.ICE_STONE_DAMAGE.get() - 1) * 100)));
+        double iceChance = Config.ICE_STONE_CHANCE.get() * 100;
+        int iceDuration = Config.ICE_STONE_DURATION.get();
+        double increasedDamage = (Config.ICE_STONE_DAMAGE.get() - 1) * 100;
+        double encaseChance = (Config.ICE_STONE_ENCASED_CHANCE.get() * 100);
+        int encaseDuration = Config.ICE_STONE_ENCASED_DURATION.get();
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.immunity").withStyle(ChatFormatting.AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", String.format("%.1f", iceChance), iceDuration).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
         if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(4);
-                pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §7Chance to encase enemies in ice for §3%d §7seconds §6(Ice and Fire)", (Config.ICE_STONE_ENCASED_CHANCE.get() * 100), (Config.ICE_STONE_ENCASED_DURATION.get()))));
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", String.format("%.1f", encaseChance), encaseDuration).withStyle(ChatFormatting.DARK_AQUA));
             }
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }

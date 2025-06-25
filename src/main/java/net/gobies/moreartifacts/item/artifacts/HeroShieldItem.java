@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.util.ShieldHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -80,9 +80,11 @@ public class HeroShieldItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         CompoundTag tag = pStack.getTag();
         int hitCount = tag != null ? tag.getInt("HitCount") : 0;
-        pTooltipComponents.add(Component.literal("§6Grants Resistance"));
-        pTooltipComponents.add(Component.literal(String.format("§6Every §3%d §6hits taken ignore the attack §3" + hitCount +"§3/%d", Config.IGNORE_DAMAGE_CHANCE.get(), Config.IGNORE_DAMAGE_CHANCE.get())));
-        pTooltipComponents.add(Component.literal(String.format("§6Reduces explosion damage taken by §3%.1f%%", (1.0 - Config.EXPLOSION_DAMAGE_TAKEN.get()) * 100)));
+        int ignoreDamage = Config.IGNORE_DAMAGE_CHANCE.get();
+        double explosionDamage = (1.0 - Config.EXPLOSION_DAMAGE_TAKEN.get()) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.resistance").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.damage_ignore", ignoreDamage, hitCount, ignoreDamage).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.explosion_damage", String.format("%.1f", explosionDamage)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

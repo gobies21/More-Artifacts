@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -55,9 +56,11 @@ public class GildedScarfItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§ePiglins are neutral"));
-        pTooltipComponents.add(Component.literal(String.format("§6Reduces damage taken by §3%.1f%%", (100 - Config.GILDED_DAMAGE_TAKEN.get() * 100))));
-        pTooltipComponents.add(Component.literal(String.format("§6Increases damage dealt by §3%.1f%%", (Config.GILDED_DAMAGE_DEALT.get() - 1) * 100)));
+        double damageTaken = (100 - Config.GILDED_DAMAGE_TAKEN.get() * 100);
+        double damageDealt = (Config.GILDED_DAMAGE_DEALT.get() - 1) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.neutral").withStyle(ChatFormatting.YELLOW));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", String.format("%.1f", damageTaken)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", String.format("%.1f", damageDealt)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

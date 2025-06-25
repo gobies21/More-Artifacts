@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -94,15 +95,20 @@ public class VanirMaskItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow"));
+        double damageIncrease = Config.VANIR_MASK_DAMAGE_INCREASE.get();
+        double healthIncrease = Config.VANIR_MASK_HEALTH_INCREASE.get() * 100;
+        double speedIncrease = Config.VANIR_MASK_SPEED_INCREASE.get() * 100;
+        double armorIncrease = Config.VANIR_MASK_ARMOR_INCREASE.get() * 100;
+        double armorToughnessIncrease = Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
-            pTooltipComponents.add(Component.literal(" §3+" + Config.VANIR_MASK_DAMAGE_INCREASE.get() + " §6Damage Dealt"));
-            pTooltipComponents.add(Component.literal(" §3+" + (Config.VANIR_MASK_HEALTH_INCREASE.get() * 100) + "% §6Max Health"));
-            pTooltipComponents.add(Component.literal(" §3+" + (Config.VANIR_MASK_SPEED_INCREASE.get() * 100) + "% §6Speed"));
-            pTooltipComponents.add(Component.literal(" §3+" + (Config.VANIR_MASK_ARMOR_INCREASE.get() * 100) + "% §6Armor"));
-            pTooltipComponents.add(Component.literal(" §3+" + (Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * 100) + "% §6Armor Toughness"));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.1f", damageIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.health", String.format("%.1f", healthIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.speed", String.format("%.1f", speedIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor", String.format("%.1f", armorIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor_toughness", String.format("%.1f", armorToughnessIncrease)).withStyle(ChatFormatting.DARK_AQUA));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

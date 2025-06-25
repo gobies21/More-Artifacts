@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,10 +56,13 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal(String.format("§6Increases arrow damage by §3%.1f%%", (Config.MOLTEN_QUIVER_DAMAGE.get() - 1) * 100)));
-        pTooltipComponents.add(Component.literal(String.format("§3%.1f%% §6Chance to not consume arrows", (Config.MOLTEN_QUIVER_AMMO.get() * 100))));
-        pTooltipComponents.add(Component.literal("§6Lights attacked enemies on fire"));
-        pTooltipComponents.add(Component.literal(String.format("§6Deals §3%.1f%% §6increased damage to ignited enemies", (Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100)));
+        double arrowDamage = (Config.MOLTEN_QUIVER_DAMAGE.get() - 1) * 100;
+        double arrowSave = (Config.MOLTEN_QUIVER_AMMO.get() * 100);
+        double arrowFireDamage = (Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.fire").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_fire_damage", String.format("%.1f", arrowFireDamage)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
