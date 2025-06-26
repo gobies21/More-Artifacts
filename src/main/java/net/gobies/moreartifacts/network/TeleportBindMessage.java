@@ -55,6 +55,6 @@ public class TeleportBindMessage {
 
     @SubscribeEvent
     public static void registerMessage(FMLCommonSetupEvent event) {
-        NetworkHandler.addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handler);
+        PacketHandler.addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handler);
     }
 }

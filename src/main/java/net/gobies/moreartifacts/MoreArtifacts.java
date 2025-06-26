@@ -10,7 +10,7 @@ import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MACreativeTab;
-import net.gobies.moreartifacts.network.NetworkHandler;
+import net.gobies.moreartifacts.network.PacketHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -51,7 +51,7 @@ public class MoreArtifacts {
 
         modBus.addListener(this::clientSetup);
 
-        NetworkHandler.register();
+        PacketHandler.register();
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -62,22 +62,22 @@ public class MoreArtifacts {
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(MABrewing::register);
 
-        if (ModList.get().isLoaded("spartanweaponry")) {
+        if (isSpartanWeaponryLoaded()) {
             CrossbowQuiver.loadCompat();
             LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
-        if (ModList.get().isLoaded("enhancedvisuals") && (Config.TRUE_ENDERIAN_COMPAT.get())) {
+        if (isEnhancedVisualsLoaded() && (Config.TRUE_ENDERIAN_COMPAT.get())) {
             EnhancedVisualsRender.loadCompat();
             LOGGER.info("[More Artifacts] Enhanced Visuals Compat Loaded");
         }
-        if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
+        if (isIceandFireLoaded() && (Config.ICE_STONE_COMPAT.get())) {
             IceStoneFreeze.loadCompat();
             LOGGER.info("[More Artifacts] Ice and Fire Compat Loaded");
         }
-        if (ModList.get().isLoaded("potionrings2")) {
+        if (isPotionRingsLoaded()) {
             LOGGER.info("[More Artifacts] Potion Rings Compat Mixin Loaded");
         }
-        if (ModList.get().isLoaded("apothecary")) {
+        if (isApothecaryLoaded()) {
             EffectImmunity.loadCompat();
             LOGGER.info("[More Artifacts] Apothecary Compat Loaded");
         }
@@ -113,6 +113,25 @@ public class MoreArtifacts {
         MAModelLayer.registers(event);
     }
 
+    public static boolean isSpartanWeaponryLoaded() {
+        return ModList.get().isLoaded("spartanweaponry");
+    }
+
+    public static boolean isEnhancedVisualsLoaded() {
+        return ModList.get().isLoaded("enhancedvisuals");
+    }
+
+    public static boolean isIceandFireLoaded() {
+        return ModList.get().isLoaded("iceandfire");
+    }
+
+    public static boolean isPotionRingsLoaded() {
+        return ModList.get().isLoaded("potionrings2");
+    }
+
+    public static boolean isApothecaryLoaded() {
+        return ModList.get().isLoaded("apothecary");
+    }
 }
 
 

@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
@@ -20,7 +21,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -90,7 +90,7 @@ public class IceStoneItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.immunity").withStyle(ChatFormatting.AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", String.format("%.1f", iceChance), iceDuration).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
-        if (ModList.get().isLoaded("iceandfire") && (Config.ICE_STONE_COMPAT.get())) {
+        if (MoreArtifacts.isIceandFireLoaded() && (Config.ICE_STONE_COMPAT.get())) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(4);

@@ -2,8 +2,8 @@ package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.network.NetworkHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -27,7 +27,7 @@ public class ClientEvents {
             if (player == null) return;
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianEye.get())) {
                 if (isDownOld != isDown && isDown) {
-                    NetworkHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
+                    PacketHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
                     assert Minecraft.getInstance().player != null;
                     TeleportBindMessage.pressAction(Minecraft.getInstance().player, 0, 0);
                 }
