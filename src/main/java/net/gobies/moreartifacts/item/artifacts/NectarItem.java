@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -51,7 +52,7 @@ public class NectarItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("§7Grants immunity to Nausea"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.nectar").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
