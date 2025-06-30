@@ -12,8 +12,8 @@ public class MAProperties {
     }
 
     private static void makeShield(Item item) {
-        ItemProperties.register(item, new ResourceLocation("blocking"), (stack, client, entity, number)
-                -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("blocking"), (stack, clientLevel, livingEntity, var)
+                -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 }
 

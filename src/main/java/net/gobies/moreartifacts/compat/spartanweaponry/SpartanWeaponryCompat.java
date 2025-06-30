@@ -12,10 +12,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class CrossbowQuiver {
+public class SpartanWeaponryCompat {
 
     public static void loadCompat() {
-        MinecraftForge.EVENT_BUS.register(new CrossbowQuiver());
+        MinecraftForge.EVENT_BUS.register(new SpartanWeaponryCompat());
     }
 
     @SubscribeEvent

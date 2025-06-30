@@ -11,10 +11,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.enhancedvisuals.api.event.SelectEndermanEvent;
 import team.creative.enhancedvisuals.api.event.VisualExplosionEvent;
 
-public class EnhancedVisualsRender {
+public class EnhancedVisualsCompat {
 
     public static void loadCompat() {
-        MinecraftForge.EVENT_BUS.register(new EnhancedVisualsRender());
+        MinecraftForge.EVENT_BUS.register(new EnhancedVisualsCompat());
     }
 
     @OnlyIn(Dist.CLIENT)

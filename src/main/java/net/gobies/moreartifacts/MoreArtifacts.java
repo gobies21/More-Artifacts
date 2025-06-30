@@ -1,10 +1,11 @@
 package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
-import net.gobies.moreartifacts.compat.apothecary.EffectImmunity;
-import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsRender;
-import net.gobies.moreartifacts.compat.iceandfire.IceStoneFreeze;
-import net.gobies.moreartifacts.compat.spartanweaponry.CrossbowQuiver;
+import net.gobies.moreartifacts.client.overlay.EnderianEyeOverlay;
+import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
+import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
+import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
+import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.init.MABrewing;
 import net.gobies.moreartifacts.init.MAModelLayer;
 import net.gobies.moreartifacts.init.MAProperties;
@@ -63,28 +64,29 @@ public class MoreArtifacts {
         event.enqueueWork(MABrewing::register);
 
         if (isSpartanWeaponryLoaded()) {
-            CrossbowQuiver.loadCompat();
+            SpartanWeaponryCompat.loadCompat();
             LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
         if (isEnhancedVisualsLoaded() && (Config.TRUE_ENDERIAN_COMPAT.get())) {
-            EnhancedVisualsRender.loadCompat();
+            EnhancedVisualsCompat.loadCompat();
             LOGGER.info("[More Artifacts] Enhanced Visuals Compat Loaded");
         }
         if (isIceandFireLoaded() && (Config.ICE_STONE_COMPAT.get())) {
-            IceStoneFreeze.loadCompat();
+            IceandFireCompat.loadCompat();
             LOGGER.info("[More Artifacts] Ice and Fire Compat Loaded");
         }
         if (isPotionRingsLoaded()) {
             LOGGER.info("[More Artifacts] Potion Rings Compat Mixin Loaded");
         }
         if (isApothecaryLoaded()) {
-            EffectImmunity.loadCompat();
+            ApothecaryCompat.loadCompat();
             LOGGER.info("[More Artifacts] Apothecary Compat Loaded");
         }
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         MAProperties.addItemProperties();
+        MinecraftForge.EVENT_BUS.register(EnderianEyeOverlay.class);
     }
 
     public static void queueServerWork(int tick, Runnable action) {

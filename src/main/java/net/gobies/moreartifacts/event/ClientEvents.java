@@ -28,7 +28,6 @@ public class ClientEvents {
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianEye.get())) {
                 if (isDownOld != isDown && isDown) {
                     PacketHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
-                    assert Minecraft.getInstance().player != null;
                     TeleportBindMessage.pressAction(Minecraft.getInstance().player, 0, 0);
                 }
                 isDownOld = isDown;

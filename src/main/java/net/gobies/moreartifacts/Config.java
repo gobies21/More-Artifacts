@@ -151,6 +151,8 @@ public class Config {
     public static int enderian_eye_radius;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_EYE_COOLDOWN;
     public static float enderian_eye_cooldown;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENDERIAN_EYE_OVERLAY;
+    public static boolean enderian_eye_overlay;
 
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_DAMAGE;
     public static float mechanical_claw_damage;
@@ -338,6 +340,7 @@ public class Config {
         ender_dragon_claw_chance = ENDER_DRAGON_CLAW_CHANCE.get().floatValue();
         enderian_eye_cooldown = ENDERIAN_EYE_COOLDOWN.get().floatValue();
         enderian_eye_radius = ENDERIAN_EYE_RADIUS.get();
+        enderian_eye_overlay = ENDERIAN_EYE_OVERLAY.get();
         mechanical_claw_damage = MECHANICAL_CLAW_DAMAGE.get().floatValue();
         mechanical_claw_bleed_chance = MECHANICAL_CLAW_BLEED_CHANCE.get().floatValue();
         mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
@@ -534,6 +537,7 @@ public class Config {
         BUILDER.push("Enderian_Eye");
         ENDERIAN_EYE_RADIUS = BUILDER.comment("Max teleportation radius").define("Radius", 25);
         ENDERIAN_EYE_COOLDOWN = BUILDER.comment("Cooldown for teleporting").define("Cooldown", 5.0);
+        ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Overlay", true);
         BUILDER.pop();
 
         BUILDER.push("Venom_Stone");

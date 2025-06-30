@@ -11,10 +11,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class IceStoneFreeze {
+public class IceandFireCompat {
 
     public static void loadCompat() {
-        MinecraftForge.EVENT_BUS.register(new IceStoneFreeze());
+        MinecraftForge.EVENT_BUS.register(new IceandFireCompat());
     }
 
     @SubscribeEvent

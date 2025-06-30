@@ -10,10 +10,10 @@ import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.gobies.apothecary.init.AEffects;
 
-public class EffectImmunity {
+public class ApothecaryCompat {
 
     public static void loadCompat() {
-        MinecraftForge.EVENT_BUS.register(new EffectImmunity());
+        MinecraftForge.EVENT_BUS.register(new ApothecaryCompat());
     }
 
     @SubscribeEvent
