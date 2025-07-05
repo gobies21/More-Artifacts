@@ -2,8 +2,11 @@ package net.gobies.moreartifacts.compat.spartanweaponry;
 
 import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
 import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,23 +27,27 @@ public class SpartanWeaponryCompat {
             LivingEntity target = event.getEntity();
             if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.MagicQuiver.get())) {
-                    event.setAmount((float) (event.getAmount() * Config.MAGIC_QUIVER_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, target, event);
                 }
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.EnvenomedQuiver.get())) {
-                    event.setAmount((float) (event.getAmount() * Config.ENVENOMED_QUIVER_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, target, event);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
                 }
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.MoltenQuiver.get())) {
-                    event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, target, event);
                     if (!target.isOnFire()) {
                         target.setSecondsOnFire(Config.MOLTEN_QUIVER_DURATION.get());
                     }
                     if (target.isOnFire()) {
-                        event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));
+                        DamageManager.updateDamageIncrease(attacker, target, event);
                     }
                 }
             }
         }
+    }
+
+    public static boolean isArmorPiercingBolt(DamageSource damageType) {
+        return MoreArtifacts.isSpartanWeaponryLoaded() && damageType.is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT);
     }
 }

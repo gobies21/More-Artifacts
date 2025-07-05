@@ -3,9 +3,11 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -61,10 +63,10 @@ public class VenomStoneItem extends Item implements ICurioItem {
                 RandomSource random = attacker.getRandom();
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.VENOM_STONE_CHANCE.get()) {
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 * Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
                 }
                 if (target.hasEffect(MobEffects.POISON)) {
-                    event.setAmount((float) (event.getAmount() * Config.VENOM_STONE_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, target, event);
                 }
             }
         }

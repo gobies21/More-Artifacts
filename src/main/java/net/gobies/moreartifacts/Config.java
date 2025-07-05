@@ -10,7 +10,7 @@ public class Config {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    //Artifacts
+    // Artifacts
     public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_TAKEN;
     public static float skull_fire_damage_taken;
 
@@ -230,7 +230,7 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
     public static float vanir_mask_armor_toughness_increase;
 
-    //Loot
+    // Loot
     public static ForgeConfigSpec.ConfigValue<Double> BEZOAR_DROP_CHANCE;
     public static float bezoar_drop_chance;
 
@@ -275,6 +275,14 @@ public class Config {
 
     public static ForgeConfigSpec.ConfigValue<Double> MELODY_PLUSHIE_DROP_CHANCE;
     public static float melody_plushie_drop_chance;
+
+    // General
+    public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_REDUCTION;
+    public static float max_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Double> MAX_FIRE_DAMAGE_REDUCTION;
+    public static float max_fire_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_INCREASE;
+    public static float max_damage_increase;
 
     public Config() {
     }
@@ -390,9 +398,19 @@ public class Config {
         recall_potion_drop_chance = RECALL_POTION_DROP_CHANCE.get().floatValue();
         cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
         melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
+        max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
+        max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
+        max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
     }
 
     static {
+
+        // General Category
+        BUILDER.push("General");
+        MAX_DAMAGE_REDUCTION = BUILDER.comment("Global max damage reduction from artifacts in percentage").defineInRange("Max_Damage_Reduction", 1.0, 0.01, 1.0);
+        MAX_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Global max fire damage reduction from artifacts in percentage").defineInRange("Max_Fire_Damage_Reduction", 1.0, 0.01, 1.0);
+        MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
+        BUILDER.pop();
 
         // Artifact Category
         BUILDER.push("Artifacts");

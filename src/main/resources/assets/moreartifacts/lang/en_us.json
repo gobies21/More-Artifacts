@@ -75,6 +75,7 @@
   "tooltip.moreartifacts.hero_shield.resistance": "Grants Resistance",
   "tooltip.moreartifacts.hero_shield.explosion_damage": "§6Reduces explosion damage taken by %.1f%%",
   "tooltip.moreartifacts.hero_shield.damage_ignore": "§6Every §3%d §6hits taken ignore the attack %d/%d",
+  "tooltip.moreartifacts.hero_shield.damage_text": "Ow!",
   "tooltip.moreartifacts.mechanical_glove.damage": "§7Increases melee damage by §3+%d",
   "tooltip.moreartifacts.enderian_scarf.damage_taken": "§7Reduces damage taken by %.1f%%",
   "tooltip.moreartifacts.true_enderian_scarf.neutral": "Endermen are neutral",

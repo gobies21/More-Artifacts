@@ -5,6 +5,7 @@ import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +39,7 @@ public class VenomAmuletItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(player, MAItems.VenomAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.VENOM_AMULET_POISON_CHANCE.get()) {
-                        attacker.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get() - 1));
+                        attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 20 *Config.VENOM_AMULET_POISON_DURATION.get(), Config.VENOM_AMULET_POISON_LEVEL.get() - 1));
                     }
                 }
             }

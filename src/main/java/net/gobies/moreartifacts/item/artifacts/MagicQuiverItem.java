@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -33,7 +34,7 @@ public class MagicQuiverItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player attacker) {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.MagicQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
-                    event.setAmount((float) (event.getAmount() * Config.MAGIC_QUIVER_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
                 }
             }
         }

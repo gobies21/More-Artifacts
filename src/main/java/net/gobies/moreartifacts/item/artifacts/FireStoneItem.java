@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -64,7 +65,7 @@ public class FireStoneItem extends Item implements ICurioItem {
                     target.setSecondsOnFire(Config.FIRE_STONE_DURATION.get());
                 }
                 if (target.isOnFire()) {
-                    event.setAmount((float) (event.getAmount() * Config.FIRE_STONE_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, target, event);
                 }
             }
         }

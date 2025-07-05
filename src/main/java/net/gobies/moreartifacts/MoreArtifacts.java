@@ -12,6 +12,7 @@ import net.gobies.moreartifacts.init.MAProperties;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MACreativeTab;
 import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -55,6 +56,8 @@ public class MoreArtifacts {
         PacketHandler.register();
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        MinecraftForge.EVENT_BUS.register(DamageManager.class);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 

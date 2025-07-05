@@ -24,7 +24,7 @@ import java.util.List;
 
 public class HeroShieldItem extends Item implements ICurioItem {
     public HeroShieldItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+        super(properties.stacksTo(1).rarity(Rarity.EPIC).fireResistant().fireResistant());
     }
 
     static {
@@ -59,7 +59,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
                     tag.putInt("HitCount", hitCount);
                     if (hitCount % Config.IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                         event.setCanceled(true);
-                        player.displayClientMessage(Component.literal("§6Ow!"), true);
+                        player.displayClientMessage(Component.translatable("tooltip.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.GOLD), true);
                         player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, 1.1f);
                         tag.putInt("HitCount", 0);
                     }

@@ -3,9 +3,11 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -61,10 +63,10 @@ public class DecayStoneItem extends Item implements ICurioItem {
                     RandomSource random = attacker.getRandom();
                     LivingEntity target = event.getEntity();
                     if (random.nextFloat() < Config.DECAY_STONE_CHANCE.get()) {
-                        target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_STONE_DURATION.get(), Config.DECAY_STONE_LEVEL.get() - 1));
+                        target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_STONE_DURATION.get(), Config.DECAY_STONE_LEVEL.get() - 1));
                     }
                     if (target.hasEffect(MobEffects.WITHER)) {
-                        event.setAmount((float) (event.getAmount() * Config.DECAY_STONE_DAMAGE.get()));
+                        DamageManager.updateDamageIncrease(attacker, target, event);
                     }
                 }
             }

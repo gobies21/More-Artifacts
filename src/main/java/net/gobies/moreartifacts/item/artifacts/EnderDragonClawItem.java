@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -39,7 +40,7 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.EnderDragonClaw.get())) {
                 RandomSource random = attacker.getRandom();
                 if (random.nextFloat() < Config.ENDER_DRAGON_CLAW_CHANCE.get()) {
-                    event.setAmount((float) (event.getAmount() * Config.ENDER_DRAGON_CLAW_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
                     attacker.level().playSound(null, attacker.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, 1.4f);
                 }
             }

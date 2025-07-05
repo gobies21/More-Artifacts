@@ -1,8 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -38,16 +37,13 @@ public class GildedScarfItem extends Item implements ICurioItem {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
-            if (CurioHandler.isCurioEquipped(attacker, MAItems.GildedScarf.get())) {
-                event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_DEALT.get()));
-            }
+            DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
         }
-            if (event.getEntity() instanceof Player player) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.GildedScarf.get())) {
-                    event.setAmount((float) (event.getAmount() * Config.GILDED_DAMAGE_TAKEN.get()));
-                }
-            }
+
+        if (event.getEntity() instanceof Player player) {
+            DamageManager.updateDamageReduction(player, event);
         }
+    }
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

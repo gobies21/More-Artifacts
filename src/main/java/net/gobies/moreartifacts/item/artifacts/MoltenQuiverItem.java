@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -36,13 +37,13 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player attacker) {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.MoltenQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
-                    event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_DAMAGE.get()));
+                    DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
                     LivingEntity target = event.getEntity();
                     if (!target.isOnFire()) {
                         target.setSecondsOnFire(Config.MOLTEN_QUIVER_DURATION.get());
                     }
                     if (target.isOnFire()) {
-                        event.setAmount((float) (event.getAmount() * Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get()));
+                        DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
                     }
                 }
             }

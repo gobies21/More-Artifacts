@@ -54,6 +54,7 @@ public class EnderianEyeItem extends Item implements ICurioItem {
             }
         }
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         int radius = Config.ENDERIAN_EYE_RADIUS.get();
