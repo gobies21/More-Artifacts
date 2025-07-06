@@ -1,18 +1,11 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -27,17 +20,6 @@ public class MagicQuiverItem extends Item implements ICurioItem {
 
     static {
         MinecraftForge.EVENT_BUS.register(MagicQuiverItem.class);
-    }
-
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player attacker) {
-            if (CurioHandler.isCurioEquipped(attacker, MAItems.MagicQuiver.get())) {
-                if (event.getSource().is(DamageTypes.ARROW)) {
-                    DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
-                }
-            }
-        }
     }
 
     @Override

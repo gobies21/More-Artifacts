@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -64,9 +63,6 @@ public class VenomStoneItem extends Item implements ICurioItem {
                 LivingEntity target = event.getEntity();
                 if (random.nextFloat() < Config.VENOM_STONE_CHANCE.get()) {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.VENOM_STONE_DURATION.get(), Config.VENOM_STONE_LEVEL.get() - 1));
-                }
-                if (target.hasEffect(MobEffects.POISON)) {
-                    DamageManager.updateDamageIncrease(attacker, target, event);
                 }
             }
         }

@@ -2,9 +2,9 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,36 +30,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.POISON)) {
-                player.removeEffect(MobEffects.POISON);
-            }
-            if (player.hasEffect(MobEffects.WITHER)) {
-                player.removeEffect(MobEffects.WITHER);
-            }
-            if (player.hasEffect(MobEffects.HUNGER)) {
-                player.removeEffect(MobEffects.HUNGER);
-            }
-            if (player.hasEffect(MobEffects.CONFUSION)) {
-                player.removeEffect(MobEffects.CONFUSION);
-            }
-            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-                player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-            }
-            if (player.hasEffect(MobEffects.LEVITATION)) {
-                player.removeEffect(MobEffects.LEVITATION);
-            }
-            if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-                player.removeEffect(MobEffects.DIG_SLOWDOWN);
-            }
-            if (player.hasEffect(MobEffects.WEAKNESS)) {
-                player.removeEffect(MobEffects.WEAKNESS);
-            }
-            if (player.hasEffect(MobEffects.BLINDNESS)) {
-                player.removeEffect(MobEffects.BLINDNESS);
-            }
-            if (player.hasEffect(MobEffects.DARKNESS)) {
-                player.removeEffect(MobEffects.DARKNESS);
-            }
+            MAUtils.isHarmfulEffectRemovable(player);
         }
     }
 
@@ -68,19 +39,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhCharm.get())) {
-            event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
-                    event.getEffectInstance().getEffect() == MobEffects.WITHER ||
-                    event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
-                    event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
-                    event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
-                    event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
-                    event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
-                    event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
-                    event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
-                    event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+                MAUtils.isHarmfulEffectApplicable(event);
             }
         }
     }

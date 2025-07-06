@@ -4,7 +4,6 @@ import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -14,7 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,13 +49,6 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
         LivingEntity var5 = slotContext.entity();
         return var5 instanceof Player && stack.getItem() instanceof TrueEnderianScarfItem;
-    }
-
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            DamageManager.updateDamageReduction(player, event);
-        }
     }
 
     @Override

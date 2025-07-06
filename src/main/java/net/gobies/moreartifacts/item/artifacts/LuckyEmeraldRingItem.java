@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -38,7 +37,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
             LivingEntity target = event.getEntity();
             if (CurioHandler.isCurioEquipped(player, MAItems.LuckyEmeraldRing.get())) {
                 if (target.getMobType() == MobType.ILLAGER) {
-                    DamageManager.updateDamageIncrease(player, target, event);
+                    //DamageManager.updateDamageIncrease(player, target, event);
                 }
 
                 if (target instanceof LivingEntity) {

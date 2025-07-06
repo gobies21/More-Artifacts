@@ -3,13 +3,11 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -45,7 +43,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
-                removeEffects(player);
+                MAUtils.isHarmfulEffectRemovable(player);
             }
         }
     }
@@ -55,41 +53,8 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                removeEffects(player);
+                MAUtils.isHarmfulEffectRemovable(player);
             }
-        }
-    }
-
-    public static void removeEffects(Player player) {
-        if (player.hasEffect(MobEffects.POISON)) {
-            player.removeEffect(MobEffects.POISON);
-        }
-        if (player.hasEffect(MobEffects.WITHER)) {
-            player.removeEffect(MobEffects.WITHER);
-        }
-        if (player.hasEffect(MobEffects.HUNGER)) {
-            player.removeEffect(MobEffects.HUNGER);
-        }
-        if (player.hasEffect(MobEffects.CONFUSION)) {
-            player.removeEffect(MobEffects.CONFUSION);
-        }
-        if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-            player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-        }
-        if (player.hasEffect(MobEffects.LEVITATION)) {
-            player.removeEffect(MobEffects.LEVITATION);
-        }
-        if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-            player.removeEffect(MobEffects.DIG_SLOWDOWN);
-        }
-        if (player.hasEffect(MobEffects.WEAKNESS)) {
-            player.removeEffect(MobEffects.WEAKNESS);
-        }
-        if (player.hasEffect(MobEffects.BLINDNESS)) {
-            player.removeEffect(MobEffects.BLINDNESS);
-        }
-        if (player.hasEffect(MobEffects.DARKNESS)) {
-            player.removeEffect(MobEffects.DARKNESS);
         }
     }
 
@@ -116,19 +81,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                event.getEffectInstance();
-                if (event.getEffectInstance().getEffect() == MobEffects.POISON ||
-                        event.getEffectInstance().getEffect() == MobEffects.WITHER ||
-                        event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
-                        event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
-                        event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
-                        event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
-                        event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
-                        event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
-                        event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
-                        event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+                MAUtils.isHarmfulEffectApplicable(event);
             }
         }
     }
@@ -144,23 +97,10 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     }
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
-                    DamageManager.updateDamageReduction(player, event);
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
-                    event.setCanceled(true);
-                }
+                MAUtils.isBurningImmune(event);
             }
         }
     }

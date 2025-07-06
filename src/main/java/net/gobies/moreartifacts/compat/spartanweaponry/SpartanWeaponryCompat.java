@@ -26,21 +26,13 @@ public class SpartanWeaponryCompat {
         if (event.getSource().getEntity() instanceof Player attacker) {
             LivingEntity target = event.getEntity();
             if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
-                if (CurioHandler.isCurioEquipped(attacker, MAItems.MagicQuiver.get())) {
-                    DamageManager.updateDamageIncrease(attacker, target, event);
-                }
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.EnvenomedQuiver.get())) {
-                    DamageManager.updateDamageIncrease(attacker, target, event);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
                 }
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.MoltenQuiver.get())) {
-                    DamageManager.updateDamageIncrease(attacker, target, event);
                     if (!target.isOnFire()) {
                         target.setSecondsOnFire(Config.MOLTEN_QUIVER_DURATION.get());
-                    }
-                    if (target.isOnFire()) {
-                        DamageManager.updateDamageIncrease(attacker, target, event);
                     }
                 }
             }

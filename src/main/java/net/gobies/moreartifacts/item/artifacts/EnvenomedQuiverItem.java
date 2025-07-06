@@ -3,7 +3,6 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -40,7 +39,6 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.EnvenomedQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     LivingEntity target = event.getEntity();
-                    DamageManager.updateDamageIncrease(attacker, target, event);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get() - 1));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get() - 1));
                 }

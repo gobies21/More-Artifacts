@@ -1,23 +1,14 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -32,19 +23,6 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
 
         static {
         MinecraftForge.EVENT_BUS.register(EnderDragonClawItem.class);
-    }
-
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player attacker) {
-            if (CurioHandler.isCurioEquipped(attacker, MAItems.EnderDragonClaw.get())) {
-                RandomSource random = attacker.getRandom();
-                if (random.nextFloat() < Config.ENDER_DRAGON_CLAW_CHANCE.get()) {
-                    DamageManager.updateDamageIncrease(attacker, event.getEntity(), event);
-                    attacker.level().playSound(null, attacker.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, 1.4f);
-                }
-            }
-        }
     }
 
     @Override
