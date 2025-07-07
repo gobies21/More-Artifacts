@@ -1,0 +1,87 @@
+package net.gobies.moreartifacts.util;
+
+import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class DamageCalculator {
+    private static final List<Item> itemsToCheck = MAItems.getAllArtifacts().stream()
+            .map(RegistryObject::get)
+            .toList();
+
+    public static double calculateTotalDamageReduction(Player player) {
+        double generalReduction = 0.0;
+
+        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), Config.ENDERIAN_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), Config.GILDED_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get());
+
+        return Math.min(generalReduction, Config.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
+    }
+
+    public static double calculateFireDamageReduction(Player player) {
+        double fireReduction = 0.0;
+
+        fireReduction += getDamageReduction(player, MAItems.ObsidianSkull.get(), Config.SKULL_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.ObsidianShield.get(), Config.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.AnkhShield.get(), Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get());
+
+        return Math.min(fireReduction, Config.MAX_FIRE_DAMAGE_REDUCTION.get()); // Fire Damage Reduction Cap
+    }
+
+    public static double calculateDamageIncrease(Player player) {
+        double generalIncrease = 0.0;
+
+        generalIncrease += getDamageIncrease(player, MAItems.GildedScarf.get(), Config.GILDED_DAMAGE_DEALT.get());
+        generalIncrease += getDamageIncrease(player, MAItems.EnderDragonClaw.get(), Config.ENDER_DRAGON_CLAW_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.LuckyEmeraldRing.get(), Config.EMERALD_RING_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.VenomStone.get(), Config.VENOM_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.DecayStone.get(), Config.DECAY_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.FireStone.get(), Config.FIRE_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.IceStone.get(), Config.ICE_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MagicQuiver.get(), Config.MAGIC_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), Config.ENVENOMED_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), Config.MOLTEN_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
+
+        return Math.min(generalIncrease, Config.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
+    }
+
+    public static double getDamageReduction(Player player, Item item, double configValue) {
+        if (item == MAItems.ObsidianShield.get() || item == MAItems.AnkhShield.get()) {
+            return CurioHandler.isCurioEquipped(player, item) ? 1.0 - configValue : ShieldHandler.isShieldEquipped(player, item) ? 1.0 - configValue : 0.0;
+        } else {
+            return CurioHandler.isCurioEquipped(player, item) ? 1.0 - configValue : 0.0;
+        }
+    }
+
+    public static double getDamageIncrease(Player player, Item item, double configValue) {
+        return CurioHandler.isCurioEquipped(player, item) ? configValue - 1.0 : 0.0;
+    }
+
+    public static Map<Item, Boolean> getCurrentEquippedState(Player player) {
+        Map<Item, Boolean> currentEquippedState = new HashMap<>();
+
+        for (Item item : itemsToCheck) {
+            boolean isEquipped = CurioHandler.isCurioEquipped(player, item);
+            if (isEquipped) {
+                currentEquippedState.put(item, true);
+            }
+        }
+
+        for (Item item : Arrays.asList(MAItems.ObsidianShield.get(), MAItems.AnkhShield.get())) {
+            if (ShieldHandler.isShieldEquipped(player, item)) {
+                currentEquippedState.put(item, true);
+            }
+        }
+
+        return currentEquippedState;
+    }
+}

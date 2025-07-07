@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -36,10 +35,6 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
         if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
             LivingEntity target = event.getEntity();
             if (CurioHandler.isCurioEquipped(player, MAItems.LuckyEmeraldRing.get())) {
-                if (target.getMobType() == MobType.ILLAGER) {
-                    //DamageManager.updateDamageIncrease(player, target, event);
-                }
-
                 if (target instanceof LivingEntity) {
                     if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
                         target.spawnAtLocation(Items.EMERALD, 1);

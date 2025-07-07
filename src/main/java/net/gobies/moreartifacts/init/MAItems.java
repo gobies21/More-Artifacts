@@ -11,6 +11,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MAItems {
     public static final DeferredRegister<Item> ITEMS;
     public static final RegistryObject<Item> Bezoar;
@@ -121,5 +124,14 @@ public class MAItems {
         RecallPotion = ITEMS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
         VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
         ArtifactSmithingTemplate = ITEMS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
+    }
+
+    public static List<RegistryObject<Item>> getAllArtifacts() {
+        return Arrays.asList(
+                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, WitheredBezoar,
+                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, AnkhCharm, MelodyPlushie, MechanicalGlove, EnderianScarf,
+                TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
+                Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye,
+                EnderDragonClaw, MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, VanirMask);
     }
 }

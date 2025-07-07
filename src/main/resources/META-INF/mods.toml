@@ -5,7 +5,7 @@ license = "All Rights Reserved"
 
 [[mods]]
 modId="moreartifacts"
-version="1.4.3.5"
+version="1.4.4"
 displayName="More Artifacts"
 authors="gobies"
 description='''An accessory expansion made for Minecraft!'''

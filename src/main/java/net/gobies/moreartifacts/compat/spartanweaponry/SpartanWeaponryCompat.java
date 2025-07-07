@@ -5,7 +5,6 @@ import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageManager;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -40,6 +39,9 @@ public class SpartanWeaponryCompat {
     }
 
     public static boolean isArmorPiercingBolt(DamageSource damageType) {
-        return MoreArtifacts.isSpartanWeaponryLoaded() && damageType.is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT);
+        if (MoreArtifacts.isSpartanWeaponryLoaded()) {
+            return damageType.is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT);
+        }
+        return false;
     }
 }
