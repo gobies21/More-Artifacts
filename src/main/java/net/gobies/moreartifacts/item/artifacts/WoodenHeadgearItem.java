@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -20,7 +21,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class WoodenHeadgearItem extends Item implements ICurioItem {
@@ -32,25 +32,19 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(WoodenHeadgearItem.class);
     }
 
-    private static final UUID ARMOR_UUID = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.randomUUID();
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(Attributes.ARMOR);
-            if (attribute != null) {
-                if (attribute.getModifier(ARMOR_UUID) == null && stack.getItem() instanceof WoodenHeadgearItem) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(ARMOR_UUID, "Wooden Headgear Armor", Config.WOODEN_HEADGEAR_ARMOR.get(), AttributeModifier.Operation.ADDITION));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.ARMOR, Config.WOODEN_HEADGEAR_ARMOR.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
         }
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
+            MAUtils.removeAttributes(player, Attributes.ARMOR, String.valueOf(ARMOR));
         }
     }
 

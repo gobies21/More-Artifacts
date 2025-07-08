@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -30,12 +31,8 @@ public class WitheredBezoarItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.POISON)) {
-                player.removeEffect(MobEffects.POISON);
-            }
-            if (player.hasEffect(MobEffects.WITHER)) {
-                player.removeEffect(MobEffects.WITHER);
-            }
+            MAUtils.removeEffect(player, MobEffects.POISON, MobEffects.WITHER);
+
         }
     }
 
@@ -43,10 +40,8 @@ public class WitheredBezoarItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.POISON || event.getEffectInstance().getEffect() == MobEffects.WITHER) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.WitheredBezoar.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.WitheredBezoar.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON, MobEffects.WITHER);
             }
         }
     }

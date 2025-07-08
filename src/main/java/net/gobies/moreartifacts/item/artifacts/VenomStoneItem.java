@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -37,9 +38,7 @@ public class VenomStoneItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.POISON)) {
-                player.removeEffect(MobEffects.POISON);
-            }
+            MAUtils.removeEffect(player, MobEffects.POISON);
         }
     }
 
@@ -47,10 +46,8 @@ public class VenomStoneItem extends Item implements ICurioItem {
     public static void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.POISON) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.VenomStone.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.VenomStone.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON);
             }
         }
     }

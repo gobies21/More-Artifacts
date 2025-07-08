@@ -34,7 +34,7 @@ public class VenomAmuletItem extends Item implements ICurioItem {
     }
 
     @SubscribeEvent
-    public static void onPlayerAttacked(LivingHurtEvent event) {
+    public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.VenomAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {

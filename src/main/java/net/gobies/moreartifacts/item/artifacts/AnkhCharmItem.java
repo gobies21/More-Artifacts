@@ -30,7 +30,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.isHarmfulEffectRemovable(player);
+            MAUtils.removeHarmfulEffects(player);
         }
     }
 
@@ -39,7 +39,7 @@ public class AnkhCharmItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhCharm.get())) {
-                MAUtils.isHarmfulEffectApplicable(event);
+                MAUtils.harmfulEffectImmunity(event);
             }
         }
     }

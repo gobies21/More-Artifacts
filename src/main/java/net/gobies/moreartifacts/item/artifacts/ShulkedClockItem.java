@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -26,25 +27,20 @@ public class ShulkedClockItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
         MinecraftForge.EVENT_BUS.register(this);
     }
+
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-                player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-            }
-            if (player.hasEffect(MobEffects.LEVITATION)) {
-                player.removeEffect(MobEffects.LEVITATION);
-            }
+            MAUtils.removeEffect(player, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.LEVITATION);
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN || event.getEffectInstance().getEffect() == MobEffects.LEVITATION) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.ShulkedClock.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.ShulkedClock.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.LEVITATION);
             }
         }
     }

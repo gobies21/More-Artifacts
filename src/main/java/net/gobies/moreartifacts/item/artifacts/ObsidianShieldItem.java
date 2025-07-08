@@ -24,7 +24,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -35,7 +34,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE_UUID = randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = randomUUID();
 
     static {
         MinecraftForge.EVENT_BUS.register(ObsidianShieldItem.class);
@@ -44,19 +43,14 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE);
-            if (attribute != null) {
-                if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Obsidian Shield knockback immunity", 1.0, AttributeModifier.Operation.ADDITION));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.KNOCKBACK_RESISTANCE, 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(KNOCKBACK_RESISTANCE));
+
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+            MAUtils.removeAttributes(player, Attributes.KNOCKBACK_RESISTANCE, String.valueOf(KNOCKBACK_RESISTANCE));
         }
     }
 
@@ -75,7 +69,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
-                MAUtils.isBurningImmune(event);
+                MAUtils.makeBurningImmune(event);
             }
         }
     }

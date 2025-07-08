@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -39,35 +40,16 @@ public class EchoGloveItem extends Item implements ICurioItem {
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        LivingEntity livingEntity = slotContext.entity();
-        if (livingEntity instanceof Player entity) {
-            var attackDamage = entity.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (attackDamage != null) {
-                if (attackDamage.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
-                    attackDamage.addTransientModifier(
-                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Echo Glove Attack Speed", Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                }
-            }
-            var attackSpeed = entity.getAttribute(Attributes.ATTACK_SPEED);
-            if (attackSpeed != null) {
-                if (attackSpeed.getModifier(ATTACK_SPEED_UUID) == null && stack.getItem() instanceof EchoGloveItem) {
-                    attackSpeed.addTransientModifier(
-                            new AttributeModifier(ATTACK_SPEED_UUID, "Echo Glove Attack Damage", Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                }
-            }
+        if (slotContext.entity() instanceof Player player) {
+            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_DAMAGE_UUID));
+            MAUtils.addAttributes(player, Attributes.ATTACK_SPEED, Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_SPEED_UUID));
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            var attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-            if (attackDamage != null) {
-                attackDamage.removeModifier(ATTACK_DAMAGE_UUID);
-            }
-            if (attackSpeed != null) {
-                attackSpeed.removeModifier(ATTACK_SPEED_UUID);
-            }
+            MAUtils.removeAttributes(player, Attributes.ATTACK_DAMAGE, String.valueOf(ATTACK_DAMAGE_UUID));
+            MAUtils.removeAttributes(player, Attributes.ATTACK_SPEED, String.valueOf(ATTACK_SPEED_UUID));
         }
     }
 

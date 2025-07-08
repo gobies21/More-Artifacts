@@ -24,7 +24,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class AnkhShieldItem extends ShieldItem implements ICurioItem {
@@ -37,13 +36,13 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(AnkhShieldItem.class);
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.isHarmfulEffectRemovable(player);
+                MAUtils.removeHarmfulEffects(player);
             }
         }
     }
@@ -53,7 +52,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.isHarmfulEffectRemovable(player);
+                MAUtils.removeHarmfulEffects(player);
             }
         }
     }
@@ -61,19 +60,14 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
-            if (attribute != null) {
-                if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Ankh Shield knockback immunity", 1.0, AttributeModifier.Operation.ADDITION));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.KNOCKBACK_RESISTANCE, 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(KNOCKBACK_RESISTANCE));
+
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+            MAUtils.removeAttributes(player, Attributes.KNOCKBACK_RESISTANCE, String.valueOf(KNOCKBACK_RESISTANCE));
         }
     }
 
@@ -81,7 +75,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.isHarmfulEffectApplicable(event);
+                MAUtils.harmfulEffectImmunity(event);
             }
         }
     }
@@ -100,7 +94,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.isBurningImmune(event);
+                MAUtils.makeBurningImmune(event);
             }
         }
     }

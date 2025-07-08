@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -39,25 +40,19 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(MechanicalClawItem.class);
     }
 
-
     private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
     
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (attribute != null) {
-                if (attribute.getModifier(ATTACK_DAMAGE_UUID) == null && stack.getItem() instanceof MechanicalClawItem) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(ATTACK_DAMAGE_UUID, "Mechanical Claw Attack Multiply", Config.MECHANICAL_CLAW_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, Config.MECHANICAL_CLAW_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_DAMAGE_UUID));
+
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_DAMAGE)).removeModifier(ATTACK_DAMAGE_UUID);
+            MAUtils.removeAttributes(player, Attributes.ATTACK_DAMAGE, String.valueOf(ATTACK_DAMAGE_UUID));
         }
     }
     

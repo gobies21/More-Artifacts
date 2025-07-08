@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -29,12 +30,7 @@ public class VitaminsItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.WEAKNESS)) {
-                player.removeEffect(MobEffects.WEAKNESS);
-            }
-            if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-                player.removeEffect(MobEffects.DIG_SLOWDOWN);
-            }
+            MAUtils.removeEffect(player, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN);
         }
     }
 
@@ -42,10 +38,8 @@ public class VitaminsItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.WEAKNESS || event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.Vitamins.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.Vitamins.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN);
             }
         }
     }

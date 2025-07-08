@@ -26,6 +26,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class SpectreAmuletItem extends Item implements ICurioItem {
+    private static final Map<Player, Long> cooldownMap = new HashMap<>();
+
     public SpectreAmuletItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
@@ -33,8 +35,6 @@ public class SpectreAmuletItem extends Item implements ICurioItem {
     static {
         MinecraftForge.EVENT_BUS.register(SpectreAmuletItem.class);
     }
-
-    private static final Map<Player, Long> cooldownMap = new HashMap<>();
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {

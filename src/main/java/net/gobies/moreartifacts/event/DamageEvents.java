@@ -62,10 +62,11 @@ public class DamageEvents {
 
             double finalReduction = event.getAmount();
 
-            if (MAUtils.isFireDMGReduced(event)) {
+            if (MAUtils.isFire(event)) {
                 // Combines damage reductions to be one value for fire damage reduction
                 double combinedFireReduction = generalReduction + fireReduction;
                 finalReduction = combinedFireReduction >= 1.0 ? 0.0 : finalReduction * (1.0 - combinedFireReduction);
+                System.out.println("Fire Damage Reduction for " + player.getName().getString() + ": " + String.format("%.2f", fireReduction * 100) + "%");
             } else {
                 finalReduction *= (1.0 - generalReduction);
             }
@@ -73,7 +74,6 @@ public class DamageEvents {
             event.setAmount((float) finalReduction);
 
             System.out.println("Total Damage Reduction for " + player.getName().getString() + ": " + String.format("%.2f", generalReduction * 100) + "%");
-            System.out.println("Fire Damage Reduction for " + player.getName().getString() + ": " + String.format("%.2f", fireReduction * 100) + "%");
         }
 
         if (event.getSource().getEntity() instanceof Player player) {
@@ -129,15 +129,15 @@ public class DamageEvents {
         if (event.getEntity() instanceof Player player) {
             Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquippedState(player);
 
-            Map<Item, Boolean> lastEquippedState = equippedArtifactsMap.getOrDefault(player, new HashMap<>());
+            Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(player, new HashMap<>());
 
-            if (!currentEquippedState.equals(lastEquippedState)) {
+            if (!currentEquippedState.equals(equippedArtifacts)) {
                 updateDamageReduction(player);
                 updateDamageIncrease(player);
 
                 equippedArtifactsMap.put(player, currentEquippedState);
 
-                System.out.println("Last Equipped State Map for " + player.getName().getString() + ": " + currentEquippedState);
+                System.out.println("Artifacts equipped for " + player.getName().getString() + ": " + currentEquippedState);
             }
         }
     }

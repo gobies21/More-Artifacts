@@ -46,7 +46,7 @@ public class FireStoneItem extends Item implements ICurioItem {
     public static void onEntityAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
-                MAUtils.isBurningImmune(event);
+                MAUtils.makeBurningImmune(event);
 
             }
         }

@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -29,9 +30,7 @@ public class SunglassesItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.BLINDNESS)) {
-                player.removeEffect(MobEffects.BLINDNESS);
-            }
+            MAUtils.removeEffect(player, MobEffects.BLINDNESS);
         }
     }
 
@@ -39,10 +38,8 @@ public class SunglassesItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.BLINDNESS) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.Sunglasses.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.Sunglasses.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.BLINDNESS);
             }
         }
     }

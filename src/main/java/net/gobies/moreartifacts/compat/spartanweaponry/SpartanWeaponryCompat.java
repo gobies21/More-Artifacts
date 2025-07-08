@@ -24,7 +24,7 @@ public class SpartanWeaponryCompat {
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
             LivingEntity target = event.getEntity();
-            if (event.getSource().is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT)) {
+            if (isArmorPiercingBolt(event.getSource())) {
                 if (CurioHandler.isCurioEquipped(attacker, MAItems.EnvenomedQuiver.get())) {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get()));

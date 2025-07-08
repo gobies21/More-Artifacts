@@ -76,7 +76,7 @@ public class DamageCalculator {
             }
         }
 
-        for (Item item : Arrays.asList(MAItems.ObsidianShield.get(), MAItems.AnkhShield.get())) {
+        for (Item item : Arrays.asList(MAItems.CobaltShield.get(), MAItems.ObsidianShield.get(), MAItems.AnkhShield.get())) {
             if (ShieldHandler.isShieldEquipped(player, item)) {
                 currentEquippedState.put(item, true);
             }

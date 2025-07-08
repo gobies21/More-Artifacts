@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -30,25 +31,18 @@ public class PurificationCharmItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.hasEffect(MobEffects.HUNGER)) {
-                player.removeEffect(MobEffects.HUNGER);
-            }
-            if (player.hasEffect(MobEffects.CONFUSION)) {
-                player.removeEffect(MobEffects.CONFUSION);
-            }
+            MAUtils.removeEffect(player, MobEffects.HUNGER, MobEffects.CONFUSION);
         }
     }
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-            if (event.getEffectInstance().getEffect() == MobEffects.HUNGER || event.getEffectInstance().getEffect() == MobEffects.CONFUSION) {
                 if (CurioHandler.isCurioEquipped(player, MAItems.PurificationCharm.get())) {
-                    event.setResult(MobEffectEvent.Result.DENY);
+                    MAUtils.harmfulSpecificEffectImmune(event, MobEffects.HUNGER, MobEffects.CONFUSION);
                 }
             }
         }
-    }
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

@@ -1,5 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
+import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -19,7 +21,6 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class CobaltShieldItem extends ShieldItem implements ICurioItem {
@@ -32,24 +33,19 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(CobaltShieldItem.class);
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
-            if (attribute != null) {
-                if (attribute.getModifier(KNOCKBACK_RESISTANCE_UUID) == null && stack.getItem() instanceof CobaltShieldItem) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Cobalt Shield knockback immunity", 1.0, AttributeModifier.Operation.ADDITION));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.KNOCKBACK_RESISTANCE, 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(KNOCKBACK_RESISTANCE));
+
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE)).removeModifier(KNOCKBACK_RESISTANCE_UUID);
+            MAUtils.removeAttributes(player, Attributes.KNOCKBACK_RESISTANCE, String.valueOf(KNOCKBACK_RESISTANCE));
         }
     }
 

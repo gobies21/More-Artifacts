@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,7 +24,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class MelodyPlushieItem extends Item implements ICurioItem {
@@ -59,20 +59,15 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
 
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var attribute = player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
-            if (attribute != null) {
-                if (attribute.getModifier(MAX_HEALTH) == null) {
-                    attribute.addTransientModifier(
-                            new AttributeModifier(MAX_HEALTH, "Plushie Max Health", Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-                }
-            }
+            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
+
         }
     }
 
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.REGENERATION);
-            Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).removeModifier(MAX_HEALTH);
+            MAUtils.removeAttributes(player, Attributes.MAX_HEALTH, String.valueOf(MAX_HEALTH));
             if (!player.isCreative() && !player.isSpectator()) {
                 player.setHealth(player.getHealth() - 0.1F);
             }

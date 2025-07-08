@@ -56,17 +56,14 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
                 }
             }
         }
-    }
-    @SubscribeEvent
-    public static void onPlayerAttacked(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.NecroplasmAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
                     if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
                         attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));
-                        if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
-                            attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get() - 1));
-                        }
+                    }
+                    if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
+                        attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get() - 1));
                     }
                 }
             }

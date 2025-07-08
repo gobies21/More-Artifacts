@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -23,14 +24,13 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class VanirMaskItem extends Item implements ICurioItem {
-    private static final UUID ARMOR_UUID = UUID.randomUUID();
-    private static final UUID ARMOR_TOUGHNESS_UUID = UUID.randomUUID();
-    private static final UUID MAX_HEALTH_UUID = UUID.randomUUID();
-    private static final UUID MOVEMENT_SPEED_UUID = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR_TOUGHNESS = UUID.randomUUID();
+    private static final UUID MAX_HEALTH = UUID.randomUUID();
+    private static final UUID MOVEMENT_SPEED = UUID.randomUUID();
 
     public VanirMaskItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
@@ -52,39 +52,20 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            var Armor = player.getAttribute(Attributes.ARMOR);
-            if (Armor != null && Armor.getModifier(ARMOR_UUID) == null) {
-                Armor.addTransientModifier(
-                        new AttributeModifier(ARMOR_UUID, "Vanir Mask Armor", Config.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
-
-            var ArmorToughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
-            if (ArmorToughness != null && ArmorToughness.getModifier(ARMOR_TOUGHNESS_UUID) == null) {
-                ArmorToughness.addTransientModifier(
-                        new AttributeModifier(ARMOR_TOUGHNESS_UUID, "Vanir Mask Armor Toughness", Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
-
-            var MaxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-            if (MaxHealth != null && MaxHealth.getModifier(MAX_HEALTH_UUID) == null) {
-                MaxHealth.addTransientModifier(
-                        new AttributeModifier(MAX_HEALTH_UUID, "Vanir Mask Health", Config.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
-
-            var Speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
-            if (Speed != null && Speed.getModifier(MOVEMENT_SPEED_UUID) == null) {
-                Speed.addTransientModifier(
-                        new AttributeModifier(MOVEMENT_SPEED_UUID, "Vanir Mask Speed", Config.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
+            MAUtils.addAttributes(player, Attributes.ARMOR, Config.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
+            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR_TOUGHNESS));
+            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, Config.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MAX_HEALTH));
+            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, Config.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MOVEMENT_SPEED));
         }
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            Objects.requireNonNull(player.getAttribute(Attributes.ARMOR)).removeModifier(ARMOR_UUID);
-            Objects.requireNonNull(player.getAttribute(Attributes.ARMOR_TOUGHNESS)).removeModifier(ARMOR_TOUGHNESS_UUID);
-            Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).removeModifier(MAX_HEALTH_UUID);
-            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVEMENT_SPEED_UUID);
+            MAUtils.removeAttributes(player, Attributes.ARMOR, String.valueOf(ARMOR));
+            MAUtils.removeAttributes(player, Attributes.ARMOR_TOUGHNESS, String.valueOf(ARMOR_TOUGHNESS));
+            MAUtils.removeAttributes(player, Attributes.MAX_HEALTH, String.valueOf(MAX_HEALTH));
+            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(MOVEMENT_SPEED));
         }
     }
 

@@ -1,71 +1,110 @@
 package net.gobies.moreartifacts.util;
 
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class MAUtils {
 
-    public static boolean isFireDMGReduced(LivingHurtEvent event) {
+    // Method to detect if the damage source is fire
+    public static boolean isFire(LivingHurtEvent event) {
         return event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE);
     }
 
-    public static void isBurningImmune(LivingAttackEvent event) {
+    // Method to make the player immune to burning
+    public static void makeBurningImmune(LivingAttackEvent event) {
         if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
             event.setCanceled(true);
         }
     }
+    // Method to grant immunity to all harmful effects
+    public static void harmfulEffectImmunity(MobEffectEvent event) {
+        List<MobEffect> harmfulEffects = Arrays.asList(
+                MobEffects.POISON,
+                MobEffects.WITHER,
+                MobEffects.HUNGER,
+                MobEffects.CONFUSION,
+                MobEffects.MOVEMENT_SLOWDOWN,
+                MobEffects.LEVITATION,
+                MobEffects.DIG_SLOWDOWN,
+                MobEffects.WEAKNESS,
+                MobEffects.BLINDNESS,
+                MobEffects.DARKNESS
+        );
 
-    public static void isHarmfulEffectApplicable(MobEffectEvent event) {
-        if (Objects.requireNonNull(event.getEffectInstance()).getEffect() == MobEffects.POISON ||
-                event.getEffectInstance().getEffect() == MobEffects.WITHER ||
-                event.getEffectInstance().getEffect() == MobEffects.HUNGER ||
-                event.getEffectInstance().getEffect() == MobEffects.CONFUSION ||
-                event.getEffectInstance().getEffect() == MobEffects.MOVEMENT_SLOWDOWN ||
-                event.getEffectInstance().getEffect() == MobEffects.LEVITATION ||
-                event.getEffectInstance().getEffect() == MobEffects.DIG_SLOWDOWN ||
-                event.getEffectInstance().getEffect() == MobEffects.WEAKNESS ||
-                event.getEffectInstance().getEffect() == MobEffects.BLINDNESS ||
-                event.getEffectInstance().getEffect() == MobEffects.DARKNESS) {
+        MobEffect effect = Objects.requireNonNull(event.getEffectInstance()).getEffect();
+        if (harmfulEffects.contains(effect)) {
             event.setResult(MobEffectEvent.Result.DENY);
         }
     }
+    // Method to grant immunity to specific harmful effects
+    public static void harmfulSpecificEffectImmune(MobEffectEvent event, MobEffect... specificEffects) {
+        List<MobEffect> effectsList = Arrays.asList(specificEffects);
+        MobEffect effect = Objects.requireNonNull(event.getEffectInstance()).getEffect();
+        if (effectsList.contains(effect)) {
+            event.setResult(MobEffectEvent.Result.DENY);
+        }
+    }
+    // Method to remove all harmful effects
+    public static void removeHarmfulEffects(Player player) {
+        List<MobEffect> harmfulEffects = Arrays.asList(
+                MobEffects.POISON,
+                MobEffects.WITHER,
+                MobEffects.HUNGER,
+                MobEffects.CONFUSION,
+                MobEffects.MOVEMENT_SLOWDOWN,
+                MobEffects.LEVITATION,
+                MobEffects.DIG_SLOWDOWN,
+                MobEffects.WEAKNESS,
+                MobEffects.BLINDNESS,
+                MobEffects.DARKNESS
+        );
 
-    public static void isHarmfulEffectRemovable(Player player) {
-        if (player.hasEffect(MobEffects.POISON)) {
-            player.removeEffect(MobEffects.POISON);
+        for (MobEffect effect : harmfulEffects) {
+            removeEffect(player, effect);
         }
-        if (player.hasEffect(MobEffects.WITHER)) {
-            player.removeEffect(MobEffects.WITHER);
+    }
+    // Method to remove specific harmful effects
+    public static void removeEffect(Player player, MobEffect... effects) {
+        for (MobEffect effect : effects) {
+            if (player.hasEffect(effect)) {
+                player.removeEffect(effect);
+            }
         }
-        if (player.hasEffect(MobEffects.HUNGER)) {
-            player.removeEffect(MobEffects.HUNGER);
+    }
+    // Method to add attributes from a player's attribute map
+    public static void addAttributes(Player player, Attribute attribute, double amount, AttributeModifier.Operation operation, String name) {
+        UUID modifierId = UUID.nameUUIDFromBytes((player.getUUID() + name).getBytes());
+        if (player.getAttribute(attribute) != null) {
+            AttributeInstance attributeInstance = player.getAttribute(attribute);
+            if (Objects.requireNonNull(attributeInstance).getModifier(modifierId) == null) {
+                AttributeModifier modifier = new AttributeModifier(modifierId, attribute.getDescriptionId(), amount, operation);
+                attributeInstance.addTransientModifier(modifier);
+            }
         }
-        if (player.hasEffect(MobEffects.CONFUSION)) {
-            player.removeEffect(MobEffects.CONFUSION);
-        }
-        if (player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-            player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-        }
-        if (player.hasEffect(MobEffects.LEVITATION)) {
-            player.removeEffect(MobEffects.LEVITATION);
-        }
-        if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-            player.removeEffect(MobEffects.DIG_SLOWDOWN);
-        }
-        if (player.hasEffect(MobEffects.WEAKNESS)) {
-            player.removeEffect(MobEffects.WEAKNESS);
-        }
-        if (player.hasEffect(MobEffects.BLINDNESS)) {
-            player.removeEffect(MobEffects.BLINDNESS);
-        }
-        if (player.hasEffect(MobEffects.DARKNESS)) {
-            player.removeEffect(MobEffects.DARKNESS);
+    }
+
+    // Method to remove attributes from a player's attribute map
+    public static void removeAttributes(Player player, Attribute attribute, String name) {
+        UUID modifierId = UUID.nameUUIDFromBytes((player.getUUID() + name).getBytes());
+        if (player.getAttribute(attribute) != null) {
+            AttributeInstance attributeInstance = player.getAttribute(attribute);
+            AttributeModifier modifier = Objects.requireNonNull(attributeInstance).getModifier(modifierId);
+            if (modifier != null) {
+                attributeInstance.removeModifier(modifierId);
+            }
         }
     }
 }
