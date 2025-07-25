@@ -6,19 +6,16 @@ import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
-import net.gobies.moreartifacts.init.MABrewing;
-import net.gobies.moreartifacts.init.MAModelLayer;
-import net.gobies.moreartifacts.init.MAProperties;
-import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.init.MACreativeTab;
+import net.gobies.moreartifacts.config.ClientConfig;
+import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.network.PacketHandler;
-import net.gobies.moreartifacts.event.DamageEvents;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -43,6 +40,8 @@ public class MoreArtifacts {
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        MinecraftForge.EVENT_BUS.register(this);
+
         MAItems.register(modBus);
 
         MACreativeTab.register(modBus);
@@ -55,40 +54,39 @@ public class MoreArtifacts {
 
         PacketHandler.register();
 
-        MinecraftForge.EVENT_BUS.register(this);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
 
-        MinecraftForge.EVENT_BUS.register(DamageEvents.class);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
 
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(MABrewing::register);
 
-        if (isSpartanWeaponryLoaded()) {
+        if (ModLoadedUtil.isSpartanWeaponryLoaded()) {
             SpartanWeaponryCompat.loadCompat();
-            LOGGER.info("[More Artifacts] Spartan Weaponry Compat Loaded");
+            log("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
-        if (isEnhancedVisualsLoaded() && (Config.TRUE_ENDERIAN_COMPAT.get())) {
+        if (ModLoadedUtil.isEnhancedVisualsLoaded()) {
             EnhancedVisualsCompat.loadCompat();
-            LOGGER.info("[More Artifacts] Enhanced Visuals Compat Loaded");
+            log("[More Artifacts] Enhanced Visuals Compat Loaded");
         }
-        if (isIceandFireLoaded() && (Config.ICE_STONE_COMPAT.get())) {
+        if (ModLoadedUtil.isIceandFireLoaded()) {
             IceandFireCompat.loadCompat();
-            LOGGER.info("[More Artifacts] Ice and Fire Compat Loaded");
+            log("[More Artifacts] Ice and Fire Compat Loaded");
         }
-        if (isPotionRingsLoaded()) {
-            LOGGER.info("[More Artifacts] Potion Rings Compat Mixin Loaded");
+        if (ModLoadedUtil.isPotionRingsLoaded()) {
+            log("[More Artifacts] Potion Rings Compat Mixin Loaded");
         }
-        if (isApothecaryLoaded()) {
+        if (ModLoadedUtil.isApothecaryLoaded()) {
             ApothecaryCompat.loadCompat();
-            LOGGER.info("[More Artifacts] Apothecary Compat Loaded");
+            log("[More Artifacts] Apothecary Compat Loaded");
         }
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         MAProperties.addItemProperties();
+        MAModels.modelSetup();
         MinecraftForge.EVENT_BUS.register(EnderianEyeOverlay.class);
     }
 
@@ -114,28 +112,12 @@ public class MoreArtifacts {
         }
     }
 
+    private static void log(String message) {
+        LOGGER.info(message);
+    }
+
     private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {
-        MAModelLayer.registers(event);
-    }
-
-    public static boolean isSpartanWeaponryLoaded() {
-        return ModList.get().isLoaded("spartanweaponry");
-    }
-
-    public static boolean isEnhancedVisualsLoaded() {
-        return ModList.get().isLoaded("enhancedvisuals");
-    }
-
-    public static boolean isIceandFireLoaded() {
-        return ModList.get().isLoaded("iceandfire");
-    }
-
-    public static boolean isPotionRingsLoaded() {
-        return ModList.get().isLoaded("potionrings2");
-    }
-
-    public static boolean isApothecaryLoaded() {
-        return ModList.get().isLoaded("apothecary");
+        MAModels.registerLayerDefinitions(event);
     }
 }
 

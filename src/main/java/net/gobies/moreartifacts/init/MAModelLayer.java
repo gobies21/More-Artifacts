@@ -1,22 +1,25 @@
 package net.gobies.moreartifacts.init;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.gobies.moreartifacts.client.models.SunglassesModel;
 
-@OnlyIn(Dist.CLIENT)
 public class MAModelLayer {
-        public static final ModelLayerLocation SUNGLASSES = createLocation("sunglasses", "main");
+        public static final ModelLayerLocation SUNGLASSES;
+        public static final ModelLayerLocation SCULK_SHADES;
+        public static final ModelLayerLocation SCULK_LENS;
+        public static final ModelLayerLocation COBALT_SHIELD;
+        public static final ModelLayerLocation OBSIDIAN_SHIELD;
+        public static final ModelLayerLocation ANKH_SHIELD;
+        public static final ModelLayerLocation HERO_SHIELD;
 
-        public static void registers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-                event.registerLayerDefinition(SUNGLASSES, () -> SunglassesModel.createBodyLayer(new CubeDeformation(0.3F)));
-        }
+        static {
+                SUNGLASSES = new ModelLayerLocation(new ResourceLocation("moreartifacts", "sunglasses"), "sunglasses");
+                SCULK_SHADES = new ModelLayerLocation(new ResourceLocation("moreartifacts", "sculk_shades"), "sculk_shades");
+                SCULK_LENS = new ModelLayerLocation(new ResourceLocation("moreartifacts", "sculk_lens"), "sculk_lens");
+                COBALT_SHIELD = new ModelLayerLocation(new ResourceLocation("moreartifacts", "cobalt_shield"), "cobalt_shield");
+                OBSIDIAN_SHIELD = new ModelLayerLocation(new ResourceLocation("moreartifacts", "obsidian_shield"), "obsidian_shield");
+                ANKH_SHIELD = new ModelLayerLocation(new ResourceLocation("moreartifacts", "ankh_shield"), "ankh_shield");
+                HERO_SHIELD = new ModelLayerLocation(new ResourceLocation("moreartifacts", "hero_shield"), "hero_shield");
 
-        private static ModelLayerLocation createLocation(String model, String layer) {
-                return new ModelLayerLocation(new ResourceLocation("moreartifacts", model), layer);
         }
 }

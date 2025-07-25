@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -30,7 +30,7 @@ public class ShackleItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ARMOR, Config.SHACKLE_ARMOR.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
+            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.SHACKLE_ARMOR.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
         }
     }
 
@@ -47,7 +47,7 @@ public class ShackleItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        int shackleArmor = Config.SHACKLE_ARMOR.get();
+        int shackleArmor = CommonConfig.SHACKLE_ARMOR.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shackle.armor", shackleArmor).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.ChatFormatting;
@@ -42,12 +42,12 @@ public class SpectreAmuletItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.SpectreAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
-                    if (random.nextFloat() < Config.SPECTRE_AMULET_HEAL_CHANCE.get()) {
+                    if (random.nextFloat() < CommonConfig.SPECTRE_AMULET_HEAL_CHANCE.get()) {
                         long currentTime = System.currentTimeMillis();
                         long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
 
                         if (currentTime - lastHealTime >= 1000) {
-                            attacker.heal(Config.SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue());
+                            attacker.heal(CommonConfig.SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue());
                             cooldownMap.put(attacker, currentTime);
                         }
                     }

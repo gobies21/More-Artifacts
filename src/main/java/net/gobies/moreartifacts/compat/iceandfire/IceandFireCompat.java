@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.compat.iceandfire;
 
 import com.github.alexthe666.iceandfire.entity.props.EntityDataProvider;
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.util.RandomSource;
@@ -20,11 +20,11 @@ public class IceandFireCompat {
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {
+            RandomSource random = attacker.getRandom();
+            LivingEntity target = event.getEntity();
             if (CurioHandler.isCurioEquipped(attacker, MAItems.IceStone.get())) {
-                RandomSource random = attacker.getRandom();
-                LivingEntity target = event.getEntity();
-                if (random.nextFloat() < Config.ICE_STONE_ENCASED_CHANCE.get()) {
-                    EntityDataProvider.getCapability(target).ifPresent(data -> data.frozenData.setFrozen(target, 20 * Config.ICE_STONE_ENCASED_DURATION.get()));
+                if (random.nextFloat() < CommonConfig.ICE_STONE_ENCASED_CHANCE.get() && CommonConfig.ICE_STONE_COMPAT.get()) {
+                    EntityDataProvider.getCapability(target).ifPresent(data -> data.frozenData.setFrozen(target, 20 * CommonConfig.ICE_STONE_ENCASED_DURATION.get()));
                 }
             }
         }

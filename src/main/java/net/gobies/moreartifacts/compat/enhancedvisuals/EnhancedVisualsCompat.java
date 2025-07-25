@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.compat.enhancedvisuals;
 
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.client.Minecraft;
@@ -22,19 +23,20 @@ public class EnhancedVisualsCompat {
     public void SelectEndermanEvent(SelectEndermanEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player != null && !event.isCanceled()) {
+        if (player != null && !event.isCanceled() && CommonConfig.TRUE_ENDERIAN_COMPAT.get()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.TrueEnderianScarf.get())) {
                 event.setCanceled(true);
             }
         }
     }
+
     //not working for some unknown reason
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void VisualExplosionEvent(VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player != null && !event.isCanceled()) {
+        if (player != null && !event.isCanceled() && CommonConfig.HERO_SHIELD_COMPAT.get()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
                 event.setCanceled(true);
             }

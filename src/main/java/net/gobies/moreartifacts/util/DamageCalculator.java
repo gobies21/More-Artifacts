@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.util;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DamageCalculator {
+public abstract class DamageCalculator {
     private static final List<Item> itemsToCheck = MAItems.getAllArtifacts().stream()
             .map(RegistryObject::get)
             .toList();
@@ -19,39 +19,39 @@ public class DamageCalculator {
     public static double calculateTotalDamageReduction(Player player) {
         double generalReduction = 0.0;
 
-        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), Config.ENDERIAN_DAMAGE_TAKEN.get());
-        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), Config.GILDED_DAMAGE_TAKEN.get());
-        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), CommonConfig.ENDERIAN_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), CommonConfig.TRUE_ENDERIAN_DAMAGE_TAKEN.get());
 
-        return Math.min(generalReduction, Config.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
+        return Math.min(generalReduction, CommonConfig.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
     }
 
     public static double calculateFireDamageReduction(Player player) {
         double fireReduction = 0.0;
 
-        fireReduction += getDamageReduction(player, MAItems.ObsidianSkull.get(), Config.SKULL_FIRE_DAMAGE_TAKEN.get());
-        fireReduction += getDamageReduction(player, MAItems.ObsidianShield.get(), Config.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get());
-        fireReduction += getDamageReduction(player, MAItems.AnkhShield.get(), Config.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.ObsidianSkull.get(), CommonConfig.SKULL_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.ObsidianShield.get(), CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.AnkhShield.get(), CommonConfig.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get());
 
-        return Math.min(fireReduction, Config.MAX_FIRE_DAMAGE_REDUCTION.get()); // Fire Damage Reduction Cap
+        return Math.min(fireReduction, CommonConfig.MAX_FIRE_DAMAGE_REDUCTION.get()); // Fire Damage Reduction Cap
     }
 
     public static double calculateDamageIncrease(Player player) {
         double generalIncrease = 0.0;
 
-        generalIncrease += getDamageIncrease(player, MAItems.GildedScarf.get(), Config.GILDED_DAMAGE_DEALT.get());
-        generalIncrease += getDamageIncrease(player, MAItems.EnderDragonClaw.get(), Config.ENDER_DRAGON_CLAW_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.LuckyEmeraldRing.get(), Config.EMERALD_RING_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.VenomStone.get(), Config.VENOM_STONE_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.DecayStone.get(), Config.DECAY_STONE_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.FireStone.get(), Config.FIRE_STONE_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.IceStone.get(), Config.ICE_STONE_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.MagicQuiver.get(), Config.MAGIC_QUIVER_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), Config.ENVENOMED_QUIVER_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), Config.MOLTEN_QUIVER_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), Config.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
+        generalIncrease += getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.LuckyEmeraldRing.get(), CommonConfig.EMERALD_RING_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.VenomStone.get(), CommonConfig.VENOM_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.DecayStone.get(), CommonConfig.DECAY_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.FireStone.get(), CommonConfig.FIRE_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.IceStone.get(), CommonConfig.ICE_STONE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
 
-        return Math.min(generalIncrease, Config.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
+        return Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
     }
 
     public static double getDamageReduction(Player player, Item item, double configValue) {
@@ -66,7 +66,7 @@ public class DamageCalculator {
         return CurioHandler.isCurioEquipped(player, item) ? configValue - 1.0 : 0.0;
     }
 
-    public static Map<Item, Boolean> getCurrentEquippedState(Player player) {
+    public static Map<Item, Boolean> getCurrentEquipState(Player player) {
         Map<Item, Boolean> currentEquippedState = new HashMap<>();
 
         for (Item item : itemsToCheck) {

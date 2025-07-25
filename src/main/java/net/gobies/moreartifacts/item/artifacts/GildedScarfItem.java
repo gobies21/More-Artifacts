@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -37,8 +37,8 @@ public class GildedScarfItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double damageTaken = (100 - Config.GILDED_DAMAGE_TAKEN.get() * 100);
-        double damageDealt = (Config.GILDED_DAMAGE_DEALT.get() - 1) * 100;
+        double damageTaken = (100 - CommonConfig.GILDED_DAMAGE_TAKEN.get() * 100);
+        double damageDealt = (CommonConfig.GILDED_DAMAGE_DEALT.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.neutral").withStyle(ChatFormatting.YELLOW));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", String.format("%.1f", damageTaken)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", String.format("%.1f", damageDealt)).withStyle(ChatFormatting.DARK_AQUA));

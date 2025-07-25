@@ -1,8 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,8 +14,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -40,22 +36,13 @@ public class VanirMaskItem extends Item implements ICurioItem {
         MinecraftForge.EVENT_BUS.register(VanirMaskItem.class);
     }
 
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.VanirMask.get())) {
-                event.setAmount((float) (event.getAmount() + Config.VANIR_MASK_DAMAGE_INCREASE.get()));
-            }
-        }
-    }
-
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ARMOR, Config.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
-            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR_TOUGHNESS));
-            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, Config.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MAX_HEALTH));
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, Config.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MOVEMENT_SPEED));
+            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
+            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR_TOUGHNESS));
+            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MAX_HEALTH));
+            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MOVEMENT_SPEED));
         }
     }
 
@@ -76,11 +63,11 @@ public class VanirMaskItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double damageIncrease = Config.VANIR_MASK_DAMAGE_INCREASE.get();
-        double healthIncrease = Config.VANIR_MASK_HEALTH_INCREASE.get() * 100;
-        double speedIncrease = Config.VANIR_MASK_SPEED_INCREASE.get() * 100;
-        double armorIncrease = Config.VANIR_MASK_ARMOR_INCREASE.get() * 100;
-        double armorToughnessIncrease = Config.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * 100;
+        double damageIncrease = CommonConfig.VANIR_MASK_DAMAGE_INCREASE.get();
+        double healthIncrease = CommonConfig.VANIR_MASK_HEALTH_INCREASE.get() * 100;
+        double speedIncrease = CommonConfig.VANIR_MASK_SPEED_INCREASE.get() * 100;
+        double armorIncrease = CommonConfig.VANIR_MASK_ARMOR_INCREASE.get() * 100;
+        double armorToughnessIncrease = CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {

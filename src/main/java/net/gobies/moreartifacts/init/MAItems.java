@@ -128,10 +128,10 @@ public class MAItems {
 
     public static List<RegistryObject<Item>> getAllArtifacts() {
         return Arrays.asList(
-                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, WitheredBezoar,
-                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, AnkhCharm, MelodyPlushie, MechanicalGlove, EnderianScarf,
-                TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
-                Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye,
-                EnderDragonClaw, MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, VanirMask);
+                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, CobaltShield, WitheredBezoar,
+                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, MechanicalGlove,
+                EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
+                Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
+                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, VanirMask);
     }
 }

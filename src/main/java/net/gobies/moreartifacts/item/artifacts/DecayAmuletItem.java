@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
@@ -38,8 +38,8 @@ public class DecayAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.DecayAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < Config.DECAY_AMULET_WITHER_CHANCE.get()) {
-                        attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.DECAY_AMULET_WITHER_DURATION.get(), Config.DECAY_AMULET_WITHER_LEVEL.get() - 1));
+                    if (player.getRandom().nextFloat() < CommonConfig.DECAY_AMULET_WITHER_CHANCE.get()) {
+                        attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.DECAY_AMULET_WITHER_DURATION.get(), CommonConfig.DECAY_AMULET_WITHER_LEVEL.get() - 1));
                     }
                 }
             }

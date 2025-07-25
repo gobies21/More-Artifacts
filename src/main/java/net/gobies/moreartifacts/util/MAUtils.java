@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.util;
 
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -11,12 +12,10 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class MAUtils {
+    private static final Map<Player, Long> cooldownMap = new HashMap<>();
 
     // Method to detect if the damage source is fire
     public static boolean isFire(LivingHurtEvent event) {
@@ -95,7 +94,6 @@ public class MAUtils {
             }
         }
     }
-
     // Method to remove attributes from a player's attribute map
     public static void removeAttributes(Player player, Attribute attribute, String name) {
         UUID modifierId = UUID.nameUUIDFromBytes((player.getUUID() + name).getBytes());
@@ -105,6 +103,39 @@ public class MAUtils {
             if (modifier != null) {
                 attributeInstance.removeModifier(modifierId);
             }
+        }
+    }
+    // Method to get the cooldown of an artifact
+    public static double getCooldownTimer(Player player, double cooldown) {
+        long currentTime = System.currentTimeMillis();
+        long lastTeleportTime = cooldownMap.getOrDefault(player, 0L);
+        return (currentTime - lastTeleportTime) / 1000.0;
+    }
+    // Method to update the cooldown of an artifact
+    public static void updateCooldown(Player player) {
+        cooldownMap.put(player, System.currentTimeMillis());
+    }
+    // Method to check if the player is ready to teleport
+    public static boolean isReadyForTeleport(Player player, double cooldown) {
+        return getCooldownTimer(player, cooldown) >= cooldown;
+    }
+    // Method to reset the cooldown timer of an artifact
+    public static void resetCooldownTimer(Player player) {
+        cooldownMap.put(player, 0L);
+    }
+
+    public static float lootingValues() {
+        if (ModLoadedUtil.isJLMELoaded()) {
+            return 0.005f;
+        } else {
+            return 0.01f;
+        }
+    }
+
+    // Method to log debug messages
+    public static void logDebug(String message) {
+        if (CommonConfig.ENABLE_DEBUG.get()) {
+            System.out.println(message);
         }
     }
 }

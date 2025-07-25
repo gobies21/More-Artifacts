@@ -1,5 +1,4 @@
 package net.gobies.moreartifacts.item.artifacts;
-import net.gobies.moreartifacts.Config;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ShieldHandler;

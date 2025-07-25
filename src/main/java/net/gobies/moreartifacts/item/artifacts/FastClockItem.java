@@ -39,11 +39,11 @@ public class FastClockItem extends Item implements ICurioItem {
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
             event.getEffectInstance();
-                if (CurioHandler.isCurioEquipped(player, MAItems.FastClock.get())) {
-                    MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN);
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.FastClock.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN);
             }
         }
+    }
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {

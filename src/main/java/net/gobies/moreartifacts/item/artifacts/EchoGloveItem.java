@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.MAUtils;
@@ -41,8 +41,8 @@ public class EchoGloveItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, Config.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_DAMAGE_UUID));
-            MAUtils.addAttributes(player, Attributes.ATTACK_SPEED, Config.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_SPEED_UUID));
+            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, CommonConfig.ECHO_GLOVE_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_DAMAGE_UUID));
+            MAUtils.addAttributes(player, Attributes.ATTACK_SPEED, CommonConfig.ECHO_GLOVE_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_SPEED_UUID));
         }
     }
 
@@ -59,7 +59,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
             LivingEntity attackedEntity = event.getEntity();
             if (CurioHandler.isCurioEquipped(attacker, MAItems.EchoGlove.get())) {
                 RandomSource random = attacker.getRandom();
-                if (random.nextFloat() < Config.ECHO_GLOVE_IGNORE_CHANCE.get()) {
+                if (random.nextFloat() < CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get()) {
                     // reduce the invincibility time by a fixed number of ticks
                     attackedEntity.invulnerableTime = Math.max(0, attackedEntity.invulnerableTime - 5);
                 }
@@ -74,9 +74,9 @@ public class EchoGloveItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double attackDamage = (Config.ECHO_GLOVE_DAMAGE.get() * 100);
-        double attackSpeed = (Config.ECHO_GLOVE_ATTACK_SPEED.get() * 100);
-        double ignoreChance = (Config.ECHO_GLOVE_IGNORE_CHANCE.get() * 100);
+        double attackDamage = (CommonConfig.ECHO_GLOVE_DAMAGE.get() * 100);
+        double attackSpeed = (CommonConfig.ECHO_GLOVE_ATTACK_SPEED.get() * 100);
+        double ignoreChance = (CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get() * 100);
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.damage", String.format("%.1f", attackDamage)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.speed", String.format("%.1f", attackSpeed)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.ignore_chance", String.format("%.1f", ignoreChance)).withStyle(ChatFormatting.DARK_AQUA));

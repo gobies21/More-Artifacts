@@ -5,7 +5,7 @@ license = "All Rights Reserved"
 
 [[mods]]
 modId="moreartifacts"
-version="1.4.4"
+version="1.4.5"
 displayName="More Artifacts"
 authors="gobies"
 description='''An accessory expansion made for Minecraft!'''
@@ -30,3 +30,6 @@ mandatory = true
 versionRange = "[5.2.0+1.20.1,)"
 ordering = "NONE"
 side = "BOTH"
+
+[modproperties.moreartifacts]
+configuredBackground="minecraft:textures/block/stone_bricks.png"

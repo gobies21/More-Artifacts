@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
@@ -36,7 +36,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
             LivingEntity target = event.getEntity();
             if (CurioHandler.isCurioEquipped(player, MAItems.LuckyEmeraldRing.get())) {
                 if (target instanceof LivingEntity) {
-                    if (player.level().random.nextFloat() < Config.EMERALD_RING_EMERALDS.get()) {
+                    if (player.level().random.nextFloat() < CommonConfig.EMERALD_RING_EMERALDS.get()) {
                         target.spawnAtLocation(Items.EMERALD, 1);
                         player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.6f, 1.8f);
                     }
@@ -52,8 +52,8 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
 
 @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double emeraldChance = Config.EMERALD_RING_EMERALDS.get() * 100;
-        double damageIncrease = (Config.EMERALD_RING_DAMAGE.get() - 1) * 100;
+        double emeraldChance = CommonConfig.EMERALD_RING_EMERALDS.get() * 100;
+        double damageIncrease = (CommonConfig.EMERALD_RING_DAMAGE.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.chance", String.format("%.1f", emeraldChance)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.damage", String.format("%.1f", damageIncrease)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

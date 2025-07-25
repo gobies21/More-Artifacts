@@ -1,7 +1,7 @@
 package net.gobies.moreartifacts.mixin;
 
 import com.oblivioussp.spartanweaponry.item.HeavyCrossbowItem;
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,17 +21,17 @@ public class HeavyCrossbowItemMixin {
     )
     private void quiverSaveBolt(ItemStack stack, Level levelIn, LivingEntity entityLiving, int timeLeft, CallbackInfo ci) {
         if (CurioHandler.isCurioEquipped(entityLiving, MAItems.MagicQuiver.get())) {
-            if (entityLiving.getRandom().nextFloat() < Config.MAGIC_QUIVER_AMMO.get()) {
+            if (entityLiving.getRandom().nextFloat() < CommonConfig.MAGIC_QUIVER_AMMO.get()) {
                 ci.cancel();
             }
         }
         if (CurioHandler.isCurioEquipped(entityLiving, MAItems.EnvenomedQuiver.get())) {
-            if (entityLiving.getRandom().nextFloat() < Config.ENVENOMED_QUIVER_AMMO.get()) {
+            if (entityLiving.getRandom().nextFloat() < CommonConfig.ENVENOMED_QUIVER_AMMO.get()) {
                 ci.cancel();
             }
         }
         if (CurioHandler.isCurioEquipped(entityLiving, MAItems.MoltenQuiver.get())) {
-            if (entityLiving.getRandom().nextFloat() < Config.MOLTEN_QUIVER_AMMO.get()) {
+            if (entityLiving.getRandom().nextFloat() < CommonConfig.MOLTEN_QUIVER_AMMO.get()) {
                 ci.cancel();
             }
         }

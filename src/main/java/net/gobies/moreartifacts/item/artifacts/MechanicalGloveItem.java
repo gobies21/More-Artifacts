@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -30,7 +30,7 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, Config.MECHANICAL_GLOVE_DAMAGE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ATTACK_DAMAGE_UUID));
+            MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, CommonConfig.MECHANICAL_GLOVE_DAMAGE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ATTACK_DAMAGE_UUID));
         }
     }
 
@@ -47,7 +47,7 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        int gloveDamage = Config.MECHANICAL_GLOVE_DAMAGE.get();
+        int gloveDamage = CommonConfig.MECHANICAL_GLOVE_DAMAGE.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_glove.damage", gloveDamage).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

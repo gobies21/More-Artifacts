@@ -107,7 +107,7 @@ dependencies {
     implementation fg.deobf("curse.maven:blessfulled-1182590:6174088")
 
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
-    implementation fg.deobf("curse.maven:creativecore-257814:6109933")
+    implementation fg.deobf("curse.maven:creativecore-257814:6383884")
 
     implementation fg.deobf("curse.maven:simply-potion-rings-1217574:6557539")
 
@@ -118,6 +118,9 @@ dependencies {
 
     implementation fg.deobf("curse.maven:configured-457570:5180900")
     implementation fg.deobf("curse.maven:catalogue-459701:4766090")
+
+    runtimeOnly(fg.deobf("curse.maven:free-cam-557076:4643128"))
+    runtimeOnly(fg.deobf("curse.maven:pehkui-319596:5393101"))
 
 }
 

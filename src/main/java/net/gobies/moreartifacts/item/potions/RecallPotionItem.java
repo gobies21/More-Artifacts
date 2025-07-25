@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.potions;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -31,12 +31,12 @@ public class RecallPotionItem extends Item {
 
     @Override
     public int getUseDuration(@NotNull ItemStack stack) {
-        return Config.RECALL_POTION_USE_TIME.get();
+        return CommonConfig.RECALL_POTION_USE_TIME.get();
     }
 
     @Override
     public boolean isFoil(@NotNull ItemStack stack) {
-        return Config.RECALL_POTION_GLOW.get();
+        return CommonConfig.RECALL_POTION_GLOW.get();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class RecallPotionItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entityLiving) {
         if (!level.isClientSide && entityLiving instanceof ServerPlayer serverPlayer) {
-            boolean interDimensional = Config.RECALL_POTION_INTERDIMENSIONAL.get();
+            boolean interDimensional = CommonConfig.RECALL_POTION_INTERDIMENSIONAL.get();
             ResourceKey<Level> currentDimension = level.dimension();
             ResourceKey<Level> respawnDimension = serverPlayer.getRespawnDimension();
             ServerLevel serverWorld = interDimensional ? serverPlayer.server.getLevel(respawnDimension) : (currentDimension == respawnDimension ? Objects.requireNonNull(level.getServer()).getLevel(currentDimension) : null);
@@ -66,7 +66,7 @@ public class RecallPotionItem extends Item {
                             serverWorld.playSound(null, respawnVec.x, respawnVec.y, respawnVec.z, SoundEvents.ENDERMAN_TELEPORT, serverPlayer.getSoundSource(), 1.0F, 1.0F);
                             level.playSound(null, respawnVec.x, respawnVec.y, respawnVec.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                             level.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * Config.RECALL_POTION_COOLDOWN.get()); // 20 ticks = 1 second
+                            serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.RECALL_POTION_COOLDOWN.get()); // 20 ticks = 1 second
                             if (!serverPlayer.isCreative()) {
                                 if (stack.getCount() == 1) {
                                     serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));

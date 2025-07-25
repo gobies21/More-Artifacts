@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.MAUtils;
@@ -42,7 +42,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         Player player = event.getEntity();
         if (!player.level().isClientSide && player.isSleeping()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
-                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * Config.PLUSHIE_DURATION.get(), Config.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
+                player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * CommonConfig.PLUSHIE_DURATION.get(), CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
         }
     }
@@ -52,14 +52,14 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (!player.hasEffect(MobEffects.REGENERATION)) {
-                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, Config.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, CommonConfig.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
             }
         }
     }
 
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, Config.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
+            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
 
         }
     }
@@ -81,7 +81,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double maxHealth = Config.PLUSHIE_HEALTH.get() * 100;
+        double maxHealth = CommonConfig.PLUSHIE_HEALTH.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.regen").withStyle(ChatFormatting.LIGHT_PURPLE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.health", String.format("%.1f", maxHealth)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.sleep").withStyle(ChatFormatting.DARK_AQUA));

@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.ChatFormatting;
@@ -39,8 +39,8 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.EnvenomedQuiver.get())) {
                 if (event.getSource().is(DamageTypes.ARROW)) {
                     LivingEntity target = event.getEntity();
-                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.ENVENOMED_QUIVER_POISON_DURATION.get(), Config.ENVENOMED_QUIVER_POISON_LEVEL.get() - 1));
-                    target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.ENVENOMED_QUIVER_WITHER_DURATION.get(), Config.ENVENOMED_QUIVER_WITHER_LEVEL.get() - 1));
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.ENVENOMED_QUIVER_POISON_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_POISON_LEVEL.get() - 1));
+                    target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.ENVENOMED_QUIVER_WITHER_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_WITHER_LEVEL.get() - 1));
                 }
             }
         }
@@ -53,8 +53,8 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double arrowDamage = (Config.ENVENOMED_QUIVER_DAMAGE.get() - 1) * 100;
-        double arrowSave = (Config.ENVENOMED_QUIVER_AMMO.get() * 100);
+        double arrowDamage = (CommonConfig.ENVENOMED_QUIVER_DAMAGE.get() - 1) * 100;
+        double arrowSave = (CommonConfig.ENVENOMED_QUIVER_AMMO.get() * 100);
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.inflict").withStyle(ChatFormatting.GOLD));

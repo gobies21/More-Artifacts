@@ -1,10 +1,10 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
-import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -55,8 +55,8 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, ForgeMod.ENTITY_REACH.get(), Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ENTITY_REACH));
-            MAUtils.addAttributes(player, ForgeMod.BLOCK_REACH.get(), Config.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(BLOCK_REACH));
+            MAUtils.addAttributes(player, ForgeMod.ENTITY_REACH.get(), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ENTITY_REACH));
+            MAUtils.addAttributes(player, ForgeMod.BLOCK_REACH.get(), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(BLOCK_REACH));
         }
     }
 
@@ -73,7 +73,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(player, MAItems.TrueEnderianScarf.get())) {
                 if (!player.isCreative() || !player.isSpectator()) {
                     RandomSource playerRandom = player.getRandom();
-                    if (playerRandom.nextFloat() >= Config.TRUE_ENDERIAN_EVADE.get()) {
+                    if (playerRandom.nextFloat() >= CommonConfig.TRUE_ENDERIAN_EVADE.get()) {
                         return;
                     }
                     Level level = player.level();
@@ -128,18 +128,18 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double scarfDamageTaken = (100 - Config.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100);
-        double scarfEvadeChance = Config.TRUE_ENDERIAN_EVADE.get() * 100;
-        double scarfReach = Config.TRUE_ENDERIAN_REACH.get();
+        double scarfDamageTaken = (100 - CommonConfig.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100);
+        double scarfEvadeChance = CommonConfig.TRUE_ENDERIAN_EVADE.get() * 100;
+        double scarfReach = CommonConfig.TRUE_ENDERIAN_REACH.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.neutral").withStyle(ChatFormatting.LIGHT_PURPLE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.1f", scarfDamageTaken)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", String.format("%.1f", scarfEvadeChance)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.reach", scarfReach).withStyle(ChatFormatting.DARK_AQUA));
-        if (MoreArtifacts.isEnhancedVisualsLoaded() && (Config.TRUE_ENDERIAN_COMPAT.get())) {
+        if (ModLoadedUtil.isEnhancedVisualsLoaded() && (CommonConfig.TRUE_ENDERIAN_COMPAT.get())) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(5);
-                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals"));
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
             }
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }

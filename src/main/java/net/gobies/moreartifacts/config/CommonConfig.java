@@ -1,12 +1,17 @@
-package net.gobies.moreartifacts;
+package net.gobies.moreartifacts.config;
 
+import net.gobies.moreartifacts.MoreArtifacts;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config {
+public class CommonConfig {
+    private static final String FILENAME = "moreartifacts-common.toml";
+
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
@@ -68,6 +73,8 @@ public class Config {
     public static float explosion_damage_taken;
     public static ForgeConfigSpec.ConfigValue<Integer> HERO_SHIELD_RES_LEVEL;
     public static int hero_shield_res_level;
+    public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_COMPAT;
+    public static boolean hero_shield_compat;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_TAKEN;
     public static float enderian_damage_taken;
@@ -151,8 +158,6 @@ public class Config {
     public static int enderian_eye_radius;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_EYE_COOLDOWN;
     public static float enderian_eye_cooldown;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENDERIAN_EYE_OVERLAY;
-    public static boolean enderian_eye_overlay;
 
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_DAMAGE;
     public static float mechanical_claw_damage;
@@ -162,6 +167,8 @@ public class Config {
     public static int mechanical_claw_bleed_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_CLAW_BLEED_DURATION;
     public static int mechanical_claw_bleed_duration;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> BLEED_BLACKLISTED_ENTITIES;
+    public static List<? extends String> bleed_blacklisted_entities;
 
     public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_DAMAGE;
     public static float echo_glove_damage;
@@ -187,6 +194,8 @@ public class Config {
     public static int decay_stone_level;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_STONE_DURATION;
     public static int decay_stone_duration;
+    public static ForgeConfigSpec.ConfigValue<Integer> DECAY_STONE_HEAL_AMOUNT;
+    public static int decay_stone_heal_amount;
 
     public static ForgeConfigSpec.ConfigValue<Double> FIRE_STONE_DAMAGE;
     public static float fire_stone_damage;
@@ -283,124 +292,131 @@ public class Config {
     public static float max_fire_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_INCREASE;
     public static float max_damage_increase;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_DEBUG;
+    public static boolean enable_debug;
 
-    public Config() {
+    public CommonConfig() {
     }
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
-        ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
-        explosion_damage_taken = EXPLOSION_DAMAGE_TAKEN.get().floatValue();
-        hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
-        skull_fire_damage_taken = SKULL_FIRE_DAMAGE_TAKEN.get().floatValue();
-        obsidian_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
-        ankh_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
-        decay_amulet_wither_chance = DECAY_AMULET_WITHER_CHANCE.get().floatValue();
-        decay_amulet_wither_duration = DECAY_AMULET_WITHER_DURATION.get();
-        decay_amulet_wither_level = DECAY_AMULET_WITHER_LEVEL.get();
-        venom_amulet_poison_chance = VENOM_AMULET_POISON_CHANCE.get().floatValue();
-        venom_amulet_poison_duration = VENOM_AMULET_POISON_DURATION.get();
-        venom_amulet_poison_level = VENOM_AMULET_POISON_LEVEL.get();
-        spectre_amulet_heal_chance = SPECTRE_AMULET_HEAL_CHANCE.get().floatValue();
-        spectre_amulet_heal_amount = SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue();
-        necroplasm_amulet_heal_chance = NECROPLASM_AMULET_HEAL_CHANCE.get().floatValue();
-        necroplasm_amulet_heal_amount = NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue();
-        necroplasm_amulet_poison_chance = NECROPLASM_AMULET_POISON_CHANCE.get().floatValue();
-        necroplasm_amulet_poison_level = NECROPLASM_AMULET_POISON_LEVEL.get();
-        necroplasm_amulet_poison_duration = NECROPLASM_AMULET_POISON_DURATION.get();
-        necroplasm_amulet_wither_chance = NECROPLASM_AMULET_WITHER_CHANCE.get().floatValue();
-        necroplasm_amulet_wither_level = NECROPLASM_AMULET_WITHER_LEVEL.get();
-        necroplasm_amulet_wither_duration = MECHANICAL_GLOVE_DAMAGE.get();
-        mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
-        shackle_armor = SHACKLE_ARMOR.get();
-        plushie_health = PLUSHIE_HEALTH.get().floatValue();
-        plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
-        plushie_duration = PLUSHIE_DURATION.get();
-        plushie_regen_level = PLUSHIE_REGEN_LEVEL.get();
-        enderian_damage_taken = ENDERIAN_DAMAGE_TAKEN.get().floatValue();
-        true_enderian_damage_taken = TRUE_ENDERIAN_DAMAGE_TAKEN.get().floatValue();
-        true_enderian_evade = TRUE_ENDERIAN_EVADE.get().floatValue();
-        true_enderian_reach = TRUE_ENDERIAN_REACH.get().floatValue();
-        true_enderian_compat = TRUE_ENDERIAN_COMPAT.get();
-        gilded_damage_taken = GILDED_DAMAGE_TAKEN.get().floatValue();
-        gilded_damage_dealt = GILDED_DAMAGE_DEALT.get().floatValue();
-        emerald_ring_damage = EMERALD_RING_DAMAGE.get().floatValue();
-        emerald_ring_emeralds = EMERALD_RING_EMERALDS.get().floatValue();
-        magic_quiver_damage = MAGIC_QUIVER_DAMAGE.get().floatValue();
-        magic_quiver_ammo = MAGIC_QUIVER_AMMO.get().floatValue();
-        envenomed_quiver_damage = ENVENOMED_QUIVER_DAMAGE.get().floatValue();
-        envenomed_quiver_poison_level = ENVENOMED_QUIVER_POISON_LEVEL.get();
-        envenomed_quiver_poison_duration = ENVENOMED_QUIVER_POISON_DURATION.get();
-        envenomed_quiver_wither_level = ENVENOMED_QUIVER_WITHER_LEVEL.get();
-        envenomed_quiver_wither_duration = ENVENOMED_QUIVER_WITHER_DURATION.get();
-        envenomed_quiver_ammo = ENVENOMED_QUIVER_AMMO.get().floatValue();
-        molten_quiver_damage = MOLTEN_QUIVER_DAMAGE.get().floatValue();
-        molten_quiver_onfire_damage = MOLTEN_QUIVER_ONFIRE_DAMAGE.get().floatValue();
-        molten_quiver_duration = MOLTEN_QUIVER_DURATION.get();
-        molten_quiver_ammo = MOLTEN_QUIVER_AMMO.get().floatValue();
-        wooden_headgear_armor = WOODEN_HEADGEAR_ARMOR.get().floatValue();
-        wooden_headgear_arrow_damage_taken = WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
-        golden_headgear_armor = GOLDEN_HEADGEAR_ARMOR.get().floatValue();
-        golden_headgear_arrow_damage_taken = GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
-        netherite_headgear_armor = NETHERITE_HEADGEAR_ARMOR.get().floatValue();
-        netherite_headgear_arrow_damage_taken = NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
-        ender_dragon_claw_damage = ENDER_DRAGON_CLAW_DAMAGE.get().floatValue();
-        ender_dragon_claw_chance = ENDER_DRAGON_CLAW_CHANCE.get().floatValue();
-        enderian_eye_cooldown = ENDERIAN_EYE_COOLDOWN.get().floatValue();
-        enderian_eye_radius = ENDERIAN_EYE_RADIUS.get();
-        enderian_eye_overlay = ENDERIAN_EYE_OVERLAY.get();
-        mechanical_claw_damage = MECHANICAL_CLAW_DAMAGE.get().floatValue();
-        mechanical_claw_bleed_chance = MECHANICAL_CLAW_BLEED_CHANCE.get().floatValue();
-        mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
-        mechanical_claw_bleed_duration = MECHANICAL_CLAW_BLEED_DURATION.get();
-        echo_glove_damage = ECHO_GLOVE_DAMAGE.get().floatValue();
-        echo_glove_attack_speed = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
-        echo_glove_ignore_chance = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
-        venom_stone_damage = VENOM_STONE_DAMAGE.get().floatValue();
-        venom_stone_chance = VENOM_STONE_CHANCE.get().floatValue();
-        venom_stone_level = VENOM_STONE_LEVEL.get();
-        venom_stone_duration = VENOM_STONE_DURATION.get();
-        decay_stone_damage = DECAY_STONE_DAMAGE.get().floatValue();
-        decay_stone_chance = DECAY_STONE_CHANCE.get().floatValue();
-        decay_stone_level = DECAY_STONE_LEVEL.get();
-        decay_stone_duration = DECAY_STONE_DURATION.get();
-        fire_stone_damage = FIRE_STONE_DAMAGE.get().floatValue();
-        fire_stone_chance = FIRE_STONE_CHANCE.get().floatValue();
-        fire_stone_duration = FIRE_STONE_DURATION.get();
-        ice_stone_damage = ICE_STONE_DAMAGE.get().floatValue();
-        ice_stone_chance = ICE_STONE_CHANCE.get().floatValue();
-        ice_stone_duration = ICE_STONE_DURATION.get();
-        ice_stone_compat = ICE_STONE_COMPAT.get();
-        ice_stone_encased_chance = ICE_STONE_ENCASED_CHANCE.get().floatValue();
-        ice_stone_encased_duration = ICE_STONE_ENCASED_DURATION.get();
-        recall_potion_use_time = RECALL_POTION_USE_TIME.get();
-        recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
-        recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
-        recall_potion_glow = RECALL_POTION_GLOW.get();
-        recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
-        vanir_mask_damage_increase = VANIR_MASK_DAMAGE_INCREASE.get().floatValue();
-        vanir_mask_health_increase = VANIR_MASK_HEALTH_INCREASE.get().floatValue();
-        vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
-        vanir_mask_armor_increase = VANIR_MASK_ARMOR_INCREASE.get().floatValue();
-        vanir_mask_armor_toughness_increase = VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get().floatValue();
-        bezoar_drop_chance = BEZOAR_DROP_CHANCE.get().floatValue();
-        vitamins_drop_chance = VITAMINS_DROP_CHANCE.get().floatValue();
-        fast_clock_drop_chance = FAST_CLOCK_DROP_CHANCE.get().floatValue();
-        desert_charm_drop_chance = DESERT_CHARM_DROP_CHANCE.get().floatValue();
-        wither_shard_drop_chance = WITHER_SHARD_DROP_CHANCE.get().floatValue();
-        shulker_heart_drop_chance = SHULKER_HEART_DROP_CHANCE.get().floatValue();
-        enderian_scarf_drop_chance = ENDERIAN_SCARF_DROP_CHANCE.get().floatValue();
-        shackle_drop_chance = SHACKLE_DROP_CHANCE.get().floatValue();
-        magic_quiver_skeleton_drop_chance = MAGIC_QUIVER_SKELETON_DROP_CHANCE.get().floatValue();
-        magic_quiver_pillager_drop_chance = MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get().floatValue();
-        ender_dragon_claw_drop_chance = ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue();
-        sculk_lens_drop_chance = SCULK_LENS_DROP_CHANCE.get().floatValue();
-        recall_potion_drop_chance = RECALL_POTION_DROP_CHANCE.get().floatValue();
-        cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
-        melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
-        max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
-        max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
-        max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
+        if (configEvent.getConfig().getFileName().equals(FILENAME)) {
+            ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
+            explosion_damage_taken = EXPLOSION_DAMAGE_TAKEN.get().floatValue();
+            hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
+            hero_shield_compat = HERO_SHIELD_COMPAT.get();
+            skull_fire_damage_taken = SKULL_FIRE_DAMAGE_TAKEN.get().floatValue();
+            obsidian_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            ankh_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            decay_amulet_wither_chance = DECAY_AMULET_WITHER_CHANCE.get().floatValue();
+            decay_amulet_wither_duration = DECAY_AMULET_WITHER_DURATION.get();
+            decay_amulet_wither_level = DECAY_AMULET_WITHER_LEVEL.get();
+            venom_amulet_poison_chance = VENOM_AMULET_POISON_CHANCE.get().floatValue();
+            venom_amulet_poison_duration = VENOM_AMULET_POISON_DURATION.get();
+            venom_amulet_poison_level = VENOM_AMULET_POISON_LEVEL.get();
+            spectre_amulet_heal_chance = SPECTRE_AMULET_HEAL_CHANCE.get().floatValue();
+            spectre_amulet_heal_amount = SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue();
+            necroplasm_amulet_heal_chance = NECROPLASM_AMULET_HEAL_CHANCE.get().floatValue();
+            necroplasm_amulet_heal_amount = NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue();
+            necroplasm_amulet_poison_chance = NECROPLASM_AMULET_POISON_CHANCE.get().floatValue();
+            necroplasm_amulet_poison_level = NECROPLASM_AMULET_POISON_LEVEL.get();
+            necroplasm_amulet_poison_duration = NECROPLASM_AMULET_POISON_DURATION.get();
+            necroplasm_amulet_wither_chance = NECROPLASM_AMULET_WITHER_CHANCE.get().floatValue();
+            necroplasm_amulet_wither_level = NECROPLASM_AMULET_WITHER_LEVEL.get();
+            necroplasm_amulet_wither_duration = MECHANICAL_GLOVE_DAMAGE.get();
+            mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
+            shackle_armor = SHACKLE_ARMOR.get();
+            plushie_health = PLUSHIE_HEALTH.get().floatValue();
+            plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
+            plushie_duration = PLUSHIE_DURATION.get();
+            plushie_regen_level = PLUSHIE_REGEN_LEVEL.get();
+            enderian_damage_taken = ENDERIAN_DAMAGE_TAKEN.get().floatValue();
+            true_enderian_damage_taken = TRUE_ENDERIAN_DAMAGE_TAKEN.get().floatValue();
+            true_enderian_evade = TRUE_ENDERIAN_EVADE.get().floatValue();
+            true_enderian_reach = TRUE_ENDERIAN_REACH.get().floatValue();
+            true_enderian_compat = TRUE_ENDERIAN_COMPAT.get();
+            gilded_damage_taken = GILDED_DAMAGE_TAKEN.get().floatValue();
+            gilded_damage_dealt = GILDED_DAMAGE_DEALT.get().floatValue();
+            emerald_ring_damage = EMERALD_RING_DAMAGE.get().floatValue();
+            emerald_ring_emeralds = EMERALD_RING_EMERALDS.get().floatValue();
+            magic_quiver_damage = MAGIC_QUIVER_DAMAGE.get().floatValue();
+            magic_quiver_ammo = MAGIC_QUIVER_AMMO.get().floatValue();
+            envenomed_quiver_damage = ENVENOMED_QUIVER_DAMAGE.get().floatValue();
+            envenomed_quiver_poison_level = ENVENOMED_QUIVER_POISON_LEVEL.get();
+            envenomed_quiver_poison_duration = ENVENOMED_QUIVER_POISON_DURATION.get();
+            envenomed_quiver_wither_level = ENVENOMED_QUIVER_WITHER_LEVEL.get();
+            envenomed_quiver_wither_duration = ENVENOMED_QUIVER_WITHER_DURATION.get();
+            envenomed_quiver_ammo = ENVENOMED_QUIVER_AMMO.get().floatValue();
+            molten_quiver_damage = MOLTEN_QUIVER_DAMAGE.get().floatValue();
+            molten_quiver_onfire_damage = MOLTEN_QUIVER_ONFIRE_DAMAGE.get().floatValue();
+            molten_quiver_duration = MOLTEN_QUIVER_DURATION.get();
+            molten_quiver_ammo = MOLTEN_QUIVER_AMMO.get().floatValue();
+            wooden_headgear_armor = WOODEN_HEADGEAR_ARMOR.get().floatValue();
+            wooden_headgear_arrow_damage_taken = WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            golden_headgear_armor = GOLDEN_HEADGEAR_ARMOR.get().floatValue();
+            golden_headgear_arrow_damage_taken = GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            netherite_headgear_armor = NETHERITE_HEADGEAR_ARMOR.get().floatValue();
+            netherite_headgear_arrow_damage_taken = NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            ender_dragon_claw_damage = ENDER_DRAGON_CLAW_DAMAGE.get().floatValue();
+            ender_dragon_claw_chance = ENDER_DRAGON_CLAW_CHANCE.get().floatValue();
+            enderian_eye_cooldown = ENDERIAN_EYE_COOLDOWN.get().floatValue();
+            enderian_eye_radius = ENDERIAN_EYE_RADIUS.get();
+            mechanical_claw_damage = MECHANICAL_CLAW_DAMAGE.get().floatValue();
+            mechanical_claw_bleed_chance = MECHANICAL_CLAW_BLEED_CHANCE.get().floatValue();
+            mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
+            mechanical_claw_bleed_duration = MECHANICAL_CLAW_BLEED_DURATION.get();
+            bleed_blacklisted_entities = BLEED_BLACKLISTED_ENTITIES.get();
+            echo_glove_damage = ECHO_GLOVE_DAMAGE.get().floatValue();
+            echo_glove_attack_speed = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
+            echo_glove_ignore_chance = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
+            venom_stone_damage = VENOM_STONE_DAMAGE.get().floatValue();
+            venom_stone_chance = VENOM_STONE_CHANCE.get().floatValue();
+            venom_stone_level = VENOM_STONE_LEVEL.get();
+            venom_stone_duration = VENOM_STONE_DURATION.get();
+            decay_stone_damage = DECAY_STONE_DAMAGE.get().floatValue();
+            decay_stone_chance = DECAY_STONE_CHANCE.get().floatValue();
+            decay_stone_level = DECAY_STONE_LEVEL.get();
+            decay_stone_duration = DECAY_STONE_DURATION.get();
+            decay_stone_heal_amount = DECAY_STONE_HEAL_AMOUNT.get();
+            fire_stone_damage = FIRE_STONE_DAMAGE.get().floatValue();
+            fire_stone_chance = FIRE_STONE_CHANCE.get().floatValue();
+            fire_stone_duration = FIRE_STONE_DURATION.get();
+            ice_stone_damage = ICE_STONE_DAMAGE.get().floatValue();
+            ice_stone_chance = ICE_STONE_CHANCE.get().floatValue();
+            ice_stone_duration = ICE_STONE_DURATION.get();
+            ice_stone_compat = ICE_STONE_COMPAT.get();
+            ice_stone_encased_chance = ICE_STONE_ENCASED_CHANCE.get().floatValue();
+            ice_stone_encased_duration = ICE_STONE_ENCASED_DURATION.get();
+            recall_potion_use_time = RECALL_POTION_USE_TIME.get();
+            recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
+            recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
+            recall_potion_glow = RECALL_POTION_GLOW.get();
+            recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
+            vanir_mask_damage_increase = VANIR_MASK_DAMAGE_INCREASE.get().floatValue();
+            vanir_mask_health_increase = VANIR_MASK_HEALTH_INCREASE.get().floatValue();
+            vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
+            vanir_mask_armor_increase = VANIR_MASK_ARMOR_INCREASE.get().floatValue();
+            vanir_mask_armor_toughness_increase = VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get().floatValue();
+            bezoar_drop_chance = BEZOAR_DROP_CHANCE.get().floatValue();
+            vitamins_drop_chance = VITAMINS_DROP_CHANCE.get().floatValue();
+            fast_clock_drop_chance = FAST_CLOCK_DROP_CHANCE.get().floatValue();
+            desert_charm_drop_chance = DESERT_CHARM_DROP_CHANCE.get().floatValue();
+            wither_shard_drop_chance = WITHER_SHARD_DROP_CHANCE.get().floatValue();
+            shulker_heart_drop_chance = SHULKER_HEART_DROP_CHANCE.get().floatValue();
+            enderian_scarf_drop_chance = ENDERIAN_SCARF_DROP_CHANCE.get().floatValue();
+            shackle_drop_chance = SHACKLE_DROP_CHANCE.get().floatValue();
+            magic_quiver_skeleton_drop_chance = MAGIC_QUIVER_SKELETON_DROP_CHANCE.get().floatValue();
+            magic_quiver_pillager_drop_chance = MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get().floatValue();
+            ender_dragon_claw_drop_chance = ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue();
+            sculk_lens_drop_chance = SCULK_LENS_DROP_CHANCE.get().floatValue();
+            recall_potion_drop_chance = RECALL_POTION_DROP_CHANCE.get().floatValue();
+            cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
+            melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
+            max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
+            max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
+            max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
+            enable_debug = ENABLE_DEBUG.get();
+        }
     }
 
     static {
@@ -410,6 +426,7 @@ public class Config {
         MAX_DAMAGE_REDUCTION = BUILDER.comment("Global max damage reduction from artifacts in percentage").defineInRange("Max_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Global max fire damage reduction from artifacts in percentage").defineInRange("Max_Fire_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
+        ENABLE_DEBUG = BUILDER.comment("Enable debugging").define("Debug", false);
         BUILDER.pop();
 
         // Artifact Category
@@ -420,6 +437,7 @@ public class Config {
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
         EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion_Damage_Taken", 0.25);
         HERO_SHIELD_RES_LEVEL = BUILDER.comment("Level of resistance hero shield provides").define("Level", 1);
+        HERO_SHIELD_COMPAT = BUILDER.comment("Enable compat to disable explosion overlay from enhanced visuals").define("EnhancedVisuals_Compat", true);
         BUILDER.pop();
 
         BUILDER.push("Obsidian_Skull");
@@ -471,6 +489,7 @@ public class Config {
         MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed_Chance", 0.25);
         MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed_Damage", 1);
         MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 5);
+        BLEED_BLACKLISTED_ENTITIES = BUILDER.comment("Blacklist for entities that cannot be affected by bleed").defineList("Blacklisted_Entities",List.of(), s -> s instanceof String);
         BUILDER.pop();
 
         BUILDER.push("Echo_Glove");
@@ -555,7 +574,6 @@ public class Config {
         BUILDER.push("Enderian_Eye");
         ENDERIAN_EYE_RADIUS = BUILDER.comment("Max teleportation radius").define("Radius", 25);
         ENDERIAN_EYE_COOLDOWN = BUILDER.comment("Cooldown for teleporting").define("Cooldown", 5.0);
-        ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Overlay", true);
         BUILDER.pop();
 
         BUILDER.push("Venom_Stone");
@@ -570,6 +588,7 @@ public class Config {
         DECAY_STONE_CHANCE = BUILDER.comment("Chance to inflict wither").define("Chance", 0.25);
         DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither_Level", 2, 1, 5);
         DECAY_STONE_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 3);
+        DECAY_STONE_HEAL_AMOUNT = BUILDER.comment("Amount of hearts healed by the decay stone").define("Hearts", 1);
         BUILDER.pop();
 
         BUILDER.push("Fire_Stone");

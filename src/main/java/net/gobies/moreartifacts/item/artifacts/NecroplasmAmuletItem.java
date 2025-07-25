@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import net.gobies.moreartifacts.Config;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
@@ -44,12 +44,12 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.NecroplasmAmulet.get())) {
                 if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
                     RandomSource random = attacker.getRandom();
-                    if (random.nextFloat() < Config.NECROPLASM_AMULET_HEAL_CHANCE.get()) {
+                    if (random.nextFloat() < CommonConfig.NECROPLASM_AMULET_HEAL_CHANCE.get()) {
                         long currentTime = System.currentTimeMillis();
                         long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
 
                         if (currentTime - lastHealTime >= 1000) {
-                            attacker.heal(Config.NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue());
+                            attacker.heal(CommonConfig.NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue());
                             cooldownMap.put(attacker, currentTime);
                         }
                     }
@@ -59,11 +59,11 @@ public class NecroplasmAmuletItem extends Item implements ICurioItem {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.NecroplasmAmulet.get())) {
                 if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-                    if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_POISON_CHANCE.get()) {
-                        attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * Config.NECROPLASM_AMULET_POISON_DURATION.get(), Config.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));
+                    if (player.getRandom().nextFloat() < CommonConfig.NECROPLASM_AMULET_POISON_CHANCE.get()) {
+                        attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.NECROPLASM_AMULET_POISON_DURATION.get(), CommonConfig.NECROPLASM_AMULET_POISON_LEVEL.get() - 1));
                     }
-                    if (player.getRandom().nextFloat() < Config.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
-                        attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * Config.NECROPLASM_AMULET_WITHER_DURATION.get(), Config.NECROPLASM_AMULET_WITHER_LEVEL.get() - 1));
+                    if (player.getRandom().nextFloat() < CommonConfig.NECROPLASM_AMULET_WITHER_CHANCE.get()) {
+                        attacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.NECROPLASM_AMULET_WITHER_DURATION.get(), CommonConfig.NECROPLASM_AMULET_WITHER_LEVEL.get() - 1));
                     }
                 }
             }
