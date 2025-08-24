@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class ObsidianShieldModel<T extends Entity> extends EntityModel<T> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     private final ModelPart ObsidianShield;
 
     public ObsidianShieldModel(ModelPart root) {
@@ -35,7 +34,6 @@ public class ObsidianShieldModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(@NotNull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
     }
 
     @Override

@@ -23,6 +23,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import net.minecraftforge.common.MinecraftForge;
 import java.util.List;
+import java.util.Random;
 
 public class HeroShieldItem extends Item implements ICurioItem {
     public HeroShieldItem(Properties properties) {
@@ -57,12 +58,14 @@ public class HeroShieldItem extends Item implements ICurioItem {
                     ItemStack pStack = slotResult.stack();
                     CompoundTag tag = pStack.getOrCreateTag();
                     int hitCount = tag.getInt("HitCount");
+                    Random random = new Random();
                     hitCount++;
                     tag.putInt("HitCount", hitCount);
                     if (hitCount % CommonConfig.IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                         event.setCanceled(true);
                         player.displayClientMessage(Component.translatable("tooltip.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.GOLD), true);
-                        player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, 1.1f);
+                        float randomPitch = 1.0f + random.nextFloat() * 0.2f;
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, randomPitch);
                         tag.putInt("HitCount", 0);
                     }
                     if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {

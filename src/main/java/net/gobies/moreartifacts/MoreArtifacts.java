@@ -85,7 +85,7 @@ public class MoreArtifacts {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        MAProperties.addItemProperties();
+        event.enqueueWork(MAProperties::addItemProperties);
         MAModels.modelSetup();
         MinecraftForge.EVENT_BUS.register(EnderianEyeOverlay.class);
     }

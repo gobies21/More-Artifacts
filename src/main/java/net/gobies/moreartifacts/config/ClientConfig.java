@@ -33,7 +33,7 @@ public class ClientConfig {
     static {
         BUILDER.push("General");
         ENABLE_ARTIFACT_MODELS = BUILDER.comment("Enable artifacts models displaying on the player").define("Enable_Artifact_Models", true);
-        ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Overlay", true);
+        ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Enderian_Eye_Overlay", true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

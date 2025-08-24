@@ -44,7 +44,6 @@ public class TeleportBindMessage {
         double y = entity.getY();
         double z = entity.getZ();
 
-        // security measure to prevent arbitrary chunk generation
         if (!world.isLoaded(entity.blockPosition()))
             return;
 

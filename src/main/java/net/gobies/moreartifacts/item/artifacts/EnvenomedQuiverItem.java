@@ -33,6 +33,7 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
     static {
         MinecraftForge.EVENT_BUS.register(EnvenomedQuiverItem.class);
     }
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player attacker) {

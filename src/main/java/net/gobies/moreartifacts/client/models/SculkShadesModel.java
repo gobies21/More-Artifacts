@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class SculkShadesModel<T extends Entity> extends EntityModel<T> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     private final ModelPart Sculk_Shades;
     private final ModelPart bb_main;
 

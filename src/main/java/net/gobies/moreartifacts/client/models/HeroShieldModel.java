@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class HeroShieldModel<T extends Entity> extends EntityModel<T> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     private final ModelPart Hero_Shield;
 
     public HeroShieldModel(ModelPart root) {

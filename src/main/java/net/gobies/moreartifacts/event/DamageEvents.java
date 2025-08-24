@@ -37,10 +37,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber
 public class DamageEvents {
@@ -110,7 +107,8 @@ public class DamageEvents {
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderDragonClaw.get())) {
                 if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get()) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, 1.4f);
+                    float randomPitch = 1.3f + random.nextFloat() * 0.2f;
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
                 }
             }
 
@@ -229,6 +227,7 @@ public class DamageEvents {
             }
         }
     }
+
     private static final Map<UUID, Integer> BLEEDING_ENTITIES = new HashMap<>();
 
     @SubscribeEvent

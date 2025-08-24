@@ -34,6 +34,7 @@ public class WitherShardItem extends Item implements ICurioItem {
             MAUtils.removeEffect(player, MobEffects.WITHER);
         }
     }
+
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {

@@ -51,6 +51,7 @@ public class ApothecaryCompat {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
+
             //Burning Immunity
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
                 MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());

@@ -34,12 +34,11 @@ public class EnderianEyeOverlay {
                     GuiGraphics guiGraphics = event.getGuiGraphics();
 
                     double cooldownTimer = MAUtils.getCooldownTimer(player, cooldown);
-                    if (ClientEvents.TELEPORT_KEY.consumeClick() && MAUtils.isReadyForTeleport(player, cooldown)) {
-                        MAUtils.updateCooldown(player);
-                        cooldownTimer = 0;
-                    }
-
-                    if (cooldownTimer < cooldown && mc.options.getCameraType().isFirstPerson()) {
+                    if (MAUtils.isReadyForTeleport(player, cooldown)) {
+                        if (ClientEvents.TELEPORT_KEY.consumeClick()) {
+                            MAUtils.updateCooldown(player);
+                        }
+                    } else if (cooldownTimer < cooldown && mc.options.getCameraType().isFirstPerson()) {
                         int width = event.getWindow().getGuiScaledWidth();
                         int height = event.getWindow().getGuiScaledHeight();
                         int barWidth = (int) (cooldownTimer / cooldown * 14);

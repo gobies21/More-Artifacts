@@ -91,22 +91,22 @@ public class Teleport {
         if (MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
             // teleport the entity to the hit position
             entity.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
+            entity.resetFallDistance();
 
             // if the entity is a ServerPlayer, update its connection to reflect the new position
             if (entity instanceof ServerPlayer serverPlayer) {
                 serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, entity.getYRot(), entity.getXRot());
                 MAUtils.updateCooldown(player);
                 updateTeleportStatus(player, true);
-                if (world instanceof Level level) {
-                    if (!level.isClientSide()) {
-                        level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
-                        EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
-                    }
+                Level level = (Level) world;
+                if (!level.isClientSide()) {
+                    level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+                    EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
                 }
             }
         } else if (!MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
-            updateTeleportStatus(player, false); // Update teleport status to false if not ready
+            updateTeleportStatus(player, false);
         }
     }
 

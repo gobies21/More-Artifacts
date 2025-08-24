@@ -15,8 +15,7 @@ import team.creative.enhancedvisuals.common.handler.ExplosionHandler;
 @Mixin(ExplosionHandler.class)
 public class ExplosionHandlerMixin {
     @Inject(
-            method =
-            "onExploded",
+            method = "onExploded",
             at = @At("HEAD"),
             cancellable = true,
             remap = false

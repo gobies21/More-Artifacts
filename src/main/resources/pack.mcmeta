@@ -1,8 +1,6 @@
 {
   "pack": {
-    "description": {
-      "text": "moreartifacts resources"
-    },
+    "description": "moreartifacts resources",
     "pack_format": 15
   }
 }

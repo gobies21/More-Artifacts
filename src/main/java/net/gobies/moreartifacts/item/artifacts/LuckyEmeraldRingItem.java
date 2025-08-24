@@ -38,7 +38,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
                 if (target instanceof LivingEntity) {
                     if (player.level().random.nextFloat() < CommonConfig.EMERALD_RING_EMERALDS.get()) {
                         target.spawnAtLocation(Items.EMERALD, 1);
-                        player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.6f, 1.8f);
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 1.0f, 1.8f);
                     }
                 }
             }
@@ -50,7 +50,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
         return true;
     }
 
-@Override
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double emeraldChance = CommonConfig.EMERALD_RING_EMERALDS.get() * 100;
         double damageIncrease = (CommonConfig.EMERALD_RING_DAMAGE.get() - 1) * 100;

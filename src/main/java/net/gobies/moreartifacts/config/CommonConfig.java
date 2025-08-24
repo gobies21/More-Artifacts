@@ -232,7 +232,7 @@ public class CommonConfig {
     public static float vanir_mask_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_HEALTH_INCREASE;
     public static float vanir_mask_health_increase;
-    public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_SPEED_INCREASE;
+    public static ForgeConfigSpec.ConfigValue<Double>  VANIR_MASK_SPEED_INCREASE;
     public static float vanir_mask_speed_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_INCREASE;
     public static float vanir_mask_armor_increase;

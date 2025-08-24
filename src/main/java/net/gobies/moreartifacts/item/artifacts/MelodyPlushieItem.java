@@ -57,6 +57,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         }
     }
 
+    @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.PLUSHIE_HEALTH.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
@@ -64,6 +65,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         }
     }
 
+    @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.REGENERATION);

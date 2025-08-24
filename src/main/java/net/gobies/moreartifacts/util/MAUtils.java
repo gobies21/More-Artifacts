@@ -123,7 +123,7 @@ public class MAUtils {
     public static void resetCooldownTimer(Player player) {
         cooldownMap.put(player, 0L);
     }
-
+    // Method to get looting values based off if JLME is installed
     public static float lootingValues() {
         if (ModLoadedUtil.isJLMELoaded()) {
             return 0.005f;
@@ -131,7 +131,6 @@ public class MAUtils {
             return 0.01f;
         }
     }
-
     // Method to log debug messages
     public static void logDebug(String message) {
         if (CommonConfig.ENABLE_DEBUG.get()) {

@@ -39,10 +39,10 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
-            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR_TOUGHNESS));
-            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MAX_HEALTH));
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.ADDITION, String.valueOf(MOVEMENT_SPEED));
+            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ARMOR));
+            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ARMOR_TOUGHNESS));
+            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
+            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MOVEMENT_SPEED));
         }
     }
 

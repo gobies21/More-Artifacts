@@ -30,7 +30,6 @@ public class EnhancedVisualsCompat {
         }
     }
 
-    //not working for some unknown reason
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void VisualExplosionEvent(VisualExplosionEvent event) {

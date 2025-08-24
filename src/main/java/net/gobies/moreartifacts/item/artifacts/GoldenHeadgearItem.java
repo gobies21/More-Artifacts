@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
@@ -26,10 +25,6 @@ import java.util.UUID;
 public class GoldenHeadgearItem extends Item implements ICurioItem {
     public GoldenHeadgearItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
-    }
-
-    static {
-        MinecraftForge.EVENT_BUS.register(GoldenHeadgearItem.class);
     }
 
     private static final UUID ARMOR = UUID.randomUUID();
