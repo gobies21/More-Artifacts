@@ -34,5 +34,8 @@ public class MALootTables {
         LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.RecallPotion.get(), 1, 3, CommonConfig.RECALL_POTION_DROP_CHANCE.get().floatValue());
 
         LootTableHandler.addLoot(event, "gameplay/cat_morning_gift", MAItems.MelodyPlushie.get(), 1, 1, CommonConfig.MELODY_PLUSHIE_DROP_CHANCE.get().floatValue());
+
+        LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, 0.15F);
+
     }
 }

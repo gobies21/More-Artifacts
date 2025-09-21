@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "b b",
+    "a a",
+    "a a"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:leather"
+    },
+    "b": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:leather_treads",
+    "count": 1
+  }
+}

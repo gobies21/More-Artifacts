@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -103,6 +104,8 @@ public class Teleport {
                     level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
                     EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
+                    serverPlayer.getCooldowns().addCooldown(MAItems.EnderianEye.get(), (int) (20 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()));
+
                 }
             }
         } else if (!MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {

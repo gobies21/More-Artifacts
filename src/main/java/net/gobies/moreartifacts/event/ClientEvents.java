@@ -18,7 +18,7 @@ import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
-    public static final KeyMapping TELEPORT_KEY = new KeyMapping("key.moreartifacts.teleport", GLFW.GLFW_KEY_E, "key.moreartifacts.category") {
+    public static final KeyMapping EYE_TELEPORT_KEY = new KeyMapping("key.moreartifacts.eye.teleport", GLFW.GLFW_KEY_E, "key.moreartifacts.category") {
         private boolean isDownOld = false;
         private long lastPressTime = 0;
 
@@ -42,7 +42,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(TELEPORT_KEY);
+        event.register(EYE_TELEPORT_KEY);
     }
 
     @Mod.EventBusSubscriber({Dist.CLIENT})
@@ -50,7 +50,7 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onClientTick(TickEvent.ClientTickEvent event) {
             if (Minecraft.getInstance().screen == null) {
-                TELEPORT_KEY.consumeClick();
+                EYE_TELEPORT_KEY.consumeClick();
             }
         }
     }

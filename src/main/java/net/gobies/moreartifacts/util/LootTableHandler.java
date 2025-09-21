@@ -18,6 +18,7 @@ public class LootTableHandler {
 
         if (lootTable.equals(entityLocation)) {
             LootPool.Builder poolBuilder = LootPool.lootPool()
+                    .name("moreartifacts_loot_" + item.getName(item.getDefaultInstance()))
                     .add(LootItem.lootTableItem(item)
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(baseDropChance, lootingBoostChance)));
@@ -32,6 +33,7 @@ public class LootTableHandler {
 
         if (lootTable.equals(entityLocation)) {
             LootPool.Builder poolBuilder = LootPool.lootPool()
+                    .name("moreartifacts_loot_" + item.getName(item.getDefaultInstance()))
                     .add(LootItem.lootTableItem(item)
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
                             .when(LootItemRandomChanceCondition.randomChance(baseDropChance)));

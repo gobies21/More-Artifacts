@@ -121,6 +121,7 @@ dependencies {
 
     runtimeOnly(fg.deobf("curse.maven:free-cam-557076:4643128"))
     runtimeOnly(fg.deobf("curse.maven:pehkui-319596:5393101"))
+    runtimeOnly(fg.deobf("curse.maven:crafttweaker-239197:6914010"))
 }
 
 mixin {

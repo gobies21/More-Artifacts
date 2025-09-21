@@ -13,31 +13,31 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class ShackleItem extends Item implements ICurioItem {
-    public ShackleItem(Properties properties) {
+public class LeatherTreadsItem extends Item implements ICurioItem {
+    public LeatherTreadsItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID SPEED = UUID.randomUUID();
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.SHACKLE_ARMOR.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ARMOR));
+            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.LEATHER_TREADS_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
         }
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, Attributes.ARMOR, String.valueOf(ARMOR));
+            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
         }
     }
 
@@ -47,9 +47,9 @@ public class ShackleItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        int shackleArmor = CommonConfig.SHACKLE_ARMOR.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shackle.armor", shackleArmor).withStyle(ChatFormatting.DARK_AQUA));
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        double movementSpeed = CommonConfig.LEATHER_TREADS_SPEED.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.leather_treads.speed", String.format("%.1f", movementSpeed)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

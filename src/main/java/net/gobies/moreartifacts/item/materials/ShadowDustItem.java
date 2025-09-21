@@ -19,7 +19,7 @@ public class ShadowDustItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
             pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("moreartifacts.shadow_gem.tooltip").withStyle(ChatFormatting.YELLOW));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_gem").withStyle(ChatFormatting.YELLOW));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

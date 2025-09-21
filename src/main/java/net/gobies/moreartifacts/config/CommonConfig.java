@@ -239,6 +239,33 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
     public static float vanir_mask_armor_toughness_increase;
 
+    public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
+    public static float leather_treads_speed;
+
+    public static ForgeConfigSpec.ConfigValue<Double> DUNE_TREADS_SPEED;
+    public static float dune_treads_speed;
+    public static ForgeConfigSpec.ConfigValue<Double> DUNE_TREADS_SAND_SPEED;
+    public static float dune_treads_sand_speed;
+
+    public static ForgeConfigSpec.ConfigValue<Double> HIGH_JUMPERS_SPEED;
+    public static float high_jumpers_speed;
+
+    public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GEARS_SPEED;
+    public static float mechanical_gears_speed;
+    public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GEARS_DODGE_CHANCE;
+    public static float mechanical_gears_dodge_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> BLAZING_TREADS_SPEED;
+    public static float blazing_treads_speed;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_TREADS_SPEED;
+    public static float enderian_treads_speed;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_TREADS_COOLDOWN;
+    public static float enderian_treads_cooldown;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SCULK_TREADS_SPEED;
+    public static float sculk_treads_speed;
+
     // Loot
     public static ForgeConfigSpec.ConfigValue<Double> BEZOAR_DROP_CHANCE;
     public static float bezoar_drop_chance;
@@ -397,6 +424,16 @@ public class CommonConfig {
             vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
             vanir_mask_armor_increase = VANIR_MASK_ARMOR_INCREASE.get().floatValue();
             vanir_mask_armor_toughness_increase = VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get().floatValue();
+            leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
+            dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
+            dune_treads_sand_speed = DUNE_TREADS_SAND_SPEED.get().floatValue();
+            high_jumpers_speed = HIGH_JUMPERS_SPEED.get().floatValue();
+            mechanical_gears_speed = MECHANICAL_GEARS_SPEED.get().floatValue();
+            mechanical_gears_dodge_chance = MECHANICAL_GEARS_DODGE_CHANCE.get().floatValue();
+            blazing_treads_speed = BLAZING_TREADS_SPEED.get().floatValue();
+            enderian_treads_speed = ENDERIAN_TREADS_SPEED.get().floatValue();
+            enderian_treads_cooldown = ENDERIAN_TREADS_COOLDOWN.get().floatValue();
+            sculk_treads_speed = SCULK_TREADS_SPEED.get().floatValue();
             bezoar_drop_chance = BEZOAR_DROP_CHANCE.get().floatValue();
             vitamins_drop_chance = VITAMINS_DROP_CHANCE.get().floatValue();
             fast_clock_drop_chance = FAST_CLOCK_DROP_CHANCE.get().floatValue();
@@ -580,13 +617,13 @@ public class CommonConfig {
         VENOM_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
         VENOM_STONE_CHANCE = BUILDER.comment("Chance to inflict poison").define("Chance", 0.25);
         VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").defineInRange("Poison_Level", 2, 1, 5);
-        VENOM_STONE_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 3);
+        VENOM_STONE_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 5);
         BUILDER.pop();
 
         BUILDER.push("Decay_Stone");
         DECAY_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
         DECAY_STONE_CHANCE = BUILDER.comment("Chance to inflict wither").define("Chance", 0.25);
-        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither_Level", 2, 1, 5);
+        DECAY_STONE_LEVEL = BUILDER.comment("Level of the wither effect").defineInRange("Wither_Level", 3, 1, 5);
         DECAY_STONE_DURATION = BUILDER.comment("Duration of the wither effect in seconds").define("Duration", 3);
         DECAY_STONE_HEAL_AMOUNT = BUILDER.comment("Amount of hearts healed by the decay stone").define("Hearts", 1);
         BUILDER.pop();
@@ -598,9 +635,9 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Ice_Stone");
-        ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.20);
+        ICE_STONE_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.10);
         ICE_STONE_CHANCE = BUILDER.comment("Chance to freeze enemies").define("Chance", 0.25);
-        ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 6);
+        ICE_STONE_DURATION = BUILDER.comment("Duration of enemies frozen in seconds").define("Duration", 8);
         ICE_STONE_COMPAT= BUILDER.comment("Enable compat to use ice and fire's freezing mechanic").define("IceandFire_Compat", true);
         ICE_STONE_ENCASED_CHANCE= BUILDER.comment("Chance to encase enemies in ice (iceandfire)").define("Encase_Chance", 0.10);
         ICE_STONE_ENCASED_DURATION = BUILDER.comment("Duration of how long enemies stay encased in ice for (iceandfire)").define("Encased_Duration", 5);
@@ -620,6 +657,37 @@ public class CommonConfig {
         VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.25);
         VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.25);
         VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Leather_Treads");
+        LEATHER_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Dune_Treads");
+        DUNE_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.05);
+        DUNE_TREADS_SAND_SPEED = BUILDER.comment("Speed increase when on sand gained in percentage").define("Sand_Speed_Increase", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("High_Jumpers");
+        HIGH_JUMPERS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("Mechanical_Gears");
+        MECHANICAL_GEARS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.02);
+        MECHANICAL_GEARS_DODGE_CHANCE = BUILDER.comment("Chance to dodge attacks in percentage").define("Dodge_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Blazing_Treads");
+        BLAZING_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("Enderian_Treads");
+        ENDERIAN_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.20);
+        ENDERIAN_TREADS_COOLDOWN = BUILDER.comment("Cooldown for evading attacks in seconds").define("Cooldown", 60.0);
+        BUILDER.pop();
+
+        BUILDER.push("Sculk_Treads");
+        SCULK_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.25);
         BUILDER.pop();
 
         // Artifact Category End

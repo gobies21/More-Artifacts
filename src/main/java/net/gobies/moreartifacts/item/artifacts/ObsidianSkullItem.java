@@ -49,7 +49,7 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double fireDamageReduction = (1.0 - CommonConfig.SKULL_FIRE_DAMAGE_TAKEN.get()) * 100;
-        pTooltipComponents.add(Component.literal("§7Grants immunity to Burning"));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.burning_immune").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_skull.fire_damage", String.format("%.1f", fireDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

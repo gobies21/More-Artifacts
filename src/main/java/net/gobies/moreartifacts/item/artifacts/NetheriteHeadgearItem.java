@@ -35,6 +35,7 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
         }
     }
 
+    @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.removeAttributes(player, Attributes.ARMOR, String.valueOf(ARMOR));

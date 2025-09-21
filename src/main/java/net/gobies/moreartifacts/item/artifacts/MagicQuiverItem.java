@@ -16,7 +16,6 @@ public class MagicQuiverItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
         return true;

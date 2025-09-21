@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "b b",
+    "ada",
+    "c c"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:white_wool"
+    },
+    "b": {
+      "item": "minecraft:feather"
+    },
+    "c": {
+      "item": "minecraft:slime_block"
+    },
+    "d": {
+      "item": "moreartifacts:balloon"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:high_jumpers",
+    "count": 1
+  }
+}

@@ -25,14 +25,14 @@ public class MAItems {
     public static final RegistryObject<Item> ShulkerHeart;
     public static final RegistryObject<Item> WitherShard;
     public static final RegistryObject<Item> SculkLens;
-    public static final RegistryObject<Item> CobaltShield;
     public static final RegistryObject<Item> WitheredBezoar;
     public static final RegistryObject<Item> SculkShades;
     public static final RegistryObject<Item> ShulkedClock;
     public static final RegistryObject<Item> PurificationCharm;
     public static final RegistryObject<Item> ObsidianSkull;
-    public static final RegistryObject<Item> ObsidianShield;
     public static final RegistryObject<Item> AnkhCharm;
+    public static final RegistryObject<Item> CobaltShield;
+    public static final RegistryObject<Item> ObsidianShield;
     public static final RegistryObject<Item> AnkhShield;
     public static final RegistryObject<Item> MelodyPlushie;
     public static final RegistryObject<Item> HeroShield;
@@ -61,9 +61,16 @@ public class MAItems {
     public static final RegistryObject<Item> DecayStone;
     public static final RegistryObject<Item> FireStone;
     public static final RegistryObject<Item> IceStone;
-    public static final RegistryObject<Item> ShadowDust;
-    public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> VanirMask;
+    public static final RegistryObject<Item> LeatherTreads;
+    public static final RegistryObject<Item> DuneTreads;
+    public static final RegistryObject<Item> BlazingTreads;
+    public static final RegistryObject<Item> EnderianTreads;
+    public static final RegistryObject<Item> SculkTreads;
+    public static final RegistryObject<Item> MechanicalGears;
+    public static final RegistryObject<Item> HighJumpers;
+    public static final RegistryObject<Item> RecallPotion;
+    public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
     public MAItems() {
@@ -84,14 +91,14 @@ public class MAItems {
         ShulkerHeart = ITEMS.register("shulker_heart", () -> new ShulkerHeartItem(new Item.Properties()));
         WitherShard = ITEMS.register("wither_shard", () -> new WitherShardItem(new Item.Properties()));
         SculkLens = ITEMS.register("sculk_lens", () -> new SculkLensItem(new Item.Properties()));
-        CobaltShield = ITEMS.register("cobalt_shield", () -> new CobaltShieldItem(new Item.Properties()));
         WitheredBezoar = ITEMS.register("withered_bezoar", () -> new WitheredBezoarItem(new Item.Properties()));
         SculkShades = ITEMS.register("sculk_shades", () -> new SculkShadesItem(new Item.Properties()));
         ShulkedClock = ITEMS.register("shulked_clock", () -> new ShulkedClockItem(new Item.Properties()));
         PurificationCharm = ITEMS.register("purification_charm", () -> new PurificationCharmItem(new Item.Properties()));
         ObsidianSkull = ITEMS.register("obsidian_skull", () -> new ObsidianSkullItem(new Item.Properties()));
-        ObsidianShield = ITEMS.register("obsidian_shield", () -> new ObsidianShieldItem(new Item.Properties()));
         AnkhCharm = ITEMS.register("ankh_charm", () -> new AnkhCharmItem(new Item.Properties()));
+        CobaltShield = ITEMS.register("cobalt_shield", () -> new CobaltShieldItem(new Item.Properties()));
+        ObsidianShield = ITEMS.register("obsidian_shield", () -> new ObsidianShieldItem(new Item.Properties()));
         AnkhShield = ITEMS.register("ankh_shield", () -> new AnkhShieldItem(new Item.Properties()));
         MelodyPlushie = ITEMS.register("melody_plushie", () -> new MelodyPlushieItem(new Item.Properties()));
         HeroShield = ITEMS.register("hero_shield", () -> new HeroShieldItem(new Item.Properties()));
@@ -120,10 +127,18 @@ public class MAItems {
         DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
         FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
         IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
-        ShadowDust = ITEMS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
-        RecallPotion = ITEMS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
         VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
+        LeatherTreads = ITEMS.register("leather_treads", () -> new LeatherTreadsItem(new Item.Properties()));
+        DuneTreads = ITEMS.register("dune_treads", () -> new DuneTreadsItem(new Item.Properties()));
+        BlazingTreads = ITEMS.register("blazing_treads", () -> new BlazingTreadsItem(new Item.Properties()));
+        EnderianTreads = ITEMS.register("enderian_treads", () -> new EnderianTreadsItem(new Item.Properties()));
+        SculkTreads = ITEMS.register("sculk_treads", () -> new SculkTreadsItem(new Item.Properties()));
+        MechanicalGears = ITEMS.register("mechanical_gears", () -> new MechanicalGearsItem(new Item.Properties()));
+        HighJumpers = ITEMS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
+        RecallPotion = ITEMS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
+        ShadowDust = ITEMS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
         ArtifactSmithingTemplate = ITEMS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
+
     }
 
     public static List<RegistryObject<Item>> getAllArtifacts() {

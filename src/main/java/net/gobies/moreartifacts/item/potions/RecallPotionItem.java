@@ -78,15 +78,15 @@ public class RecallPotionItem extends Item {
                             }
                         } else {
                             // no respawn point
-                            serverPlayer.displayClientMessage(Component.translatable("moreartifacts.recall.potion.respawn"), true);
+                            serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.respawn"), true);
                         }
                     } catch (Exception e) {
                         // error finding spawn with no spawn point
-                        serverPlayer.displayClientMessage(Component.translatable("moreartifacts.recall.potion.respawn"), true);
+                        serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.respawn"), true);
                     }
                 } else {
                     // no dimension teleport
-                    serverPlayer.displayClientMessage(Component.translatable("moreartifacts.recall.potion.dimension"), true);
+                    serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.dimension"), true);
                 }
             }
         return stack;

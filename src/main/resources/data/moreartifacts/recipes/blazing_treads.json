@@ -2,26 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "aba",
-    "cdc",
-    "aba"
+    "bcb",
+    "ada",
+    "bab"
   ],
   "key": {
     "a": {
-      "item": "minecraft:gilded_blackstone"
+      "item": "minecraft:blaze_powder"
     },
     "b": {
-      "item": "minecraft:netherite_ingot"
+      "item": "minecraft:blaze_rod"
     },
     "c": {
       "item": "moreartifacts:shadow_dust"
     },
     "d": {
-      "item": "moreartifacts:enderian_scarf"
+      "item": "moreartifacts:leather_treads"
     }
   },
   "result": {
-    "item": "moreartifacts:gilded_scarf",
+    "item": "moreartifacts:blazing_treads",
     "count": 1
   }
 }

@@ -20,12 +20,12 @@ public class ArtifactSmithingTemplateItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
             pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.moreartifacts.artifact_upgrade_smithing_template.upgrade").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.upgrade").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.literal(""));
-        pTooltipComponents.add(Component.translatable("item.moreartifacts.artifact_upgrade_smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("item.moreartifacts.artifact_upgrade_smithing_template.artifacts").withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("item.moreartifacts.artifact_upgrade_smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("item.moreartifacts.artifact_upgrade_smithing_template.artifacts").withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.artifacts").withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.artifacts").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -41,10 +41,6 @@ public class ApothecaryCompat {
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.removeEffect(player, AEffects.Burning.get());
             }
-            //Chilled Immunity
-            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get())) {
-                MAUtils.removeEffect(player, AEffects.Chilled.get());
-            }
         }
     }
 
@@ -70,10 +66,6 @@ public class ApothecaryCompat {
             }
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
-            }
-            //Chilled Immunity
-            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Chilled.get());
             }
         }
     }

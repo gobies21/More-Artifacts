@@ -43,6 +43,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
         }
     }
 
+    @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
@@ -63,7 +64,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
                     tag.putInt("HitCount", hitCount);
                     if (hitCount % CommonConfig.IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                         event.setCanceled(true);
-                        player.displayClientMessage(Component.translatable("tooltip.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.GOLD), true);
+                        player.displayClientMessage(Component.translatable("message.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.GOLD), true);
                         float randomPitch = 1.0f + random.nextFloat() * 0.2f;
                         player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, randomPitch);
                         tag.putInt("HitCount", 0);

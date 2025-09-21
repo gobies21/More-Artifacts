@@ -6,9 +6,10 @@
   "mixins": [
     "ArrowItemMixin",
     "ExplosionHandlerMixin",
-    "HeavyCrossbowItemMixin",
+    "BoltItemMixin",
     "PotionRingRegenerationItemMixin",
-    "PotionRingResistanceItemMixin"
+    "PotionRingResistanceItemMixin",
+    "VibrationSystemListenerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "moreartifacts:leather_treads",
+    "moreartifacts:dune_treads",
+    "moreartifacts:blazing_treads",
+    "moreartifacts:enderian_treads",
+    "moreartifacts:sculk_treads",
+    "moreartifacts:mechanical_gears",
+    "moreartifacts:high_jumpers"
+  ]
+}

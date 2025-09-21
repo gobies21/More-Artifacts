@@ -47,6 +47,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     private static final UUID ENTITY_REACH = UUID.randomUUID();
     private static final UUID BLOCK_REACH = UUID.randomUUID();
 
+    @Override
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
         LivingEntity var5 = slotContext.entity();
         return var5 instanceof Player && stack.getItem() instanceof TrueEnderianScarfItem;
@@ -60,6 +61,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         }
     }
 
+    @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.removeAttributes(player, ForgeMod.ENTITY_REACH.get(), String.valueOf(ENTITY_REACH));

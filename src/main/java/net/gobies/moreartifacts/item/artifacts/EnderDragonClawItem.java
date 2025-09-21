@@ -21,7 +21,7 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
-        static {
+    static {
         MinecraftForge.EVENT_BUS.register(EnderDragonClawItem.class);
     }
 
