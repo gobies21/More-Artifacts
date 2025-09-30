@@ -36,6 +36,7 @@ public class MALootTables {
         LootTableHandler.addLoot(event, "gameplay/cat_morning_gift", MAItems.MelodyPlushie.get(), 1, 1, CommonConfig.MELODY_PLUSHIE_DROP_CHANCE.get().floatValue());
 
         LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, 0.15F);
-
+        LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.RubyRing.get(), 1, 1, 0.10F);
+        LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.RubyRing.get(), 1, 1, 0.05F);
     }
 }

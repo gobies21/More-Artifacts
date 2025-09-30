@@ -69,6 +69,7 @@ public class MAItems {
     public static final RegistryObject<Item> SculkTreads;
     public static final RegistryObject<Item> MechanicalGears;
     public static final RegistryObject<Item> HighJumpers;
+    public static final RegistryObject<Item> RubyRing;
     public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
@@ -127,6 +128,7 @@ public class MAItems {
         DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
         FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
         IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
+        RubyRing = ITEMS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
         VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
         LeatherTreads = ITEMS.register("leather_treads", () -> new LeatherTreadsItem(new Item.Properties()));
         DuneTreads = ITEMS.register("dune_treads", () -> new DuneTreadsItem(new Item.Properties()));
@@ -147,6 +149,6 @@ public class MAItems {
                 SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, MechanicalGlove,
                 EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
-                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, VanirMask);
+                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, VanirMask);
     }
 }

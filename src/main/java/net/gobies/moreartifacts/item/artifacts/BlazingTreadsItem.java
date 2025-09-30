@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class BlazingTreadsItem extends Item implements ICurioItem {
     public BlazingTreadsItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
 
     static {

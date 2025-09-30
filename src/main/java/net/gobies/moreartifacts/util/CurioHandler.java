@@ -5,7 +5,9 @@ import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class CurioHandler {
@@ -14,6 +16,21 @@ public class CurioHandler {
         return CuriosApi.getCuriosInventory(entity).resolve()
                 .flatMap(curios -> curios.findFirstCurio(stack ->
                         stack.getItem() == targetItem)).isPresent();
+    }
+
+    public static int getCurioCount(LivingEntity entity, Item item) {
+        AtomicInteger count = new AtomicInteger();
+        CuriosApi.getCuriosInventory(entity).ifPresent(handler -> {
+            handler.getCurios().forEach((identifier, stacksHandler) -> {
+                IDynamicStackHandler stackHandler = stacksHandler.getStacks();
+                for (int i = 0; i < stackHandler.getSlots(); i++) {
+                    if (stackHandler.getStackInSlot(i).getItem() == item) {
+                        count.getAndIncrement();
+                    }
+                }
+            });
+        });
+        return count.get();
     }
 
     //Made for potionrings2 compat

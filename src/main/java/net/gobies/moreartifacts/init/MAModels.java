@@ -2,12 +2,9 @@ package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.client.models.*;
 import net.gobies.moreartifacts.client.renderer.*;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 public class MAModels {
 
     public static void modelSetup() {

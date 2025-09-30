@@ -50,6 +50,7 @@ public abstract class DamageCalculator {
         generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.RubyRing.get(), 0.10);
 
         return Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
     }

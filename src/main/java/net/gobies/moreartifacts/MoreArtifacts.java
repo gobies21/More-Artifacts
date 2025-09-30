@@ -8,6 +8,7 @@ import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.event.MAEvents;
 import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
@@ -44,13 +45,17 @@ public class MoreArtifacts {
 
         MAItems.register(modBus);
 
+        MAEffects.register(modBus);
+
         MACreativeTab.register(modBus);
 
-        modBus.addListener(this::setupEntityModelLayers);
+        MAEvents.register();
 
         modBus.addListener(this::commonSetup);
 
         modBus.addListener(this::clientSetup);
+
+        modBus.addListener(this::setupEntityModelLayers);
 
         PacketHandler.register();
 

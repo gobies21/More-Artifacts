@@ -5,6 +5,7 @@ import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -59,13 +60,18 @@ public class VenomStoneItem extends Item implements ICurioItem {
         int poisonLevel = CommonConfig.VENOM_STONE_LEVEL.get();
         int poisonDuration = CommonConfig.VENOM_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.VENOM_STONE_DAMAGE.get() - 1) * 100;
+        double deadlyChance = CommonConfig.VENOM_STONE_DEADLY_CHANCE.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.immunity").withStyle(ChatFormatting.GREEN));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.inflict_poison", String.format("%.1f", poisonChance), poisonLevel, poisonDuration).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+        if (Screen.hasControlDown()) {
+            pTooltipComponents.remove(4);
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.deadly.chance", String.format("%.1f",  deadlyChance)).withStyle(ChatFormatting.DARK_AQUA));
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
 }
-
 
 
 

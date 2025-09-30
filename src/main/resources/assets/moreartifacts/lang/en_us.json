@@ -54,6 +54,7 @@
   "item.moreartifacts.sculk_treads": "Sculk Treads",
   "item.moreartifacts.mechanical_gears": "Mechanical Gears",
   "item.moreartifacts.high_jumpers": "High Jumpers",
+  "item.moreartifacts.ruby_ring": "Ruby Ring",
 
   "tooltip.moreartifacts.bezoar": "Grants immunity to Poison",
   "tooltip.moreartifacts.vitamins": "Grants immunity to Weakness and Mining Fatigue",
@@ -130,10 +131,11 @@
   "tooltip.moreartifacts.venom_stone.immunity": "Grants immunity to Poison",
   "tooltip.moreartifacts.venom_stone.inflict_poison": "§3%.1f%% §aChance to inflict poison §3%d §afor §3%d §aseconds",
   "tooltip.moreartifacts.venom_stone.increased_damage": "§aDeal §3%.1f%% §aincreased damage to targets inflicted with poison",
+  "tooltip.moreartifacts.venom_stone.deadly.chance": "§3%.1f%% §aChance to convert poison into a more deadly variant",
   "tooltip.moreartifacts.decay_stone.immunity": "Grants immunity to Wither",
   "tooltip.moreartifacts.decay_stone.inflict_wither": "§3%.1f%% §6Chance to inflict wither §3%d §6for §3%d §6seconds",
   "tooltip.moreartifacts.decay_stone.increased_damage": "§6Deal §3%.1f%% §6increased damage to targets inflicted with wither",
-  "tooltip.moreartifacts.decay_stone.heal_amount": "§6Attacking enemies affected by wither restores §3%d §6hearts",
+  "tooltip.moreartifacts.decay_stone.heal_amount": "§6Attacking enemies affected by wither restores §3%d §6heart",
   "tooltip.moreartifacts.fire_stone.immunity": "Grants immunity to Fire",
   "tooltip.moreartifacts.fire_stone.inflame": "§3%.1f%% §cChance to set enemies ablaze for §3%d §cseconds",
   "tooltip.moreartifacts.fire_stone.increased_damage": "§cDeal §3%.1f%% §cincreased damage to targets on fire",
@@ -168,6 +170,8 @@
   "key.moreartifacts.eye.teleport": "Enderian Eye Teleport",
   "key.categories.moreartifacts": "More Artifacts",
   "creativetab.moreartifacts_tab": "More Artifacts",
+  "effect.moreartifacts.virulent": "Virulent",
+  "effect.moreartifacts.virulent.description": "A more deadly version of poison",
 
   "curios.identifier.feet": "Feet",
   "tooltip.moreartifacts.leather_treads.speed": "§7Increases movement speed by %.1f%%",
@@ -185,5 +189,7 @@
   "tooltip.moreartifacts.mechanical_gears.speed": "§7Increases movement speed by %.1f%%",
   "tooltip.moreartifacts.mechanical_gears.dodge": "%.1f%% §7Chance to dodge incoming attacks",
   "tooltip.moreartifacts.high_jumpers.jump": "Increases jump height and reduces fall damage",
-  "tooltip.moreartifacts.high_jumpers.speed": "§7Increases movement speed by %.1f%%"
+  "tooltip.moreartifacts.high_jumpers.speed": "§7Increases movement speed by %.1f%%",
+  "tooltip.moreartifacts.ruby_ring.damage": "§6Increases damage by %.1f%% §6for every %.1f §6Max Health",
+  "tooltip.moreartifacts.ruby_ring.cap": "§6Caps at %.1f §6Max Health"
 }

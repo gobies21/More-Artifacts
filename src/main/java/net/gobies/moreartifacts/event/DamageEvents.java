@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
+import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.DamageCalculator;
@@ -104,79 +105,103 @@ public class DamageEvents {
                 generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.EnderDragonClaw.get())) {
+            int dragonClawCount = CurioHandler.getCurioCount(player, MAItems.EnderDragonClaw.get());
                 if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get()) {
-                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
-                    float randomPitch = 1.3f + random.nextFloat() * 0.2f;
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
+                    for (int i = 0; i < dragonClawCount; i++) {
+                        float randomPitch = 1.3f + random.nextFloat() * 0.2f;
+                        player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
+                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
+                    }
                 }
-            }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.LuckyEmeraldRing.get())) {
+            int luckyRingCount = CurioHandler.getCurioCount(player, MAItems.LuckyEmeraldRing.get());
+            for (int i = 0; i < luckyRingCount; i++) {
                 if (target.getMobType() == MobType.ILLAGER) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.LuckyEmeraldRing.get(), CommonConfig.EMERALD_RING_DAMAGE.get());
                 }
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.VenomStone.get())) {
-                if (target.hasEffect(MobEffects.POISON)) {
+            int venomStoneCount = CurioHandler.getCurioCount(player, MAItems.VenomStone.get());
+            for (int i = 0; i < venomStoneCount; i++) {
+                if (target.hasEffect(MobEffects.POISON) || target.hasEffect(MAEffects.Virulent.get())) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.VenomStone.get(), CommonConfig.VENOM_STONE_DAMAGE.get());
-                }
-
-                if (random.nextFloat() < CommonConfig.VENOM_STONE_CHANCE.get()) {
-                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.VENOM_STONE_DURATION.get(), CommonConfig.VENOM_STONE_LEVEL.get() - 1));
+                    MobEffectInstance poisonEffect = target.getEffect(MobEffects.POISON);
+                    if (poisonEffect != null) {
+                        int poisonDuration = poisonEffect.getDuration();
+                        int poisonAmplifier = poisonEffect.getAmplifier();
+                        double deadlyChance = CommonConfig.VENOM_STONE_DEADLY_CHANCE.get() * venomStoneCount;
+                        if (random.nextFloat() < deadlyChance) {
+                            target.removeEffect(MobEffects.POISON);
+                            target.addEffect(new MobEffectInstance(MAEffects.Virulent.get(), poisonDuration, poisonAmplifier));
+                        }
+                    }
+                } else if (!target.hasEffect(MAEffects.Virulent.get())) {
+                    double poisonChance = CommonConfig.VENOM_STONE_CHANCE.get() * venomStoneCount;
+                    if (random.nextFloat() < poisonChance) {
+                        target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.VENOM_STONE_DURATION.get(), CommonConfig.VENOM_STONE_LEVEL.get() - 1));
+                    }
                 }
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.DecayStone.get())) {
+            int decayStoneCount = CurioHandler.getCurioCount(player, MAItems.DecayStone.get());
+            for (int i = 0; i < decayStoneCount; i++) {
                 if (target.hasEffect(MobEffects.WITHER)) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.DecayStone.get(), CommonConfig.DECAY_STONE_DAMAGE.get());
                     long currentTime = player.level().getGameTime();
                     Long lastHealTime = lastHealTimeMap.get(player);
                     if (lastHealTime == null || currentTime - lastHealTime > 20) {
-                        player.heal(2 * CommonConfig.DECAY_STONE_HEAL_AMOUNT.get());
+                        int healAmount = CommonConfig.DECAY_STONE_HEAL_AMOUNT.get() * decayStoneCount;
+                        player.heal(2 * healAmount);
                         lastHealTimeMap.put(player, currentTime);
                     }
                 }
 
-                if (random.nextFloat() < CommonConfig.DECAY_STONE_CHANCE.get()) {
+                double decayChance = CommonConfig.DECAY_STONE_CHANCE.get() * decayStoneCount;
+                if (random.nextFloat() < decayChance) {
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.DECAY_STONE_DURATION.get(), CommonConfig.DECAY_STONE_LEVEL.get() - 1));
                 }
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
+            int fireStoneCount = CurioHandler.getCurioCount(player, MAItems.FireStone.get());
+            for (int i = 0; i < fireStoneCount; i++) {
                 if (target.isOnFire()) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.FireStone.get(), CommonConfig.FIRE_STONE_DAMAGE.get());
                 }
 
-                if (random.nextFloat() < CommonConfig.FIRE_STONE_CHANCE.get()) {
+                double fireChance = CommonConfig.FIRE_STONE_CHANCE.get() * fireStoneCount;
+                if (random.nextFloat() < fireChance) {
                     target.setSecondsOnFire(CommonConfig.FIRE_STONE_DURATION.get());
                 }
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get())) {
+            int iceStoneCount = CurioHandler.getCurioCount(player, MAItems.IceStone.get());
+            for (int i = 0; i < iceStoneCount; i++) {
                 if (target.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) || target.isFreezing()) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.IceStone.get(), CommonConfig.ICE_STONE_DAMAGE.get());
                 }
 
-                if (random.nextFloat() < CommonConfig.ICE_STONE_CHANCE.get()) {
+                double iceChance = CommonConfig.ICE_STONE_CHANCE.get() * iceStoneCount;
+                if (random.nextFloat() < iceChance) {
                     target.setTicksFrozen(100 * CommonConfig.ICE_STONE_DURATION.get());
-                    target.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * CommonConfig.ICE_STONE_DURATION.get(), 0));
+                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * CommonConfig.ICE_STONE_DURATION.get(), 0));
                 }
             }
 
             if (event.getSource().is(DamageTypes.ARROW) || SpartanWeaponryCompat.isArmorPiercingBolt(event.getSource())) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.MagicQuiver.get())) {
+                int magicQuiverCount = CurioHandler.getCurioCount(player, MAItems.MagicQuiver.get());
+                for (int i = 0; i < magicQuiverCount; i++) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
                 }
 
-                if (CurioHandler.isCurioEquipped(player, MAItems.EnvenomedQuiver.get())) {
+                int envenomedQuiverCount = CurioHandler.getCurioCount(player, MAItems.EnvenomedQuiver.get());
+                for (int i = 0; i < envenomedQuiverCount; i++) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.ENVENOMED_QUIVER_POISON_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.ENVENOMED_QUIVER_WITHER_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
                 }
 
-                if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
+                int moltenQuiverCount = CurioHandler.getCurioCount(player, MAItems.MoltenQuiver.get());
+                for (int i = 0; i < moltenQuiverCount; i++) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
                     target.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
 
@@ -200,6 +225,25 @@ public class DamageEvents {
 
             if (CurioHandler.isCurioEquipped(player, MAItems.VanirMask.get())) {
                 event.setAmount((float) (event.getAmount() + CommonConfig.VANIR_MASK_DAMAGE_INCREASE.get()));
+            }
+
+            int rubyRingCount = CurioHandler.getCurioCount(player, MAItems.RubyRing.get());
+            for (int i = 0; i < rubyRingCount; i++) {
+                float maxHealth = player.getMaxHealth();
+                float additionalDamagePercentage = 1.0F;
+                double configDamageIncrease = CommonConfig.RUBY_RING_DAMAGE_INCREASE.get();
+                double healthThreshold = CommonConfig.RUBY_RING_HEALTH_THRESHOLD.get();
+                double healthThresholdCap = CommonConfig.RUBY_RING_HEALTH_CAP.get(); // Get the max threshold count from config
+
+                int maxAllowedThresholds = (int) (healthThresholdCap / healthThreshold);
+
+                int thresholdCount = (int) (maxHealth / healthThreshold);
+                thresholdCount = Math.min(thresholdCount, maxAllowedThresholds);
+
+                for (int h = 0; h < thresholdCount; h++) {
+                    additionalDamagePercentage += (float) configDamageIncrease;
+                }
+                generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.RubyRing.get(), additionalDamagePercentage);
             }
 
             generalIncrease = Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get());
@@ -247,10 +291,13 @@ public class DamageEvents {
             return;
         }
 
-        if (CurioHandler.isCurioEquipped(player, MAItems.MechanicalClaw.get())) {
+        int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
+        for (int i = 0; i < clawCount; i++) {
+            int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;
+            double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * clawCount;
             UUID targetId = target.getUUID();
-            if (target.getRandom().nextFloat() < CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get()) {
-                BLEEDING_ENTITIES.put(targetId, CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20);
+            if (target.getRandom().nextFloat() < bleedChance) {
+                BLEEDING_ENTITIES.put(targetId, bleedDuration);
             }
         }
     }

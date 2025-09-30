@@ -58,9 +58,11 @@ public class EchoGloveItem extends Item implements ICurioItem {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity attacker) {
             LivingEntity attackedEntity = event.getEntity();
-            if (CurioHandler.isCurioEquipped(attacker, MAItems.EchoGlove.get())) {
+            int gloveCount = CurioHandler.getCurioCount(attacker, MAItems.EchoGlove.get());
+            for (int i = 0; i < gloveCount; i++) {
                 RandomSource random = attacker.getRandom();
-                if (random.nextFloat() < CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get()) {
+                double ignoreChance = CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get() * gloveCount;
+                if (random.nextFloat() < ignoreChance) {
                     // reduce the invincibility time by a fixed number of ticks
                     attackedEntity.invulnerableTime = Math.max(0, attackedEntity.invulnerableTime - 5);
                 }

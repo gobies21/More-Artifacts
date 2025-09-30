@@ -22,8 +22,13 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN;
     public static float obsidian_shield_fire_damage_taken;
 
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_CHARM_ADDITIONAL_EFFECTS;
+    public static List<? extends String> ankh_charm_additional_effects;
+
     public static ForgeConfigSpec.ConfigValue<Double> ANKH_SHIELD_FIRE_DAMAGE_TAKEN;
     public static float ankh_shield_fire_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_SHIELD_ADDITIONAL_EFFECTS;
+    public static List<? extends String> ankh_shield_additional_effects;
 
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_AMULET_WITHER_CHANCE;
     public static float decay_amulet_wither_chance;
@@ -185,6 +190,8 @@ public class CommonConfig {
     public static int venom_stone_level;
     public static ForgeConfigSpec.ConfigValue<Integer> VENOM_STONE_DURATION;
     public static int venom_stone_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_DEADLY_CHANCE;
+    public static float venom_stone_deadly_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_STONE_DAMAGE;
     public static float decay_stone_damage;
@@ -238,6 +245,13 @@ public class CommonConfig {
     public static float vanir_mask_armor_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
     public static float vanir_mask_armor_toughness_increase;
+
+    public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_DAMAGE_INCREASE;
+    public static float ruby_ring_damage_increase;
+    public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_HEALTH_THRESHOLD;
+    public static float ruby_ring_health_threshold;
+    public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_HEALTH_CAP;
+    public static float ruby_ring_health_cap;
 
     public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
     public static float leather_treads_speed;
@@ -334,7 +348,9 @@ public class CommonConfig {
             hero_shield_compat = HERO_SHIELD_COMPAT.get();
             skull_fire_damage_taken = SKULL_FIRE_DAMAGE_TAKEN.get().floatValue();
             obsidian_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            ankh_charm_additional_effects = ANKH_CHARM_ADDITIONAL_EFFECTS.get();
             ankh_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            ankh_shield_additional_effects = ANKH_SHIELD_ADDITIONAL_EFFECTS.get();
             decay_amulet_wither_chance = DECAY_AMULET_WITHER_CHANCE.get().floatValue();
             decay_amulet_wither_duration = DECAY_AMULET_WITHER_DURATION.get();
             decay_amulet_wither_level = DECAY_AMULET_WITHER_LEVEL.get();
@@ -400,6 +416,7 @@ public class CommonConfig {
             venom_stone_chance = VENOM_STONE_CHANCE.get().floatValue();
             venom_stone_level = VENOM_STONE_LEVEL.get();
             venom_stone_duration = VENOM_STONE_DURATION.get();
+            venom_stone_deadly_chance = VENOM_STONE_DEADLY_CHANCE.get().floatValue();
             decay_stone_damage = DECAY_STONE_DAMAGE.get().floatValue();
             decay_stone_chance = DECAY_STONE_CHANCE.get().floatValue();
             decay_stone_level = DECAY_STONE_LEVEL.get();
@@ -424,6 +441,9 @@ public class CommonConfig {
             vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
             vanir_mask_armor_increase = VANIR_MASK_ARMOR_INCREASE.get().floatValue();
             vanir_mask_armor_toughness_increase = VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get().floatValue();
+            ruby_ring_damage_increase = RUBY_RING_DAMAGE_INCREASE.get().floatValue();
+            ruby_ring_health_threshold = RUBY_RING_HEALTH_THRESHOLD.get().floatValue();
+            ruby_ring_health_cap = RUBY_RING_HEALTH_CAP.get().floatValue();
             leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
             dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
             dune_treads_sand_speed = DUNE_TREADS_SAND_SPEED.get().floatValue();
@@ -485,8 +505,13 @@ public class CommonConfig {
         OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
         BUILDER.pop();
 
+        BUILDER.push("Ankh_Charm");
+        ANKH_CHARM_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh charm grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of(), s -> s instanceof String);
+        BUILDER.pop();
+
         BUILDER.push("Ankh_Shield");
         ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
+        ANKH_SHIELD_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh shield grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of(), s -> s instanceof String);
         BUILDER.pop();
 
         BUILDER.push("Venom_Amulet");
@@ -525,7 +550,7 @@ public class CommonConfig {
         MECHANICAL_CLAW_DAMAGE = BUILDER.comment("Damage increased in percentage").define("Damage_Increase", 0.15);
         MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed_Chance", 0.25);
         MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed_Damage", 1);
-        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 5);
+        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 8);
         BLEED_BLACKLISTED_ENTITIES = BUILDER.comment("Blacklist for entities that cannot be affected by bleed").defineList("Blacklisted_Entities",List.of(), s -> s instanceof String);
         BUILDER.pop();
 
@@ -605,7 +630,7 @@ public class CommonConfig {
 
         BUILDER.push("Ender_Dragon_Claw");
         ENDER_DRAGON_CLAW_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.50);
-        ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.15);
+        ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.05);
         BUILDER.pop();
 
         BUILDER.push("Enderian_Eye");
@@ -618,6 +643,7 @@ public class CommonConfig {
         VENOM_STONE_CHANCE = BUILDER.comment("Chance to inflict poison").define("Chance", 0.25);
         VENOM_STONE_LEVEL = BUILDER.comment("Level of the poison effect").defineInRange("Poison_Level", 2, 1, 5);
         VENOM_STONE_DURATION = BUILDER.comment("Duration of the poison effect in seconds").define("Duration", 5);
+        VENOM_STONE_DEADLY_CHANCE = BUILDER.comment("Chance to convert poison into a more deadly poison").define("Deadly_Chance", 0.15);
         BUILDER.pop();
 
         BUILDER.push("Decay_Stone");
@@ -657,6 +683,12 @@ public class CommonConfig {
         VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.25);
         VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.25);
         VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Ruby_Ring");
+        RUBY_RING_DAMAGE_INCREASE = BUILDER.comment("Damage increased for every health threshold in percentage").define("Damage_Increase", 0.10);
+        RUBY_RING_HEALTH_THRESHOLD = BUILDER.comment("Health threshold for each damage increase").define("Health_Threshold", 20.0);
+        RUBY_RING_HEALTH_CAP = BUILDER.comment("Max health cap for the damage increase").define("Health_Cap", 60.0);
         BUILDER.pop();
 
         BUILDER.push("Leather_Treads");

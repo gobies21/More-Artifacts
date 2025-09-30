@@ -29,16 +29,18 @@ public class BalloonItem extends Item implements ICurioItem {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
-          if (CurioHandler.isCurioEquipped(player, MAItems.Balloon.get())) {
-                  player.setDeltaMovement(player.getDeltaMovement().add(0, 0.15, 0));
-              }
-          }
+            int ballonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
+            for (int i = 0; i < ballonCount; i++) {
+                player.setDeltaMovement(player.getDeltaMovement().add(0, 0.15, 0));
+            }
         }
+    }
 
     @SubscribeEvent
     public void onFallDamageReduction(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.Balloon.get())) {
+            int ballonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
+            for (int i = 0; i < ballonCount; i++) {
                 event.setDistance(event.getDistance() * 0.8f);
             }
         }
