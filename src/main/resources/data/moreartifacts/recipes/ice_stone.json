@@ -8,10 +8,10 @@
   ],
   "key": {
     "a": {
-      "item": "minecraft:blue_ice"
+      "item": "moreartifacts:ice_crystal"
     },
     "b": {
-      "item": "minecraft:powder_snow_bucket"
+      "item": "minecraft:blue_ice"
     },
     "c": {
       "item": "moreartifacts:shadow_dust"

@@ -19,6 +19,6 @@ public class MAEffects {
 
     static {
         EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MoreArtifacts.MOD_ID);
-        Virulent = EFFECTS.register("virulent", () -> new Virulent(MobEffectCategory.HARMFUL, 0x3f5227));
+        Virulent = EFFECTS.register("virulent", () -> new Virulent(MobEffectCategory.HARMFUL, 0xBF40BF));
     }
 }

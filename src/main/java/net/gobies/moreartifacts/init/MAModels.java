@@ -23,7 +23,7 @@ public class MAModels {
         CuriosRendererRegistry.register(MAItems.VenomAmulet.get(), VenomAmuletRenderer::new);
         CuriosRendererRegistry.register(MAItems.DecayAmulet.get(), DecayAmuletRenderer::new);
         CuriosRendererRegistry.register(MAItems.NecroplasmAmulet.get(), NecroplasmAmuletRenderer::new);
-        CuriosRendererRegistry.register(MAItems.MagicQuiver.get(), MagicQuiverRenderer::new);
+        //CuriosRendererRegistry.register(MAItems.MagicQuiver.get(), MagicQuiverRenderer::new);
         //CuriosRendererRegistry.register(MAItems.MechanicalGlove.get(), MechanicalGloveRenderer::new);
 
     }

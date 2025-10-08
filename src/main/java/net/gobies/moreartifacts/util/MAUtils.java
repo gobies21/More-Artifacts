@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.fml.ModList;
 
 import java.util.*;
 
@@ -25,6 +26,12 @@ public class MAUtils {
     // Method to make the player immune to burning
     public static void makeBurningImmune(LivingAttackEvent event) {
         if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
+            event.setCanceled(true);
+        }
+    }
+    // Method to make the player immune to freezing
+    public static void makeFreezingImmune(LivingAttackEvent event) {
+        if (event.getSource().is(DamageTypes.FREEZE)) {
             event.setCanceled(true);
         }
     }
@@ -125,7 +132,7 @@ public class MAUtils {
     }
     // Method to get looting values based off if JLME is installed
     public static float lootingValues() {
-        if (ModLoadedUtil.isJLMELoaded()) {
+        if (ModList.get().isLoaded("jlme")) {
             return 0.005f;
         } else {
             return 0.01f;

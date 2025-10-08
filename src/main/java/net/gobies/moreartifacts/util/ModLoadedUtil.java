@@ -24,7 +24,4 @@ public class ModLoadedUtil {
         return ModList.get().isLoaded("apothecary");
     }
 
-    public static boolean isJLMELoaded() {
-        return ModList.get().isLoaded("jlme");
-    }
 }

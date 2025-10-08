@@ -2,7 +2,6 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,9 +18,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
@@ -36,11 +32,6 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     public EnderianTreadsItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
-
-    static {
-        MinecraftForge.EVENT_BUS.register(EnderianTreadsItem.class);
-    }
-
 
     private static final UUID SPEED = UUID.randomUUID();
     private static final Map<UUID, Long> cooldownMap = new HashMap<>();
@@ -60,22 +51,7 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
         }
     }
 
-    @SubscribeEvent
-    public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
-                if (player.getHealth() - event.getAmount() <= 0) {
-                    if (canUseAbility(player)) {
-                        teleportPlayer(player);
-                        setCooldown(player);
-                        event.setCanceled(true);
-                    }
-                }
-            }
-        }
-    }
-
-    private static boolean canUseAbility(Player player) {
+    public static boolean canUseAbility(Player player) {
         Long lastUsed = cooldownMap.get(player.getUUID());
         long currentTime = System.currentTimeMillis();
         long cooldownDuration = (long) (1000L * CommonConfig.ENDERIAN_TREADS_COOLDOWN.get());
@@ -91,7 +67,7 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     }
 
 
-    private static void teleportPlayer(ServerPlayer player) {
+    public static void teleportPlayer(ServerPlayer player) {
         double x = player.getX();
         double y = player.getY();
         double z = player.getZ();
@@ -119,7 +95,7 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
         }
     }
 
-    private static void setCooldown(Player player) {
+    public static void setCooldown(Player player) {
         cooldownMap.put(player.getUUID(), System.currentTimeMillis());
     }
 

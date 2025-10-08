@@ -17,7 +17,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -81,35 +80,6 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.removeAttributes(player, Attributes.KNOCKBACK_RESISTANCE, String.valueOf(KNOCKBACK_RESISTANCE));
-        }
-    }
-
-    @SubscribeEvent
-    public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
-        if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.harmfulEffectImmunity(event);
-                additionalEffectImmunity(event);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLivingKnockBack(LivingKnockBackEvent event) {
-        LivingEntity entity = event.getEntity();
-        if (entity instanceof Player player) {
-            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.makeBurningImmune(event);
-            }
         }
     }
 

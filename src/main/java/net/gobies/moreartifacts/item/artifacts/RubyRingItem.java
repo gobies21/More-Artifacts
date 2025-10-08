@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RubyRingItem extends Item implements ICurioItem {
     public RubyRingItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
     @Override

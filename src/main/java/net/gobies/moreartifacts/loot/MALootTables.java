@@ -28,6 +28,7 @@ public class MALootTables {
         LootTableHandler.addLootWithLooting(event, "entities/skeleton", MAItems.MagicQuiver.get(), 1, 1, CommonConfig.MAGIC_QUIVER_SKELETON_DROP_CHANCE.get().floatValue(), lootingValue);
         LootTableHandler.addLootWithLooting(event, "entities/pillager", MAItems.MagicQuiver.get(), 1, 1, CommonConfig.MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get().floatValue(), lootingValue);
         LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.EnderDragonClaw.get(), 1, 1, CommonConfig.ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue(), lootingValue * 5);
+        LootTableHandler.addLootWithLooting(event, "entities/warden", MAItems.TaintedMirror.get(), 1, 1, 0.10F, lootingValue);
 
         LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.SculkLens.get(), 1, 1, CommonConfig.SCULK_LENS_DROP_CHANCE.get().floatValue());
         LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.CobaltShield.get(), 1, 1, CommonConfig.COBALT_SHIELD_DROP_CHANCE.get().floatValue());
@@ -38,5 +39,8 @@ public class MALootTables {
         LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, 0.15F);
         LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.RubyRing.get(), 1, 1, 0.10F);
         LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.RubyRing.get(), 1, 1, 0.05F);
+        LootTableHandler.addLoot(event, "chests/igloo_chest", MAItems.IceCrystal.get(), 1, 1, 1.0F);
+        LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
+
     }
 }

@@ -25,6 +25,7 @@ public class MAItems {
     public static final RegistryObject<Item> ShulkerHeart;
     public static final RegistryObject<Item> WitherShard;
     public static final RegistryObject<Item> SculkLens;
+    public static final RegistryObject<Item> IceCrystal;
     public static final RegistryObject<Item> WitheredBezoar;
     public static final RegistryObject<Item> SculkShades;
     public static final RegistryObject<Item> ShulkedClock;
@@ -62,6 +63,9 @@ public class MAItems {
     public static final RegistryObject<Item> FireStone;
     public static final RegistryObject<Item> IceStone;
     public static final RegistryObject<Item> VanirMask;
+    public static final RegistryObject<Item> RubyRing;
+    public static final RegistryObject<Item> TaintedMirror;
+    public static final RegistryObject<Item> NaturesMantle;
     public static final RegistryObject<Item> LeatherTreads;
     public static final RegistryObject<Item> DuneTreads;
     public static final RegistryObject<Item> BlazingTreads;
@@ -69,7 +73,6 @@ public class MAItems {
     public static final RegistryObject<Item> SculkTreads;
     public static final RegistryObject<Item> MechanicalGears;
     public static final RegistryObject<Item> HighJumpers;
-    public static final RegistryObject<Item> RubyRing;
     public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
@@ -92,6 +95,7 @@ public class MAItems {
         ShulkerHeart = ITEMS.register("shulker_heart", () -> new ShulkerHeartItem(new Item.Properties()));
         WitherShard = ITEMS.register("wither_shard", () -> new WitherShardItem(new Item.Properties()));
         SculkLens = ITEMS.register("sculk_lens", () -> new SculkLensItem(new Item.Properties()));
+        IceCrystal = ITEMS.register("ice_crystal", () -> new IceCrystalItem(new Item.Properties()));
         WitheredBezoar = ITEMS.register("withered_bezoar", () -> new WitheredBezoarItem(new Item.Properties()));
         SculkShades = ITEMS.register("sculk_shades", () -> new SculkShadesItem(new Item.Properties()));
         ShulkedClock = ITEMS.register("shulked_clock", () -> new ShulkedClockItem(new Item.Properties()));
@@ -129,6 +133,8 @@ public class MAItems {
         FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
         IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
         RubyRing = ITEMS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
+        TaintedMirror = ITEMS.register("tainted_mirror", () -> new TaintedMirrorItem(new Item.Properties()));
+        NaturesMantle = ITEMS.register("natures_mantle", () -> new NaturesMantleItem(new Item.Properties()));
         VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
         LeatherTreads = ITEMS.register("leather_treads", () -> new LeatherTreadsItem(new Item.Properties()));
         DuneTreads = ITEMS.register("dune_treads", () -> new DuneTreadsItem(new Item.Properties()));
@@ -145,10 +151,10 @@ public class MAItems {
 
     public static List<RegistryObject<Item>> getAllArtifacts() {
         return Arrays.asList(
-                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, CobaltShield, WitheredBezoar,
+                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, IceCrystal, CobaltShield, WitheredBezoar,
                 SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, MechanicalGlove,
                 EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
-                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, VanirMask);
+                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask);
     }
 }

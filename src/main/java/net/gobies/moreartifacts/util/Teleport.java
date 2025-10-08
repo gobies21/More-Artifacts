@@ -82,6 +82,8 @@ public class Teleport {
     public static void teleportPlayer(LevelAccessor world, double x, double y, double z, Entity entity) {
         if (!(entity instanceof Player player)) return;
 
+        Vec3 currentPosition = entity.position();
+
         // define the start and end points of the raycast
         Vec3 start = entity.getEyePosition(1f);
         Vec3 end = start.add(entity.getViewVector(1f).scale(CommonConfig.ENDERIAN_EYE_RADIUS.get()));
@@ -96,6 +98,7 @@ public class Teleport {
 
             // if the entity is a ServerPlayer, update its connection to reflect the new position
             if (entity instanceof ServerPlayer serverPlayer) {
+                EnderianEyeItem.enderianEyeParticles(player, currentPosition);
                 serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, entity.getYRot(), entity.getXRot());
                 MAUtils.updateCooldown(player);
                 updateTeleportStatus(player, true);

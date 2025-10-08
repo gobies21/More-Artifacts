@@ -1,22 +1,16 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -29,27 +23,11 @@ public class IceStoneItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    static {
-        MinecraftForge.EVENT_BUS.register(IceStoneItem.class);
-    }
-
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (player.isFreezing()) {
                 player.setTicksFrozen(-1);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get())) {
-                if (event.getSource().is(DamageTypes.FREEZE)) {
-                    event.setCanceled(true);
-
-                }
             }
         }
     }
@@ -75,8 +53,8 @@ public class IceStoneItem extends Item implements ICurioItem {
                 pTooltipComponents.remove(4);
                 pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", String.format("%.1f", encaseChance), encaseDuration).withStyle(ChatFormatting.DARK_AQUA));
             }
-            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
 

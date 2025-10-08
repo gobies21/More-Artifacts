@@ -111,6 +111,8 @@ public class CommonConfig {
     public static float emerald_ring_damage;
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_EMERALDS;
     public static float emerald_ring_emeralds;
+    public static ForgeConfigSpec.ConfigValue<Integer> EMERALD_RING_LUCK;
+    public static int emerald_ring_luck;
 
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_DAMAGE;
     public static float magic_quiver_damage;
@@ -253,6 +255,12 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_HEALTH_CAP;
     public static float ruby_ring_health_cap;
 
+    public static ForgeConfigSpec.ConfigValue<Boolean> TAINTED_MIRROR_PLAYER_DAMAGE;
+    public static boolean tainted_mirror_player_damage;
+
+    public static ForgeConfigSpec.ConfigValue<Double> NATURES_MANTLE_SPEED_INCREASE;
+    public static float natures_mantle_speed_increase;
+
     public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
     public static float leather_treads_speed;
 
@@ -382,6 +390,7 @@ public class CommonConfig {
             gilded_damage_dealt = GILDED_DAMAGE_DEALT.get().floatValue();
             emerald_ring_damage = EMERALD_RING_DAMAGE.get().floatValue();
             emerald_ring_emeralds = EMERALD_RING_EMERALDS.get().floatValue();
+            emerald_ring_luck = EMERALD_RING_LUCK.get();
             magic_quiver_damage = MAGIC_QUIVER_DAMAGE.get().floatValue();
             magic_quiver_ammo = MAGIC_QUIVER_AMMO.get().floatValue();
             envenomed_quiver_damage = ENVENOMED_QUIVER_DAMAGE.get().floatValue();
@@ -444,6 +453,8 @@ public class CommonConfig {
             ruby_ring_damage_increase = RUBY_RING_DAMAGE_INCREASE.get().floatValue();
             ruby_ring_health_threshold = RUBY_RING_HEALTH_THRESHOLD.get().floatValue();
             ruby_ring_health_cap = RUBY_RING_HEALTH_CAP.get().floatValue();
+            tainted_mirror_player_damage = TAINTED_MIRROR_PLAYER_DAMAGE.get();
+            natures_mantle_speed_increase = NATURES_MANTLE_SPEED_INCREASE.get().floatValue();
             leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
             dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
             dune_treads_sand_speed = DUNE_TREADS_SAND_SPEED.get().floatValue();
@@ -506,12 +517,12 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Ankh_Charm");
-        ANKH_CHARM_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh charm grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of(), s -> s instanceof String);
+        ANKH_CHARM_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh charm grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of("moreartifacts:virulent"), s -> s instanceof String);
         BUILDER.pop();
 
         BUILDER.push("Ankh_Shield");
         ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
-        ANKH_SHIELD_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh shield grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of(), s -> s instanceof String);
+        ANKH_SHIELD_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh shield grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of("moreartifacts:virulent"), s -> s instanceof String);
         BUILDER.pop();
 
         BUILDER.push("Venom_Amulet");
@@ -590,6 +601,7 @@ public class CommonConfig {
         BUILDER.push("Lucky_Emerald_Ring");
         EMERALD_RING_DAMAGE = BUILDER.comment("Increased damage dealt against illagers in percentage").define("Damage_Dealt", 1.25);
         EMERALD_RING_EMERALDS = BUILDER.comment("Chance for on hit to drop an emerald").define("Emerald_Chance", 0.05);
+        EMERALD_RING_LUCK = BUILDER.comment("Amount of increased luck").define("Luck_Increase", 1);
         BUILDER.pop();
 
         BUILDER.push("Magic_Quiver");
@@ -674,7 +686,7 @@ public class CommonConfig {
         RECALL_POTION_COOLDOWN = BUILDER.comment("Recall potion cooldown in seconds").define("Cooldown", 0);
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
-        RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_eye");
+        RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_pearl");
         BUILDER.pop();
 
         BUILDER.push("Vanir_Mask");
@@ -686,9 +698,17 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Ruby_Ring");
-        RUBY_RING_DAMAGE_INCREASE = BUILDER.comment("Damage increased for every health threshold in percentage").define("Damage_Increase", 0.10);
+        RUBY_RING_DAMAGE_INCREASE = BUILDER.comment("Damage increased for every health threshold in percentage").define("Damage_Increase", 0.05);
         RUBY_RING_HEALTH_THRESHOLD = BUILDER.comment("Health threshold for each damage increase").define("Health_Threshold", 20.0);
         RUBY_RING_HEALTH_CAP = BUILDER.comment("Max health cap for the damage increase").define("Health_Cap", 60.0);
+        BUILDER.pop();
+
+        BUILDER.push("Tainted_Mirror");
+        TAINTED_MIRROR_PLAYER_DAMAGE = BUILDER.comment("Makes players take only half of the damage they deal by the mirror instead of full damage").define("Reduced_Player_Damage", true);
+        BUILDER.pop();
+
+        BUILDER.push("Natures_Mantle");
+        NATURES_MANTLE_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Leather_Treads");

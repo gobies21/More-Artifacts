@@ -29,7 +29,6 @@ public class MechanicalClawItem extends Item implements ICurioItem {
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.addAttributes(player, Attributes.ATTACK_DAMAGE, CommonConfig.MECHANICAL_CLAW_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ATTACK_DAMAGE_UUID));
-
         }
     }
 

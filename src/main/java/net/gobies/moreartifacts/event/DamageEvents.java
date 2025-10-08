@@ -76,6 +76,7 @@ public class DamageEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onLivingHurt(LivingHurtEvent event) {
+        DamageSource source = event.getSource();
         if (event.getEntity() instanceof Player player) {
             double generalReduction = getTotalDamageReduction(player);
             double fireReduction = getFireDamageReduction(player);
@@ -89,6 +90,19 @@ public class DamageEvents {
                 MAUtils.logDebug("Fire Damage Reduction for " + player.getName().getString() + ": " + String.format("%.2f", fireReduction * 100) + "%");
             } else {
                 finalReduction *= (1.0 - generalReduction);
+            }
+
+            if (CurioHandler.isCurioEquipped(player, MAItems.TaintedMirror.get())) {
+                if (source.getEntity() != null && source.getEntity() instanceof LivingEntity attacker) {
+                    float damageToReflect = event.getAmount();
+
+                    if (attacker instanceof Player) {
+                        damageToReflect *= CommonConfig.TAINTED_MIRROR_PLAYER_DAMAGE.get() ? 1.0F : 0.50F;
+                    }
+
+                    attacker.hurt(event.getSource(), damageToReflect);
+                    player.invulnerableTime += 12;
+                }
             }
 
             event.setAmount((float) finalReduction);
@@ -106,13 +120,13 @@ public class DamageEvents {
             }
 
             int dragonClawCount = CurioHandler.getCurioCount(player, MAItems.EnderDragonClaw.get());
-                if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get()) {
-                    for (int i = 0; i < dragonClawCount; i++) {
-                        float randomPitch = 1.3f + random.nextFloat() * 0.2f;
-                        player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
-                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
-                    }
+            if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get()) {
+                for (int i = 0; i < dragonClawCount; i++) {
+                    float randomPitch = 1.3f + random.nextFloat() * 0.2f;
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
+                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
                 }
+            }
 
             int luckyRingCount = CurioHandler.getCurioCount(player, MAItems.LuckyEmeraldRing.get());
             for (int i = 0; i < luckyRingCount; i++) {

@@ -33,3 +33,4 @@ side = "BOTH"
 
 [modproperties.moreartifacts]
 configuredBackground="minecraft:textures/block/stone_bricks.png"
+catalogueImageIcon = "moreartifacts_icon.png"

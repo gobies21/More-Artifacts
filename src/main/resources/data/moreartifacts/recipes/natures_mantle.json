@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "cbc",
+    "bab",
+    "ada"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:green_wool"
+    },
+    "b": {
+      "item": "minecraft:vine"
+    },
+    "c": {
+      "item": "minecraft:slime_ball"
+    },
+    "d": {
+      "item": "minecraft:poisonous_potato"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:natures_mantle",
+    "count": 1
+  }
+}
