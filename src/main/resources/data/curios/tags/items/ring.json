@@ -2,8 +2,6 @@
   "replace": false,
   "values": [
     "moreartifacts:lucky_emerald_ring",
-    "moreartifacts:ruby_ring",
-    "moreartifacts:mechanical_claw",
-    "moreartifacts:echo_glove"
+    "moreartifacts:ruby_ring"
   ]
 }

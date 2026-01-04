@@ -16,6 +16,10 @@ public class ModLoadedUtil {
         return ModList.get().isLoaded("iceandfire");
     }
 
+    public static boolean isIceandFire2Loaded() {
+        return ModList.get().isLoaded("iceandfire2");
+    }
+
     public static boolean isPotionRingsLoaded() {
         return ModList.get().isLoaded("potionrings2");
     }
@@ -24,4 +28,11 @@ public class ModLoadedUtil {
         return ModList.get().isLoaded("apothecary");
     }
 
+    public static boolean isJeiLoaded() {
+        return ModList.get().isLoaded("jei");
+    }
+
+    public static boolean isColdSweatLoaded() {
+        return ModList.get().isLoaded("cold_sweat");
+    }
 }

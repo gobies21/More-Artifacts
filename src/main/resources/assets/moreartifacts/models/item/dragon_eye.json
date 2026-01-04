@@ -1,0 +1,26 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "moreartifacts:item/dragon_eye"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "moreartifacts:fire": 1
+      },
+      "model": "moreartifacts:item/fire_dragon_eye"
+    },
+    {
+      "predicate": {
+        "moreartifacts:ice": 1
+      },
+      "model": "moreartifacts:item/ice_dragon_eye"
+    },
+    {
+      "predicate": {
+        "moreartifacts:lightning": 1
+      },
+      "model": "moreartifacts:item/lightning_dragon_eye"
+    }
+  ]
+}

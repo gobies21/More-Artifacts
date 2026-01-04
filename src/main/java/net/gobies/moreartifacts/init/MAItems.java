@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MAItems {
-    public static final DeferredRegister<Item> ITEMS;
+    public static final DeferredRegister<Item> ARTIFACTS;
     public static final RegistryObject<Item> Bezoar;
     public static final RegistryObject<Item> Vitamins;
     public static final RegistryObject<Item> FastClock;
@@ -73,79 +73,79 @@ public class MAItems {
     public static final RegistryObject<Item> SculkTreads;
     public static final RegistryObject<Item> MechanicalGears;
     public static final RegistryObject<Item> HighJumpers;
+    public static final RegistryObject<Item> DragonEye;
     public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
-    public MAItems() {
-    }
-
     public static void register(IEventBus eventBus) {
-        ITEMS.register(eventBus);
+        ARTIFACTS.register(eventBus);
     }
 
     static {
-        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MoreArtifacts.MOD_ID);
-        Bezoar = ITEMS.register("bezoar", () -> new BezoarItem(new Item.Properties()));
-        Vitamins = ITEMS.register("vitamins", () -> new VitaminsItem(new Item.Properties()));
-        FastClock = ITEMS.register("fast_clock", () -> new FastClockItem(new Item.Properties()));
-        Sunglasses = ITEMS.register("sunglasses", () -> new SunglassesItem(new Item.Properties()));
-        Nectar = ITEMS.register("nectar", () -> new NectarItem(new Item.Properties()));
-        DesertCharm = ITEMS.register("desert_charm", () -> new DesertCharmItem(new Item.Properties()));
-        ShulkerHeart = ITEMS.register("shulker_heart", () -> new ShulkerHeartItem(new Item.Properties()));
-        WitherShard = ITEMS.register("wither_shard", () -> new WitherShardItem(new Item.Properties()));
-        SculkLens = ITEMS.register("sculk_lens", () -> new SculkLensItem(new Item.Properties()));
-        IceCrystal = ITEMS.register("ice_crystal", () -> new IceCrystalItem(new Item.Properties()));
-        WitheredBezoar = ITEMS.register("withered_bezoar", () -> new WitheredBezoarItem(new Item.Properties()));
-        SculkShades = ITEMS.register("sculk_shades", () -> new SculkShadesItem(new Item.Properties()));
-        ShulkedClock = ITEMS.register("shulked_clock", () -> new ShulkedClockItem(new Item.Properties()));
-        PurificationCharm = ITEMS.register("purification_charm", () -> new PurificationCharmItem(new Item.Properties()));
-        ObsidianSkull = ITEMS.register("obsidian_skull", () -> new ObsidianSkullItem(new Item.Properties()));
-        AnkhCharm = ITEMS.register("ankh_charm", () -> new AnkhCharmItem(new Item.Properties()));
-        CobaltShield = ITEMS.register("cobalt_shield", () -> new CobaltShieldItem(new Item.Properties()));
-        ObsidianShield = ITEMS.register("obsidian_shield", () -> new ObsidianShieldItem(new Item.Properties()));
-        AnkhShield = ITEMS.register("ankh_shield", () -> new AnkhShieldItem(new Item.Properties()));
-        MelodyPlushie = ITEMS.register("melody_plushie", () -> new MelodyPlushieItem(new Item.Properties()));
-        HeroShield = ITEMS.register("hero_shield", () -> new HeroShieldItem(new Item.Properties()));
-        MechanicalGlove = ITEMS.register("mechanical_glove", () -> new MechanicalGloveItem(new Item.Properties()));
-        EnderianScarf = ITEMS.register("enderian_scarf", () -> new EnderianScarfItem(new Item.Properties()));
-        TrueEnderianScarf = ITEMS.register("true_enderian_scarf", () -> new TrueEnderianScarfItem(new Item.Properties()));
-        GildedScarf = ITEMS.register("gilded_scarf", () -> new GildedScarfItem(new Item.Properties()));
-        Balloon = ITEMS.register("balloon", () -> new BalloonItem(new Item.Properties()));
-        LuckyEmeraldRing = ITEMS.register("lucky_emerald_ring", () -> new LuckyEmeraldRingItem(new Item.Properties()));
-        SpectreAmulet = ITEMS.register("spectre_amulet", () -> new SpectreAmuletItem(new Item.Properties()));
-        VenomAmulet = ITEMS.register("venom_amulet", () -> new VenomAmuletItem(new Item.Properties()));
-        DecayAmulet = ITEMS.register("decay_amulet", () -> new DecayAmuletItem(new Item.Properties()));
-        NecroplasmAmulet = ITEMS.register("necroplasm_amulet", () -> new NecroplasmAmuletItem(new Item.Properties()));
-        Shackle = ITEMS.register("shackle", () -> new ShackleItem(new Item.Properties()));
-        MagicQuiver = ITEMS.register("magic_quiver", () -> new MagicQuiverItem(new Item.Properties()));
-        EnvenomedQuiver = ITEMS.register("envenomed_quiver", () -> new EnvenomedQuiverItem(new Item.Properties()));
-        MoltenQuiver = ITEMS.register("molten_quiver", () -> new MoltenQuiverItem(new Item.Properties()));
-        WoodenHeadgear = ITEMS.register("wooden_headgear", () -> new WoodenHeadgearItem(new Item.Properties()));
-        GoldenHeadgear = ITEMS.register("golden_headgear", () -> new GoldenHeadgearItem(new Item.Properties()));
-        NetheriteHeadgear = ITEMS.register("netherite_headgear", () -> new NetheriteHeadgearItem(new Item.Properties()));
-        EnderianEye = ITEMS.register("enderian_eye", () -> new EnderianEyeItem(new Item.Properties()));
-        EnderDragonClaw = ITEMS.register("ender_dragon_claw", () -> new EnderDragonClawItem(new Item.Properties()));
-        MechanicalClaw = ITEMS.register("mechanical_claw", () -> new MechanicalClawItem(new Item.Properties()));
-        EchoGlove = ITEMS.register("echo_glove", () -> new EchoGloveItem(new Item.Properties()));
-        VenomStone = ITEMS.register("venom_stone", () -> new VenomStoneItem(new Item.Properties()));
-        DecayStone = ITEMS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
-        FireStone = ITEMS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
-        IceStone = ITEMS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
-        RubyRing = ITEMS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
-        TaintedMirror = ITEMS.register("tainted_mirror", () -> new TaintedMirrorItem(new Item.Properties()));
-        NaturesMantle = ITEMS.register("natures_mantle", () -> new NaturesMantleItem(new Item.Properties()));
-        VanirMask = ITEMS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
-        LeatherTreads = ITEMS.register("leather_treads", () -> new LeatherTreadsItem(new Item.Properties()));
-        DuneTreads = ITEMS.register("dune_treads", () -> new DuneTreadsItem(new Item.Properties()));
-        BlazingTreads = ITEMS.register("blazing_treads", () -> new BlazingTreadsItem(new Item.Properties()));
-        EnderianTreads = ITEMS.register("enderian_treads", () -> new EnderianTreadsItem(new Item.Properties()));
-        SculkTreads = ITEMS.register("sculk_treads", () -> new SculkTreadsItem(new Item.Properties()));
-        MechanicalGears = ITEMS.register("mechanical_gears", () -> new MechanicalGearsItem(new Item.Properties()));
-        HighJumpers = ITEMS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
-        RecallPotion = ITEMS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
-        ShadowDust = ITEMS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
-        ArtifactSmithingTemplate = ITEMS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
+        ARTIFACTS = DeferredRegister.create(ForgeRegistries.ITEMS, MoreArtifacts.MOD_ID);
+        Bezoar = ARTIFACTS.register("bezoar", () -> new BezoarItem(new Item.Properties()));
+        Vitamins = ARTIFACTS.register("vitamins", () -> new VitaminsItem(new Item.Properties()));
+        FastClock = ARTIFACTS.register("fast_clock", () -> new FastClockItem(new Item.Properties()));
+        Sunglasses = ARTIFACTS.register("sunglasses", () -> new SunglassesItem(new Item.Properties()));
+        Nectar = ARTIFACTS.register("nectar", () -> new NectarItem(new Item.Properties()));
+        DesertCharm = ARTIFACTS.register("desert_charm", () -> new DesertCharmItem(new Item.Properties()));
+        ShulkerHeart = ARTIFACTS.register("shulker_heart", () -> new ShulkerHeartItem(new Item.Properties()));
+        WitherShard = ARTIFACTS.register("wither_shard", () -> new WitherShardItem(new Item.Properties()));
+        SculkLens = ARTIFACTS.register("sculk_lens", () -> new SculkLensItem(new Item.Properties()));
+        IceCrystal = ARTIFACTS.register("ice_crystal", () -> new IceCrystalItem(new Item.Properties()));
+        WitheredBezoar = ARTIFACTS.register("withered_bezoar", () -> new WitheredBezoarItem(new Item.Properties()));
+        SculkShades = ARTIFACTS.register("sculk_shades", () -> new SculkShadesItem(new Item.Properties()));
+        ShulkedClock = ARTIFACTS.register("shulked_clock", () -> new ShulkedClockItem(new Item.Properties()));
+        PurificationCharm = ARTIFACTS.register("purification_charm", () -> new PurificationCharmItem(new Item.Properties()));
+        ObsidianSkull = ARTIFACTS.register("obsidian_skull", () -> new ObsidianSkullItem(new Item.Properties()));
+        AnkhCharm = ARTIFACTS.register("ankh_charm", () -> new AnkhCharmItem(new Item.Properties()));
+        CobaltShield = ARTIFACTS.register("cobalt_shield", () -> new CobaltShieldItem(new Item.Properties()));
+        ObsidianShield = ARTIFACTS.register("obsidian_shield", () -> new ObsidianShieldItem(new Item.Properties()));
+        AnkhShield = ARTIFACTS.register("ankh_shield", () -> new AnkhShieldItem(new Item.Properties()));
+        MelodyPlushie = ARTIFACTS.register("melody_plushie", () -> new MelodyPlushieItem(new Item.Properties()));
+        HeroShield = ARTIFACTS.register("hero_shield", () -> new HeroShieldItem(new Item.Properties()));
+        MechanicalGlove = ARTIFACTS.register("mechanical_glove", () -> new MechanicalGloveItem(new Item.Properties()));
+        EnderianScarf = ARTIFACTS.register("enderian_scarf", () -> new EnderianScarfItem(new Item.Properties()));
+        TrueEnderianScarf = ARTIFACTS.register("true_enderian_scarf", () -> new TrueEnderianScarfItem(new Item.Properties()));
+        GildedScarf = ARTIFACTS.register("gilded_scarf", () -> new GildedScarfItem(new Item.Properties()));
+        Balloon = ARTIFACTS.register("balloon", () -> new BalloonItem(new Item.Properties()));
+        LuckyEmeraldRing = ARTIFACTS.register("lucky_emerald_ring", () -> new LuckyEmeraldRingItem(new Item.Properties()));
+        SpectreAmulet = ARTIFACTS.register("spectre_amulet", () -> new SpectreAmuletItem(new Item.Properties()));
+        VenomAmulet = ARTIFACTS.register("venom_amulet", () -> new VenomAmuletItem(new Item.Properties()));
+        DecayAmulet = ARTIFACTS.register("decay_amulet", () -> new DecayAmuletItem(new Item.Properties()));
+        NecroplasmAmulet = ARTIFACTS.register("necroplasm_amulet", () -> new NecroplasmAmuletItem(new Item.Properties()));
+        Shackle = ARTIFACTS.register("shackle", () -> new ShackleItem(new Item.Properties()));
+        MagicQuiver = ARTIFACTS.register("magic_quiver", () -> new MagicQuiverItem(new Item.Properties()));
+        EnvenomedQuiver = ARTIFACTS.register("envenomed_quiver", () -> new EnvenomedQuiverItem(new Item.Properties()));
+        MoltenQuiver = ARTIFACTS.register("molten_quiver", () -> new MoltenQuiverItem(new Item.Properties()));
+        WoodenHeadgear = ARTIFACTS.register("wooden_headgear", () -> new WoodenHeadgearItem(new Item.Properties()));
+        GoldenHeadgear = ARTIFACTS.register("golden_headgear", () -> new GoldenHeadgearItem(new Item.Properties()));
+        NetheriteHeadgear = ARTIFACTS.register("netherite_headgear", () -> new NetheriteHeadgearItem(new Item.Properties()));
+        EnderianEye = ARTIFACTS.register("enderian_eye", () -> new EnderianEyeItem(new Item.Properties()));
+        EnderDragonClaw = ARTIFACTS.register("ender_dragon_claw", () -> new EnderDragonClawItem(new Item.Properties()));
+        MechanicalClaw = ARTIFACTS.register("mechanical_claw", () -> new MechanicalClawItem(new Item.Properties()));
+        EchoGlove = ARTIFACTS.register("echo_glove", () -> new EchoGloveItem(new Item.Properties()));
+        VenomStone = ARTIFACTS.register("venom_stone", () -> new VenomStoneItem(new Item.Properties()));
+        DecayStone = ARTIFACTS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
+        FireStone = ARTIFACTS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
+        IceStone = ARTIFACTS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
+        RubyRing = ARTIFACTS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
+        TaintedMirror = ARTIFACTS.register("tainted_mirror", () -> new TaintedMirrorItem(new Item.Properties()));
+        NaturesMantle = ARTIFACTS.register("natures_mantle", () -> new NaturesMantleItem(new Item.Properties()));
+        VanirMask = ARTIFACTS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
+        LeatherTreads = ARTIFACTS.register("leather_treads", () -> new LeatherTreadsItem(new Item.Properties()));
+        DuneTreads = ARTIFACTS.register("dune_treads", () -> new DuneTreadsItem(new Item.Properties()));
+        BlazingTreads = ARTIFACTS.register("blazing_treads", () -> new BlazingTreadsItem(new Item.Properties()));
+        EnderianTreads = ARTIFACTS.register("enderian_treads", () -> new EnderianTreadsItem(new Item.Properties()));
+        SculkTreads = ARTIFACTS.register("sculk_treads", () -> new SculkTreadsItem(new Item.Properties()));
+        MechanicalGears = ARTIFACTS.register("mechanical_gears", () -> new MechanicalGearsItem(new Item.Properties()));
+        HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
+        DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
+
+        RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
+        ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
+        ArtifactSmithingTemplate = ARTIFACTS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
 
     }
 

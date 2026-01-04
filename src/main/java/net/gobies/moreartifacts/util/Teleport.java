@@ -104,8 +104,8 @@ public class Teleport {
                 updateTeleportStatus(player, true);
                 Level level = (Level) world;
                 if (!level.isClientSide()) {
-                    level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+                    level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
                     EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
                     serverPlayer.getCooldowns().addCooldown(MAItems.EnderianEye.get(), (int) (20 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()));
 

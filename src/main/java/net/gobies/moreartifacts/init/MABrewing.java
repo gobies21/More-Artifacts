@@ -19,8 +19,7 @@ public class MABrewing {
         BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
                 Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
                 Ingredient.of(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CommonConfig.RECALL_POTION_INGREDIENT.get())))),
-                (MAItems.RecallPotion.get()).getDefaultInstance())
+                MAItems.RecallPotion.get().getDefaultInstance())
         );
-
     }
 }

@@ -61,14 +61,14 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double scarfDamageTaken = (100 - CommonConfig.TRUE_ENDERIAN_DAMAGE_TAKEN.get() * 100);
+        double scarfDamageTaken = CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get() * 100;
         double scarfEvadeChance = CommonConfig.TRUE_ENDERIAN_EVADE.get() * 100;
         double scarfReach = CommonConfig.TRUE_ENDERIAN_REACH.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.neutral").withStyle(ChatFormatting.LIGHT_PURPLE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.1f", scarfDamageTaken)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", String.format("%.1f", scarfEvadeChance)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.reach", scarfReach).withStyle(ChatFormatting.DARK_AQUA));
-        if (ModLoadedUtil.isEnhancedVisualsLoaded() && (CommonConfig.TRUE_ENDERIAN_COMPAT.get())) {
+        if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.TRUE_ENDERIAN_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(5);

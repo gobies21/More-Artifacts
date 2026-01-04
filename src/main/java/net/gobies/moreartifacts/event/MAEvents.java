@@ -5,6 +5,7 @@ import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.item.artifacts.AnkhCharmItem;
 import net.gobies.moreartifacts.item.artifacts.AnkhShieldItem;
+import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
@@ -15,11 +16,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -247,8 +255,8 @@ public class MAEvents {
     @SubscribeEvent
     public void onFallDamageReduction(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            int ballonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
-            for (int i = 0; i < ballonCount; i++) {
+            int balloonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
+            for (int i = 0; i < balloonCount; i++) {
                 event.setDistance(event.getDistance() * 0.8f);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.HighJumpers.get())) {
@@ -264,6 +272,64 @@ public class MAEvents {
             if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * CommonConfig.PLUSHIE_DURATION.get(), CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onAttack(LivingAttackEvent event) {
+        LivingEntity target = event.getEntity();
+        Entity attacker = event.getSource().getEntity();
+        DamageSource source = event.getSource();
+        if (target != null && attacker != null) {
+            if (attacker instanceof LivingEntity) {
+                if (CurioHandler.isCurioEquipped((LivingEntity) attacker, MAItems.DragonEye.get())) {
+                    ItemStack stack = CurioHandler.getEquippedCurio((LivingEntity) attacker, MAItems.DragonEye.get());
+                    if (stack != null && DragonEyeItem.isEnderDragonEye(stack)) {
+                        if (target instanceof EnderMan) {
+                            event.setCanceled(true);
+                        }
+                    }
+                }
+            }
+        }
+        if (target instanceof EnderMan) {
+            if (attacker instanceof EnderDragon || source.is(DamageTypes.DRAGON_BREATH)) {
+                event.setCanceled(CommonConfig.ENABLE_ENDER_TWEAKS.get());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingHurt(LivingHurtEvent event) {
+        LivingEntity player = event.getEntity();
+        if (CurioHandler.isCurioEquipped(player, MAItems.DragonEye.get())) {
+            ItemStack stack = CurioHandler.getEquippedCurio(player, MAItems.DragonEye.get());
+            if (stack != null && DragonEyeItem.isEnderDragonEye(stack)) {
+                if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_EYE_SUMMON_CHANCE.get()) {
+                    Level level = player.level();
+                    if (level instanceof ServerLevel serverLevel) {
+                        RandomSource random = player.getRandom();
+                        double offsetX = Mth.nextDouble(random, -1.0, 1.0);
+                        double offsetZ = Mth.nextDouble(random, -1.0, 1.0);
+
+                        double x = player.getX() + offsetX;
+                        double z = player.getZ() + offsetZ;
+
+                        EnderMan enderMan = new EnderMan(EntityType.ENDERMAN, serverLevel);
+                        enderMan.setPos(x, player.getY(), z);
+                        serverLevel.addFreshEntity(enderMan);
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onChangeTarget(LivingChangeTargetEvent event) {
+        LivingEntity entity = event.getEntity();
+        LivingEntity newTarget = event.getNewTarget();
+        if (entity instanceof EnderMan && newTarget instanceof EnderDragon) {
+            event.setCanceled(CommonConfig.ENABLE_ENDER_TWEAKS.get());
         }
     }
 }

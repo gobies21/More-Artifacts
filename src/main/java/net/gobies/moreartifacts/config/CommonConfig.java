@@ -16,17 +16,17 @@ public class CommonConfig {
     public static final ForgeConfigSpec SPEC;
 
     // Artifacts
-    public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_TAKEN;
-    public static float skull_fire_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_REDUCTION;
+    public static float skull_fire_damage_reduction;
 
-    public static ForgeConfigSpec.ConfigValue<Double> OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN;
-    public static float obsidian_shield_fire_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION;
+    public static float obsidian_shield_fire_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_CHARM_ADDITIONAL_EFFECTS;
     public static List<? extends String> ankh_charm_additional_effects;
 
-    public static ForgeConfigSpec.ConfigValue<Double> ANKH_SHIELD_FIRE_DAMAGE_TAKEN;
-    public static float ankh_shield_fire_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> ANKH_SHIELD_FIRE_DAMAGE_REDUCTION;
+    public static float ankh_shield_fire_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_SHIELD_ADDITIONAL_EFFECTS;
     public static List<? extends String> ankh_shield_additional_effects;
 
@@ -74,18 +74,18 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.ConfigValue<Integer> IGNORE_DAMAGE_CHANCE;
     public static int ignore_damage_chance;
-    public static ForgeConfigSpec.ConfigValue<Double> EXPLOSION_DAMAGE_TAKEN;
-    public static float explosion_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> EXPLOSION_DAMAGE_REDUCTION;
+    public static float explosion_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Integer> HERO_SHIELD_RES_LEVEL;
     public static int hero_shield_res_level;
     public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_COMPAT;
     public static boolean hero_shield_compat;
 
-    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_TAKEN;
-    public static float enderian_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_REDUCTION;
+    public static float enderian_damage_reduction;
 
-    public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_DAMAGE_TAKEN;
-    public static float true_enderian_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_DAMAGE_REDUCTION;
+    public static float true_enderian_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_EVADE;
     public static float true_enderian_evade;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_REACH;
@@ -93,8 +93,8 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Boolean> TRUE_ENDERIAN_COMPAT;
     public static boolean true_enderian_compat;
 
-    public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_TAKEN;
-    public static float gilded_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_REDUCTION;
+    public static float gilded_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_DEALT;
     public static float gilded_damage_dealt;
 
@@ -261,6 +261,13 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> NATURES_MANTLE_SPEED_INCREASE;
     public static float natures_mantle_speed_increase;
 
+    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_SUMMON_CHANCE;
+    public static float ender_dragon_eye_summon_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_FOLLOW_DISTANCE;
+    public static float ender_dragon_eye_follow_distance;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EYE_COMPAT;
+    public static boolean ender_dragon_eye_compat;
+
     public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
     public static float leather_treads_speed;
 
@@ -343,21 +350,20 @@ public class CommonConfig {
     public static float max_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_DEBUG;
     public static boolean enable_debug;
-
-    public CommonConfig() {
-    }
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_ENDER_TWEAKS;
+    public static boolean enable_ender_tweaks;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
         if (configEvent.getConfig().getFileName().equals(FILENAME)) {
             ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
-            explosion_damage_taken = EXPLOSION_DAMAGE_TAKEN.get().floatValue();
+            explosion_damage_reduction = EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
             hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
             hero_shield_compat = HERO_SHIELD_COMPAT.get();
-            skull_fire_damage_taken = SKULL_FIRE_DAMAGE_TAKEN.get().floatValue();
-            obsidian_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            skull_fire_damage_reduction = SKULL_FIRE_DAMAGE_REDUCTION.get().floatValue();
+            obsidian_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
             ankh_charm_additional_effects = ANKH_CHARM_ADDITIONAL_EFFECTS.get();
-            ankh_shield_fire_damage_taken = ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get().floatValue();
+            ankh_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
             ankh_shield_additional_effects = ANKH_SHIELD_ADDITIONAL_EFFECTS.get();
             decay_amulet_wither_chance = DECAY_AMULET_WITHER_CHANCE.get().floatValue();
             decay_amulet_wither_duration = DECAY_AMULET_WITHER_DURATION.get();
@@ -381,12 +387,12 @@ public class CommonConfig {
             plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
             plushie_duration = PLUSHIE_DURATION.get();
             plushie_regen_level = PLUSHIE_REGEN_LEVEL.get();
-            enderian_damage_taken = ENDERIAN_DAMAGE_TAKEN.get().floatValue();
-            true_enderian_damage_taken = TRUE_ENDERIAN_DAMAGE_TAKEN.get().floatValue();
+            enderian_damage_reduction = ENDERIAN_DAMAGE_REDUCTION.get().floatValue();
+            true_enderian_damage_reduction = TRUE_ENDERIAN_DAMAGE_REDUCTION.get().floatValue();
             true_enderian_evade = TRUE_ENDERIAN_EVADE.get().floatValue();
             true_enderian_reach = TRUE_ENDERIAN_REACH.get().floatValue();
             true_enderian_compat = TRUE_ENDERIAN_COMPAT.get();
-            gilded_damage_taken = GILDED_DAMAGE_TAKEN.get().floatValue();
+            gilded_damage_reduction = GILDED_DAMAGE_REDUCTION.get().floatValue();
             gilded_damage_dealt = GILDED_DAMAGE_DEALT.get().floatValue();
             emerald_ring_damage = EMERALD_RING_DAMAGE.get().floatValue();
             emerald_ring_emeralds = EMERALD_RING_EMERALDS.get().floatValue();
@@ -455,6 +461,9 @@ public class CommonConfig {
             ruby_ring_health_cap = RUBY_RING_HEALTH_CAP.get().floatValue();
             tainted_mirror_player_damage = TAINTED_MIRROR_PLAYER_DAMAGE.get();
             natures_mantle_speed_increase = NATURES_MANTLE_SPEED_INCREASE.get().floatValue();
+            ender_dragon_eye_summon_chance = ENDER_DRAGON_EYE_SUMMON_CHANCE.get().floatValue();
+            ender_dragon_eye_follow_distance = ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get().floatValue();
+            ender_dragon_eye_compat = ENDER_DRAGON_EYE_COMPAT.get();
             leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
             dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
             dune_treads_sand_speed = DUNE_TREADS_SAND_SPEED.get().floatValue();
@@ -484,6 +493,7 @@ public class CommonConfig {
             max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
             max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
             enable_debug = ENABLE_DEBUG.get();
+            enable_ender_tweaks = ENABLE_ENDER_TWEAKS.get();
         }
     }
 
@@ -495,6 +505,7 @@ public class CommonConfig {
         MAX_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Global max fire damage reduction from artifacts in percentage").defineInRange("Max_Fire_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
         ENABLE_DEBUG = BUILDER.comment("Enable debugging").define("Debug", false);
+        ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
         BUILDER.pop();
 
         // Artifact Category
@@ -503,17 +514,17 @@ public class CommonConfig {
 
         BUILDER.push("Hero_Shield");
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
-        EXPLOSION_DAMAGE_TAKEN = BUILDER.comment("Explosion damage taken in percentage").define("Explosion_Damage_Taken", 0.25);
+        EXPLOSION_DAMAGE_REDUCTION = BUILDER.comment("Explosion damage reduction in percentage").define("Explosion_Damage_Reduction", 0.75);
         HERO_SHIELD_RES_LEVEL = BUILDER.comment("Level of resistance hero shield provides").define("Level", 1);
         HERO_SHIELD_COMPAT = BUILDER.comment("Enable compat to disable explosion overlay from enhanced visuals").define("EnhancedVisuals_Compat", true);
         BUILDER.pop();
 
         BUILDER.push("Obsidian_Skull");
-        SKULL_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
+        SKULL_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Fire damage reduction in percentage").define("Fire_Damage_Reduction", 0.50);
         BUILDER.pop();
 
         BUILDER.push("Obsidian_Shield");
-        OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
+        OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Fire damage reduction in percentage").define("Fire_Damage_Reduction", 0.50);
         BUILDER.pop();
 
         BUILDER.push("Ankh_Charm");
@@ -521,7 +532,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Ankh_Shield");
-        ANKH_SHIELD_FIRE_DAMAGE_TAKEN = BUILDER.comment("Fire damage taken in percentage").define("Fire_Damage_Taken", 0.50);
+        ANKH_SHIELD_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Fire damage reduction in percentage").define("Fire_Damage_Reduction", 0.50);
         ANKH_SHIELD_ADDITIONAL_EFFECTS = BUILDER.comment("List of additional effects the ankh shield grants immunity to (e.g., minecraft:glowing, minecraft:slow_falling etc)").defineList("Additional_Effects", List.of("moreartifacts:virulent"), s -> s instanceof String);
         BUILDER.pop();
 
@@ -583,18 +594,18 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Enderian_Scarf");
-        ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.92);
+        ENDERIAN_DAMAGE_REDUCTION = BUILDER.comment("Damage reduction in percentage").define("Damage_Reduction", 0.08);
         BUILDER.pop();
 
         BUILDER.push("True_Enderian_Scarf");
-        TRUE_ENDERIAN_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.90);
+        TRUE_ENDERIAN_DAMAGE_REDUCTION = BUILDER.comment("Damage reduction in percentage").define("Damage_Reduction", 0.10);
         TRUE_ENDERIAN_EVADE = BUILDER.comment("Chance to evade an attack").define("Evade_Chance", 0.10);
         TRUE_ENDERIAN_REACH = BUILDER.comment("Amount of reach gain").define("Reach_Gain", 1.0);
         TRUE_ENDERIAN_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals_Compat", true);
         BUILDER.pop();
 
         BUILDER.push("Gilded_Scarf");
-        GILDED_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.88);
+        GILDED_DAMAGE_REDUCTION = BUILDER.comment("Damage reduction in percentage").define("Damage_Reduction", 0.12);
         GILDED_DAMAGE_DEALT = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.10);
         BUILDER.pop();
 
@@ -711,6 +722,12 @@ public class CommonConfig {
         NATURES_MANTLE_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.10);
         BUILDER.pop();
 
+        BUILDER.push("Ender_Dragon_Eye");
+        ENDER_DRAGON_EYE_SUMMON_CHANCE = BUILDER.comment("Chance to summon endermen to fight for you when hit in percentage").define("Summon_Chance", 0.01);
+        ENDER_DRAGON_EYE_FOLLOW_DISTANCE = BUILDER.comment("Distance at which endermen can follow you from in blocks").define("Follow_Distance", 20.0);
+        ENDER_DRAGON_EYE_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals_Compat", true);
+        BUILDER.pop();
+
         BUILDER.push("Leather_Treads");
         LEATHER_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.05);
         BUILDER.pop();
@@ -792,7 +809,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Melody_Plushie");
-        MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.05);
+        MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.01);
         BUILDER.pop();
 
         BUILDER.push("Sculk_Lens");

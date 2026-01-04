@@ -18,7 +18,7 @@ import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
-    public static final KeyMapping EYE_TELEPORT_KEY = new KeyMapping("key.moreartifacts.eye.teleport", GLFW.GLFW_KEY_E, "key.moreartifacts.category") {
+    public static final KeyMapping EYE_TELEPORT_KEY = new KeyMapping("key.moreartifacts.eye.teleport", GLFW.GLFW_KEY_C, "key.moreartifacts.category") {
         private boolean isDownOld = false;
         private long lastPressTime = 0;
 

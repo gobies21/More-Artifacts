@@ -13,8 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
@@ -27,7 +25,6 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
     public BlazingTreadsItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
-
 
     private static final UUID SPEED = UUID.randomUUID();
 
@@ -54,16 +51,17 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void spawnFireParticles(Player player) {
         Level level = player.level();
-        double offsetX = (Math.random() - 0.5) * 0.3;
-        double offsetZ = (Math.random() - 0.5) * 0.3;
-        double feetX = player.getX() + offsetX;
-        double feetY = player.getY() - 0.1;
-        double feetZ = player.getZ() + offsetZ;
+        if (level.isClientSide()) {
+            double offsetX = (Math.random() - 0.5) * 0.3;
+            double offsetZ = (Math.random() - 0.5) * 0.3;
+            double feetX = player.getX() + offsetX;
+            double feetY = player.getY() - 0.1;
+            double feetZ = player.getZ() + offsetZ;
 
-        level.addParticle(ParticleTypes.FLAME, feetX, feetY, feetZ, 0, 0.05, 0);
+            level.addParticle(ParticleTypes.FLAME, feetX, feetY, feetZ, 0, 0.05, 0);
+        }
     }
 
     @Override

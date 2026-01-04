@@ -7,6 +7,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
+
 version = mod_version
 group = mod_group_id
 
@@ -110,7 +111,7 @@ dependencies {
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
     implementation fg.deobf("curse.maven:creativecore-257814:6383884")
 
-    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:6557539")
+    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:7109240")
 
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
@@ -124,7 +125,8 @@ dependencies {
     runtimeOnly(fg.deobf("curse.maven:pehkui-319596:5393101"))
     runtimeOnly(fg.deobf("curse.maven:crafttweaker-239197:6914010"))
     runtimeOnly(fg.deobf("curse.maven:jade-324717:6271651"))
-
+    //runtimeOnly(fg.deobf("curse.maven:ftgu-from-the-ground-up-1365340:7141422"))
+    implementation fg.deobf("curse.maven:cold-sweat-506194:6503197")
 }
 
 mixin {

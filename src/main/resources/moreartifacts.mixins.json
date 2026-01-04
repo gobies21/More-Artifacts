@@ -5,10 +5,9 @@
   "refmap": "moreartifacts.mixins.refmap.json",
   "mixins": [
     "ArrowItemMixin",
-    "ExplosionHandlerMixin",
     "BoltItemMixin",
-    "PotionRingRegenerationItemMixin",
-    "PotionRingResistanceItemMixin",
+    "ExplosionHandlerMixin",
+    "PotionRingItemMixin",
     "VibrationSystemListenerMixin"
   ],
   "injectors": {

@@ -38,6 +38,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.swing.*;
 import java.util.*;
 
 @Mod.EventBusSubscriber
@@ -305,6 +306,8 @@ public class DamageEvents {
             return;
         }
 
+
+        // TODO Lycanites bleed compat
         int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
         for (int i = 0; i < clawCount; i++) {
             int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;

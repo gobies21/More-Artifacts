@@ -31,7 +31,6 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             MAUtils.addAttributes(player, Attributes.KNOCKBACK_RESISTANCE, 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(KNOCKBACK_RESISTANCE));
-
         }
     }
 
@@ -49,7 +48,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double fireDamageReduction = (1.0 - CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100;
+        double fireDamageReduction = (CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.immunity").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.fire_damage", String.format("%.1f", fireDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));

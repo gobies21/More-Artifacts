@@ -1,6 +1,8 @@
 package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,9 +26,14 @@ public class MACreativeTab {
                         .icon(() -> new ItemStack(MAItems.MelodyPlushie.get()))
                         .title(Component.translatable("creativetab.moreartifacts_tab"))
                         .displayItems((parameters, output) -> {
-                            MAItems.ITEMS.getEntries().forEach(item -> {
+                            MAItems.ARTIFACTS.getEntries().forEach(item -> {
                                 output.accept(item.get());
                             });
+                            if (ModLoadedUtil.isIceandFireLoaded()) {
+                                output.accept(DragonEyeItem.createFireDragonEye());
+                                output.accept(DragonEyeItem.createIceDragonEye());
+                                output.accept(DragonEyeItem.createLightningDragonEye());
+                            }
                         })
                         .build()
         );

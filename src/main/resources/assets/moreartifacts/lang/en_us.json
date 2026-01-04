@@ -58,6 +58,10 @@
   "item.moreartifacts.sculk_treads": "Sculk Treads",
   "item.moreartifacts.mechanical_gears": "Mechanical Gears",
   "item.moreartifacts.high_jumpers": "High Jumpers",
+  "item.moreartifacts.dragon_eye": "Ender Dragon Eye",
+  "item.moreartifacts.fire_dragon_eye": "Fire Dragon Eye",
+  "item.moreartifacts.ice_dragon_eye": "Ice Dragon Eye",
+  "item.moreartifacts.lightning_dragon_eye": "Lightning Dragon Eye",
 
   "tooltip.moreartifacts.bezoar": "Grants immunity to Poison",
   "tooltip.moreartifacts.vitamins": "Grants immunity to Weakness and Mining Fatigue",
@@ -201,5 +205,11 @@
   "effect.moreartifacts.virulent": "Virulent",
   "effect.moreartifacts.virulent.description": "A more deadly version of poison",
 
-  "curios.identifier.feet": "Feet"
+  "curios.identifier.feet": "Feet",
+  "tooltip.moreartifacts.dragon_eye": "Grants Night Vision",
+  "tooltip.moreartifacts.lightning_dragon_eye.resistance": "Grants Lightning Resistance",
+  "tooltip.moreartifacts.ice_dragon_eye.resistance": "Grants Frost Resistance",
+  "tooltip.moreartifacts.fire_dragon_eye.resistance": "Grants Fire Resistance",
+  "tooltip.moreartifacts.ender_dragon_eye.endermen": "Endermen are friendly and will fight for you",
+  "tooltip.moreartifacts.ender_dragon_eye.summon_enderman": "+%.1f%% §dChance to summon an enderman when attacked"
 }

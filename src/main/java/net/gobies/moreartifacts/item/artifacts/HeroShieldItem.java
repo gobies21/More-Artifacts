@@ -70,7 +70,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
                         tag.putInt("HitCount", 0);
                     }
                     if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                        event.setAmount((float) (event.getAmount() * CommonConfig.EXPLOSION_DAMAGE_TAKEN.get()));
+                        event.setAmount((float) (event.getAmount() * (1 - CommonConfig.EXPLOSION_DAMAGE_REDUCTION.get())));
                     }
                 }
             }));
@@ -87,7 +87,7 @@ public class HeroShieldItem extends Item implements ICurioItem {
         CompoundTag tag = pStack.getTag();
         int hitCount = tag != null ? tag.getInt("HitCount") : 0;
         int ignoreDamage = CommonConfig.IGNORE_DAMAGE_CHANCE.get();
-        double explosionDamage = (1.0 - CommonConfig.EXPLOSION_DAMAGE_TAKEN.get()) * 100;
+        double explosionDamage = CommonConfig.EXPLOSION_DAMAGE_REDUCTION.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.resistance").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.damage_ignore", ignoreDamage, hitCount, ignoreDamage).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hero_shield.explosion_damage", String.format("%.1f", explosionDamage)).withStyle(ChatFormatting.DARK_AQUA));

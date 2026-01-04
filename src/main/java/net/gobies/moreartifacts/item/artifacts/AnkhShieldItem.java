@@ -4,21 +4,18 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
-import net.gobies.moreartifacts.util.ShieldHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
@@ -90,7 +87,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double fireDamageReduction = (1.0 - CommonConfig.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get()) * 100;
+        double fireDamageReduction = (1.0 - CommonConfig.ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ankh_shield.immunity").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ankh_shield.immunity_debuff").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ankh_shield.fire_damage", String.format("%.1f", fireDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));

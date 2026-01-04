@@ -19,9 +19,9 @@ public abstract class DamageCalculator {
     public static double calculateTotalDamageReduction(Player player) {
         double generalReduction = 0.0;
 
-        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), CommonConfig.ENDERIAN_DAMAGE_TAKEN.get());
-        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_TAKEN.get());
-        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), CommonConfig.TRUE_ENDERIAN_DAMAGE_TAKEN.get());
+        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), (1 - CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get()));
+        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), (1 - CommonConfig.GILDED_DAMAGE_REDUCTION.get()));
+        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), (1 - CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get()));
 
         return Math.min(generalReduction, CommonConfig.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
     }
@@ -29,9 +29,9 @@ public abstract class DamageCalculator {
     public static double calculateFireDamageReduction(Player player) {
         double fireReduction = 0.0;
 
-        fireReduction += getDamageReduction(player, MAItems.ObsidianSkull.get(), CommonConfig.SKULL_FIRE_DAMAGE_TAKEN.get());
-        fireReduction += getDamageReduction(player, MAItems.ObsidianShield.get(), CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_TAKEN.get());
-        fireReduction += getDamageReduction(player, MAItems.AnkhShield.get(), CommonConfig.ANKH_SHIELD_FIRE_DAMAGE_TAKEN.get());
+        fireReduction += getDamageReduction(player, MAItems.ObsidianSkull.get(), (1 - CommonConfig.SKULL_FIRE_DAMAGE_REDUCTION.get()));
+        fireReduction += getDamageReduction(player, MAItems.ObsidianShield.get(), (1 - CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION.get()));
+        fireReduction += getDamageReduction(player, MAItems.AnkhShield.get(), (1 - CommonConfig.ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get()));
 
         return Math.min(fireReduction, CommonConfig.MAX_FIRE_DAMAGE_REDUCTION.get()); // Fire Damage Reduction Cap
     }
@@ -50,7 +50,7 @@ public abstract class DamageCalculator {
         generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.RubyRing.get(), 0.10);
+        generalIncrease += getDamageIncrease(player, MAItems.RubyRing.get(), CommonConfig.RUBY_RING_DAMAGE_INCREASE.get());
 
         return Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
     }

@@ -5,6 +5,7 @@ import net.gobies.moreartifacts.client.overlay.EnderianEyeOverlay;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
+import net.gobies.moreartifacts.compat.jei.JeiCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
@@ -26,10 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Mod(MoreArtifacts.MOD_ID)
@@ -62,7 +60,6 @@ public class MoreArtifacts {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -79,6 +76,10 @@ public class MoreArtifacts {
         if (ModLoadedUtil.isIceandFireLoaded()) {
             IceandFireCompat.loadCompat();
             log("[More Artifacts] Ice and Fire Compat Loaded");
+
+            if (ModLoadedUtil.isJeiLoaded()) {
+                MinecraftForge.EVENT_BUS.register(JeiCompat.class);
+            }
         }
         if (ModLoadedUtil.isPotionRingsLoaded()) {
             log("[More Artifacts] Potion Rings Compat Mixin Loaded");
@@ -91,6 +92,7 @@ public class MoreArtifacts {
 
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(MAProperties::addItemProperties);
+        event.enqueueWork(MAProperties::registerItemProperties);
         MAModels.modelSetup();
         MinecraftForge.EVENT_BUS.register(EnderianEyeOverlay.class);
     }

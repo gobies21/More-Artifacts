@@ -10,7 +10,7 @@ import net.gobies.moreartifacts.util.Teleport;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -26,7 +26,7 @@ public class EnderianEyeOverlay {
     @OnlyIn(Dist.CLIENT)
     public static void onRenderGameOverlay(RenderGuiEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        LivingEntity entity = (LivingEntity) mc.getCameraEntity();
+        Entity entity = mc.getCameraEntity();
         if (ClientConfig.ENDERIAN_EYE_OVERLAY.get()) {
             if (entity instanceof Player player && Teleport.hasTeleported(player)) {
                 if (CurioHandler.isCurioEquipped(player, MAItems.EnderianEye.get())) {
