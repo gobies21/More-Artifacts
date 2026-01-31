@@ -29,11 +29,14 @@ public class MACreativeTab {
                             MAItems.ARTIFACTS.getEntries().forEach(item -> {
                                 output.accept(item.get());
                             });
+                            /*
                             if (ModLoadedUtil.isIceandFireLoaded()) {
                                 output.accept(DragonEyeItem.createFireDragonEye());
                                 output.accept(DragonEyeItem.createIceDragonEye());
                                 output.accept(DragonEyeItem.createLightningDragonEye());
                             }
+
+                             */
                         })
                         .build()
         );

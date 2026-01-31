@@ -30,19 +30,18 @@ public class SunglassesRenderer implements ICurioRenderer {
 
     @Override
     public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack poseStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource bufferSource, int light, float limbSwing, float limbSwingAmount, float partialTicks, float tickDelta, float headYaw, float headPitch) {
-        if (ClientConfig.ENABLE_ARTIFACT_MODELS.get()) {
-            LivingEntity entity = slotContext.entity();
-            poseStack.pushPose();
-            //poseStack.scale(1.0f, 1.2f, 1.0f);
-            //poseStack.translate(0.0, 0.05, 0.01);
-            this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
-            M specificModel = renderLayerParent.getModel();
-            @SuppressWarnings("unchecked")
-            T typedEntity = (T) entity;
-            specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
-            VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
-            this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            poseStack.popPose();
-        }
+        if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
+        LivingEntity entity = slotContext.entity();
+        poseStack.pushPose();
+        //poseStack.scale(1.0f, 1.2f, 1.0f);
+        //poseStack.translate(0.0, 0.05, 0.01);
+        this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
+        M specificModel = renderLayerParent.getModel();
+        @SuppressWarnings("unchecked")
+        T typedEntity = (T) entity;
+        specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
+        this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.popPose();
     }
 }

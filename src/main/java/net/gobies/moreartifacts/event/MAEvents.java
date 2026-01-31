@@ -146,7 +146,7 @@ public class MAEvents {
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
                 if (player.getHealth() - event.getAmount() <= 0) {
-                    if (EnderianTreadsItem.canUseAbility(player)) {
+                    if (!player.level().isClientSide && EnderianTreadsItem.canUseAbility(player)) {
                         EnderianTreadsItem.teleportPlayer((ServerPlayer) player);
                         EnderianTreadsItem.setCooldown(player);
                         event.setCanceled(true);

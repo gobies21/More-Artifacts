@@ -32,7 +32,7 @@ public class TeleportBindMessage {
         buffer.writeInt(message.pressedms);
     }
 
-    public static void handler(TeleportBindMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(TeleportBindMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> pressAction(Objects.requireNonNull(context.getSender()), message.type, message.pressedms));
         context.setPacketHandled(true);
@@ -54,6 +54,6 @@ public class TeleportBindMessage {
 
     @SubscribeEvent
     public static void registerMessage(FMLCommonSetupEvent event) {
-        PacketHandler.addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handler);
+        PacketHandler.addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handle);
     }
 }

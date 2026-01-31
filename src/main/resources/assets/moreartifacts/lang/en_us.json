@@ -174,7 +174,7 @@
   "tooltip.moreartifacts.high_jumpers.jump": "Increases jump height and reduces fall damage",
   "tooltip.moreartifacts.high_jumpers.speed": "§7Increases movement speed by §3+%.1f%%",
   "tooltip.moreartifacts.ruby_ring.damage": "§6Increases damage by §3+%.1f%% §6for every %.1f §6Max Health",
-  "tooltip.moreartifacts.ruby_ring.cap": "§6Caps at %.1f §6Max Health",
+  "tooltip.moreartifacts.ruby_ring.cap": "§6Caps at %.1f §6Max Health per ring",
   "tooltip.moreartifacts.ice_crystal": "Grants immunity to Freezing",
   "tooltip.moreartifacts.tainted_mirror.reflect": "Reflects any damage dealt back to the attacker",
   "tooltip.moreartifacts.tainted_mirror.frame": "Increases invulnerability frames when reflecting damage",
@@ -195,8 +195,8 @@
   "tooltip.moreartifacts.artifact_upgrade_smithing_template.applies_to": "Applies to:",
   "tooltip.moreartifacts.artifact_upgrade_smithing_template.artifacts": " Artifacts",
   "tooltip.moreartifacts.artifact_upgrade_smithing_template.ingredients": "Ingredients:",
-  "tooltip.moreartifacts.press": "Press ",
-  "tooltip.moreartifacts.teleport": " to teleport",
+  "tooltip.moreartifacts.press": "Press §f<",
+  "tooltip.moreartifacts.teleport": "§f> §6to teleport",
 
   "key.moreartifacts.category": "More Artifacts",
   "key.moreartifacts.eye.teleport": "Enderian Eye Teleport",
@@ -206,10 +206,12 @@
   "effect.moreartifacts.virulent.description": "A more deadly version of poison",
 
   "curios.identifier.feet": "Feet",
-  "tooltip.moreartifacts.dragon_eye": "Grants Night Vision",
+  "tooltip.moreartifacts.dragon_eye": "Grants Night Vision §f<",
   "tooltip.moreartifacts.lightning_dragon_eye.resistance": "Grants Lightning Resistance",
   "tooltip.moreartifacts.ice_dragon_eye.resistance": "Grants Frost Resistance",
   "tooltip.moreartifacts.fire_dragon_eye.resistance": "Grants Fire Resistance",
   "tooltip.moreartifacts.ender_dragon_eye.endermen": "Endermen are friendly and will fight for you",
-  "tooltip.moreartifacts.ender_dragon_eye.summon_enderman": "+%.1f%% §dChance to summon an enderman when attacked"
+  "tooltip.moreartifacts.toggle": ">",
+  "tooltip.moreartifacts.ender_dragon_eye.summon_enderman": "+%.1f%% §dChance to summon an enderman when attacked",
+  "key.moreartifacts.dragon.eye": "Toggle Night Vision"
 }

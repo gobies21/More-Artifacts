@@ -29,26 +29,25 @@ public class GildedScarfRenderer implements ICurioRenderer {
 
     @Override
     public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack poseStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource bufferSource, int light, float limbSwing, float limbSwingAmount, float partialTicks, float tickDelta, float headYaw, float headPitch) {
-        if (ClientConfig.ENABLE_ARTIFACT_MODELS.get()) {
-            LivingEntity entity = slotContext.entity();
-            @SuppressWarnings("redundant")
-            PoseStack scarfBasePose = poseStack;
-            scarfBasePose.pushPose();
-            poseStack.pushPose();
-            ICurioRenderer.translateIfSneaking(scarfBasePose, entity);
-            ICurioRenderer.rotateIfSneaking(scarfBasePose, entity);
-            if (entity.hasItemInSlot(EquipmentSlot.CHEST)) poseStack.translate(0.0, -0.06, 0.0);
-            this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
-            M specificModel = renderLayerParent.getModel();
-            @SuppressWarnings("unchecked")
-            T typedEntity = (T) entity;
-            specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
-            VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
-            this.model.gilded_scarf.render(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            poseStack.popPose();
-            this.model.scarf_base.render(scarfBasePose, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            scarfBasePose.popPose();
+        if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
+        LivingEntity entity = slotContext.entity();
+        @SuppressWarnings("redundant")
+        PoseStack scarfBasePose = poseStack;
+        scarfBasePose.pushPose();
+        poseStack.pushPose();
+        ICurioRenderer.translateIfSneaking(scarfBasePose, entity);
+        ICurioRenderer.rotateIfSneaking(scarfBasePose, entity);
+        if (entity.hasItemInSlot(EquipmentSlot.CHEST)) poseStack.translate(0.0, -0.06, 0.0);
+        this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
+        M specificModel = renderLayerParent.getModel();
+        @SuppressWarnings("unchecked")
+        T typedEntity = (T) entity;
+        specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
+        this.model.gilded_scarf.render(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.popPose();
+        this.model.scarf_base.render(scarfBasePose, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        scarfBasePose.popPose();
 
-        }
     }
 }

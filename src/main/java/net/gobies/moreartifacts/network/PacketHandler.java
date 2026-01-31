@@ -27,8 +27,10 @@ public class PacketHandler {
             PROTOCOL_VERSION::equals
     );
 
+    private static int id = 0;
+
     public static void register() {
-        int id = 0;
+
     }
 
     public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {

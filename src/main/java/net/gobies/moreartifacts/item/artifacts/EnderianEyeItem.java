@@ -56,7 +56,7 @@ public class EnderianEyeItem extends Item implements ICurioItem {
         double cooldown = CommonConfig.ENDERIAN_EYE_COOLDOWN.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.teleport").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.radius.cooldown", radius, cooldown).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.press").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.EYE_TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.DARK_AQUA)).append(Component.translatable("tooltip.moreartifacts.teleport").withStyle(ChatFormatting.GOLD)));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.press").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.EYE_TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.teleport").withStyle(ChatFormatting.WHITE)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

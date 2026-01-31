@@ -2,45 +2,52 @@ package net.gobies.moreartifacts.client.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.client.ICurioRenderer;
 
-public class MechanicalGloveModel<T extends Entity> extends EntityModel<T> {
-    private final ModelPart mechanical_glove;
+public class MechanicalGloveModel<T extends LivingEntity> extends HumanoidModel<T> {
+
+    public final ModelPart mechanical_glove;
 
     public MechanicalGloveModel(ModelPart root) {
+        super(root);
         this.mechanical_glove = root.getChild("mechanical_glove");
     }
 
     public static LayerDefinition createBodyLayer() {
-        MeshDefinition meshdefinition = new MeshDefinition();
+        MeshDefinition meshdefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition mechanical_glove = partdefinition.addOrReplaceChild("mechanical_glove", CubeListBuilder.create().texOffs(0, 10).addBox(4.0F, -16.0F, 2.0F, 3.0F, 4.0F, 0.5F, new CubeDeformation(0.0F))
-                .texOffs(10, 5).addBox(4.0F, -16.0F, -2.5F, 3.0F, 4.0F, 0.5F, new CubeDeformation(0.0F))
-                .texOffs(10, 0).addBox(4.0F, -16.0F, -2.5F, 3.0F, 4.0F, 0.5F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+        PartDefinition mechanical_glove = partdefinition.addOrReplaceChild("mechanical_glove", CubeListBuilder.create().texOffs(0, 0).addBox(1.1F, -19.5F, -2.6F, 0.4F, 5.5F, 4.95F, new CubeDeformation(0.015F))
+                .texOffs(10, 0).addBox(-2.85F, -19.5F, -2.6F, 0.4F, 5.5F, 4.95F, new CubeDeformation(0.015F))
+                .texOffs(20, 0).addBox(-2.875F, -19.6F, 0.825F, 4.15F, 0.85F, 1.725F, new CubeDeformation(0.001F))
+                .texOffs(20, 3).addBox(-2.875F, -19.6F, -2.75F, 4.15F, 0.85F, 1.675F, new CubeDeformation(0.001F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition cube_r1 = mechanical_glove.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 5).addBox(-0.5F, -4.0F, 0.0F, 4.0F, 4.0F, 0.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -12.0F, -1.5F, 0.0F, -1.5708F, 0.0F));
+        PartDefinition cube_r1 = mechanical_glove.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(8, 14).addBox(-2.8F, -0.85F, -1.4F, 5.3F, 0.85F, 1.7F, new CubeDeformation(0.0001F)), PartPose.offsetAndRotation(-2.725F, -18.75F, 0.05F, 0.0F, -1.5708F, 0.0F));
 
-        PartDefinition cube_r2 = mechanical_glove.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, -4.0F, 0.0F, 4.0F, 4.0F, 0.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.5F, -12.0F, -1.5F, 0.0F, -1.5708F, 0.0F));
+        PartDefinition cube_r2 = mechanical_glove.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(8, 11).addBox(-2.8F, -0.85F, 0.0F, 5.3F, 0.85F, 1.7F, new CubeDeformation(0.0001F)), PartPose.offsetAndRotation(1.675F, -18.75F, 0.05F, 0.0F, -1.5708F, 0.0F));
 
-        PartDefinition cube_r3 = mechanical_glove.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(8, 10).addBox(-0.5F, -4.0F, 0.0F, 3.0F, 4.0F, 0.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.5F, -12.0F, -2.0F, -1.5708F, 0.0F, 0.0F));
+        PartDefinition cube_r3 = mechanical_glove.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 11).addBox(-0.5F, -5.5F, 0.6F, 0.4F, 5.5F, 3.6F, new CubeDeformation(0.0151F)), PartPose.offsetAndRotation(1.75F, -14.0F, 2.45F, 0.0F, -1.5708F, 0.0F));
+
+        PartDefinition cube_r4 = mechanical_glove.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(8, 17).addBox(-0.5F, -4.75F, 0.6F, 0.4F, 4.75F, 3.6F, new CubeDeformation(0.0151F)), PartPose.offsetAndRotation(1.75F, -14.0F, -2.1F, 0.0F, -1.5708F, 0.0F));
+
+        PartDefinition cube_r5 = mechanical_glove.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(16, 17).addBox(-1.0F, -4.25F, 0.0F, 4.15F, 4.75F, 0.5F, new CubeDeformation(0.12F)), PartPose.offsetAndRotation(-1.75F, -14.0F, -2.0F, -1.5708F, 0.0F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 32, 32);
     }
 
     @Override
-    public void setupAnim(@NotNull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.mechanical_glove.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        ICurioRenderer.followBodyRotations(entity, (HumanoidModel<LivingEntity>) this);
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        mechanical_glove.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        this.mechanical_glove.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

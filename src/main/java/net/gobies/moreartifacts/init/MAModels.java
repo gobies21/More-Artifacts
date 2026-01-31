@@ -25,6 +25,7 @@ public class MAModels {
         CuriosRendererRegistry.register(MAItems.NecroplasmAmulet.get(), NecroplasmAmuletRenderer::new);
         //CuriosRendererRegistry.register(MAItems.MagicQuiver.get(), MagicQuiverRenderer::new);
         //CuriosRendererRegistry.register(MAItems.MechanicalGlove.get(), MechanicalGloveRenderer::new);
+        //CuriosRendererRegistry.register(MAItems.MechanicalClaw.get(), MechanicalClawRenderer::new);
 
     }
 
@@ -46,5 +47,6 @@ public class MAModels {
         event.registerLayerDefinition(MAModelLayer.NECROPLASM_AMULET, NecroplasmAmuletModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MAGIC_QUIVER, MagicQuiverModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MECHANICAL_GLOVE, MechanicalGloveModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.MECHANICAL_CLAW, MechanicalClawModel::createBodyLayer);
     }
 }

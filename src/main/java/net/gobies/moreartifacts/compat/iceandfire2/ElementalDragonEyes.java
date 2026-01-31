@@ -15,22 +15,14 @@ public class ElementalDragonEyes extends DragonEyeItem {
     public static void proccessEffects(Player player, ItemStack stack) {
         if (ModLoadedUtil.isIceandFireLoaded()) {
             if (isFireDragonEye(stack)) {
-                if (!player.hasEffect(MobEffects.NIGHT_VISION) || !player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
+                if (!player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
                     player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, -1, 0, true, false));
                 }
             }
             if (isIceDragonEye(stack)) {
-                if (!player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
 
                 }
-            }
             if (isLightningDragonEye(stack)) {
-                if (!player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
-
-                }
             }
         }
     }
@@ -38,22 +30,13 @@ public class ElementalDragonEyes extends DragonEyeItem {
     public static void removeEffects(Player player, ItemStack stack) {
         if (ModLoadedUtil.isIceandFireLoaded()) {
             if (isFireDragonEye(stack)) {
-                if (player.hasEffect(MobEffects.NIGHT_VISION) || player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                    player.removeEffect(MobEffects.NIGHT_VISION);
+                if (player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
                     player.removeEffect(MobEffects.FIRE_RESISTANCE);
                 }
             }
             if (isIceDragonEye(stack)) {
-                if (player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
-
-                }
             }
             if (isLightningDragonEye(stack)) {
-                if (player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
-
-                }
             }
         }
     }

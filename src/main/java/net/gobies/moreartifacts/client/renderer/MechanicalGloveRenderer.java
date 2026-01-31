@@ -7,6 +7,8 @@ import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.init.MAModelLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -26,21 +28,22 @@ public class MechanicalGloveRenderer implements ICurioRenderer {
         this.model = new MechanicalGloveModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(MAModelLayer.MECHANICAL_GLOVE));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack poseStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource bufferSource, int light, float limbSwing, float limbSwingAmount, float partialTicks, float tickDelta, float headYaw, float headPitch) {
-        if (ClientConfig.ENABLE_ARTIFACT_MODELS.get()) {
-            LivingEntity entity = slotContext.entity();
-            poseStack.pushPose();
-            ICurioRenderer.translateIfSneaking(poseStack, entity);
-            ICurioRenderer.rotateIfSneaking(poseStack, entity);
-            this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
-            M specificModel = renderLayerParent.getModel();
-            @SuppressWarnings("unchecked")
-            T typedEntity = (T) entity;
-            specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
-            VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
-            this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            poseStack.popPose();
+        if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
+        LivingEntity entity = slotContext.entity();
+        poseStack.pushPose();
+        HumanoidModel<T> parentModel = (HumanoidModel<T>) renderLayerParent.getModel();
+        parentModel.copyPropertiesTo((HumanoidModel<T>) this.model);
+        this.model.setupAnim(entity, limbSwing, limbSwingAmount, tickDelta, headYaw, headPitch);
+        ModelPart arm = slotContext.index() == 0 ? this.model.rightArm : this.model.leftArm;
+        if (slotContext.index() == 1) {
+            poseStack.translate(0.075, 0.0, 0.0);
         }
+        arm.translateAndRotate(poseStack);
+        VertexConsumer buffer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
+        this.model.mechanical_glove.render(poseStack, buffer, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+        poseStack.popPose();
     }
 }
