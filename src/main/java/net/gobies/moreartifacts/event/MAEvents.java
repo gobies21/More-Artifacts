@@ -318,6 +318,7 @@ public class MAEvents {
                         EnderMan enderMan = new EnderMan(EntityType.ENDERMAN, serverLevel);
                         enderMan.setPos(x, player.getY(), z);
                         serverLevel.addFreshEntity(enderMan);
+                        enderMan.addTag("MA_Summoned");
                     }
                 }
             }

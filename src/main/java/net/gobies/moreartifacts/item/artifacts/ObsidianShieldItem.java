@@ -47,6 +47,11 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     }
 
     @Override
+    public boolean isEnchantable(@NotNull ItemStack pStack) {
+        return true;
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double fireDamageReduction = (CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.immunity").withStyle(ChatFormatting.GRAY));

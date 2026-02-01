@@ -36,7 +36,7 @@ public class CurioHandler {
                 .flatMap(curios -> curios.findFirstCurio(stack -> stack.getItem() == item));
         if (slotResultOptional.isPresent()) {
             SlotResult slotResult = slotResultOptional.get();
-            return slotResult.stack(); // Use getStack() to get the equipped item stack
+            return slotResult.stack(); // get equipped stack
         }
         return ItemStack.EMPTY;
     }

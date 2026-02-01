@@ -44,6 +44,11 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
     }
 
     @Override
+    public boolean isEnchantable(@NotNull ItemStack pStack) {
+        return true;
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cobalt_shield").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl").withStyle(ChatFormatting.GRAY));

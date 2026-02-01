@@ -352,6 +352,8 @@ public class CommonConfig {
     public static boolean enable_debug;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_ENDER_TWEAKS;
     public static boolean enable_ender_tweaks;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_LOOT_TABLES;
+    public static boolean enable_loot_tables;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
@@ -494,6 +496,7 @@ public class CommonConfig {
             max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
             enable_debug = ENABLE_DEBUG.get();
             enable_ender_tweaks = ENABLE_ENDER_TWEAKS.get();
+            enable_loot_tables = ENABLE_LOOT_TABLES.get();
         }
     }
 
@@ -506,6 +509,8 @@ public class CommonConfig {
         MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
         ENABLE_DEBUG = BUILDER.comment("Enable debugging").define("Debug", false);
         ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
+        ENABLE_LOOT_TABLES = BUILDER.comment("Enables loot tables from this mod").define("Enable_Loot_Tables", true);
+
         BUILDER.pop();
 
         // Artifact Category

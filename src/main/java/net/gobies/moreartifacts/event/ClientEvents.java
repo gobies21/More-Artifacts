@@ -42,6 +42,7 @@ public class ClientEvents {
     };
     public static final KeyMapping DRAGON_EYE_KEY = new KeyMapping("key.moreartifacts.dragon.eye", GLFW.GLFW_KEY_C, "key.moreartifacts.category") {
         private boolean isDownOld = false;
+        @SuppressWarnings("InstantiationOfUtilityClass")
         @Override
         public void setDown(boolean isDown) {
             super.setDown(isDown);
