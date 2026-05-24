@@ -7,8 +7,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class ElementalDragonEyes extends DragonEyeItem {
-    public ElementalDragonEyes(Properties properties) {
+public class IceandFire2Compat extends DragonEyeItem {
+    public IceandFire2Compat(Properties properties) {
         super(properties);
     }
 

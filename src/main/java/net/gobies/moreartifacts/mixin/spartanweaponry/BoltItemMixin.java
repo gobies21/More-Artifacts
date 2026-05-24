@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.mixin;
+package net.gobies.moreartifacts.mixin.spartanweaponry;
 
 import com.oblivioussp.spartanweaponry.item.BoltItem;
 import net.gobies.moreartifacts.config.CommonConfig;

@@ -1,12 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
-import net.gobies.moreartifacts.compat.iceandfire2.ElementalDragonEyes;
+import net.gobies.moreartifacts.compat.iceandfire2.IceandFire2Compat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.entity.FriendlyEndermanAI;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,6 +17,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +41,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
 
     private static final UUID HEAT_RESISTANCE = UUID.randomUUID();
     private static final UUID COLD_RESISTANCE = UUID.randomUUID();
-    private static final Map<UUID, Map<MobEffect, ItemStack>> appliedEffects = new HashMap<>();
+    private static final Map<UUID, Map<MobEffect, ItemStack>> appliedNightVision = new HashMap<>();
 
     @Override
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
@@ -50,8 +52,8 @@ public class DragonEyeItem extends Item implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             UUID playerId = player.getUUID();
-            appliedEffects.putIfAbsent(playerId, new HashMap<>());
-            Map<MobEffect, ItemStack> effectMap = appliedEffects.get(playerId);
+            appliedNightVision.putIfAbsent(playerId, new HashMap<>());
+            Map<MobEffect, ItemStack> effectMap = appliedNightVision.get(playerId);
 
             CompoundTag tag = stack.getOrCreateTag();
             boolean keyPressed = enabled(stack);
@@ -76,7 +78,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 }
             }
 
-            appliedEffects.put(playerId, effectMap);
+            appliedNightVision.put(playerId, effectMap);
 
             if (isEnderDragonEye(stack)) {
                 double followingDistance = CommonConfig.ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get(); // Value halved for Y distance
@@ -88,7 +90,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 }
 
             } else {
-                ElementalDragonEyes.proccessEffects(player, stack);
+                IceandFire2Compat.proccessEffects(player, stack);
             }
         }
     }
@@ -101,8 +103,8 @@ public class DragonEyeItem extends Item implements ICurioItem {
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             UUID playerId = player.getUUID();
-            appliedEffects.putIfAbsent(playerId, new HashMap<>());
-            Map<MobEffect, ItemStack> effectMap = appliedEffects.get(playerId);
+            appliedNightVision.putIfAbsent(playerId, new HashMap<>());
+            Map<MobEffect, ItemStack> effectMap = appliedNightVision.get(playerId);
 
             CompoundTag tag = stack.getOrCreateTag();
 
@@ -125,13 +127,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                     effectMap.remove(MobEffects.NIGHT_VISION);
                 }
             }
-            appliedEffects.put(playerId, effectMap);
-            if (isFireDragonEye(stack)) {
-                MAUtils.addAttributes(player, ColdSweatCompat.heatResistanceAttribute(), 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(HEAT_RESISTANCE));
-            }
-            if (isIceDragonEye(stack)) {
-                MAUtils.addAttributes(player, ColdSweatCompat.coldResistanceAttribute(), 1.0, AttributeModifier.Operation.ADDITION, String.valueOf(COLD_RESISTANCE));
-            }
+            appliedNightVision.put(playerId, effectMap);
         }
     }
 
@@ -139,7 +135,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             UUID playerId = player.getUUID();
-            Map<MobEffect, ItemStack> effectMap = appliedEffects.getOrDefault(playerId, new HashMap<>());
+            Map<MobEffect, ItemStack> effectMap = appliedNightVision.getOrDefault(playerId, new HashMap<>());
 
             if (effectMap.containsKey(MobEffects.NIGHT_VISION)) {
                 if (player.hasEffect(MobEffects.NIGHT_VISION)) {
@@ -147,7 +143,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 }
                 effectMap.remove(MobEffects.NIGHT_VISION);
             }
-            appliedEffects.put(playerId, effectMap);
+            appliedNightVision.put(playerId, effectMap);
             if (isEnderDragonEye(stack)) {
                 double followingDistance = CommonConfig.ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get(); // Value halved for Y distance
                 for (Entity entity : player.level().getEntities(player, player.getBoundingBox().inflate(followingDistance, followingDistance / 2, followingDistance))) {
@@ -157,14 +153,22 @@ public class DragonEyeItem extends Item implements ICurioItem {
                     }
                 }
             }
+            IceandFire2Compat.removeEffects(player, stack);
+        }
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        if (ModLoadedUtil.isColdSweatLoaded()) {
             if (isFireDragonEye(stack)) {
-                MAUtils.removeAttributes(player, ColdSweatCompat.heatResistanceAttribute(), String.valueOf(HEAT_RESISTANCE));
+                modifiers.put(ColdSweatCompat.heatResistanceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
             }
             if (isIceDragonEye(stack)) {
-                MAUtils.removeAttributes(player, ColdSweatCompat.coldResistanceAttribute(), String.valueOf(COLD_RESISTANCE));
+                modifiers.put(ColdSweatCompat.coldResistanceAttribute(), new AttributeModifier(uuid, String.valueOf(COLD_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
             }
-            ElementalDragonEyes.removeEffects(player, stack);
         }
+        return modifiers;
     }
 
     public static boolean isFireDragonEye(ItemStack stack) {

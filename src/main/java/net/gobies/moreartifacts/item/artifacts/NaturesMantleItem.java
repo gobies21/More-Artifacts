@@ -1,11 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -63,20 +65,11 @@ public class NaturesMantleItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-        MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.NATURES_MANTLE_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
-}
-    }
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), CommonConfig.NATURES_MANTLE_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
-            if (player.hasEffect(MobEffects.REGENERATION)) {
-                player.removeEffect(MobEffects.REGENERATION);
-            }
-        }
+        return modifiers;
     }
 
     @Override
@@ -86,10 +79,8 @@ public class NaturesMantleItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double speedIncrease = CommonConfig.NATURES_MANTLE_SPEED_INCREASE.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.natures_mantle.regeneration").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.natures_mantle.day").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.natures_mantle.speed", String.format("%.1f", speedIncrease)).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

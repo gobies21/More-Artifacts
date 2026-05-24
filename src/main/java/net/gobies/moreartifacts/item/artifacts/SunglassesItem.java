@@ -21,6 +21,7 @@ public class SunglassesItem extends Item implements ICurioItem {
     public SunglassesItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
+
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {

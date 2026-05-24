@@ -1,12 +1,14 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -39,19 +41,12 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, ForgeMod.ENTITY_REACH.get(), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(ENTITY_REACH));
-            MAUtils.addAttributes(player, ForgeMod.BLOCK_REACH.get(), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION, String.valueOf(BLOCK_REACH));
-        }
-    }
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        modifiers.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, String.valueOf(ENTITY_REACH), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
+        modifiers.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(uuid, String.valueOf(BLOCK_REACH), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
 
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, ForgeMod.ENTITY_REACH.get(), String.valueOf(ENTITY_REACH));
-            MAUtils.removeAttributes(player, ForgeMod.BLOCK_REACH.get(), String.valueOf(BLOCK_REACH));
-        }
+        return modifiers;
     }
 
     @Override
@@ -63,15 +58,13 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double scarfDamageTaken = CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get() * 100;
         double scarfEvadeChance = CommonConfig.TRUE_ENDERIAN_EVADE.get() * 100;
-        double scarfReach = CommonConfig.TRUE_ENDERIAN_REACH.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.neutral").withStyle(ChatFormatting.LIGHT_PURPLE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.1f", scarfDamageTaken)).withStyle(ChatFormatting.DARK_AQUA));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", String.format("%.1f", scarfEvadeChance)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.reach", scarfReach).withStyle(ChatFormatting.DARK_AQUA));
         if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.TRUE_ENDERIAN_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
-                pTooltipComponents.remove(5);
+                pTooltipComponents.remove(4);
                 pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
             }
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

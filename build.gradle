@@ -111,12 +111,13 @@ dependencies {
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
     implementation fg.deobf("curse.maven:creativecore-257814:6383884")
 
-    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:7109240")
+    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:7569074")
 
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
 
-    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:6631787")
+    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:7620316")
+    //runtimeOnly(fg.deobf("curse.maven:artifacts-312353:6399828"))
 
     implementation fg.deobf("curse.maven:configured-457570:5180900")
     implementation fg.deobf("curse.maven:catalogue-459701:4766090")
@@ -125,8 +126,10 @@ dependencies {
     runtimeOnly(fg.deobf("curse.maven:pehkui-319596:5393101"))
     runtimeOnly(fg.deobf("curse.maven:crafttweaker-239197:6914010"))
     runtimeOnly(fg.deobf("curse.maven:jade-324717:6271651"))
-    //runtimeOnly(fg.deobf("curse.maven:ftgu-from-the-ground-up-1365340:7141422"))
-    implementation fg.deobf("curse.maven:cold-sweat-506194:6503197")
+    implementation fg.deobf("curse.maven:cold-sweat-506194:7893262")
+
+    implementation fg.deobf("curse.maven:demis-better-stealth-1343821:6989663")
+    implementation fg.deobf("curse.maven:first-aid-276837:5531834")
 }
 
 mixin {

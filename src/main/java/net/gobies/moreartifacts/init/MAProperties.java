@@ -10,6 +10,7 @@ public class MAProperties {
         makeShield(MAItems.CobaltShield.get());
         makeShield(MAItems.ObsidianShield.get());
         makeShield(MAItems.AnkhShield.get());
+        makeShield(MAItems.FrostedShield.get());
     }
 
     private static void makeShield(Item item) {
@@ -22,6 +23,7 @@ public class MAProperties {
         ResourceLocation ice = new ResourceLocation("moreartifacts", "ice");
         ResourceLocation lightning = new ResourceLocation("moreartifacts", "lightning");
 
+        // Dragon Eyes
         ItemProperties.register(MAItems.DragonEye.get(), fire, (stack, world, entity, seed) -> DragonEyeItem.isFireDragonEye(stack) ? 1.0f : 0.0f);
         ItemProperties.register(MAItems.DragonEye.get(), ice, (stack, world, entity, seed) -> DragonEyeItem.isIceDragonEye(stack) ? 1.0f : 0.0f);
         ItemProperties.register(MAItems.DragonEye.get(), lightning, (stack, world, entity, seed) -> DragonEyeItem.isLightningDragonEye(stack) ? 1.0f : 0.0f);

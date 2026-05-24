@@ -1,9 +1,9 @@
 package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
-import net.gobies.moreartifacts.client.overlay.EnderianEyeOverlay;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
+import net.gobies.moreartifacts.compat.firstaid.FirstAidCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
 import net.gobies.moreartifacts.compat.jei.JeiCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
@@ -38,33 +38,23 @@ public class MoreArtifacts {
 
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         MinecraftForge.EVENT_BUS.register(this);
-
         MAItems.register(modBus);
-
         MAEffects.register(modBus);
-
+        MAParticles.register(modBus);
+        MASounds.register(modBus);
         MACreativeTab.register(modBus);
-
         MAEvents.register();
-
         modBus.addListener(this::commonSetup);
-
         modBus.addListener(this::clientSetup);
-
         modBus.addListener(this::setupEntityModelLayers);
-
         PacketHandler.register();
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(MABrewing::register);
-
         if (ModLoadedUtil.isSpartanWeaponryLoaded()) {
             SpartanWeaponryCompat.loadCompat();
             log("[More Artifacts] Spartan Weaponry Compat Loaded");
@@ -88,13 +78,16 @@ public class MoreArtifacts {
             ApothecaryCompat.loadCompat();
             log("[More Artifacts] Apothecary Compat Loaded");
         }
+        if (ModLoadedUtil.isFirstAidLoaded()) {
+            FirstAidCompat.loadCompat();
+            log("[More Artifacts] First Aid Compat Loaded");
+        }
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(MAProperties::addItemProperties);
         event.enqueueWork(MAProperties::registerItemProperties);
         MAModels.modelSetup();
-        MinecraftForge.EVENT_BUS.register(EnderianEyeOverlay.class);
     }
 
     public static void queueServerWork(int tick, Runnable action) {

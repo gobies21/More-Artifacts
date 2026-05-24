@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    "fdb",
+    "efa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:blue_ice"
+    },
+    "b": {
+      "item": "minecraft:snowball"
+    },
+    "c": {
+      "item": "moreartifacts:ice_crystal"
+    },
+    "d": {
+      "item": "moreartifacts:magic_quiver"
+    },
+    "e": {
+      "item": "moreartifacts:shadow_dust"
+    },
+    "f": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:frozen_quiver",
+    "count": 1
+  }
+}

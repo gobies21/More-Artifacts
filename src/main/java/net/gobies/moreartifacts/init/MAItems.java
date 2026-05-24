@@ -78,6 +78,23 @@ public class MAItems {
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
+    public static final RegistryObject<Item> FrozenQuiver;
+    public static final RegistryObject<Item> FrostedShield;
+    public static final RegistryObject<Item> FrostGauntlet;
+
+    public static final RegistryObject<Item> FieryScarf;
+    public static final RegistryObject<Item> StealthManual;
+    public static final RegistryObject<Item> CursedDoll;
+    public static final RegistryObject<Item> GuardianThornNecklace;
+    public static final RegistryObject<Item> HolyMantle;
+
+    public static final RegistryObject<Item> BrokenHeart;
+
+    public static final RegistryObject<Item> ShadowSoul;
+
+
+    public static final RegistryObject<Item> Necklace;
+
     public static void register(IEventBus eventBus) {
         ARTIFACTS.register(eventBus);
     }
@@ -142,6 +159,21 @@ public class MAItems {
         MechanicalGears = ARTIFACTS.register("mechanical_gears", () -> new MechanicalGearsItem(new Item.Properties()));
         HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
         DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
+
+        FrozenQuiver = ARTIFACTS.register("frozen_quiver", () -> new FrozenQuiverItem(new Item.Properties()));
+        FrostedShield = ARTIFACTS.register("frosted_shield", () -> new FrostedShieldItem(new Item.Properties()));
+        FrostGauntlet = ARTIFACTS.register("frost_gauntlet", () -> new FrostGauntletItem(new Item.Properties()));
+
+        FieryScarf = ARTIFACTS.register("fiery_scarf", () -> new FieryScarfItem(new Item.Properties()));
+        StealthManual = ARTIFACTS.register("stealth_manual", () -> new StealthManualItem(new Item.Properties()));
+        CursedDoll = ARTIFACTS.register("cursed_doll", () -> new CursedDollItem(new Item.Properties()));
+        GuardianThornNecklace = ARTIFACTS.register("guardian_thorn_necklace", () -> new GuardianThornNecklaceItem(new Item.Properties()));
+        HolyMantle = ARTIFACTS.register("holy_mantle", () -> new HolyMantleItem(new Item.Properties()));
+        BrokenHeart = ARTIFACTS.register("broken_heart", () -> new BrokenHeartItem(new Item.Properties()));
+        ShadowSoul = ARTIFACTS.register("shadow_soul", () -> new ShadowSoulItem(new Item.Properties()));
+
+
+        Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));
 
         RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));

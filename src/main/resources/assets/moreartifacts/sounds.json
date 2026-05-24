@@ -1,0 +1,11 @@
+{
+  "cursed": {
+    "subtitle": "subtitles.cursed",
+    "sounds": [
+      {
+        "name": "moreartifacts:cursed",
+        "stream": false
+      }
+    ]
+  }
+}

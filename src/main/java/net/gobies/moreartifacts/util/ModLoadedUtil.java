@@ -35,4 +35,10 @@ public class ModLoadedUtil {
     public static boolean isColdSweatLoaded() {
         return ModList.get().isLoaded("cold_sweat");
     }
+    public static boolean isBetterStealthLoaded() {
+        return ModList.get().isLoaded("betterstealth");
+    }
+    public static boolean isFirstAidLoaded() {
+        return ModList.get().isLoaded("firstaid");
+    }
 }

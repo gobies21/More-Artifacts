@@ -4,6 +4,8 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,16 +39,17 @@ public class FireStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        Style customOrange = Style.EMPTY.withColor(TextColor.fromRgb(0xF57314));
         double fireChance = CommonConfig.FIRE_STONE_CHANCE.get() * 100;
         int fireDuration = CommonConfig.FIRE_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.FIRE_STONE_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(ChatFormatting.RED));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", String.format("%.1f", fireChance), fireDuration).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + String.format("%.1f", fireChance) + "%").withStyle(ChatFormatting.DARK_AQUA), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.DARK_AQUA)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + String.format("%.1f", increasedDamage) + "%").withStyle(ChatFormatting.DARK_AQUA)).withStyle(customOrange));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone_ignite").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone_ignite").withStyle(customOrange));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

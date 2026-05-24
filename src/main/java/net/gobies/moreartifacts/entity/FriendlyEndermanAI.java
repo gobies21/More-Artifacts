@@ -7,7 +7,7 @@ import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
-public class FriendlyEndermanAI {
+public class  FriendlyEndermanAI {
     private final EnderMan enderMan;
     private final Player player;
     private final PathNavigation navigation;

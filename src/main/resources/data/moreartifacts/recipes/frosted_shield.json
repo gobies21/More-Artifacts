@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "moreartifacts:artifact_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "moreartifacts:cobalt_shield"
+  },
+  "addition": {
+    "item": "moreartifacts:ice_crystal"
+  },
+  "result": {
+    "item": "moreartifacts:frosted_shield"
+  }
+}

@@ -20,8 +20,8 @@ public class VibrationSystemListenerMixin {
             cancellable = true
     )
     private void onHandleGameEvent(ServerLevel pLevel, GameEvent pGameEvent, GameEvent.Context pContext, Vec3 pPos, CallbackInfoReturnable<Boolean> cir) {
-        if (pContext.sourceEntity() instanceof ServerPlayer player && !player.isSprinting()) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.SculkTreads.get())) {
+        if (pContext.sourceEntity() instanceof ServerPlayer player && CurioHandler.isCurioEquipped(player, MAItems.SculkTreads.get())) {
+            if (!player.isSprinting() && !player.isUsingItem()) {
                 cir.setReturnValue(false);
             }
         }

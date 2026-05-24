@@ -1,6 +1,7 @@
-package net.gobies.moreartifacts.mixin;
+package net.gobies.moreartifacts.mixin.potionrings2;
 
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.potionrings2.PRConfig;
 import net.gobies.potionrings2.init.PRItems;
 import net.gobies.potionrings2.item.potionrings.PotionRingItem;
 import net.minecraft.nbt.CompoundTag;
@@ -39,14 +40,15 @@ public class PotionRingItemMixin {
             String effectIdString = nbt.getString("Effect");
             ResourceLocation effectId = new ResourceLocation(effectIdString);
             MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(effectId);
+            int maxLevel = PRConfig.LEVEL.get() - 1;
             if (effect != null) {
                 if (effect == MobEffects.DAMAGE_RESISTANCE) {
                     int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.HeroShield.get(), effectIdString);
-                    int effectLevel = Math.min(ringCount - 1, 2);
+                    int effectLevel = Math.min(ringCount - 1, maxLevel);
                     entity.addEffect(new MobEffectInstance(effect, -1, effectLevel, true, false));
                 } else if (effect == MobEffects.REGENERATION) {
                     int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.MelodyPlushie.get(), effectIdString);
-                    int effectLevel = Math.min(ringCount - 1, 2);
+                    int effectLevel = Math.min(ringCount - 1, maxLevel);
                     entity.addEffect(new MobEffectInstance(effect, -1, effectLevel, true, false));
                 }
             }

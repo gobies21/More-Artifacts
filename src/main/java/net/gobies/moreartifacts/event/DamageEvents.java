@@ -2,14 +2,17 @@ package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
+import net.gobies.moreartifacts.effect.MAStatusEffects;
 import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.util.CurioHandler;
-import net.gobies.moreartifacts.util.DamageCalculator;
-import net.gobies.moreartifacts.util.MAUtils;
+import net.gobies.moreartifacts.init.MAParticles;
+import net.gobies.moreartifacts.util.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -25,10 +28,15 @@ import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -38,7 +46,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.swing.*;
 import java.util.*;
 
 @Mod.EventBusSubscriber
@@ -120,8 +127,18 @@ public class DamageEvents {
                 generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
             }
 
+            if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    int brokenHeartsCount = BrokenHeartSystem.getBrokenHearts(serverPlayer);
+
+                    if (brokenHeartsCount > 0) {
+                        generalIncrease += (brokenHeartsCount * (CommonConfig.BROKEN_HEART_DAMAGE_INCREASE.get() - 1));
+                    }
+                }
+            }
+
             int dragonClawCount = CurioHandler.getCurioCount(player, MAItems.EnderDragonClaw.get());
-            if (player.getRandom().nextFloat() < CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get()) {
+            if (LuckHelper.roll(player, CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get(), CommonConfig.ENDER_DRAGON_CLAW_LUCK_FACTOR.get())) {
                 for (int i = 0; i < dragonClawCount; i++) {
                     float randomPitch = 1.3f + random.nextFloat() * 0.2f;
                     player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.6f, randomPitch);
@@ -145,14 +162,14 @@ public class DamageEvents {
                         int poisonDuration = poisonEffect.getDuration();
                         int poisonAmplifier = poisonEffect.getAmplifier();
                         double deadlyChance = CommonConfig.VENOM_STONE_DEADLY_CHANCE.get() * venomStoneCount;
-                        if (random.nextFloat() < deadlyChance) {
+                        if (LuckHelper.roll(player, deadlyChance, CommonConfig.VENOM_STONE_LUCK_FACTOR.get())) {
                             target.removeEffect(MobEffects.POISON);
                             target.addEffect(new MobEffectInstance(MAEffects.Virulent.get(), poisonDuration, poisonAmplifier));
                         }
                     }
                 } else if (!target.hasEffect(MAEffects.Virulent.get())) {
                     double poisonChance = CommonConfig.VENOM_STONE_CHANCE.get() * venomStoneCount;
-                    if (random.nextFloat() < poisonChance) {
+                    if (LuckHelper.roll(player, poisonChance, CommonConfig.VENOM_STONE_LUCK_FACTOR.get())) {
                         target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.VENOM_STONE_DURATION.get(), CommonConfig.VENOM_STONE_LEVEL.get() - 1));
                     }
                 }
@@ -172,7 +189,7 @@ public class DamageEvents {
                 }
 
                 double decayChance = CommonConfig.DECAY_STONE_CHANCE.get() * decayStoneCount;
-                if (random.nextFloat() < decayChance) {
+                if (LuckHelper.roll(player, decayChance, CommonConfig.DECAY_STONE_LUCK_FACTOR.get())) {
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.DECAY_STONE_DURATION.get(), CommonConfig.DECAY_STONE_LEVEL.get() - 1));
                 }
             }
@@ -184,7 +201,7 @@ public class DamageEvents {
                 }
 
                 double fireChance = CommonConfig.FIRE_STONE_CHANCE.get() * fireStoneCount;
-                if (random.nextFloat() < fireChance) {
+                if (LuckHelper.roll(player, fireChance, CommonConfig.FIRE_STONE_LUCK_FACTOR.get())) {
                     target.setSecondsOnFire(CommonConfig.FIRE_STONE_DURATION.get());
                 }
             }
@@ -196,9 +213,9 @@ public class DamageEvents {
                 }
 
                 double iceChance = CommonConfig.ICE_STONE_CHANCE.get() * iceStoneCount;
-                if (random.nextFloat() < iceChance) {
+                if (LuckHelper.roll(player, iceChance, CommonConfig.ICE_STONE_LUCK_FACTOR.get())) {
                     target.setTicksFrozen(100 * CommonConfig.ICE_STONE_DURATION.get());
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * CommonConfig.ICE_STONE_DURATION.get(), 0));
+                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * CommonConfig.ICE_STONE_DURATION.get(), 0, false, false));
                 }
             }
 
@@ -224,18 +241,33 @@ public class DamageEvents {
                         generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
                     }
                 }
-
-                if (CurioHandler.isCurioEquipped(player, MAItems.WoodenHeadgear.get())) {
-                    event.setAmount((float) (event.getAmount() * CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
+                int frozenQuiverCount = CurioHandler.getCurioCount(player, MAItems.FrozenQuiver.get());
+                for (int i = 0; i < frozenQuiverCount; i++) {
+                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
+                    float frozenDamage = event.getAmount();
+                    int roundedFreeze = Math.round(frozenDamage);
+                    int totalFreeze = (roundedFreeze + 10) * CommonConfig.FROZEN_QUIVER_MULTIPLIER.get();
+                    target.setTicksFrozen(totalFreeze + 20);
+                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, totalFreeze / 2, 0, false, false));
                 }
-
-                if (CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
-                    event.setAmount((float) (event.getAmount() * CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
+            } else if (source.is(DamageTypes.PLAYER_ATTACK)) {
+                int frostGauntletCount = CurioHandler.getCurioCount(player, MAItems.FrostGauntlet.get());
+                for (int i = 0; i < frostGauntletCount; i++) {
+                    int frozenTicks = target.getTicksFrozen();
+                    target.setTicksFrozen((frozenTicks + 80));
                 }
+            }
 
-                if (CurioHandler.isCurioEquipped(player, MAItems.NetheriteHeadgear.get())) {
-                    event.setAmount((float) (event.getAmount() * CommonConfig.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.WoodenHeadgear.get())) {
+                event.setAmount((float) (event.getAmount() * CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
+            }
+
+            if (CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
+                event.setAmount((float) (event.getAmount() * CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
+            }
+
+            if (CurioHandler.isCurioEquipped(player, MAItems.NetheriteHeadgear.get())) {
+                event.setAmount((float) (event.getAmount() * CommonConfig.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
             }
 
             if (CurioHandler.isCurioEquipped(player, MAItems.VanirMask.get())) {
@@ -259,6 +291,17 @@ public class DamageEvents {
                     additionalDamagePercentage += (float) configDamageIncrease;
                 }
                 generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.RubyRing.get(), additionalDamagePercentage);
+            }
+
+            ItemStack equippedSoul = SoulUtil.isSoulEquipped(player);
+            if (!equippedSoul.isEmpty() && equippedSoul.is(MAItems.ShadowSoul.get())) {
+                BlockPos pos = target.blockPosition();
+                int lightLevel = target.level().getMaxLocalRawBrightness(pos);
+                if (lightLevel <= 7) {
+                    int soulLevel = SoulUtil.getSoulStage(equippedSoul);
+                    double damageScale = 1.0 + (soulLevel * 0.10);
+                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.ShadowSoul.get(), damageScale);
+                }
             }
 
             generalIncrease = Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get());
@@ -287,7 +330,8 @@ public class DamageEvents {
         }
     }
 
-    private static final Map<UUID, Integer> BLEEDING_ENTITIES = new HashMap<>();
+    private static final Map<UUID, Integer> BLEEDING = MAStatusEffects.bleeding();
+    private static final Map<UUID, Integer> FROSTED_WOUNDS = MAStatusEffects.frosted_wounds();
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
@@ -305,16 +349,22 @@ public class DamageEvents {
         if (entityName != null && CommonConfig.BLEED_BLACKLISTED_ENTITIES.get().contains(entityName.toString())) {
             return;
         }
-
+        UUID targetId = target.getUUID();
 
         // TODO Lycanites bleed compat
         int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
         for (int i = 0; i < clawCount; i++) {
             int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;
             double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * clawCount;
-            UUID targetId = target.getUUID();
-            if (target.getRandom().nextFloat() < bleedChance) {
-                BLEEDING_ENTITIES.put(targetId, bleedDuration);
+            if (LuckHelper.roll(player, bleedChance, CommonConfig.MECHANICAL_CLAW_LUCK_FACTOR.get())) {
+                BLEEDING.put(targetId, bleedDuration);
+            }
+        }
+        int frostCount = CurioHandler.getCurioCount(player, MAItems.FrostGauntlet.get());
+        for (int i = 0; i < frostCount; i++) {
+            if (BLEEDING.containsKey(targetId) && target.getTicksFrozen() > 0) {
+                BLEEDING.remove(targetId);
+                FROSTED_WOUNDS.put(targetId, 20 * CommonConfig.FROSTED_WOUNDS_DURATION.get());
             }
         }
     }
@@ -325,10 +375,10 @@ public class DamageEvents {
         if (entity.level().isClientSide) return;
 
         UUID entityId = entity.getUUID();
-        if (BLEEDING_ENTITIES.containsKey(entityId)) {
-            int remainingTicks = BLEEDING_ENTITIES.get(entityId);
+        if (BLEEDING.containsKey(entityId)) {
+            int remainingTicks = BLEEDING.get(entityId);
             if (remainingTicks <= 0) {
-                BLEEDING_ENTITIES.remove(entityId);
+                BLEEDING.remove(entityId);
                 return;
             }
 
@@ -338,8 +388,32 @@ public class DamageEvents {
                 entity.hurt(bleedDamage, CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get());
                 entity.invulnerableTime = prevInvulnerableTime;
             }
+            BLEEDING.put(entityId, remainingTicks - 1);
+            if (entity.level() instanceof ServerLevel serverLevel && remainingTicks % 20 == 0) {
+                int particleCount = 5 + entity.getRandom().nextInt(6);
+                serverLevel.sendParticles(MAParticles.BLOOD.get(), entity.getX(), entity.getY() + (entity.getBbHeight() * 0.5), entity.getZ(), particleCount, 0.3, 0.3, 0.2, 0.01);
+            }
+        }
 
-            BLEEDING_ENTITIES.put(entityId, remainingTicks - 1);
+        if (FROSTED_WOUNDS.containsKey(entityId)) {
+            int remainingTicks = FROSTED_WOUNDS.get(entityId);
+            if (remainingTicks <= 0) {
+                FROSTED_WOUNDS.remove(entityId);
+                return;
+            }
+
+            if (remainingTicks % 20 == 0) {
+                DamageSource frostedWoundsDamage = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.FREEZE));
+                int prevInvulnerableTime = entity.invulnerableTime;
+                entity.hurt(frostedWoundsDamage, CommonConfig.FROSTED_WOUNDS_DAMAGE.get());
+                entity.setTicksFrozen(CommonConfig.FROSTED_WOUNDS_DURATION.get() * 15);
+                entity.invulnerableTime = prevInvulnerableTime;
+            }
+            FROSTED_WOUNDS.put(entityId, remainingTicks - 1);
+            if (entity.level() instanceof ServerLevel serverLevel && remainingTicks % 20 == 0) {
+                int particleCount = 5 + entity.getRandom().nextInt(6);
+                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + (entity.getBbHeight() * 0.5), entity.getZ(), particleCount, 0.3, 0.3, 0.2, 0.01);
+            }
         }
     }
 
@@ -364,6 +438,47 @@ public class DamageEvents {
                         entity.setSecondsOnFire(2 * CommonConfig.FIRE_STONE_DURATION.get());
                     }
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onProjectileSpawn(EntityJoinLevelEvent event) {
+        if (!(event.getEntity() instanceof Projectile projectile)) return;
+        if (!(projectile.getOwner() instanceof Player player)) return;
+        if (event.getLevel().isClientSide()) return;
+        boolean isArrow = projectile instanceof AbstractArrow;
+        boolean isBolt = SpartanWeaponryCompat.isArmorPiercingBolt(projectile);
+        if (!isArrow && !isBolt) return;
+
+        int magicQuiverCount = CurioHandler.getCurioCount(player, MAItems.MagicQuiver.get());
+        int envenomedQuiverCount = CurioHandler.getCurioCount(player, MAItems.EnvenomedQuiver.get());
+        int moltenQuiverCount = CurioHandler.getCurioCount(player, MAItems.MoltenQuiver.get());
+        int frozenQuiverCount = CurioHandler.getCurioCount(player, MAItems.FrozenQuiver.get());
+
+        for (int i = 0; i < magicQuiverCount; i++) {
+            double velocityMultiplier = 1.0 + (CommonConfig.MAGIC_QUIVER_VELOCITY.get() * magicQuiverCount);
+            Vec3 motion = projectile.getDeltaMovement();
+            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
+        }
+        for (int i = 0; i < envenomedQuiverCount; i++) {
+            double velocityMultiplier = 1.0 + (CommonConfig.ENVENOMED_QUIVER_VELOCITY.get() * envenomedQuiverCount);
+            Vec3 motion = projectile.getDeltaMovement();
+            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
+        }
+        for (int i = 0; i < moltenQuiverCount; i++) {
+            double velocityMultiplier = 1.0 + (CommonConfig.MOLTEN_QUIVER_VELOCITY.get() * moltenQuiverCount);
+            Vec3 motion = projectile.getDeltaMovement();
+            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
+        }
+        for (int i = 0; i < frozenQuiverCount; i++) {
+            double velocityMultiplier = 1.0 + (CommonConfig.FROZEN_QUIVER_VELOCITY.get() * frozenQuiverCount);
+            Vec3 motion = projectile.getDeltaMovement();
+            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
+        }
+        if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
+            if (isArrow) {
+                projectile.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
             }
         }
     }

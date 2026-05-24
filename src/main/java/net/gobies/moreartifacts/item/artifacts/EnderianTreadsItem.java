@@ -36,7 +36,6 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     private static final UUID SPEED = UUID.randomUUID();
     private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
-
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {

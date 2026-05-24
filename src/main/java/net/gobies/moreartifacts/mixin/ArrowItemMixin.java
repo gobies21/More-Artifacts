@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.mixin;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.LuckHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
@@ -22,17 +23,26 @@ public class ArrowItemMixin {
     private void quiverSaveArrow(ItemStack stack, ItemStack bow, Player player, CallbackInfoReturnable<Boolean> cir) {
         boolean saveArrow = false;
         if (CurioHandler.isCurioEquipped(player, MAItems.MagicQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.MAGIC_QUIVER_AMMO.get()) {
+            double saveChance = CommonConfig.MAGIC_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.MAGIC_QUIVER_LUCK_FACTOR.get())) {
                 saveArrow = true;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.EnvenomedQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.ENVENOMED_QUIVER_AMMO.get()) {
+            double saveChance = CommonConfig.ENVENOMED_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.ENVENOMED_QUIVER_LUCK_FACTOR.get())) {
                 saveArrow = true;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.MOLTEN_QUIVER_AMMO.get()) {
+            double saveChance = CommonConfig.MOLTEN_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.MOLTEN_QUIVER_LUCK_FACTOR.get())) {
+                saveArrow = true;
+            }
+        }
+        if (CurioHandler.isCurioEquipped(player, MAItems.FrozenQuiver.get())) {
+            double saveChance = CommonConfig.FROZEN_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.FROZEN_QUIVER_LUCK_FACTOR.get())) {
                 saveArrow = true;
             }
         }

@@ -13,17 +13,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class EnderianEyeOverlay {
 
     private static final ResourceLocation TELEPORT_BAR_LOCATION = new ResourceLocation("moreartifacts:textures/gui/teleport_bar.png");
     private static final ResourceLocation FILL_BAR_LOCATION = new ResourceLocation("moreartifacts:textures/gui/fill_bar.png");
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public static void onRenderGameOverlay(RenderGuiEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         Entity entity = mc.getCameraEntity();

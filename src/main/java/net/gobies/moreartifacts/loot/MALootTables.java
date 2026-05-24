@@ -31,18 +31,25 @@ public class MALootTables {
             LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.EnderDragonClaw.get(), 1, 1, CommonConfig.ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue(), lootingValue * 5);
             LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.DragonEye.get(), 1, 1, 0.05F, lootingValue);
             LootTableHandler.addLootWithLooting(event, "entities/warden", MAItems.TaintedMirror.get(), 1, 1, 0.10F, lootingValue);
+            LootTableHandler.addLootWithLooting(event, "entities/witch", MAItems.CursedDoll.get(), 1, 1, 0.02F, lootingValue);
 
             LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.SculkLens.get(), 1, 1, CommonConfig.SCULK_LENS_DROP_CHANCE.get().floatValue());
             LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.CobaltShield.get(), 1, 1, CommonConfig.COBALT_SHIELD_DROP_CHANCE.get().floatValue());
             LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.RecallPotion.get(), 1, 3, CommonConfig.RECALL_POTION_DROP_CHANCE.get().floatValue());
 
             LootTableHandler.addLoot(event, "gameplay/cat_morning_gift", MAItems.MelodyPlushie.get(), 1, 1, CommonConfig.MELODY_PLUSHIE_DROP_CHANCE.get().floatValue());
-
             LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, 0.15F);
             LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.RubyRing.get(), 1, 1, 0.10F);
             LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.RubyRing.get(), 1, 1, 0.05F);
             LootTableHandler.addLoot(event, "chests/igloo_chest", MAItems.IceCrystal.get(), 1, 1, 1.0F);
             LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
+
+            // Holy Mantle -> rare cleric village trade
+
+            //LootTableHandler.injectLoot(event, "archaeology/desert_pyramid", MAItems.StealthManual.get(), 1, 1, 0.95F);
+            //LootTableHandler.injectLoot(event, "archaeology/desert_well", MAItems.StealthManual.get(), 1, 1, 0.95F);
+            //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_common", MAItems.StealthManual.get(), 1, 1, 0.95F);
+            //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_rare", MAItems.StealthManual.get(), 1, 1, 0.90F);
 
         }
     }

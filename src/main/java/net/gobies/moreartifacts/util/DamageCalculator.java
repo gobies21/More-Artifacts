@@ -49,8 +49,10 @@ public abstract class DamageCalculator {
         generalIncrease += getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.RubyRing.get(), CommonConfig.RUBY_RING_DAMAGE_INCREASE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.ShadowSoul.get(), 1.10);
 
         return Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
     }

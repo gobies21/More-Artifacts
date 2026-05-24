@@ -5,13 +5,18 @@
   "refmap": "moreartifacts.mixins.refmap.json",
   "mixins": [
     "ArrowItemMixin",
-    "BoltItemMixin",
-    "ExplosionHandlerMixin",
-    "PotionRingItemMixin",
-    "VibrationSystemListenerMixin"
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "VibrationSystemListenerMixin",
+    "enhancedvisuals.ExplosionHandlerMixin",
+    "potionrings2.PotionRingItemMixin",
+    "spartanweaponry.BoltItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "minVersion": "0.8"
+  "minVersion": "0.8",
+  "client": [
+    "forge.ForgeGuiMixin"
+  ]
 }

@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.mixin;
+package net.gobies.moreartifacts.mixin.enhancedvisuals;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;

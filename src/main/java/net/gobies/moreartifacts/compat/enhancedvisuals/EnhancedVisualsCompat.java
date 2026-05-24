@@ -34,7 +34,7 @@ public class EnhancedVisualsCompat {
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.DragonEye.get())) {
                 ItemStack stack = CurioHandler.getEquippedCurio(player, MAItems.DragonEye.get());
-                if (stack != null && DragonEyeItem.isEnderDragonEye(stack)) {
+                if (stack != null && DragonEyeItem.isEnderDragonEye(stack) && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
                     event.setCanceled(true);
                 }
             }

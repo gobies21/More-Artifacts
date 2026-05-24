@@ -75,7 +75,11 @@ public class RecallPotionItem extends Item {
                             serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.RECALL_POTION_COOLDOWN.get()); // 20 ticks = 1 second
                             if (!serverPlayer.isCreative()) {
                                 if (stack.getCount() == 1) {
-                                    serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                                    if (serverPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RecallPotionItem) {
+                                        serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                                    } else {
+                                        serverPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                                    }
                                 } else {
                                     stack.shrink(1);
                                     serverPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
