@@ -73,7 +73,7 @@ public class MACommands {
             int requestedTotal = currentBrokenHearts + amount;
 
             if (currentBrokenHearts >= allowedMaxBrokenHearts) {
-                source.sendFailure(Component.literal(target.getScoreboardName() + " has already reached the maximum allowed Broken Hearts"));
+                source.sendFailure(Component.literal(target.getScoreboardName() + " has already reached the maximum allowed of Broken Hearts"));
                 return 0;
             }
 
@@ -109,7 +109,7 @@ public class MACommands {
             attribute.setBaseValue(attribute.getBaseValue());
         }
 
-        source.sendSuccess(() -> Component.literal("Successfully cleared all broken hearts from " + target.getScoreboardName()), true);
+        source.sendSuccess(() -> Component.literal("Cleared all broken hearts from " + target.getScoreboardName()), true);
         return 1;
     }
 }

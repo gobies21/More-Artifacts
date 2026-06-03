@@ -15,7 +15,8 @@ public class SoulUtil {
     public static final int REQUIRED_KILLS = 100;
 
     public static final Set<Item> SOUL_STONES = Set.of(
-            MAItems.ShadowSoul.get()
+            MAItems.ShadowSoul.get(),
+            MAItems.BloodSoul.get()
     );
 
     public static ItemStack isSoulEquipped(Player player) {

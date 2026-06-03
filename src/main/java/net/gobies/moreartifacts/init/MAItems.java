@@ -91,6 +91,7 @@ public class MAItems {
     public static final RegistryObject<Item> BrokenHeart;
 
     public static final RegistryObject<Item> ShadowSoul;
+    public static final RegistryObject<Item> BloodSoul;
 
 
     public static final RegistryObject<Item> Necklace;
@@ -171,6 +172,7 @@ public class MAItems {
         HolyMantle = ARTIFACTS.register("holy_mantle", () -> new HolyMantleItem(new Item.Properties()));
         BrokenHeart = ARTIFACTS.register("broken_heart", () -> new BrokenHeartItem(new Item.Properties()));
         ShadowSoul = ARTIFACTS.register("shadow_soul", () -> new ShadowSoulItem(new Item.Properties()));
+        BloodSoul = ARTIFACTS.register("blood_soul", () -> new BloodSoulItem(new Item.Properties()));
 
 
         Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));

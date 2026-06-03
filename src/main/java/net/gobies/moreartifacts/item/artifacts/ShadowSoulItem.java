@@ -61,9 +61,9 @@ public class ShadowSoulItem extends SoulStoneItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
-        int currentSoulState = SoulUtil.getSoulStage(stack);
-        double speedBonus = 0.10 + ((currentSoulState - 1) * 0.05);
-        double armorPenalty = 0.05 + ((currentSoulState - 1) * 0.05);
+        int currentSoulStage = SoulUtil.getSoulStage(stack);
+        double speedBonus = 0.15 + (currentSoulStage * 0.05);
+        double armorPenalty = 0.05 + (currentSoulStage * 0.05);
         modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
         modifiers.put(Attributes.ARMOR, new AttributeModifier(uuid, String.valueOf(ARMOR), -armorPenalty, AttributeModifier.Operation.MULTIPLY_BASE));
 
@@ -90,15 +90,12 @@ public class ShadowSoulItem extends SoulStoneItem {
                     tag.putBoolean("Invisibility", keyPressed);
                 }
 
-                // 1. Check the local raw light level (0-15) at the player's position
                 BlockPos pos = player.blockPosition();
                 int lightLevel = player.level().getMaxLocalRawBrightness(pos);
                 boolean isDarkArea = lightLevel <= 7;
 
-                // 2. Read the key-bind toggle state
                 boolean invisibilityRequested = tag.getBoolean("Invisibility");
 
-                // 3. FORCE invisibility to false if it's too bright, regardless of the key-bind state
                 boolean invisibilityActive = invisibilityRequested && isDarkArea;
 
                 MobEffectInstance effect = player.getEffect(MobEffects.INVISIBILITY);
@@ -110,7 +107,6 @@ public class ShadowSoulItem extends SoulStoneItem {
                         effectMap.put(MobEffects.INVISIBILITY, stack);
                     }
                 } else {
-                    // This block automatically runs if the player walks into a light level > 7
                     if (effect != null && source != null && ItemStack.isSameItemSameTags(source, stack)) {
                         player.removeEffect(MobEffects.INVISIBILITY);
                         effectMap.remove(MobEffects.INVISIBILITY);
@@ -205,6 +201,8 @@ public class ShadowSoulItem extends SoulStoneItem {
         // Shadow Hands Tooltips
         if (stage == 4) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hand_chance", String.format("%.1f", shadowHandChance)).withStyle(ChatFormatting.DARK_AQUA));
+        } else if (stage == 5) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hands").withStyle(ChatFormatting.GOLD));
         }
 
         // Unequipped Tooltips

@@ -313,20 +313,20 @@ public class DamageEvents {
 
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) return;
         Player player = event.player;
-        if (player != null) {
-            Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
+        if (player.level().isClientSide) return;
+        Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
 
-            Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(player, new HashMap<>());
+        Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(player, new HashMap<>());
 
-            if (!currentEquippedState.equals(equippedArtifacts)) {
-                updateDamageReduction(player);
-                updateDamageIncrease(player);
+        if (!currentEquippedState.equals(equippedArtifacts)) {
+            updateDamageReduction(player);
+            updateDamageIncrease(player);
 
-                equippedArtifactsMap.put(player, currentEquippedState);
+            equippedArtifactsMap.put(player, currentEquippedState);
 
-                MAUtils.logDebug("Artifacts equipped for " + player.getName().getString() + ": " + currentEquippedState);
-            }
+            MAUtils.logDebug("Artifacts equipped for " + player.getName().getString() + ": " + currentEquippedState);
         }
     }
 

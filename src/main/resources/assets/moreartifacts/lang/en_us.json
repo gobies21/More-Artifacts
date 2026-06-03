@@ -73,6 +73,7 @@
   "item.moreartifacts.lightning_dragon_eye": "Lightning Dragon Eye",
   "item.moreartifacts.broken_heart": "Broken Heart",
   "item.moreartifacts.shadow_soul": "Soul of Shadows",
+  "item.moreartifacts.blood_soul": "Soul of Carnage",
 
   "tooltip.moreartifacts.bezoar": "Grants immunity to Poison",
   "tooltip.moreartifacts.vitamins": "Grants immunity to Weakness and Mining Fatigue",
@@ -259,5 +260,6 @@
   "tooltip.moreartifacts.soul_connected": "The soul is now a part of you",
   "tooltip.moreartifacts.shadow_soul.shadow_hand_chance": "§3+25.0% §6Chance to summon shadow hands when attacking",
   "tooltip.moreartifacts.shadow_soul.evolve_1": "Kills in darkness to evolve soul:",
-  "tooltip.moreartifacts.shadow_soul.kills_required": "§6- §c%s/%s"
+  "tooltip.moreartifacts.shadow_soul.kills_required": "§6- §c%s/%s",
+  "tooltip.moreartifacts.shadow_soul.shadow_hands": "Shadow hands are now permanant and will aid you"
 }
