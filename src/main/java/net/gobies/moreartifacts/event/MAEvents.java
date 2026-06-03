@@ -538,11 +538,14 @@ public class MAEvents {
         if (ModLoadedUtil.isFirstAidLoaded()) {
             return;
         }
+        if (event.isCanceled()) return;
         LivingEntity entity = event.getEntity();
         if (!(entity instanceof ServerPlayer player)) {
             return;
         }
 
+        // Totem check, will try to make it more global in the future
+        if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
         if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
             DamageSource source = event.getSource();
             if (source.is(DamageTypes.FELL_OUT_OF_WORLD)) {

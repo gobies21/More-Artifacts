@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -34,10 +35,14 @@ public class FirstAidCompat {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onFirstAidLivingDamage(FirstAidLivingDamageEvent event) {
+        if (event.isCanceled()) return;
         Player player = event.getEntity();
         if (player == null || player.level().isClientSide() || !(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
+
+        // Totem check, will try to make it more global in the future
+        if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
         if (event.getUndistributedDamage() > 1000) return;
         if (CurioHandler.isCurioEquipped(serverPlayer, MAItems.BrokenHeart.get())) {
             boolean dead = false;
