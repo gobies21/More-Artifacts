@@ -43,6 +43,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -167,6 +168,7 @@ public class MAEvents {
                 MAUtils.makeBurningImmune(event);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
+                if (event.isCanceled()) return;
                 if (player.getHealth() - event.getAmount() <= 0) {
                     if (!player.level().isClientSide && EnderianTreadsItem.canUseAbility(player)) {
                         EnderianTreadsItem.teleportPlayer((ServerPlayer) player);
@@ -447,9 +449,14 @@ public class MAEvents {
                         double z = livingEntity.getZ() + offsetZ;
 
                         EnderMan enderMan = new EnderMan(EntityType.ENDERMAN, serverLevel);
+                        enderMan.addTag(SUMMONED);
+                        float newMaxHealth = (float) (enderMan.getMaxHealth() * CommonConfig.ENDERMAN_HEALTH_MULTIPLIER.get());
+                        float newDamage = (float) (enderMan.getAttributeBaseValue(Attributes.ATTACK_DAMAGE) * CommonConfig.ENDERMAN_DAMAGE_MULTIPLIER.get());
+                        Objects.requireNonNull(enderMan.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(newMaxHealth);
+                        Objects.requireNonNull(enderMan.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(newDamage);
+                        enderMan.setHealth(newMaxHealth);
                         enderMan.setPos(x, livingEntity.getY(), z);
                         serverLevel.addFreshEntity(enderMan);
-                        enderMan.addTag(SUMMONED);
                     }
                 }
             }
@@ -473,7 +480,6 @@ public class MAEvents {
                         .filter(mobEffectInstance -> mobEffectInstance.getEffect().getCategory() == MobEffectCategory.HARMFUL)
                         .filter(effect -> !isBlacklisted(effect))
                         .toList();
-
                 if (!harmfulEffects.isEmpty()) {
                     MobEffectInstance randomEffect = harmfulEffects.get(attacker.level().random.nextInt(harmfulEffects.size()));
                     attacker.removeEffect(randomEffect.getEffect());
@@ -533,7 +539,7 @@ public class MAEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public void onLivingDamage(LivingDamageEvent event) {
         if (ModLoadedUtil.isFirstAidLoaded()) {
             return;

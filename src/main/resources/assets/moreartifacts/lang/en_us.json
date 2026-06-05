@@ -261,5 +261,6 @@
   "tooltip.moreartifacts.shadow_soul.shadow_hand_chance": "§3+25.0% §6Chance to summon shadow hands when attacking",
   "tooltip.moreartifacts.shadow_soul.evolve_1": "Kills in darkness to evolve soul:",
   "tooltip.moreartifacts.shadow_soul.kills_required": "§6- §c%s/%s",
-  "tooltip.moreartifacts.shadow_soul.shadow_hands": "Shadow hands are now permanant and will aid you"
+  "tooltip.moreartifacts.shadow_soul.shadow_hands": "Shadow hands are now permanant and will aid you",
+  "tooltip.moreartifacts.ender_dragon_eye.strong_endermen": "Summoned enderman are stronger than standard ones"
 }

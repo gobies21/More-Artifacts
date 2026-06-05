@@ -329,6 +329,10 @@ public class CommonConfig {
     public static float ender_dragon_eye_luck_factor;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EYE_COMPAT;
     public static boolean ender_dragon_eye_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERMAN_HEALTH_MULTIPLIER;
+    public static float enderman_health_multiplier;
+    public static ForgeConfigSpec.ConfigValue<Double> ENDERMAN_DAMAGE_MULTIPLIER;
+    public static float enderman_damage_multiplier;
 
     public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
     public static float leather_treads_speed;
@@ -598,6 +602,8 @@ public class CommonConfig {
             ender_dragon_eye_summon_chance = ENDER_DRAGON_EYE_SUMMON_CHANCE.get().floatValue();
             ender_dragon_eye_follow_distance = ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get().floatValue();
             ender_dragon_eye_luck_factor = ENDER_DRAGON_EYE_LUCK_FACTOR.get().floatValue();
+            enderman_health_multiplier = ENDERMAN_HEALTH_MULTIPLIER.get().floatValue();
+            enderman_damage_multiplier = ENDERMAN_DAMAGE_MULTIPLIER.get().floatValue();
             ender_dragon_eye_compat = ENDER_DRAGON_EYE_COMPAT.get();
             leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
             dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
@@ -919,6 +925,8 @@ public class CommonConfig {
         ENDER_DRAGON_EYE_FOLLOW_DISTANCE = BUILDER.comment("Distance at which endermen can follow you from in blocks").define("Follow_Distance", 20.0);
         ENDER_DRAGON_EYE_LUCK_FACTOR = BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.01, 0.0, 1.0);
         ENDER_DRAGON_EYE_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals_Compat", true);
+        ENDERMAN_HEALTH_MULTIPLIER = BUILDER.comment("Health multiplier of summoned enderman").define("Enderman_Health_Multiplier", 1.5);
+        ENDERMAN_DAMAGE_MULTIPLIER = BUILDER.comment("Damage multiplier of summoned enderman").define("Enderman_Damage_Multiplier", 1.5);
         BUILDER.pop();
 
         BUILDER.push("Leather_Treads");
