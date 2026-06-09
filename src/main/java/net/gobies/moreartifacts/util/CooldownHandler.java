@@ -30,6 +30,7 @@ public class CooldownHandler {
         long lastTime = playerCooldowns.getOrDefault(artifactId, 0L);
         return (currentTime - lastTime) >= (cooldown * 1000);
     }
+
     public static void clearMaps(UUID uuid) {
         cooldownMap.remove(uuid);
     }

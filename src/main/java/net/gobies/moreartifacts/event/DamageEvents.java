@@ -9,7 +9,6 @@ import net.gobies.moreartifacts.init.MAParticles;
 import net.gobies.moreartifacts.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -358,15 +357,21 @@ public class DamageEvents {
             int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;
             double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * clawCount;
             if (LuckHelper.roll(player, bleedChance, CommonConfig.MECHANICAL_CLAW_LUCK_FACTOR.get())) {
-                BLEEDING.put(targetId, bleedDuration);
+                if (FROSTED_WOUNDS.containsKey(targetId)) {
+                    int frostTicks = FROSTED_WOUNDS.getOrDefault(targetId, 0);
+                    FROSTED_WOUNDS.put(targetId, frostTicks + bleedDuration);
+                } else {
+                    BLEEDING.put(targetId, bleedDuration);
+                }
             }
         }
+
         int frostCount = CurioHandler.getCurioCount(player, MAItems.FrostGauntlet.get());
-        for (int i = 0; i < frostCount; i++) {
-            if (BLEEDING.containsKey(targetId) && target.getTicksFrozen() > 0) {
-                BLEEDING.remove(targetId);
-                FROSTED_WOUNDS.put(targetId, 20 * CommonConfig.FROSTED_WOUNDS_DURATION.get());
-            }
+        if (frostCount > 0 && BLEEDING.containsKey(targetId) && target.getTicksFrozen() > 0) {
+            BLEEDING.remove(targetId);
+            int baseDuration = 20 * CommonConfig.FROSTED_WOUNDS_DURATION.get();
+            int frostTicks = FROSTED_WOUNDS.getOrDefault(targetId, 0);
+            FROSTED_WOUNDS.put(targetId, frostTicks + (baseDuration * frostCount));
         }
     }
 
@@ -384,7 +389,7 @@ public class DamageEvents {
             }
 
             if (remainingTicks % 20 == 0) {
-                DamageSource bleedDamage = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.MAGIC));
+                DamageSource bleedDamage = entity.level().damageSources().magic();
                 int prevInvulnerableTime = entity.invulnerableTime;
                 entity.hurt(bleedDamage, CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get());
                 entity.invulnerableTime = prevInvulnerableTime;
@@ -404,7 +409,7 @@ public class DamageEvents {
             }
 
             if (remainingTicks % 20 == 0) {
-                DamageSource frostedWoundsDamage = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.FREEZE));
+                DamageSource frostedWoundsDamage = entity.level().damageSources().freeze();
                 int prevInvulnerableTime = entity.invulnerableTime;
                 entity.hurt(frostedWoundsDamage, CommonConfig.FROSTED_WOUNDS_DAMAGE.get());
                 entity.setTicksFrozen(CommonConfig.FROSTED_WOUNDS_DURATION.get() * 15);

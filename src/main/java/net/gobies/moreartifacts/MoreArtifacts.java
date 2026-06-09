@@ -9,6 +9,7 @@ import net.gobies.moreartifacts.compat.jei.JeiCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.effect.MAStatusEffects;
 import net.gobies.moreartifacts.event.DamageEvents;
 import net.gobies.moreartifacts.event.MAEvents;
 import net.gobies.moreartifacts.helper.LifecycleManager;
@@ -138,6 +139,7 @@ public class MoreArtifacts {
         LifecycleManager.registerCleanupHook(DragonEyeItem::clearMaps);
         LifecycleManager.registerCleanupHook(EnderianTreadsItem::clearMaps);
         LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
+        LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
     }
 }
 
