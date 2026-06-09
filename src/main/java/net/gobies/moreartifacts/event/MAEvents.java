@@ -333,7 +333,7 @@ public class MAEvents {
     }
 
     private static final String SUMMONED = "MA_Summoned";
-    private static final Map<Player, Long> cooldownMap = new HashMap<>();
+    private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
@@ -385,11 +385,11 @@ public class MAEvents {
                     double healChance = CommonConfig.SPECTRE_AMULET_HEAL_CHANCE.get();
                     if (LuckHelper.roll(attacker, healChance, CommonConfig.SPECTRE_AMULET_LUCK_FACTOR.get())) {
                         long currentTime = System.currentTimeMillis();
-                        long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
+                        long lastHealTime = cooldownMap.getOrDefault(attacker.getUUID(), 0L);
 
                         if (currentTime - lastHealTime >= 1000) {
                             attacker.heal(CommonConfig.SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue());
-                            cooldownMap.put(attacker, currentTime);
+                            cooldownMap.put(attacker.getUUID(), currentTime);
                         }
                     }
                 }
@@ -401,10 +401,10 @@ public class MAEvents {
                     double healChance = CommonConfig.NECROPLASM_AMULET_HEAL_CHANCE.get();
                     if (LuckHelper.roll(attacker, healChance, CommonConfig.NECROPLASM_AMULET_LUCK_FACTOR.get())) {
                         long currentTime = System.currentTimeMillis();
-                        long lastHealTime = cooldownMap.getOrDefault(attacker, 0L);
+                        long lastHealTime = cooldownMap.getOrDefault(attacker.getUUID(), 0L);
                         if (currentTime - lastHealTime >= 1000) {
                             attacker.heal(CommonConfig.NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue());
-                            cooldownMap.put(attacker, currentTime);
+                            cooldownMap.put(attacker.getUUID(), currentTime);
                         }
                     }
                 }
@@ -634,5 +634,8 @@ public class MAEvents {
                 }
             }
         }
+    }
+    public static void clearMaps(UUID uuid) {
+        cooldownMap.remove(uuid);
     }
 }

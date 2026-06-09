@@ -112,4 +112,7 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.cooldown", evadeCooldown).withStyle(ChatFormatting.DARK_AQUA));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
+    public static void clearMaps(UUID uuid) {
+        cooldownMap.remove(uuid);
+    }
 }

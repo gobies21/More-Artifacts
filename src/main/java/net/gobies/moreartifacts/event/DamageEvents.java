@@ -50,36 +50,36 @@ import java.util.*;
 
 @Mod.EventBusSubscriber
 public class DamageEvents {
-    private static final Map<Player, Double> generalDamageReductionMap = new HashMap<>();
-    private static final Map<Player, Double> fireDamageReductionMap = new HashMap<>();
-    private static final Map<Player, Double> generalDamageIncreaseMap = new HashMap<>();
-    private static final Map<Player, Map<Item, Boolean>> equippedArtifactsMap = new HashMap<>();
-    private static final Map<Player, Long> lastHealTimeMap = new HashMap<>();
+    private static final Map<UUID, Double> generalDamageReductionMap = new HashMap<>();
+    private static final Map<UUID, Double> fireDamageReductionMap = new HashMap<>();
+    private static final Map<UUID, Double> generalDamageIncreaseMap = new HashMap<>();
+    private static final Map<UUID, Map<Item, Boolean>> equippedArtifactsMap = new HashMap<>();
+    private static final Map<UUID, Long> lastHealTimeMap = new HashMap<>();
 
     public static double getTotalDamageReduction(Player player) {
-        return generalDamageReductionMap.getOrDefault(player, 0.0);
+        return generalDamageReductionMap.getOrDefault(player.getUUID(), 0.0);
     }
 
     public static double getFireDamageReduction(Player player) {
-        return fireDamageReductionMap.getOrDefault(player, 0.0);
+        return fireDamageReductionMap.getOrDefault(player.getUUID(), 0.0);
     }
 
     public static double getTotalDamageIncrease(Player player) {
-        return generalDamageIncreaseMap.getOrDefault(player, 0.0);
+        return generalDamageIncreaseMap.getOrDefault(player.getUUID(), 0.0);
     }
 
     public static void updateDamageReduction(Player player) {
         double totalReduction = DamageCalculator.calculateTotalDamageReduction(player);
         double fireReduction = DamageCalculator.calculateFireDamageReduction(player);
 
-        generalDamageReductionMap.put(player, totalReduction);
-        fireDamageReductionMap.put(player, fireReduction);
+        generalDamageReductionMap.put(player.getUUID(), totalReduction);
+        fireDamageReductionMap.put(player.getUUID(), fireReduction);
     }
 
     public static void updateDamageIncrease(Player player) {
         double generalIncrease = DamageCalculator.calculateDamageIncrease(player);
 
-        generalDamageIncreaseMap.put(player, generalIncrease);
+        generalDamageIncreaseMap.put(player.getUUID(), generalIncrease);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -180,11 +180,11 @@ public class DamageEvents {
                 if (target.hasEffect(MobEffects.WITHER)) {
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.DecayStone.get(), CommonConfig.DECAY_STONE_DAMAGE.get());
                     long currentTime = player.level().getGameTime();
-                    Long lastHealTime = lastHealTimeMap.get(player);
+                    Long lastHealTime = lastHealTimeMap.get(player.getUUID());
                     if (lastHealTime == null || currentTime - lastHealTime > 20) {
                         int healAmount = CommonConfig.DECAY_STONE_HEAL_AMOUNT.get() * decayStoneCount;
                         player.heal(2 * healAmount);
-                        lastHealTimeMap.put(player, currentTime);
+                        lastHealTimeMap.put(player.getUUID(), currentTime);
                     }
                 }
 
@@ -318,13 +318,14 @@ public class DamageEvents {
         if (player.level().isClientSide) return;
         Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
 
-        Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(player, new HashMap<>());
+        UUID playerUUID = player.getUUID();
+        Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(playerUUID, new HashMap<>());
 
         if (!currentEquippedState.equals(equippedArtifacts)) {
             updateDamageReduction(player);
             updateDamageIncrease(player);
 
-            equippedArtifactsMap.put(player, currentEquippedState);
+            equippedArtifactsMap.put(playerUUID, currentEquippedState);
 
             MAUtils.logDebug("Artifacts equipped for " + player.getName().getString() + ": " + currentEquippedState);
         }
@@ -481,5 +482,13 @@ public class DamageEvents {
                 projectile.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
             }
         }
+    }
+
+    public static void clearMaps(UUID uuid) {
+        generalDamageReductionMap.remove(uuid);
+        fireDamageReductionMap.remove(uuid);
+        generalDamageIncreaseMap.remove(uuid);
+        equippedArtifactsMap.remove(uuid);
+        lastHealTimeMap.remove(uuid);
     }
 }

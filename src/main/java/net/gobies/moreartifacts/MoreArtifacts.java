@@ -9,10 +9,18 @@ import net.gobies.moreartifacts.compat.jei.JeiCompat;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.event.DamageEvents;
 import net.gobies.moreartifacts.event.MAEvents;
+import net.gobies.moreartifacts.helper.LifecycleManager;
 import net.gobies.moreartifacts.init.*;
+import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
+import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
+import net.gobies.moreartifacts.item.artifacts.ShadowSoulItem;
 import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.util.CooldownHandler;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
+import net.gobies.moreartifacts.util.Teleport;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -51,6 +59,7 @@ public class MoreArtifacts {
         PacketHandler.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        cleanupMaps();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -118,6 +127,17 @@ public class MoreArtifacts {
 
     private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {
         MAModels.registerLayerDefinitions(event);
+    }
+
+    private void cleanupMaps() {
+        LifecycleManager.registerCleanupHook(DamageEvents::clearMaps);
+        LifecycleManager.registerCleanupHook(MAEvents::clearMaps);
+        LifecycleManager.registerCleanupHook(MAUtils::clearMaps);
+        LifecycleManager.registerCleanupHook(Teleport::clearMaps);
+        LifecycleManager.registerCleanupHook(CooldownHandler::clearMaps);
+        LifecycleManager.registerCleanupHook(DragonEyeItem::clearMaps);
+        LifecycleManager.registerCleanupHook(EnderianTreadsItem::clearMaps);
+        LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
     }
 }
 

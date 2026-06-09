@@ -230,6 +230,10 @@ public class ShadowSoulItem extends SoulStoneItem {
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
+
+    public static void clearMaps(UUID uuid) {
+        appliedInvisibility.remove(uuid);
+    }
 }
 
 

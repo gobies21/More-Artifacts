@@ -270,4 +270,8 @@ public class DragonEyeItem extends Item implements ICurioItem {
         }
         super.appendHoverText(stack, level, tooltip, flag);
     }
+
+    public static void clearMaps(UUID uuid) {
+        appliedNightVision.remove(uuid);
+    }
 }

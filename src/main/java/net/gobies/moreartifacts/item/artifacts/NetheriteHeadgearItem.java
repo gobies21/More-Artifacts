@@ -29,7 +29,6 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
 
     private static final UUID ARMOR = UUID.randomUUID();
 
-
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();

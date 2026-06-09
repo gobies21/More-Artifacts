@@ -46,7 +46,7 @@ public class ClientEvents {
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianEye.get())) {
                 if (isDownOld != isDown && isDown && (currentTime - lastPressTime) > 1000 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()) {
                     PacketHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
-                    TeleportBindMessage.pressAction(Minecraft.getInstance().player, 0, 0);
+                    TeleportBindMessage.pressAction(Minecraft.getInstance().player, 0);
                     lastPressTime = currentTime;
                 }
             }

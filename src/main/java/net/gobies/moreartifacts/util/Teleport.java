@@ -12,15 +12,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Teleport {
-    private static final Map<Player, Boolean> teleportStatus = new HashMap<>();
+    private static final Map<UUID, Boolean> teleportStatus = new HashMap<>();
 
     //not perfect, but it works for now
     public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos ignoreblockPos, Vec3 vec3) {
@@ -79,7 +79,7 @@ public class Teleport {
     }
 
     // method to handle the teleportation
-    public static void teleportPlayer(LevelAccessor world, double x, double y, double z, Entity entity) {
+    public static void teleportPlayer(Level level, double x, double y, double z, Entity entity) {
         if (!(entity instanceof Player player)) return;
 
         Vec3 currentPosition = entity.position();
@@ -89,7 +89,7 @@ public class Teleport {
         Vec3 end = start.add(entity.getViewVector(1f).scale(CommonConfig.ENDERIAN_EYE_RADIUS.get()));
 
         // solve teleport destination
-        Vec3 targetPosition = solveTeleportDestination((Level) world, (LivingEntity) entity, new BlockPos((int) x, (int) y, (int) z), end);
+        Vec3 targetPosition = solveTeleportDestination(level, (LivingEntity) entity, new BlockPos((int) x, (int) y, (int) z), end);
 
         if (MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
             // teleport the entity to the hit position
@@ -102,7 +102,6 @@ public class Teleport {
                 serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, entity.getYRot(), entity.getXRot());
                 MAUtils.updateCooldown(player);
                 updateTeleportStatus(player, true);
-                Level level = (Level) world;
                 if (!level.isClientSide()) {
                     level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
                     level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
@@ -117,10 +116,14 @@ public class Teleport {
     }
 
     public static boolean hasTeleported(Player player) {
-        return teleportStatus.getOrDefault(player, false);
+        return teleportStatus.getOrDefault(player.getUUID(), false);
     }
 
     public static void updateTeleportStatus(Player player, boolean hasTeleported) {
-        teleportStatus.put(player, hasTeleported);
+        teleportStatus.put(player.getUUID(), hasTeleported);
+    }
+
+    public static void clearMaps(UUID uuid) {
+        teleportStatus.remove(uuid);
     }
 }

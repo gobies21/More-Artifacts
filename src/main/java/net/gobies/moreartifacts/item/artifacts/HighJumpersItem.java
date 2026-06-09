@@ -24,6 +24,7 @@ public class HighJumpersItem extends Item implements ICurioItem {
     public HighJumpersItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
+
     private static final UUID SPEED = UUID.randomUUID();
 
     @Override
