@@ -17,8 +17,7 @@ public class ShadowDustItem extends Item {
         super(properties.stacksTo(64).rarity(Rarity.UNCOMMON));
     }
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
-            pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_gem").withStyle(ChatFormatting.YELLOW));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

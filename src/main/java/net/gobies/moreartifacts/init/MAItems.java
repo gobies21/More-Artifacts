@@ -2,9 +2,9 @@ package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;
+import net.gobies.moreartifacts.item.misc.*;
 import net.gobies.moreartifacts.item.materials.ArtifactSmithingTemplateItem;
 import net.gobies.moreartifacts.item.materials.ShadowDustItem;
-import net.gobies.moreartifacts.item.potions.RecallPotionItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -93,7 +93,7 @@ public class MAItems {
     public static final RegistryObject<Item> ShadowSoul;
     public static final RegistryObject<Item> BloodSoul;
 
-
+    public static final RegistryObject<Item> GraveScroll;
     public static final RegistryObject<Item> Necklace;
 
     public static void register(IEventBus eventBus) {
@@ -178,6 +178,7 @@ public class MAItems {
         Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));
 
         RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
+        GraveScroll = ARTIFACTS.register("grave_scroll", () -> new GraveScrollItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
         ArtifactSmithingTemplate = ARTIFACTS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
 

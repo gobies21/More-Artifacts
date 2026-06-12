@@ -1,0 +1,96 @@
+package net.gobies.moreartifacts.item.misc;
+
+import net.gobies.moreartifacts.util.MAUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
+public class GraveScrollItem extends Item {
+    public GraveScrollItem(Properties properties) {
+        super(properties.stacksTo(64).rarity(Rarity.UNCOMMON));
+    }
+
+    @Override
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
+        return UseAnim.BOW;
+    }
+
+    @Override
+    public int getUseDuration(@NotNull ItemStack pStack) {
+        return 64;
+    }
+
+    @Override
+    public boolean isFoil(@NotNull ItemStack pStack) {
+        return true;
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (player instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.getLastDeathLocation().isEmpty()) {
+                return InteractionResultHolder.fail(itemStack);
+            }
+        }
+        player.startUsingItem(hand);
+        return InteractionResultHolder.consume(itemStack);
+    }
+
+    @Override
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
+        if (!level.isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
+            serverPlayer.getLastDeathLocation().ifPresent(deathPosition -> {
+                ServerLevel targetLevel = serverPlayer.server.getLevel(deathPosition.dimension());
+
+                if (targetLevel != null) {
+                    BlockPos currentPos = serverPlayer.blockPosition();
+                    BlockPos deathPos = deathPosition.pos();
+
+                    MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(currentPos));
+
+                    serverPlayer.teleportTo(targetLevel, deathPos.getX(), deathPos.getY(), deathPos.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
+                    MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(deathPos));
+                    targetLevel.playSound(null, deathPos.getX(), deathPos.getY(), deathPos.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+                    serverPlayer.invulnerableTime = 10;
+                    if (!serverPlayer.getAbilities().instabuild) {
+                        itemStack.shrink(1);
+                    }
+                }
+            });
+        }
+        return itemStack;
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.grave_scroll").withStyle(ChatFormatting.GRAY));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+}
+
+
+
+
+
+
+
+
+
+

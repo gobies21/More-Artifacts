@@ -18,8 +18,7 @@ public class ArtifactSmithingTemplateItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level
-            pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.upgrade").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.artifact_upgrade_smithing_template.applies_to").withStyle(ChatFormatting.GRAY));

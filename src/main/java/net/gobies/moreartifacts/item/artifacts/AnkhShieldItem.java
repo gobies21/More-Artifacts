@@ -34,6 +34,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
 
     public static void additionalEffectImmunity(MobEffectEvent.Applicable event) {
+        if (CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().isEmpty()) return;
         MobEffectInstance effects = event.getEffectInstance();
         List<MobEffectInstance> effectsToUpdate = new ArrayList<>(List.of(effects));
         for (MobEffectInstance effectInstance : effectsToUpdate) {
@@ -41,17 +42,20 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
             ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(effect);
             if (effectId != null && CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().contains(effectId.toString())) {
                 event.setResult(MobEffectEvent.Result.DENY);
+                return;
             }
         }
     }
 
     public static void removeAdditionalEffects(Player player) {
-        for (MobEffect effect : ForgeRegistries.MOB_EFFECTS) {
+        if (player.getActiveEffects().isEmpty()) return;
+        if (CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().isEmpty()) return;
+        List<MobEffectInstance> activeEffects = new ArrayList<>(player.getActiveEffects());
+        for (MobEffectInstance instance : activeEffects) {
+            MobEffect effect = instance.getEffect();
             ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(effect);
             if (effectId != null && CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().contains(effectId.toString())) {
-                if (player.hasEffect(effect)) {
-                    player.removeEffect(effect);
-                }
+                player.removeEffect(effect);
             }
         }
     }
