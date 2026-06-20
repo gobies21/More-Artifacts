@@ -31,8 +31,8 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID ENTITY_REACH = UUID.randomUUID();
-    private static final UUID BLOCK_REACH = UUID.randomUUID();
+    private static final UUID ENTITY_REACH = UUID.fromString("dad6258c-89f4-4725-9b85-a12cc7a500c6");
+    private static final UUID BLOCK_REACH = UUID.fromString("a6c6ef61-13c4-495d-b66d-1d035e53df7f");
 
     @Override
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {

@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.item.artifacts;
+package net.gobies.moreartifacts.item.souls;
 
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.world.entity.player.Player;
@@ -10,8 +10,8 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 
-public class SoulStoneItem extends Item implements ICurioItem {
-    public SoulStoneItem(Properties properties) {
+public class SoulItem extends Item implements ICurioItem {
+    public SoulItem(Properties properties) {
         super(properties);
     }
 

@@ -18,7 +18,7 @@ public class ShackleItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("d3f065d8-641c-4f23-9f14-c82610a7439f");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

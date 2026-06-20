@@ -19,8 +19,8 @@ public class MechanicalGloveItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
-    private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
-    private static final UUID ATTACK_SPEED_UUID = UUID.randomUUID();
+    private static final UUID ATTACK_DAMAGE_UUID = UUID.fromString("b62d5c53-c1f4-442c-a1e3-9d27fa245e76");
+    private static final UUID ATTACK_SPEED_UUID = UUID.fromString("f4b06bde-b95d-4a76-8987-86e45c4c533f");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

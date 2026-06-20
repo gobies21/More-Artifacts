@@ -25,7 +25,7 @@ public class MechanicalGearsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("42784154-719a-4d50-a2e5-9063aab38a5e");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

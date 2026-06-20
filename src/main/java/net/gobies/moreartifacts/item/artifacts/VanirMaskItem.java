@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class VanirMaskItem extends Item implements ICurioItem {
-    private static final UUID ARMOR = UUID.randomUUID();
-    private static final UUID ARMOR_TOUGHNESS = UUID.randomUUID();
-    private static final UUID MAX_HEALTH = UUID.randomUUID();
-    private static final UUID MOVEMENT_SPEED = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("fff1f665-7b16-4011-9ae1-14086c9e6986");
+    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("5da834f0-8540-4090-8449-7e1e9fc08c84");
+    private static final UUID MAX_HEALTH = UUID.fromString("4f2fea41-36be-4394-9a54-7ff422581455");
+    private static final UUID MOVEMENT_SPEED = UUID.fromString("06e082d0-5670-4fc3-be34-0b6ddc8b84d7");
 
     public VanirMaskItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));

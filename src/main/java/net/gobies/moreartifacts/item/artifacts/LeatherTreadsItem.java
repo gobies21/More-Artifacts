@@ -25,7 +25,7 @@ public class LeatherTreadsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("f195b58b-6957-4166-beea-6e42ee8439f6");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

@@ -52,7 +52,7 @@ public class RecallPotionItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
-        if (!level.isClientSide && livingEntity instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
             boolean interDimensional = CommonConfig.RECALL_POTION_INTERDIMENSIONAL.get();
             ResourceKey<Level> currentDimension = level.dimension();
             ResourceKey<Level> respawnDimension = serverPlayer.getRespawnDimension();

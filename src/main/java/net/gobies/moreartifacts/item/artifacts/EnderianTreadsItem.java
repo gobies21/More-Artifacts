@@ -33,7 +33,7 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("07c0b340-7cc3-4bca-918f-2a9927cc4785");
     private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     @Override

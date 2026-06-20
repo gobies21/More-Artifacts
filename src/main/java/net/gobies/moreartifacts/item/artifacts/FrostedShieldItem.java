@@ -21,7 +21,7 @@ public class FrostedShieldItem extends ShieldItem implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE).durability(500));
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.fromString("97b56ab1-11f6-4e01-b507-ead5f0bf4606");
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {

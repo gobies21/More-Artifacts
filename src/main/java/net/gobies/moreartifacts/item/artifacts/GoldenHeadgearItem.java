@@ -28,7 +28,7 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("6f296740-79b1-4c7c-862e-327994f78101");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

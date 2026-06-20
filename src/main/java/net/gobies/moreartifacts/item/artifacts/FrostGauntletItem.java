@@ -26,7 +26,7 @@ public class FrostGauntletItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
+    private static final UUID ATTACK_DAMAGE_UUID = UUID.fromString("28bd36f2-e98a-4ef7-984b-33ade3649b4c");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

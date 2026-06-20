@@ -5,6 +5,8 @@ import net.gobies.moreartifacts.item.artifacts.*;
 import net.gobies.moreartifacts.item.misc.*;
 import net.gobies.moreartifacts.item.materials.ArtifactSmithingTemplateItem;
 import net.gobies.moreartifacts.item.materials.ShadowDustItem;
+import net.gobies.moreartifacts.item.souls.BloodSoulItem;
+import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

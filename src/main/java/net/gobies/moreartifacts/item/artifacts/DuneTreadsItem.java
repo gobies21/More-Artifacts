@@ -27,8 +27,8 @@ public class DuneTreadsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
-    private static final UUID SAND_SPEED_BONUS = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("47fa3f4d-1aed-429a-8894-ecaddeb446e2");
+    private static final UUID SAND_SPEED_BONUS = UUID.fromString("ae90f103-452c-4f44-909d-55be869b31f1");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

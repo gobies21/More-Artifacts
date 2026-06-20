@@ -25,8 +25,8 @@ public class EchoGloveItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
-    private static final UUID ATTACK_SPEED_UUID = UUID.randomUUID();
+    private static final UUID ATTACK_DAMAGE_UUID = UUID.fromString("1c6f0686-6994-4df4-a5f2-85c6dec79915");
+    private static final UUID ATTACK_SPEED_UUID = UUID.fromString("a5d2fcfb-74b0-4d57-9ece-eb951541b439");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

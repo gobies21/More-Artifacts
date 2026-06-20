@@ -27,7 +27,7 @@ import java.util.UUID;
 public class NaturesMantleItem extends Item implements ICurioItem {
     private int standStillCounter = 0;
     private int randomDuration = 0;
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("6da3bf14-9d36-48a1-95ea-71c495f307c5");
 
     public NaturesMantleItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));

@@ -1,4 +1,4 @@
-package net.gobies.moreartifacts.item.artifacts;
+package net.gobies.moreartifacts.item.souls;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ShadowSoulItem extends SoulStoneItem {
+public class ShadowSoulItem extends SoulItem {
     public ShadowSoulItem(Properties properties) {
         super(properties.stacksTo(1));
     }
@@ -53,9 +53,9 @@ public class ShadowSoulItem extends SoulStoneItem {
     // Icon in inventory to inform what soul the player has if any
     */
 
-    private static final UUID SPEED = UUID.randomUUID();
-    private static final UUID ARMOR = UUID.randomUUID();
-    private static final UUID STEALTH = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("1bce74e7-81ea-4982-9a7a-6a182152d9db");
+    private static final UUID ARMOR = UUID.fromString("c7616c3c-e5f4-496b-a7f5-7c5e217a0430");
+    private static final UUID STEALTH = UUID.fromString("cbed1a47-0876-4541-95aa-9addfbf3353d");
     private static final Map<UUID, Map<MobEffect, ItemStack>> appliedInvisibility = new HashMap<>();
 
     @Override

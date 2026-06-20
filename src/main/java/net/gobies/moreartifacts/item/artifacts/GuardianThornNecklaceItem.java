@@ -25,7 +25,7 @@ public class GuardianThornNecklaceItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("7d7a72f4-3bd4-4ec5-a12b-fda6fcfd4274");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

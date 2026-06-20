@@ -25,7 +25,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant().durability(1000));
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE = randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.fromString("37fef1fa-5f6b-4852-a823-410529e0f967");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

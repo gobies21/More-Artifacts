@@ -30,7 +30,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
-    private static final UUID MAX_HEALTH = UUID.randomUUID();
+    private static final UUID MAX_HEALTH = UUID.fromString("d02f1181-d5f2-46c6-b80c-510422dfca27");
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {

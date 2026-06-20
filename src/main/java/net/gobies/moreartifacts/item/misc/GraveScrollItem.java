@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.misc;
 
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -32,12 +33,12 @@ public class GraveScrollItem extends Item {
 
     @Override
     public int getUseDuration(@NotNull ItemStack pStack) {
-        return 64;
+        return CommonConfig.GRAVE_SCROLL_USE_TIME.get();
     }
 
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
-        return true;
+        return CommonConfig.GRAVE_SCROLL_GLOW.get();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class GraveScrollItem extends Item {
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
         if (!level.isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
             serverPlayer.getLastDeathLocation().ifPresent(deathPosition -> {
                 ServerLevel targetLevel = serverPlayer.server.getLevel(deathPosition.dimension());
@@ -70,12 +71,13 @@ public class GraveScrollItem extends Item {
 
                     serverPlayer.invulnerableTime = 10;
                     if (!serverPlayer.getAbilities().instabuild) {
-                        itemStack.shrink(1);
+                        stack.shrink(1);
+                        serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.GRAVE_SCROLL_COOLDOWN.get());
                     }
                 }
             });
         }
-        return itemStack;
+        return stack;
     }
 
     @Override

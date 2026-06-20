@@ -67,8 +67,9 @@ public class MAUtils {
             event.setResult(MobEffectEvent.Result.DENY);
         }
     }
-    // Method to remove all harmful effects
+    // Method to remove all vanilla harmful effects
     public static void removeHarmfulEffects(Player player) {
+        if (player.getActiveEffects().isEmpty()) return;
         List<MobEffect> harmfulEffects = Arrays.asList(
                 MobEffects.POISON,
                 MobEffects.WITHER,

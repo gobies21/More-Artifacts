@@ -40,8 +40,8 @@ public class DragonEyeItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID HEAT_RESISTANCE = UUID.randomUUID();
-    private static final UUID COLD_RESISTANCE = UUID.randomUUID();
+    private static final UUID HEAT_RESISTANCE = UUID.fromString("160bf2bf-f77e-4a63-838d-a976cb07440f");
+    private static final UUID COLD_RESISTANCE = UUID.fromString("eb11e816-ab14-4cef-a928-2929e3a2a081");
     private static final Map<UUID, Map<MobEffect, ItemStack>> appliedNightVision = new HashMap<>();
 
     @Override

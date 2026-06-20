@@ -31,7 +31,7 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC).fireResistant().durability(1500));
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.fromString("29d403be-8c13-482a-8b36-9b2921dacf62");
 
     public static void additionalEffectImmunity(MobEffectEvent.Applicable event) {
         if (CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().isEmpty()) return;

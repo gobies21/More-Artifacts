@@ -125,6 +125,7 @@ public class MAEvents {
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
+            if (event.player.level().isClientSide()) return;
             Player player = event.player;
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.removeHarmfulEffects(player);

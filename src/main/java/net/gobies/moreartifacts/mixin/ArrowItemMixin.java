@@ -21,31 +21,32 @@ public class ArrowItemMixin {
             cancellable = true
     )
     private void quiverSaveArrow(ItemStack stack, ItemStack bow, Player player, CallbackInfoReturnable<Boolean> cir) {
-        boolean saveArrow = false;
         if (CurioHandler.isCurioEquipped(player, MAItems.MagicQuiver.get())) {
             double saveChance = CommonConfig.MAGIC_QUIVER_AMMO.get();
             if (LuckHelper.roll(player, saveChance, CommonConfig.MAGIC_QUIVER_LUCK_FACTOR.get())) {
-                saveArrow = true;
+                cir.setReturnValue(true);
+                return;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.EnvenomedQuiver.get())) {
             double saveChance = CommonConfig.ENVENOMED_QUIVER_AMMO.get();
             if (LuckHelper.roll(player, saveChance, CommonConfig.ENVENOMED_QUIVER_LUCK_FACTOR.get())) {
-                saveArrow = true;
+                cir.setReturnValue(true);
+                return;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
             double saveChance = CommonConfig.MOLTEN_QUIVER_AMMO.get();
             if (LuckHelper.roll(player, saveChance, CommonConfig.MOLTEN_QUIVER_LUCK_FACTOR.get())) {
-                saveArrow = true;
+                cir.setReturnValue(true);
+                return;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.FrozenQuiver.get())) {
             double saveChance = CommonConfig.FROZEN_QUIVER_AMMO.get();
             if (LuckHelper.roll(player, saveChance, CommonConfig.FROZEN_QUIVER_LUCK_FACTOR.get())) {
-                saveArrow = true;
+                cir.setReturnValue(true);
             }
         }
-        cir.setReturnValue(saveArrow);
     }
 }

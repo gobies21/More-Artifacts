@@ -23,7 +23,7 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
-    private static final UUID LUCK = UUID.randomUUID();
+    private static final UUID LUCK = UUID.fromString("4774f1b3-d1eb-4a9a-a684-4c87d97b3dcf");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

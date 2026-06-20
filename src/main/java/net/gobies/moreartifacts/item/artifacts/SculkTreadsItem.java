@@ -25,7 +25,7 @@ public class SculkTreadsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.EPIC));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("239d1869-c857-4b00-b767-03c06a59dce6");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

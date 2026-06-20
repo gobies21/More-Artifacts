@@ -23,7 +23,7 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("19212b38-5276-42ed-b180-88408fc6fa6a");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

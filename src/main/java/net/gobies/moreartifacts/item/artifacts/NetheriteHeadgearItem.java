@@ -27,7 +27,7 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
 
-    private static final UUID ARMOR = UUID.randomUUID();
+    private static final UUID ARMOR = UUID.fromString("91129a68-a553-4ec2-941f-667fc38751a7");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {

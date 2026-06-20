@@ -29,8 +29,8 @@ public class StealthManualItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
-    private static final UUID STEALTH = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("2d4cf39b-6519-43a5-b0c8-a378d95c2e7c");
+    private static final UUID STEALTH = UUID.fromString("73c64883-b097-4034-9b86-0661d9319213");
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {

@@ -297,6 +297,13 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<String> RECALL_POTION_INGREDIENT;
     public static String recall_potion_ingredient;
 
+    public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_USE_TIME;
+    public static int grave_scroll_use_time;
+    public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_COOLDOWN;
+    public static int grave_scroll_cooldown;
+    public static ForgeConfigSpec.ConfigValue<Boolean> GRAVE_SCROLL_GLOW;
+    public static boolean grave_scroll_glow;
+
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_DAMAGE_INCREASE;
     public static float vanir_mask_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_HEALTH_INCREASE;
@@ -589,6 +596,9 @@ public class CommonConfig {
             recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
             recall_potion_glow = RECALL_POTION_GLOW.get();
             recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
+            grave_scroll_use_time = GRAVE_SCROLL_USE_TIME.get();
+            grave_scroll_cooldown = GRAVE_SCROLL_COOLDOWN.get();
+            grave_scroll_glow = GRAVE_SCROLL_GLOW.get();
             vanir_mask_damage_increase = VANIR_MASK_DAMAGE_INCREASE.get().floatValue();
             vanir_mask_health_increase = VANIR_MASK_HEALTH_INCREASE.get().floatValue();
             vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
@@ -896,6 +906,12 @@ public class CommonConfig {
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
         RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_pearl");
+        BUILDER.pop();
+
+        BUILDER.push("Grave_Scroll");
+        GRAVE_SCROLL_USE_TIME = BUILDER.comment("Grave scroll use time in ticks").define("Use_Time", 64);
+        GRAVE_SCROLL_COOLDOWN = BUILDER.comment("Grave scroll cooldown in seconds").define("Cooldown", 0);
+        GRAVE_SCROLL_GLOW = BUILDER.comment("Does grave scroll have enchantment glow").define("Glow", true);
         BUILDER.pop();
 
         BUILDER.push("Vanir_Mask");

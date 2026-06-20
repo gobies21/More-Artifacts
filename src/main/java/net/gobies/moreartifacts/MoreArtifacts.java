@@ -16,7 +16,7 @@ import net.gobies.moreartifacts.helper.LifecycleManager;
 import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
-import net.gobies.moreartifacts.item.artifacts.ShadowSoulItem;
+import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CooldownHandler;
 import net.gobies.moreartifacts.util.MAUtils;

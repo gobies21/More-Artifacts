@@ -26,7 +26,7 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant());
     }
 
-    private static final UUID SPEED = UUID.randomUUID();
+    private static final UUID SPEED = UUID.fromString("dccdc886-bd04-4859-82b3-a01ea0c1217b");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {

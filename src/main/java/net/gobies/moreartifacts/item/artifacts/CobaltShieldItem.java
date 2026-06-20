@@ -21,7 +21,7 @@ public class CobaltShieldItem extends ShieldItem implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON).durability(500));
     }
 
-    private static final UUID KNOCKBACK_RESISTANCE = UUID.randomUUID();
+    private static final UUID KNOCKBACK_RESISTANCE = UUID.fromString("91d72520-3f36-40b5-ba9d-2adfcf2cb618");
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
