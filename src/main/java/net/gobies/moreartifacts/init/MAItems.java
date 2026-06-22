@@ -192,6 +192,8 @@ public class MAItems {
                 SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, MechanicalGlove,
                 EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
-                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask);
+                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask, LeatherTreads,
+                DuneTreads, BlazingTreads, EnderianTreads, SculkTreads, MechanicalGears, HighJumpers, DragonEye, FrozenQuiver, FrostedShield, FrostGauntlet,
+                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, GraveScroll);
     }
 }

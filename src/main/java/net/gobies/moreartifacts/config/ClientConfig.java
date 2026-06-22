@@ -17,23 +17,27 @@ public class ClientConfig {
     public static boolean enable_artifact_models;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENDERIAN_EYE_OVERLAY;
     public static boolean enderian_eye_overlay;
-
-    public ClientConfig() {
-    }
-
+    public static ForgeConfigSpec.ConfigValue<Boolean> BROKEN_HEART_OVERLAY;
+    public static boolean broken_heart_overlay;
+    public static ForgeConfigSpec.ConfigValue<Boolean> HOLY_MANTLE_OVERLAY;
+    public static boolean holy_mantle_overlay;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
         if (configEvent.getConfig().getFileName().equals(FILENAME)) {
             enable_artifact_models = ENABLE_ARTIFACT_MODELS.get();
             enderian_eye_overlay = ENDERIAN_EYE_OVERLAY.get();
+            broken_heart_overlay = BROKEN_HEART_OVERLAY.get();
+            holy_mantle_overlay = HOLY_MANTLE_OVERLAY.get();
         }
     }
 
     static {
-        BUILDER.push("General");
+        BUILDER.comment("General client settings").push("General");
         ENABLE_ARTIFACT_MODELS = BUILDER.comment("Enable artifacts models displaying on the player").define("Enable_Artifact_Models", true);
         ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Enderian_Eye_Overlay", true);
+        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering").define("Broken_Heart_Overlay", true);
+        HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

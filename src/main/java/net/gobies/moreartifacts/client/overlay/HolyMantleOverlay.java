@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.client.overlay;
 
+import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CooldownHandler;
@@ -21,6 +22,7 @@ public class HolyMantleOverlay {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Post event) {
+        if (!ClientConfig.HOLY_MANTLE_OVERLAY.get()) return;
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
         if (player == null) return;
@@ -35,13 +37,13 @@ public class HolyMantleOverlay {
         double cooldown = CommonConfig.HOLY_MANTLE_COOLDOWN.get();
         boolean isReady = CooldownHandler.isReady(player, ARTIFACT_ID, cooldown);
         if (isReady && !player.isCreative() && !player.isSpectator()) {
-            float scale = 0.50f;
+            float scale = 0.75f;
             guiGraphics.pose().pushPose();
 
-            guiGraphics.pose().translate(x + 6, y + 11.5, 0);
+            guiGraphics.pose().translate(x - 6, y + 11.5, 0);
             guiGraphics.pose().scale(scale, scale, 1.0f);
 
-            guiGraphics.blit(ICON, 0, 0, 0, 0, 19, 22, 19, 22);
+            guiGraphics.blit(ICON, 0, 0, 0, 0, 11, 14, 11, 14);
             guiGraphics.pose().popPose();
         }
     }

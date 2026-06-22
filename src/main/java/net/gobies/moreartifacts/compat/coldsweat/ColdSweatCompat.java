@@ -6,10 +6,10 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 public class ColdSweatCompat {
 
     public static Attribute heatResistanceAttribute() {
-        return AttributeInit.HEAT_RESISTANCE.get();
+        return AttributeInit.HEAT_DAMPENING.get();
     }
 
     public static Attribute coldResistanceAttribute() {
-        return AttributeInit.COLD_RESISTANCE.get();
+        return AttributeInit.COLD_DAMPENING.get();
     }
 }

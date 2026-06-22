@@ -7,8 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -23,13 +21,13 @@ public class Teleport {
     private static final Map<UUID, Boolean> teleportStatus = new HashMap<>();
 
     //not perfect, but it works for now
-    public static Vec3 solveTeleportDestination(Level level, LivingEntity entity, BlockPos ignoreblockPos, Vec3 vec3) {
-        Vec3 start = entity.getEyePosition(1f);
-        Vec3 direction = entity.getViewVector(1f);
-        double distance = Math.min(CommonConfig.ENDERIAN_EYE_RADIUS.get(), entity.getEyePosition(1f).distanceTo(vec3));
+    public static Vec3 solveTeleportDestination(Level level, Player player, BlockPos ignoreblockPos, Vec3 vec3) {
+        Vec3 start = player.getEyePosition(1f);
+        Vec3 direction = player.getViewVector(1f);
+        double distance = Math.min(CommonConfig.ENDERIAN_EYE_RADIUS.get(), player.getEyePosition(1f).distanceTo(vec3));
         Vec3 end = start.add(direction.scale(distance));
 
-        HitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        HitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
         Vec3 hitVec = hitResult.getLocation();
 
         if (hitResult.getType() == HitResult.Type.BLOCK) {
@@ -79,33 +77,32 @@ public class Teleport {
     }
 
     // method to handle the teleportation
-    public static void teleportPlayer(Level level, double x, double y, double z, Entity entity) {
-        if (!(entity instanceof Player player)) return;
+    public static void teleportPlayer(Level level, double x, double y, double z, Player player) {
 
-        Vec3 currentPosition = entity.position();
+        Vec3 currentPosition = player.position();
 
         // define the start and end points of the raycast
-        Vec3 start = entity.getEyePosition(1f);
-        Vec3 end = start.add(entity.getViewVector(1f).scale(CommonConfig.ENDERIAN_EYE_RADIUS.get()));
+        Vec3 start = player.getEyePosition(1f);
+        Vec3 end = start.add(player.getViewVector(1f).scale(CommonConfig.ENDERIAN_EYE_RADIUS.get()));
 
         // solve teleport destination
-        Vec3 targetPosition = solveTeleportDestination(level, (LivingEntity) entity, new BlockPos((int) x, (int) y, (int) z), end);
+        Vec3 targetPosition = solveTeleportDestination(level, player, new BlockPos((int) x, (int) y, (int) z), end);
 
         if (MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
             // teleport the entity to the hit position
-            entity.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
-            entity.resetFallDistance();
+            player.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
+            player.resetFallDistance();
 
             // if the entity is a ServerPlayer, update its connection to reflect the new position
-            if (entity instanceof ServerPlayer serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 EnderianEyeItem.enderianEyeParticles(player, currentPosition);
-                serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, entity.getYRot(), entity.getXRot());
+                serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, player.getYRot(), player.getXRot());
                 MAUtils.updateCooldown(player);
                 updateTeleportStatus(player, true);
                 if (!level.isClientSide()) {
                     level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
-                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
-                    EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, (LivingEntity) entity, entity.blockPosition(), entity.getEyePosition(1f)));
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
+                    EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, player, player.blockPosition(), player.getEyePosition(1f)));
                     serverPlayer.getCooldowns().addCooldown(MAItems.EnderianEye.get(), (int) (20 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()));
 
                 }

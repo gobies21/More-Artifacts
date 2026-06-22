@@ -1,6 +1,6 @@
 package net.gobies.moreartifacts.mixin.forge;
 
-import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -23,7 +23,7 @@ public abstract class ForgeGuiMixin {
             index = 0
     )
     private float modifyHealthRows(float original) {
-        if (CommonConfig.BROKEN_HEART_OVERLAY.get()) {
+        if (ClientConfig.BROKEN_HEART_OVERLAY.get()) {
             Minecraft mc = Minecraft.getInstance();
             Player player = mc.player;
             if (player == null) return original;
@@ -47,7 +47,7 @@ public abstract class ForgeGuiMixin {
             index = 6
     )
     private float modifyAbsorptionHearts(float original) {
-        if (CommonConfig.BROKEN_HEART_OVERLAY.get()) {
+        if (ClientConfig.BROKEN_HEART_OVERLAY.get()) {
             Minecraft mc = Minecraft.getInstance();
             Player player = mc.player;
             if (player == null) return original;

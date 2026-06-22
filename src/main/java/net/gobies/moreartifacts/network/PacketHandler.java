@@ -18,24 +18,19 @@ import java.util.function.Supplier;
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation(MoreArtifacts.MOD_ID), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
-    private static int messageID = 0;
-
-    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("moreartifacts", "moreartifacts_channel"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
-
     private static int id = 0;
 
-    public static void register() {
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation("moreartifacts", "moreartifacts_channel"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
+    public static void registerMessages() {
+        addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handle);
+        addNetworkMessage(InvisibilityBindMessage.class, InvisibilityBindMessage::buffer, InvisibilityBindMessage::new, InvisibilityBindMessage::handle);
+        addNetworkMessage(NightVisionBindMessage.class, NightVisionBindMessage::buffer, NightVisionBindMessage::new, NightVisionBindMessage::handle);
     }
 
     public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {
-        PACKET_HANDLER.registerMessage(messageID, messageType, encoder, decoder, messageConsumer);
-        messageID++;
+        PACKET_HANDLER.registerMessage(id, messageType, encoder, decoder, messageConsumer);
+        id++;
     }
 
     public static void sendToClient(Object message, ServerPlayer player) {

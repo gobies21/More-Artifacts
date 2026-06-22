@@ -2,7 +2,7 @@ package net.gobies.moreartifacts.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.gobies.moreartifacts.compat.firstaid.FirstAidCompat;
-import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.client.Minecraft;
@@ -64,7 +64,7 @@ public class BrokenHeartOverlay {
         int topY = screenHeight - leftHeight;
 
         int[] computedVanillaShakes = new int[totalHeartContainers];
-        Random random = new Random(ticks * 312871);
+        Random random = new Random(ticks * 312871L);
         boolean isLowHealth = (player.getHealth() + player.getAbsorptionAmount()) <= 4.0F;
         for (int i1 = totalHeartContainers - 1; i1 >= 0; --i1) {
             if (isLowHealth) {
@@ -99,7 +99,7 @@ public class BrokenHeartOverlay {
         if (mc.options.hideGui || !forgeGui.shouldDrawSurvivalElements()) {
             return true;
         }
-        if (!CommonConfig.BROKEN_HEART_OVERLAY.get()) {
+        if (!ClientConfig.BROKEN_HEART_OVERLAY.get()) {
             return true;
         }
         Player player = mc.player;

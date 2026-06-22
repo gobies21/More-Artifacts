@@ -11,6 +11,7 @@ import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class NightVisionBindMessage {
 
     public NightVisionBindMessage() {}

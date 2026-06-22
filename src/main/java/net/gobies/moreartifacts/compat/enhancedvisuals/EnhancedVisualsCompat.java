@@ -16,7 +16,6 @@ import team.creative.enhancedvisuals.api.event.VisualExplosionEvent;
 
 public class EnhancedVisualsCompat {
 
-
     public static void loadCompat() {
         MinecraftForge.EVENT_BUS.register(new EnhancedVisualsCompat());
     }

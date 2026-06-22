@@ -88,7 +88,7 @@ public class FirstAidCompat {
                 }
                 BrokenHeartSystem.addBrokenHearts(serverPlayer, heartsToBreak);
 
-                float adjustedMaxLimbHealth = serverPlayer.getMaxHealth();
+                float brokenMaxLimbHealth = serverPlayer.getMaxHealth();
                 for (AbstractDamageablePart part : event.getAfterDamage()) {
                     if (fatalParts.contains(part)) {
                         part.currentHealth = part.getMaxHealth();
@@ -96,16 +96,14 @@ public class FirstAidCompat {
                         FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
                     }
                 }
-                serverPlayer.setHealth(adjustedMaxLimbHealth);
+                serverPlayer.setHealth(brokenMaxLimbHealth);
             }
         }
     }
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerWake(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
-        if (player.level().isClientSide()) {
-            return;
-        }
+        if (player.level().isClientSide()) return;
         if (player instanceof ServerPlayer serverPlayer) {
             if (CurioHandler.isCurioEquipped(serverPlayer, MAItems.BrokenHeart.get())) {
                 BrokenHeartSystem.clearBrokenHearts(serverPlayer);
@@ -127,6 +125,7 @@ public class FirstAidCompat {
             }
         }
     }
+
     public static boolean isVanillaHealthBarActive() {
         if (FirstAidConfig.CLIENT.vanillaHealthBarMode.get().equals(FirstAidConfig.Client.VanillaHealthbarMode.NORMAL)) {
             return true;

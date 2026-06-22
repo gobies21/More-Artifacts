@@ -16,10 +16,12 @@ import java.util.Objects;
 public class MABrewing {
 
     public static void register() {
-        BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
-                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
-                Ingredient.of(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CommonConfig.RECALL_POTION_INGREDIENT.get())))),
-                MAItems.RecallPotion.get().getDefaultInstance())
-        );
+        if (!CommonConfig.isItemDisabled(MAItems.RecallPotion.get())) {
+            BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
+                    Ingredient.of(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CommonConfig.RECALL_POTION_INGREDIENT.get())))),
+                    MAItems.RecallPotion.get().getDefaultInstance())
+            );
+        }
     }
 }

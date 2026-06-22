@@ -1,12 +1,20 @@
 package net.gobies.moreartifacts.config;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonConfig {
@@ -14,6 +22,8 @@ public class CommonConfig {
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
+
+    private static final Map<String, ForgeConfigSpec.BooleanValue> TOGGLE = new HashMap<>();
 
     // Artifacts
     public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_REDUCTION;
@@ -303,6 +313,8 @@ public class CommonConfig {
     public static int grave_scroll_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> GRAVE_SCROLL_GLOW;
     public static boolean grave_scroll_glow;
+    public static ForgeConfigSpec.ConfigValue<Boolean> GRAVE_SCROLL_INTERDIMENSIONAL;
+    public static boolean grave_scroll_interdimensional;
 
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_DAMAGE_INCREASE;
     public static float vanir_mask_damage_increase;
@@ -400,8 +412,6 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.ConfigValue<Double> BROKEN_HEART_DAMAGE_INCREASE;
     public static float broken_heart_damage_increase;
-    public static ForgeConfigSpec.ConfigValue<Boolean> BROKEN_HEART_OVERLAY;
-    public static boolean broken_heart_overlay;
 
     /*
     // Loot
@@ -599,6 +609,7 @@ public class CommonConfig {
             grave_scroll_use_time = GRAVE_SCROLL_USE_TIME.get();
             grave_scroll_cooldown = GRAVE_SCROLL_COOLDOWN.get();
             grave_scroll_glow = GRAVE_SCROLL_GLOW.get();
+            grave_scroll_interdimensional = GRAVE_SCROLL_INTERDIMENSIONAL.get();
             vanir_mask_damage_increase = VANIR_MASK_DAMAGE_INCREASE.get().floatValue();
             vanir_mask_health_increase = VANIR_MASK_HEALTH_INCREASE.get().floatValue();
             vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
@@ -639,7 +650,6 @@ public class CommonConfig {
             holy_mantle_max_hearts = HOLY_MANTLE_MAX_HEARTS.get();
             holy_mantle_luck_factor = HOLY_MANTLE_LUCK_FACTOR.get().floatValue();
             broken_heart_damage_increase = BROKEN_HEART_DAMAGE_INCREASE.get().floatValue();
-            broken_heart_overlay = BROKEN_HEART_OVERLAY.get();
             bezoar_drop_chance = BEZOAR_DROP_CHANCE.get().floatValue();
             vitamins_drop_chance = VITAMINS_DROP_CHANCE.get().floatValue();
             fast_clock_drop_chance = FAST_CLOCK_DROP_CHANCE.get().floatValue();
@@ -665,12 +675,19 @@ public class CommonConfig {
         }
     }
 
-    static {
+    public static boolean isItemDisabled(Item item) {
+        ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+        if (id == null) return false;
 
+        ForgeConfigSpec.BooleanValue config = TOGGLE.get(id.toString());
+        return config != null && !config.get();
+    }
+
+    static {
         /*
         // General Category
         */
-        BUILDER.push("General");
+        BUILDER.comment("General common settings").push("General");
         MAX_DAMAGE_REDUCTION = BUILDER.comment("Global max damage reduction from artifacts in percentage").defineInRange("Max_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Global max fire damage reduction from artifacts in percentage").defineInRange("Max_Fire_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
@@ -678,12 +695,20 @@ public class CommonConfig {
         ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
         ENABLE_LOOT_TABLES = BUILDER.comment("Enables loot tables from this mod").define("Enable_Loot_Tables", true);
         ENABLE_LUCK_FACTOR = BUILDER.comment("Enables luck affecting artifact effect chances").define("Enable_Luck_Factor", true);
+        BUILDER.comment("Toggle for which artifacts are enabled/disabled").push("Toggles");
+        for (RegistryObject<Item> artifact : MAItems.getAllArtifacts()) {
+            String itemID = Objects.requireNonNull(artifact.getId()).toString();
+            String itemPath = artifact.getId().getPath();
+
+            ForgeConfigSpec.BooleanValue configValue = BUILDER.comment("Enable " + itemPath).define(itemPath, true);
+            TOGGLE.put(itemID, configValue);
+        }
         BUILDER.pop();
 
         /*
         // Artifact Category
         */
-        BUILDER.push("Artifacts");
+        BUILDER.comment("Global artifact settings for all of their abilities").push("Artifacts");
 
         BUILDER.push("Hero_Shield");
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
@@ -911,7 +936,8 @@ public class CommonConfig {
         BUILDER.push("Grave_Scroll");
         GRAVE_SCROLL_USE_TIME = BUILDER.comment("Grave scroll use time in ticks").define("Use_Time", 64);
         GRAVE_SCROLL_COOLDOWN = BUILDER.comment("Grave scroll cooldown in seconds").define("Cooldown", 0);
-        GRAVE_SCROLL_GLOW = BUILDER.comment("Does grave scroll have enchantment glow").define("Glow", true);
+        GRAVE_SCROLL_GLOW = BUILDER.comment("Does grave scroll have enchantment glow").define("Glow", false);
+        GRAVE_SCROLL_INTERDIMENSIONAL = BUILDER.comment("Can grave scrolls work from other dimensions").define("Interdimensional", true);
         BUILDER.pop();
 
         BUILDER.push("Vanir_Mask");
@@ -1000,7 +1026,6 @@ public class CommonConfig {
 
         BUILDER.push("Broken_Heart");
         BROKEN_HEART_DAMAGE_INCREASE = BUILDER.comment("Damage increase for each broken heart the player has").define("Damage_Increase", 1.05);
-        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering").define("Broken_Heart_Overlay", true);
         BUILDER.pop();
 
         /*
@@ -1011,7 +1036,7 @@ public class CommonConfig {
         /*
         // Loot Category
         */
-        BUILDER.push("Loot");
+        BUILDER.comment("Chances for artifacts to drop as loot").push("Loot");
 
         BUILDER.push("Bezoar");
         BEZOAR_DROP_CHANCE = BUILDER.comment("Bezoar drop chance from cave spiders in percentage").define("Drop_Chance", 0.05);

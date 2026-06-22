@@ -5,6 +5,7 @@ import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -57,23 +58,31 @@ public class GraveScrollItem extends Item {
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
         if (!level.isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
             serverPlayer.getLastDeathLocation().ifPresent(deathPosition -> {
-                ServerLevel targetLevel = serverPlayer.server.getLevel(deathPosition.dimension());
+                boolean interDimensional = CommonConfig.GRAVE_SCROLL_INTERDIMENSIONAL.get();
+                ResourceKey<Level> currentDimension = level.dimension();
+                ResourceKey<Level> deathDimension = deathPosition.dimension();
 
-                if (targetLevel != null) {
-                    BlockPos currentPos = serverPlayer.blockPosition();
-                    BlockPos deathPos = deathPosition.pos();
+                if (interDimensional || currentDimension.equals(deathDimension)) {
+                    ServerLevel targetLevel = serverPlayer.server.getLevel(deathPosition.dimension());
 
-                    MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(currentPos));
+                    if (targetLevel != null) {
+                        BlockPos currentPos = serverPlayer.blockPosition();
+                        BlockPos deathPos = deathPosition.pos();
 
-                    serverPlayer.teleportTo(targetLevel, deathPos.getX(), deathPos.getY(), deathPos.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
-                    MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(deathPos));
-                    targetLevel.playSound(null, deathPos.getX(), deathPos.getY(), deathPos.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(currentPos));
 
-                    serverPlayer.invulnerableTime = 10;
-                    if (!serverPlayer.getAbilities().instabuild) {
-                        stack.shrink(1);
-                        serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.GRAVE_SCROLL_COOLDOWN.get());
+                        serverPlayer.teleportTo(targetLevel, deathPos.getX(), deathPos.getY(), deathPos.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
+                        MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(deathPos));
+                        targetLevel.playSound(null, deathPos.getX(), deathPos.getY(), deathPos.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+                        serverPlayer.invulnerableTime = 10;
+                        if (!serverPlayer.getAbilities().instabuild) {
+                            stack.shrink(1);
+                            serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.GRAVE_SCROLL_COOLDOWN.get());
+                        }
                     }
+                } else {
+                    serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.grave_scroll.dimension"), true);
                 }
             });
         }

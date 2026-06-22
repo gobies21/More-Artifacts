@@ -24,26 +24,21 @@ import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.gobies.moreartifacts.util.Teleport;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.slf4j.Logger;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Mod(MoreArtifacts.MOD_ID)
 public class MoreArtifacts {
     public static final String MOD_ID = "moreartifacts";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Collection<AbstractMap.SimpleEntry<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue<>();
 
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -57,7 +52,7 @@ public class MoreArtifacts {
         modBus.addListener(this::commonSetup);
         modBus.addListener(this::clientSetup);
         modBus.addListener(this::setupEntityModelLayers);
-        PacketHandler.register();
+        PacketHandler.registerMessages();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         cleanupMaps();
@@ -98,28 +93,6 @@ public class MoreArtifacts {
         event.enqueueWork(MAProperties::addItemProperties);
         event.enqueueWork(MAProperties::registerItemProperties);
         MAModels.modelSetup();
-    }
-
-    public static void queueServerWork(int tick, Runnable action) {
-        if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
-            workQueue.add(new AbstractMap.SimpleEntry<>(action, tick));
-        }
-    }
-
-    @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
-            workQueue.forEach((work) -> {
-                work.setValue(work.getValue() - 1);
-                if (work.getValue() == 0) {
-                    actions.add(work);
-                }
-
-            });
-            actions.forEach((e) -> (e.getKey()).run());
-            workQueue.removeAll(actions);
-        }
     }
 
     private static void log(String message) {

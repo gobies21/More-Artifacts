@@ -34,17 +34,17 @@ public class TeleportBindMessage {
         context.setPacketHandled(true);
     }
 
-    public static void pressAction(Player entity, int type) {
-        Level world = entity.level();
-        double x = entity.getX();
-        double y = entity.getY();
-        double z = entity.getZ();
+    public static void pressAction(Player player, int type) {
+        Level world = player.level();
+        double x = player.getX();
+        double y = player.getY();
+        double z = player.getZ();
 
-        if (!world.isLoaded(entity.blockPosition()))
+        if (!world.isLoaded(player.blockPosition()))
             return;
 
         if (type == 0) {
-            Teleport.teleportPlayer(world, x, y, z, entity);
+            Teleport.teleportPlayer(world, x, y, z, player);
         }
     }
 }

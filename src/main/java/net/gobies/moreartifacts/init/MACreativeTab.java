@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.core.registries.Registries;
@@ -26,8 +27,11 @@ public class MACreativeTab {
                         .icon(() -> new ItemStack(MAItems.MelodyPlushie.get()))
                         .title(Component.translatable("creativetab.moreartifacts_tab"))
                         .displayItems((parameters, output) -> {
-                            MAItems.ARTIFACTS.getEntries().forEach(item -> {
-                                output.accept(item.get());
+                            MAItems.ARTIFACTS.getEntries().forEach(itemObject -> {
+                                var item = itemObject.get();
+                                if (!CommonConfig.isItemDisabled(item)) {
+                                    output.accept(item);
+                                }
                             });
                             /*
                             if (ModLoadedUtil.isIceandFireLoaded()) {
@@ -37,8 +41,7 @@ public class MACreativeTab {
                             }
 
                              */
-                        })
-                        .build()
+                        }).build()
         );
     }
 }

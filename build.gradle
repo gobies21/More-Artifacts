@@ -130,6 +130,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:demis-better-stealth-1343821:6989663")
     implementation fg.deobf("curse.maven:first-aid-276837:5531834")
+    implementation fg.deobf("curse.maven:spark-361579:4738952")
 }
 
 mixin {
