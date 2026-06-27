@@ -83,6 +83,7 @@ public class DamageEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onLivingHurt(LivingHurtEvent event) {
+        if (event.isCanceled()) return;
         DamageSource source = event.getSource();
         if (event.getEntity() instanceof Player player) {
             double generalReduction = getTotalDamageReduction(player);
@@ -301,6 +302,30 @@ public class DamageEvents {
                     double damageScale = 1.0 + (soulLevel * 0.10);
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.ShadowSoul.get(), damageScale);
                 }
+            } else if (SoulUtil.SHADOW.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
+                BlockPos pos = target.blockPosition();
+                int lightLevel = target.level().getMaxLocalRawBrightness(pos);
+                if (lightLevel <= 7) {
+                    generalIncrease += 0.50;
+                }
+            }
+            if (!equippedSoul.isEmpty() && equippedSoul.is(MAItems.BloodSoul.get())) {
+                int soulLevel = SoulUtil.getSoulStage(equippedSoul);
+                if (soulLevel == 1) {
+                    if (LuckHelper.roll(player, 0.50, 0.05)) {
+                        player.heal(1);
+                    }
+                } else if (soulLevel == 2) {
+                    if (LuckHelper.roll(player, 0.50, 0.05)) {
+                        player.heal(2);
+                    }
+                } else if (soulLevel == 3) {
+                    player.heal(event.getAmount() * 0.10F);
+                } else if (soulLevel == 4) {
+                    player.heal(event.getAmount() * 0.15F + 2);
+                }
+            } else if (SoulUtil.BLOOD.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
+                player.heal(event.getAmount() * 0.20F + 4);
             }
 
             generalIncrease = Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get());
@@ -315,11 +340,12 @@ public class DamageEvents {
         if (event.phase != TickEvent.Phase.START) return;
         Player player = event.player;
         if (player.level().isClientSide) return;
-        Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
+        if (player.tickCount % 5 != 0) return;
 
         UUID playerUUID = player.getUUID();
         Map<Item, Boolean> equippedArtifacts = equippedArtifactsMap.getOrDefault(playerUUID, new HashMap<>());
 
+        Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
         if (!currentEquippedState.equals(equippedArtifacts)) {
             updateDamageReduction(player);
             updateDamageIncrease(player);
@@ -335,6 +361,7 @@ public class DamageEvents {
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
+        if (event.isCanceled()) return;
         LivingEntity target = event.getEntity();
         if (!(event.getSource().getDirectEntity() instanceof Player player)) {
             return;
@@ -425,6 +452,7 @@ public class DamageEvents {
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
+        if (event.isCanceled()) return;
         LivingEntity target = event.getEntity();
         Entity source = event.getSource().getEntity();
         if (source instanceof Player attacker && target.isOnFire()) {

@@ -22,9 +22,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class AnkhShieldItem extends ShieldItem implements ICurioItem {
     public AnkhShieldItem(Properties properties) {
@@ -49,12 +47,17 @@ public class AnkhShieldItem extends ShieldItem implements ICurioItem {
 
     public static void removeAdditionalEffects(Player player) {
         if (player.getActiveEffects().isEmpty()) return;
-        if (CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().isEmpty()) return;
+        List<? extends String> configList = CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get();
+        if (configList.isEmpty()) return;
+
+        Set<String> configSet = new HashSet<>(configList);
+
         List<MobEffectInstance> activeEffects = new ArrayList<>(player.getActiveEffects());
         for (MobEffectInstance instance : activeEffects) {
             MobEffect effect = instance.getEffect();
             ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(effect);
-            if (effectId != null && CommonConfig.ANKH_SHIELD_ADDITIONAL_EFFECTS.get().contains(effectId.toString())) {
+
+            if (effectId != null && configSet.contains(effectId.toString())) {
                 player.removeEffect(effect);
             }
         }

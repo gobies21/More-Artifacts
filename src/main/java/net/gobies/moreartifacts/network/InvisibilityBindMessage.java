@@ -27,6 +27,13 @@ public class InvisibilityBindMessage {
             ServerPlayer player = context.getSender();
             if (player == null) return;
 
+            CompoundTag persistentData = player.getPersistentData();
+
+            if (SoulUtil.SHADOW.equals(persistentData.getString(SoulUtil.SOUL_KEY))) {
+                String toggleKey = "SoulAbilityToggle";
+                persistentData.putBoolean(toggleKey, !persistentData.getBoolean(toggleKey));
+            }
+
             CuriosApi.getCuriosInventory(player).ifPresent(handler -> handler.getCurios().forEach((identifier, stacksHandler) -> {
                 IDynamicStackHandler stackHandler = stacksHandler.getStacks();
                 for (int slot = 0; slot < stackHandler.getSlots(); slot++) {

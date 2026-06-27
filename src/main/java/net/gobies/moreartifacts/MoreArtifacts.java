@@ -12,6 +12,7 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.effect.MAStatusEffects;
 import net.gobies.moreartifacts.event.DamageEvents;
 import net.gobies.moreartifacts.event.MAEvents;
+import net.gobies.moreartifacts.event.SoulEvents;
 import net.gobies.moreartifacts.helper.LifecycleManager;
 import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
@@ -19,7 +20,6 @@ import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
 import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CooldownHandler;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.gobies.moreartifacts.util.Teleport;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -49,6 +49,7 @@ public class MoreArtifacts {
         MASounds.register(modBus);
         MACreativeTab.register(modBus);
         MAEvents.register();
+        SoulEvents.register();
         modBus.addListener(this::commonSetup);
         modBus.addListener(this::clientSetup);
         modBus.addListener(this::setupEntityModelLayers);
@@ -106,13 +107,13 @@ public class MoreArtifacts {
     private void cleanupMaps() {
         LifecycleManager.registerCleanupHook(DamageEvents::clearMaps);
         LifecycleManager.registerCleanupHook(MAEvents::clearMaps);
-        LifecycleManager.registerCleanupHook(MAUtils::clearMaps);
         LifecycleManager.registerCleanupHook(Teleport::clearMaps);
         LifecycleManager.registerCleanupHook(CooldownHandler::clearMaps);
         LifecycleManager.registerCleanupHook(DragonEyeItem::clearMaps);
         LifecycleManager.registerCleanupHook(EnderianTreadsItem::clearMaps);
         LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
         LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
+        LifecycleManager.registerCleanupHook(SoulEvents::clearMaps);
     }
 }
 

@@ -2,11 +2,15 @@ package net.gobies.moreartifacts.init;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.network.SoulSyncHelper;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
+import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -15,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID)
 public class MACommands {
 
@@ -51,9 +56,32 @@ public class MACommands {
                                         )
                                 )
                         )
+                        .then(Commands.literal("soul")
+                                // Sub Command: add
+                                .then(Commands.literal("add")
+                                        .then(Commands.argument("soulType", StringArgumentType.word())
+                                                .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
+                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "soulType"), true))
+                                                .then(Commands.argument("target", EntityArgument.player())
+                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), StringArgumentType.getString(ctx, "soulType"), true))
+                                                )
+                                        )
+                                )
+                                // Sub Command: remove
+                                .then(Commands.literal("remove")
+                                        .then(Commands.argument("soulType", StringArgumentType.word())
+                                                .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
+                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "soulType"), false))
+                                                .then(Commands.argument("target", EntityArgument.player())
+                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), StringArgumentType.getString(ctx, "soulType"), false))
+                                                )
+                                        )
+                                )
+                        )
 
         );
     }
+
     private static int modifyHearts(CommandSourceStack source, ServerPlayer target, int amount, boolean isAdding) {
         if (isAdding) {
             AttributeInstance attribute = target.getAttribute(Attributes.MAX_HEALTH);
@@ -110,6 +138,43 @@ public class MACommands {
         }
 
         source.sendSuccess(() -> Component.literal("Cleared all broken hearts from " + target.getScoreboardName()), true);
+        return 1;
+    }
+
+    private static int modifySoulData(CommandSourceStack source, ServerPlayer target, String soulType, boolean isAdding) {
+        CompoundTag persistentData = target.getPersistentData();
+
+        if (isAdding) {
+            switch (soulType) {
+                case SoulUtil.SHADOW -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulUtil.SHADOW);
+                    persistentData.putBoolean("ShadowSoulInvisToggle", true);
+                }
+                case SoulUtil.BLOOD -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulUtil.BLOOD);
+                    // TODO
+                }
+                default -> {
+                    source.sendFailure(Component.literal("Invalid soul type! Use Suggestions"));
+                    return 0;
+                }
+            }
+
+            SoulSyncHelper.syncSouls(target);
+            source.sendSuccess(() -> Component.literal("Successfully gave soul data to " + target.getScoreboardName()), true);
+        } else {
+            String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
+            persistentData.remove(SoulUtil.SOUL_KEY);
+
+            if (SoulUtil.SHADOW.equals(activeSoul)) {
+                SoulUtil.removeShadowAttributes(target);
+            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+                SoulUtil.removeBloodAttributes(target);
+            }
+            source.sendSuccess(() -> Component.literal("Successfully removed soul data from " + target.getScoreboardName()), true);
+        }
+
+        SoulSyncHelper.syncSouls(target);
         return 1;
     }
 }

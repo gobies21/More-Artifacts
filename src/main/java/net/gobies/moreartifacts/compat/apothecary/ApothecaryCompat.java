@@ -21,8 +21,9 @@ public class ApothecaryCompat {
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
-            if (player.getActiveEffects().isEmpty()) return;
             if (player.level().isClientSide()) return;
+            if (player.getActiveEffects().isEmpty()) return;
+            if (!player.hasEffect(AEffects.Burning.get())) return;
 
             //Burning Immunity
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -22,29 +23,24 @@ public class HolyMantleOverlay {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Post event) {
+        if (event.getOverlay() != VanillaGuiOverlay.HOTBAR.type()) return;
         if (!ClientConfig.HOLY_MANTLE_OVERLAY.get()) return;
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
-        if (player == null) return;
-        if (!CurioHandler.isCurioEquipped(player, MAItems.HolyMantle.get())) return;
-        GuiGraphics guiGraphics = event.getGuiGraphics();
-        int screenWidth = mc.getWindow().getGuiScaledWidth();
-        int screenHeight = mc.getWindow().getGuiScaledHeight();
+        if (player == null || player.isCreative() || player.isSpectator()) return;
 
-        int x = screenWidth / 2 - 93;
-        int y = screenHeight - 52;
+        if (!CurioHandler.isCurioEquipped(player, MAItems.HolyMantle.get())) return;
 
         double cooldown = CommonConfig.HOLY_MANTLE_COOLDOWN.get();
-        boolean isReady = CooldownHandler.isReady(player, ARTIFACT_ID, cooldown);
-        if (isReady && !player.isCreative() && !player.isSpectator()) {
-            float scale = 0.75f;
-            guiGraphics.pose().pushPose();
+        if (CooldownHandler.isReady(player, ARTIFACT_ID, cooldown)) {
+            GuiGraphics guiGraphics = event.getGuiGraphics();
+            int screenWidth = event.getWindow().getGuiScaledWidth();
+            int screenHeight = event.getWindow().getGuiScaledHeight();
 
-            guiGraphics.pose().translate(x - 6, y + 11.5, 0);
-            guiGraphics.pose().scale(scale, scale, 1.0f);
+            int x = screenWidth / 2 - 93;
+            int y = screenHeight - 52;
 
-            guiGraphics.blit(ICON, 0, 0, 0, 0, 11, 14, 11, 14);
-            guiGraphics.pose().popPose();
+            guiGraphics.blit(ICON, x - 6, y + 11, 8, 10, 0, 0, 11, 14, 11, 14);
         }
     }
 }

@@ -45,7 +45,7 @@ public class ClientEvents {
             long currentTime = System.currentTimeMillis();
             if (CurioHandler.isCurioEquipped(player, MAItems.EnderianEye.get())) {
                 if (isDownOld != isDown && isDown && (currentTime - lastPressTime) > 1000 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()) {
-                    PacketHandler.PACKET_HANDLER.sendToServer(new TeleportBindMessage(0, 0));
+                    PacketHandler.sendToServer(new TeleportBindMessage(0, 0));
                     TeleportBindMessage.pressAction(Minecraft.getInstance().player, 0);
                     lastPressTime = currentTime;
                 }
@@ -64,7 +64,7 @@ public class ClientEvents {
             if (!CurioHandler.isCurioEquipped(player, MAItems.DragonEye.get())) return;
 
             if (isDown && !isDownOld) {
-                PacketHandler.PACKET_HANDLER.sendToServer(new NightVisionBindMessage());
+                PacketHandler.sendToServer(new NightVisionBindMessage());
                 MAUtils.logDebug("Dragon Eye key pressed; toggle packet sent");
             }
             isDownOld = isDown;
@@ -79,10 +79,9 @@ public class ClientEvents {
             super.setDown(isDown);
             Player player = Minecraft.getInstance().player;
             if (player == null) return;
-            if (!CurioHandler.isCurioEquipped(player, MAItems.ShadowSoul.get())) return;
 
             if (isDown && !isDownOld) {
-                PacketHandler.PACKET_HANDLER.sendToServer(new InvisibilityBindMessage());
+                PacketHandler.sendToServer(new InvisibilityBindMessage());
                 MAUtils.logDebug("Shadow Soul key pressed; toggle packet sent");
             }
             isDownOld = isDown;

@@ -3,6 +3,8 @@ package net.gobies.moreartifacts.util;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.item.artifacts.EnderianEyeItem;
+import net.gobies.moreartifacts.network.CooldownSyncPacket;
+import net.gobies.moreartifacts.network.PacketHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -85,10 +87,13 @@ public class Teleport {
         Vec3 start = player.getEyePosition(1f);
         Vec3 end = start.add(player.getViewVector(1f).scale(CommonConfig.ENDERIAN_EYE_RADIUS.get()));
 
+        String artifactId = "enderian_eye";
+        double cooldown = CommonConfig.ENDERIAN_EYE_COOLDOWN.get();
+
         // solve teleport destination
         Vec3 targetPosition = solveTeleportDestination(level, player, new BlockPos((int) x, (int) y, (int) z), end);
 
-        if (MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
+        if (CooldownHandler.isReady(player, artifactId, cooldown)) {
             // teleport the entity to the hit position
             player.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
             player.resetFallDistance();
@@ -97,7 +102,8 @@ public class Teleport {
             if (player instanceof ServerPlayer serverPlayer) {
                 EnderianEyeItem.enderianEyeParticles(player, currentPosition);
                 serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, player.getYRot(), player.getXRot());
-                MAUtils.updateCooldown(player);
+                CooldownHandler.updateCooldown(player, artifactId);
+                PacketHandler.sendToClient(new CooldownSyncPacket(artifactId), serverPlayer);
                 updateTeleportStatus(player, true);
                 if (!level.isClientSide()) {
                     level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
@@ -107,7 +113,7 @@ public class Teleport {
 
                 }
             }
-        } else if (!MAUtils.isReadyForTeleport(player, CommonConfig.ENDERIAN_EYE_COOLDOWN.get())) {
+        } else {
             updateTeleportStatus(player, false);
         }
     }

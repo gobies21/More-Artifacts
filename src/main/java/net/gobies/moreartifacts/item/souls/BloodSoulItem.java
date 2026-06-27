@@ -3,14 +3,20 @@ package net.gobies.moreartifacts.item.souls;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.util.SoulUtil;
-import net.minecraft.core.BlockPos;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 
+import java.util.List;
 import java.util.UUID;
 
 public class BloodSoulItem extends SoulItem {
@@ -24,7 +30,7 @@ public class BloodSoulItem extends SoulItem {
     TODO: Stage 1 = Attacks have a chance to heal for half a heart
     TODO: Stage 2 = Attacks have a chance to heal for a full heart
     TODO: Stage 3 = Attacks heal for 10% of damage dealt
-    TODO: Stage 4 = Attacks heal for 20% of damage dealt + 1 Heart
+    TODO: Stage 4 = Attacks heal for 15% of damage dealt + 1 Heart
     TODO: Stage 5 = Attacks heal for 20% of damage dealt + 2 Hearts
 
 
@@ -60,7 +66,7 @@ public class BloodSoulItem extends SoulItem {
             if (player.isCreative()) return true;
             int stage = SoulUtil.getSoulStage(stack);
             if (stage >= 2 && stage <= 3) {
-                if (player.getHealth() == player.getMaxHealth()) {
+                if (player.getHealth() < player.getMaxHealth()) {
                     return false;
                 }
             } else if (stage == 4) {
@@ -69,6 +75,45 @@ public class BloodSoulItem extends SoulItem {
         }
 
         return super.canUnequip(slotContext, stack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        int stage = SoulUtil.getSoulStage(pStack);
+        CompoundTag nbt = pStack.getOrCreateTag();
+        int currentKills = nbt.getInt(SoulUtil.KILLS);
+
+        // Lifesteal Tooltips
+        if (stage == 1) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal1").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 2) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal2").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 3) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal3").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 4) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal4").withStyle(ChatFormatting.GOLD));
+        } else {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal5").withStyle(ChatFormatting.GOLD));
+        }
+
+        // Evolve Tooltips
+        if (stage == 1) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 100).withStyle(ChatFormatting.RED));
+        } else if (stage == 2) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 300).withStyle(ChatFormatting.RED));
+        } else if (stage == 3) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 500).withStyle(ChatFormatting.RED));
+        } else if (stage == 4) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 1000).withStyle(ChatFormatting.RED));
+        }
     }
 }
 

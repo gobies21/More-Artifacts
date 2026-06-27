@@ -72,9 +72,7 @@ public class ShadowSoulItem extends SoulItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity().level().isClientSide()) {
-            return;
-        }
+        if (slotContext.entity().level().isClientSide()) return;
 
         if (slotContext.entity() instanceof Player player) {
             int stage = SoulUtil.getSoulStage(stack);
@@ -176,7 +174,6 @@ public class ShadowSoulItem extends SoulItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         int stage = SoulUtil.getSoulStage(pStack);
         CompoundTag nbt = pStack.getOrCreateTag();
-        int requiredKills = SoulUtil.REQUIRED_KILLS;
         int currentKills = nbt.getInt(SoulUtil.KILLS);
         double damageDealt = ((1.00 - 1) + (stage * 0.1)) * 100;
         double shadowHandChance = (0.25) * 100;
@@ -203,6 +200,7 @@ public class ShadowSoulItem extends SoulItem {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hand_chance", String.format("%.1f", shadowHandChance)).withStyle(ChatFormatting.DARK_AQUA));
         } else if (stage == 5) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hands").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hands2").withStyle(ChatFormatting.GOLD));
         }
 
         // Unequipped Tooltips
@@ -223,10 +221,23 @@ public class ShadowSoulItem extends SoulItem {
                 pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stealth").withStyle(ChatFormatting.GRAY));
             }
         }
+        // Evolve Tooltips
         if (stage == 1) {
             pTooltipComponents.add(Component.literal(" "));
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, requiredKills).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 100).withStyle(ChatFormatting.RED));
+        } else if (stage == 2) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 300).withStyle(ChatFormatting.RED));
+        } else if (stage == 3) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_2").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 3).withStyle(ChatFormatting.RED));
+        } else if (stage == 4) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_3").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 3).withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

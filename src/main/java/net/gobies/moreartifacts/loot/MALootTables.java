@@ -5,10 +5,18 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.LootTableHandler;
 import net.gobies.moreartifacts.util.MAUtils;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MALootTables {
@@ -85,13 +93,52 @@ public class MALootTables {
                 LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
             }
 
-            // Holy Mantle -> rare cleric village trade
-
             //LootTableHandler.injectLoot(event, "archaeology/desert_pyramid", MAItems.StealthManual.get(), 1, 1, 0.95F);
             //LootTableHandler.injectLoot(event, "archaeology/desert_well", MAItems.StealthManual.get(), 1, 1, 0.95F);
             //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_common", MAItems.StealthManual.get(), 1, 1, 0.95F);
             //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_rare", MAItems.StealthManual.get(), 1, 1, 0.90F);
 
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTrade(VillagerTradesEvent event) {
+        if (!CommonConfig.isItemDisabled(MAItems.MagicQuiver.get())) {
+            if (event.getType().equals(VillagerProfession.FLETCHER)) {
+                List<VillagerTrades.ItemListing> trades = event.getTrades().get(3);
+
+                trades.add((entity, random) -> {
+                    if (random.nextFloat() < CommonConfig.MAGIC_QUIVER_TRADE_CHANCE.get()) {
+                        return new MerchantOffer(
+                                new ItemStack(Items.EMERALD, 24),
+                                new ItemStack(MAItems.MagicQuiver.get(), 1),
+                                1,
+                                10,
+                                0.05f
+                        );
+                    }
+                    return null;
+                });
+            }
+        }
+        if (!CommonConfig.isItemDisabled(MAItems.HolyMantle.get())) {
+            if (event.getType().equals(VillagerProfession.CLERIC)) {
+                List<VillagerTrades.ItemListing> trades = event.getTrades().get(5);
+
+                trades.add((entity, random) -> {
+                    if (random.nextFloat() < CommonConfig.HOLY_MANTLE_TRADE_CHANCE.get()) {
+                        return new MerchantOffer(
+                                new ItemStack(Items.EMERALD, 64),
+                                new ItemStack(Items.EMERALD, 64),
+                                new ItemStack(MAItems.HolyMantle.get(), 1),
+                                1,
+                                50,
+                                0.05f
+                        );
+                    }
+                    return null;
+                });
+            }
         }
     }
 }

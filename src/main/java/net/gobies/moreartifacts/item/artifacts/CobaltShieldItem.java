@@ -1,4 +1,5 @@
 package net.gobies.moreartifacts.item.artifacts;
+
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;

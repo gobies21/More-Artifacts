@@ -1,11 +1,17 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
+import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +23,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class FireStoneItem extends Item implements ICurioItem {
     public FireStoneItem(Properties properties) {
@@ -30,6 +37,17 @@ public class FireStoneItem extends Item implements ICurioItem {
                 player.extinguishFire();
             }
         }
+    }
+
+    private static final UUID HEAT_TOLERANCE = UUID.fromString("cd93e1bb-c47e-47e7-a913-2ae6a865a765");
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        if (ModLoadedUtil.isColdSweatLoaded()) {
+            modifiers.put(ColdSweatCompat.heatToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_TOLERANCE), 0.10, AttributeModifier.Operation.ADDITION));
+        }
+        return modifiers;
     }
 
     @Override

@@ -23,5 +23,12 @@ public class MABrewing {
                     MAItems.RecallPotion.get().getDefaultInstance())
             );
         }
+        if (!CommonConfig.isItemDisabled(MAItems.SoulElixir.get())) {
+            BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
+                    Ingredient.of(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("moreartifacts:shadow_dust")))),
+                    MAItems.SoulElixir.get().getDefaultInstance())
+            );
+        }
     }
 }

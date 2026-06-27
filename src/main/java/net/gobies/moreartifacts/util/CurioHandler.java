@@ -4,39 +4,55 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CurioHandler {
 
     public static boolean isCurioEquipped(LivingEntity entity, Item targetItem) {
-        return CuriosApi.getCuriosInventory(entity).resolve()
-                .flatMap(curios -> curios.findFirstCurio(stack ->
-                        stack.getItem() == targetItem)).isPresent();
+        return CuriosApi.getCuriosInventory(entity)
+                .map(inv -> inv.findFirstCurio(stack -> stack.is(targetItem)).isPresent())
+                .orElse(false);
     }
 
     public static int getCurioCount(LivingEntity entity, Item item) {
-        AtomicInteger count = new AtomicInteger();
-        CuriosApi.getCuriosInventory(entity).ifPresent(handler -> handler.getCurios().forEach((identifier, stacksHandler) -> {
+        var lazyOptional = CuriosApi.getCuriosInventory(entity);
+        if (!lazyOptional.isPresent()) {
+            return 0;
+        }
+
+        ICuriosItemHandler handler = lazyOptional.orElseThrow(IllegalStateException::new);
+        int count = 0;
+
+        for (ICurioStacksHandler stacksHandler : handler.getCurios().values()) {
             IDynamicStackHandler stackHandler = stacksHandler.getStacks();
             for (int i = 0; i < stackHandler.getSlots(); i++) {
-                if (stackHandler.getStackInSlot(i).getItem() == item) {
-                    count.getAndIncrement();
+                ItemStack stack = stackHandler.getStackInSlot(i);
+                if (!stack.isEmpty() && stack.is(item)) {
+                    count++;
                 }
             }
-        }));
-        return count.get();
+        }
+        return count;
     }
 
     public static ItemStack getEquippedCurio(LivingEntity entity, Item item) {
-        Optional<SlotResult> slotResultOptional = CuriosApi.getCuriosInventory(entity).resolve()
-                .flatMap(curios -> curios.findFirstCurio(stack -> stack.getItem() == item));
-        if (slotResultOptional.isPresent()) {
-            SlotResult slotResult = slotResultOptional.get();
-            return slotResult.stack(); // get equipped stack
+        var lazyOptional = CuriosApi.getCuriosInventory(entity);
+        if (!lazyOptional.isPresent()) {
+            return ItemStack.EMPTY;
+        }
+
+        ICuriosItemHandler handler = lazyOptional.orElseThrow(IllegalStateException::new);
+
+        for (ICurioStacksHandler stacksHandler : handler.getCurios().values()) {
+            IDynamicStackHandler stackHandler = stacksHandler.getStacks();
+            for (int i = 0; i < stackHandler.getSlots(); i++) {
+                ItemStack stack = stackHandler.getStackInSlot(i);
+                if (!stack.isEmpty() && stack.is(item)) {
+                    return stack;
+                }
+            }
         }
         return ItemStack.EMPTY;
     }

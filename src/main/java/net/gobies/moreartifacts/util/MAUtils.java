@@ -20,7 +20,6 @@ import net.minecraftforge.fml.ModList;
 import java.util.*;
 
 public class MAUtils {
-    private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     // Method to detect if the damage source is fire
     public static boolean isFire(LivingHurtEvent event) {
@@ -117,24 +116,6 @@ public class MAUtils {
             }
         }
     }
-    // Method to get the cooldown of an artifact
-    public static double getCooldownTimer(Player player, double cooldown) {
-        long currentTime = System.currentTimeMillis();
-        long lastTeleportTime = cooldownMap.getOrDefault(player.getUUID(), 0L);
-        return (currentTime - lastTeleportTime) / 1000.0;
-    }
-    // Method to update the cooldown of an artifact
-    public static void updateCooldown(Player player) {
-        cooldownMap.put(player.getUUID(), System.currentTimeMillis());
-    }
-    // Method to check if the player is ready to teleport
-    public static boolean isReadyForTeleport(Player player, double cooldown) {
-        return getCooldownTimer(player, cooldown) >= cooldown;
-    }
-    // Method to reset the cooldown timer of an artifact
-    public static void resetCooldownTimer(Player player) {
-        cooldownMap.put(player.getUUID(), 0L);
-    }
     // Method to get looting values based off if JLME is installed
     public static float lootingValues() {
         if (ModList.get().isLoaded("jlme")) {
@@ -160,8 +141,5 @@ public class MAUtils {
         if (CommonConfig.ENABLE_DEBUG.get()) {
             System.out.println(message);
         }
-    }
-    public static void clearMaps(UUID uuid) {
-        cooldownMap.remove(uuid);
     }
 }

@@ -5,6 +5,8 @@ import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MASounds;
 import net.gobies.moreartifacts.item.artifacts.*;
+import net.gobies.moreartifacts.network.CooldownSyncPacket;
+import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -127,24 +129,29 @@ public class MAEvents {
         if (event.phase == TickEvent.Phase.END) {
             if (event.player.level().isClientSide()) return;
             Player player = event.player;
-            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
+            if (player.tickCount % 5 != 0) return;
+
+            boolean hasAnkhShield = ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get());
+            boolean hasAnkhCharm = ShieldHandler.isShieldEquipped(player, MAItems.AnkhCharm.get());
+
+            if (hasAnkhShield) {
                 MAUtils.removeHarmfulEffects(player);
                 AnkhShieldItem.removeAdditionalEffects(player);
             }
-            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhCharm.get())) {
+            if (hasAnkhCharm) {
                 MAUtils.removeHarmfulEffects(player);
                 AnkhCharmItem.removeAdditionalEffects(player);
             }
             int fireTicks = player.getRemainingFireTicks();
             if (player.isOnFire() && fireTicks > 100) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get()) || CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get()) || CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get()) || CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get()) || hasAnkhShield) {
                     player.setRemainingFireTicks(fireTicks / 2);
                 }
             }
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public void onLivingAttack(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get()) || CurioHandler.isCurioEquipped(player, MAItems.IceCrystal.get()) || CurioHandler.isCurioEquipped(player, MAItems.FrostedShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.FrostedShield.get())) {
@@ -167,16 +174,6 @@ public class MAEvents {
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.BlazingTreads.get())) {
                 MAUtils.makeBurningImmune(event);
-            }
-            if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
-                if (event.isCanceled()) return;
-                if (player.getHealth() - event.getAmount() <= 0) {
-                    if (!player.level().isClientSide && EnderianTreadsItem.canUseAbility(player)) {
-                        EnderianTreadsItem.teleportPlayer((ServerPlayer) player);
-                        EnderianTreadsItem.setCooldown(player);
-                        event.setCanceled(true);
-                    }
-                }
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.MechanicalGears.get())) {
                 if (LuckHelper.roll(player, CommonConfig.MECHANICAL_GEARS_DODGE_CHANCE.get(), CommonConfig.MECHANICAL_GEARS_LUCK_FACTOR.get()) && event.getSource().getEntity() != null) {
@@ -325,7 +322,7 @@ public class MAEvents {
             int gloveCount = CurioHandler.getCurioCount(player, MAItems.EchoGlove.get());
             for (int i = 0; i < gloveCount; i++) {
                 double ignoreChance = CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get() * gloveCount;
-                if (LuckHelper.roll((Player) player, ignoreChance, CommonConfig.ECHO_GLOVE_LUCK_FACTOR.get())) {
+                if (LuckHelper.roll(player, ignoreChance, CommonConfig.ECHO_GLOVE_LUCK_FACTOR.get())) {
                     // reduce the invincibility time by a fixed number of ticks
                     attackedEntity.invulnerableTime = Math.max(0, attackedEntity.invulnerableTime - 5);
                 }
@@ -513,6 +510,9 @@ public class MAEvents {
             if (CooldownHandler.isReady(player, artifactId, cooldown)) {
                 event.setCanceled(true);
                 CooldownHandler.updateCooldown(player, artifactId);
+                if (player instanceof ServerPlayer serverPlayer && !Objects.requireNonNull(serverPlayer.getServer()).isSingleplayer()) {
+                    PacketHandler.sendToClient(new CooldownSyncPacket(artifactId), serverPlayer);
+                }
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 1.2F, 1.0F);
                 if (LuckHelper.roll(player, CommonConfig.HOLY_MANTLE_ABSORPTION_CHANCE.get(), CommonConfig.HOLY_MANTLE_LUCK_FACTOR.get())) {
                     float maxAbsorption = 2 * CommonConfig.HOLY_MANTLE_MAX_HEARTS.get();
@@ -542,18 +542,27 @@ public class MAEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onLivingDamage(LivingDamageEvent event) {
-        if (ModLoadedUtil.isFirstAidLoaded()) {
-            return;
-        }
-        if (event.isCanceled()) return;
         LivingEntity entity = event.getEntity();
-        if (!(entity instanceof ServerPlayer player)) {
-            return;
+        if (!(entity instanceof ServerPlayer player)) return;
+        if (event.isCanceled()) return;
+
+        if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
+            if (player.getHealth() - event.getAmount() <= 0) {
+                if (EnderianTreadsItem.canUseAbility(player)) {
+                    EnderianTreadsItem.teleportPlayer(player);
+                    EnderianTreadsItem.setCooldown(player);
+                    event.setCanceled(true);
+                }
+            }
         }
 
-        // Totem check, will try to make it more global in the future
-        if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
         if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
+            if (ModLoadedUtil.isFirstAidLoaded()) {
+                return;
+            }
+
+            // Totem check, will try to make it more global in the future
+            if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
             DamageSource source = event.getSource();
             if (source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
                 return;
@@ -603,6 +612,7 @@ public class MAEvents {
             }
         }
     }
+
     @SubscribeEvent
     public void onMobKill(LivingDeathEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
@@ -612,25 +622,127 @@ public class MAEvents {
         if (player.getCommandSenderWorld().isClientSide()) return;
         if (event.getEntity() instanceof Enemy) {
 
-            if (SoulUtil.getSoulStage(soul) != 1) return;
             LivingEntity victim = event.getEntity();
             Level level = victim.getCommandSenderWorld();
             BlockPos pos = victim.blockPosition();
+            int lightLevel = level.getMaxLocalRawBrightness(pos);
 
-            // Evolve Soul of Shadows (stage 1-2)
+            // Evolve Soul of Shadows (stage 1-2-3)
             if (soul.is(MAItems.ShadowSoul.get())) {
-                int lightLevel = level.getMaxLocalRawBrightness(pos);
+                if (SoulUtil.getSoulStage(soul) == 1) {
+                    if (lightLevel <= 7) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
 
-                if (lightLevel <= 7) {
+                        if (currentKills >= 100) { // 100 kills 1-2
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 2) {
+                    if (lightLevel <= 7) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+
+                        if (currentKills >= 300) { // 300 kills 2-3
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 3) {
                     CompoundTag nbt = soul.getOrCreateTag();
                     int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                    ResourceLocation entityName = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
+                    if (entityName != null && "minecraft:wither".equals(entityName.toString())) {
+                        if (currentKills >= 3) { // 3 wither kills
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 4) {
+                    CompoundTag nbt = soul.getOrCreateTag();
+                    int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                    ResourceLocation entityName = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
+                    if (entityName != null && "minecraft:ender_dragon".equals(entityName.toString())) {
+                        if (currentKills >= 3) { // 3 dragon kills
+                            SoulUtil.evolveSoul(soul, player);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-                    if (currentKills >= SoulUtil.REQUIRED_KILLS) {
-                        SoulUtil.evolveSoul(soul);
-                        nbt.remove(SoulUtil.KILLS);
-                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                    } else {
-                        nbt.putInt(SoulUtil.KILLS, currentKills);
+    @SubscribeEvent
+    public void onEntityKill(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        ItemStack soul = SoulUtil.isSoulEquipped(player);
+        if (soul.isEmpty()) return;
+
+        if (player.getCommandSenderWorld().isClientSide()) return;
+        if (event.getEntity() instanceof Enemy) {
+
+            LivingEntity victim = event.getEntity();
+            if (soul.is(MAItems.BloodSoul.get())) {
+                if (SoulUtil.getSoulStage(soul) == 1) {
+                    if (victim.getMaxHealth() <= event.getAmount()) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                        if (currentKills >= 100) { // 100 kills 1-2
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 2) {
+                    if (victim.getMaxHealth() <= event.getAmount()) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                        if (currentKills >= 300) { // 300 kills 2-3
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 3) {
+                    if (victim.getMaxHealth() <= event.getAmount()) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                        if (currentKills >= 500) { // 500 kills 3-4
+                            SoulUtil.evolveSoul(soul, player);
+                            nbt.remove(SoulUtil.KILLS);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
+                    }
+                } else if (SoulUtil.getSoulStage(soul) == 4) {
+                    if (victim.getMaxHealth() <= event.getAmount()) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                        if (currentKills >= 1000) { // 1000 kills 4-5
+                            SoulUtil.evolveSoul(soul, player);
+                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            player.setHealth(player.getMaxHealth() * 0.75F);
+                        } else {
+                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                        }
                     }
                 }
             }

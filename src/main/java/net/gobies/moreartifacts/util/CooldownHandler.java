@@ -10,7 +10,7 @@ public class CooldownHandler {
     // Per artifact cooldowns
     private static final Map<UUID, Map<String, Long>> cooldownMap = new HashMap<>();
 
-    public static double getCooldownTimer(Player player, String artifactId) {
+    public static double getCooldown(Player player, String artifactId) {
         long currentTime = System.currentTimeMillis();
         Map<String, Long> playerCooldowns = cooldownMap.getOrDefault(player.getUUID(), new HashMap<>());
         long lastTime = playerCooldowns.getOrDefault(artifactId, 0L);

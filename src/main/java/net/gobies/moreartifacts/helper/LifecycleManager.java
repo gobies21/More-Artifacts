@@ -1,8 +1,6 @@
 package net.gobies.moreartifacts.helper;
 
 import net.gobies.moreartifacts.MoreArtifacts;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,13 +23,6 @@ public class LifecycleManager {
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         executeCleanup(event.getEntity().getUUID());
-    }
-
-    @SubscribeEvent
-    public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            executeCleanup(player.getUUID());
-        }
     }
 
     private static void executeCleanup(UUID uuid) {

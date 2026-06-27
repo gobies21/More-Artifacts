@@ -5,11 +5,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 
 public class ColdSweatCompat {
 
-    public static Attribute heatResistanceAttribute() {
+    public static Attribute heatToleranceAttribute() {
         return AttributeInit.HEAT_DAMPENING.get();
     }
 
-    public static Attribute coldResistanceAttribute() {
+    public static Attribute coldToleranceAttribute() {
         return AttributeInit.COLD_DAMPENING.get();
     }
 }

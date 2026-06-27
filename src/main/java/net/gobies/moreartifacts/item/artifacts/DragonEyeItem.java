@@ -86,8 +86,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 AABB searchBox = player.getBoundingBox().inflate(followingDistance, followingDistance / 2, followingDistance);
                 List<EnderMan> endermen = player.level().getEntitiesOfClass(EnderMan.class, searchBox, EntitySelector.NO_SPECTATORS);
                 for (EnderMan enderMan : endermen) {
-                    FriendlyEndermanAI friendlyEndermanAI = new FriendlyEndermanAI(enderMan, player);
-                    friendlyEndermanAI.updateEndermanAI();
+                    new FriendlyEndermanAI(enderMan, player).updateEndermanAI();
                 }
             } else {
                 IceandFire2Compat.proccessEffects(player, stack);
@@ -149,8 +148,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 AABB searchBox = player.getBoundingBox().inflate(followingDistance, followingDistance / 2, followingDistance);
                 List<EnderMan> endermen = player.level().getEntitiesOfClass(EnderMan.class, searchBox, EntitySelector.NO_SPECTATORS);
                 for (EnderMan enderMan : endermen) {
-                    FriendlyEndermanAI friendlyEndermanAI = new FriendlyEndermanAI(enderMan, player);
-                    friendlyEndermanAI.revertEndermanAI();
+                    new FriendlyEndermanAI(enderMan, player).revertEndermanAI();
                 }
             }
             IceandFire2Compat.removeEffects(player, stack);
@@ -162,10 +160,10 @@ public class DragonEyeItem extends Item implements ICurioItem {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         if (ModLoadedUtil.isColdSweatLoaded()) {
             if (isFireDragonEye(stack)) {
-                modifiers.put(ColdSweatCompat.heatResistanceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
+                modifiers.put(ColdSweatCompat.heatToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
             }
             if (isIceDragonEye(stack)) {
-                modifiers.put(ColdSweatCompat.coldResistanceAttribute(), new AttributeModifier(uuid, String.valueOf(COLD_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
+                modifiers.put(ColdSweatCompat.coldToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(COLD_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
             }
         }
         return modifiers;

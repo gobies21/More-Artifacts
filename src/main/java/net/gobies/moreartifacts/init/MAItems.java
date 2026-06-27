@@ -37,12 +37,14 @@ public class MAItems {
     public static final RegistryObject<Item> CobaltShield;
     public static final RegistryObject<Item> ObsidianShield;
     public static final RegistryObject<Item> AnkhShield;
+    public static final RegistryObject<Item> FrostedShield;
     public static final RegistryObject<Item> MelodyPlushie;
     public static final RegistryObject<Item> HeroShield;
     public static final RegistryObject<Item> MechanicalGlove;
     public static final RegistryObject<Item> EnderianScarf;
     public static final RegistryObject<Item> TrueEnderianScarf;
     public static final RegistryObject<Item> GildedScarf;
+    public static final RegistryObject<Item> FieryScarf;
     public static final RegistryObject<Item> Balloon;
     public static final RegistryObject<Item> LuckyEmeraldRing;
     public static final RegistryObject<Item> SpectreAmulet;
@@ -53,6 +55,7 @@ public class MAItems {
     public static final RegistryObject<Item> MagicQuiver;
     public static final RegistryObject<Item> EnvenomedQuiver;
     public static final RegistryObject<Item> MoltenQuiver;
+    public static final RegistryObject<Item> FrozenQuiver;
     public static final RegistryObject<Item> WoodenHeadgear;
     public static final RegistryObject<Item> GoldenHeadgear;
     public static final RegistryObject<Item> NetheriteHeadgear;
@@ -60,6 +63,7 @@ public class MAItems {
     public static final RegistryObject<Item> EnderDragonClaw;
     public static final RegistryObject<Item> MechanicalClaw;
     public static final RegistryObject<Item> EchoGlove;
+    public static final RegistryObject<Item> FrostGauntlet;
     public static final RegistryObject<Item> VenomStone;
     public static final RegistryObject<Item> DecayStone;
     public static final RegistryObject<Item> FireStone;
@@ -77,14 +81,10 @@ public class MAItems {
     public static final RegistryObject<Item> HighJumpers;
     public static final RegistryObject<Item> DragonEye;
     public static final RegistryObject<Item> RecallPotion;
+    public static final RegistryObject<Item> GraveScroll;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
-    public static final RegistryObject<Item> FrozenQuiver;
-    public static final RegistryObject<Item> FrostedShield;
-    public static final RegistryObject<Item> FrostGauntlet;
-
-    public static final RegistryObject<Item> FieryScarf;
     public static final RegistryObject<Item> StealthManual;
     public static final RegistryObject<Item> CursedDoll;
     public static final RegistryObject<Item> GuardianThornNecklace;
@@ -95,8 +95,9 @@ public class MAItems {
     public static final RegistryObject<Item> ShadowSoul;
     public static final RegistryObject<Item> BloodSoul;
 
-    public static final RegistryObject<Item> GraveScroll;
     public static final RegistryObject<Item> Necklace;
+
+    public static final RegistryObject<Item> SoulElixir;
 
     public static void register(IEventBus eventBus) {
         ARTIFACTS.register(eventBus);
@@ -123,12 +124,17 @@ public class MAItems {
         CobaltShield = ARTIFACTS.register("cobalt_shield", () -> new CobaltShieldItem(new Item.Properties()));
         ObsidianShield = ARTIFACTS.register("obsidian_shield", () -> new ObsidianShieldItem(new Item.Properties()));
         AnkhShield = ARTIFACTS.register("ankh_shield", () -> new AnkhShieldItem(new Item.Properties()));
+        FrostedShield = ARTIFACTS.register("frosted_shield", () -> new FrostedShieldItem(new Item.Properties()));
         MelodyPlushie = ARTIFACTS.register("melody_plushie", () -> new MelodyPlushieItem(new Item.Properties()));
         HeroShield = ARTIFACTS.register("hero_shield", () -> new HeroShieldItem(new Item.Properties()));
         MechanicalGlove = ARTIFACTS.register("mechanical_glove", () -> new MechanicalGloveItem(new Item.Properties()));
+        MechanicalClaw = ARTIFACTS.register("mechanical_claw", () -> new MechanicalClawItem(new Item.Properties()));
+        EchoGlove = ARTIFACTS.register("echo_glove", () -> new EchoGloveItem(new Item.Properties()));
+        FrostGauntlet = ARTIFACTS.register("frost_gauntlet", () -> new FrostGauntletItem(new Item.Properties()));
         EnderianScarf = ARTIFACTS.register("enderian_scarf", () -> new EnderianScarfItem(new Item.Properties()));
         TrueEnderianScarf = ARTIFACTS.register("true_enderian_scarf", () -> new TrueEnderianScarfItem(new Item.Properties()));
         GildedScarf = ARTIFACTS.register("gilded_scarf", () -> new GildedScarfItem(new Item.Properties()));
+        FieryScarf = ARTIFACTS.register("fiery_scarf", () -> new FieryScarfItem(new Item.Properties()));
         Balloon = ARTIFACTS.register("balloon", () -> new BalloonItem(new Item.Properties()));
         LuckyEmeraldRing = ARTIFACTS.register("lucky_emerald_ring", () -> new LuckyEmeraldRingItem(new Item.Properties()));
         SpectreAmulet = ARTIFACTS.register("spectre_amulet", () -> new SpectreAmuletItem(new Item.Properties()));
@@ -139,13 +145,12 @@ public class MAItems {
         MagicQuiver = ARTIFACTS.register("magic_quiver", () -> new MagicQuiverItem(new Item.Properties()));
         EnvenomedQuiver = ARTIFACTS.register("envenomed_quiver", () -> new EnvenomedQuiverItem(new Item.Properties()));
         MoltenQuiver = ARTIFACTS.register("molten_quiver", () -> new MoltenQuiverItem(new Item.Properties()));
+        FrozenQuiver = ARTIFACTS.register("frozen_quiver", () -> new FrozenQuiverItem(new Item.Properties()));
         WoodenHeadgear = ARTIFACTS.register("wooden_headgear", () -> new WoodenHeadgearItem(new Item.Properties()));
         GoldenHeadgear = ARTIFACTS.register("golden_headgear", () -> new GoldenHeadgearItem(new Item.Properties()));
         NetheriteHeadgear = ARTIFACTS.register("netherite_headgear", () -> new NetheriteHeadgearItem(new Item.Properties()));
         EnderianEye = ARTIFACTS.register("enderian_eye", () -> new EnderianEyeItem(new Item.Properties()));
         EnderDragonClaw = ARTIFACTS.register("ender_dragon_claw", () -> new EnderDragonClawItem(new Item.Properties()));
-        MechanicalClaw = ARTIFACTS.register("mechanical_claw", () -> new MechanicalClawItem(new Item.Properties()));
-        EchoGlove = ARTIFACTS.register("echo_glove", () -> new EchoGloveItem(new Item.Properties()));
         VenomStone = ARTIFACTS.register("venom_stone", () -> new VenomStoneItem(new Item.Properties()));
         DecayStone = ARTIFACTS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
         FireStone = ARTIFACTS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
@@ -163,11 +168,7 @@ public class MAItems {
         HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
         DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
 
-        FrozenQuiver = ARTIFACTS.register("frozen_quiver", () -> new FrozenQuiverItem(new Item.Properties()));
-        FrostedShield = ARTIFACTS.register("frosted_shield", () -> new FrostedShieldItem(new Item.Properties()));
-        FrostGauntlet = ARTIFACTS.register("frost_gauntlet", () -> new FrostGauntletItem(new Item.Properties()));
 
-        FieryScarf = ARTIFACTS.register("fiery_scarf", () -> new FieryScarfItem(new Item.Properties()));
         StealthManual = ARTIFACTS.register("stealth_manual", () -> new StealthManualItem(new Item.Properties()));
         CursedDoll = ARTIFACTS.register("cursed_doll", () -> new CursedDollItem(new Item.Properties()));
         GuardianThornNecklace = ARTIFACTS.register("guardian_thorn_necklace", () -> new GuardianThornNecklaceItem(new Item.Properties()));
@@ -180,6 +181,7 @@ public class MAItems {
         Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));
 
         RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
+        SoulElixir = ARTIFACTS.register("soul_elixir", () -> new SoulElixirItem(new Item.Properties()));
         GraveScroll = ARTIFACTS.register("grave_scroll", () -> new GraveScrollItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
         ArtifactSmithingTemplate = ARTIFACTS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
@@ -194,6 +196,6 @@ public class MAItems {
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
                 MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask, LeatherTreads,
                 DuneTreads, BlazingTreads, EnderianTreads, SculkTreads, MechanicalGears, HighJumpers, DragonEye, FrozenQuiver, FrostedShield, FrostGauntlet,
-                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, GraveScroll);
+                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, SoulElixir, GraveScroll);
     }
 }

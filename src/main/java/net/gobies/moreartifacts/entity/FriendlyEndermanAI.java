@@ -7,6 +7,8 @@ import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
+// TODO: convert to a goal instead
+
 public class FriendlyEndermanAI {
     private final EnderMan enderMan;
     private final Player player;

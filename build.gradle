@@ -95,7 +95,7 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1:api"))
-    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1"))
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1")
 
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
@@ -131,6 +131,7 @@ dependencies {
     implementation fg.deobf("curse.maven:demis-better-stealth-1343821:6989663")
     implementation fg.deobf("curse.maven:first-aid-276837:5531834")
     implementation fg.deobf("curse.maven:spark-361579:4738952")
+    implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
 }
 
 mixin {

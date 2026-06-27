@@ -1,10 +1,15 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
+import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +22,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class IceStoneItem extends Item implements ICurioItem {
     public IceStoneItem(Properties properties) {
@@ -30,6 +36,17 @@ public class IceStoneItem extends Item implements ICurioItem {
                 player.setTicksFrozen(-1);
             }
         }
+    }
+
+    private static final UUID COLD_TOLERANCE = UUID.fromString("b32582c3-68bf-4025-95ff-e54403684e26");
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        if (ModLoadedUtil.isColdSweatLoaded()) {
+            modifiers.put(ColdSweatCompat.coldToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(COLD_TOLERANCE), 0.10, AttributeModifier.Operation.ADDITION));
+        }
+        return modifiers;
     }
 
     @Override

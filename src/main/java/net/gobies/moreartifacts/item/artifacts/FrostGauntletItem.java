@@ -32,7 +32,6 @@ public class FrostGauntletItem extends Item implements ICurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, String.valueOf(ATTACK_DAMAGE_UUID), CommonConfig.FROST_GAUNTLET_DAMAGE.get(), AttributeModifier.Operation.ADDITION));
-
         return modifiers;
     }
 

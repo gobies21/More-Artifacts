@@ -442,9 +442,10 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_SKELETON_DROP_CHANCE;
     public static float magic_quiver_skeleton_drop_chance;
-
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_PILLAGER_DROP_CHANCE;
     public static float magic_quiver_pillager_drop_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_TRADE_CHANCE;
+    public static float magic_quiver_trade_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_DROP_CHANCE;
     public static float ender_dragon_claw_drop_chance;
@@ -461,6 +462,8 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> MELODY_PLUSHIE_DROP_CHANCE;
     public static float melody_plushie_drop_chance;
 
+    public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_TRADE_CHANCE;
+    public static float holy_mantle_trade_chance;
     /*
     // General
     */
@@ -660,11 +663,13 @@ public class CommonConfig {
             shackle_drop_chance = SHACKLE_DROP_CHANCE.get().floatValue();
             magic_quiver_skeleton_drop_chance = MAGIC_QUIVER_SKELETON_DROP_CHANCE.get().floatValue();
             magic_quiver_pillager_drop_chance = MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get().floatValue();
+            magic_quiver_trade_chance = MAGIC_QUIVER_TRADE_CHANCE.get().floatValue();
             ender_dragon_claw_drop_chance = ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue();
             sculk_lens_drop_chance = SCULK_LENS_DROP_CHANCE.get().floatValue();
             recall_potion_drop_chance = RECALL_POTION_DROP_CHANCE.get().floatValue();
             cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
             melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
+            holy_mantle_trade_chance = HOLY_MANTLE_TRADE_CHANCE.get().floatValue();
             max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
             max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
             max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
@@ -789,7 +794,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Frost_Gauntlet");
-        FROST_GAUNTLET_DAMAGE = BUILDER.comment("Attack Damage increase").define("Attack_Damage", 1);
+        FROST_GAUNTLET_DAMAGE = BUILDER.comment("Attack Damage increase").define("Attack_Damage", 2);
         FROSTED_WOUNDS_DAMAGE = BUILDER.comment("Damage that frosted wounds deals per second").define("Frosted_Wounds_Damage", 2);
         FROSTED_WOUNDS_DURATION = BUILDER.comment("Duration of frosted wounds in seconds").define("Frosted_Wounds_Duration", 10);
         BUILDER.pop();
@@ -1073,6 +1078,7 @@ public class CommonConfig {
         BUILDER.push("Magic_Quiver");
         MAGIC_QUIVER_SKELETON_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from skeletons in percentage").define("Skeleton_Drop_Chance", 0.01);
         MAGIC_QUIVER_PILLAGER_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from pillagers in percentage").define("Pillager_Drop_Chance", 0.04);
+        MAGIC_QUIVER_TRADE_CHANCE = BUILDER.comment("Magic Quiver trade chance from fletcher villagers in percentage").define("Trade_Chance", 0.30);
         BUILDER.pop();
 
         BUILDER.push("Ender_Dragon_Claw");
@@ -1081,6 +1087,10 @@ public class CommonConfig {
 
         BUILDER.push("Melody_Plushie");
         MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Holy_Mantle");
+        HOLY_MANTLE_TRADE_CHANCE = BUILDER.comment("Holy mantle trade chance from max level cleric villagers in percentage").define("Trade_Chance", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Sculk_Lens");
