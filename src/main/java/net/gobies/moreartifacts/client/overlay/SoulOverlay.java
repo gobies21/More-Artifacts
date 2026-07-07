@@ -69,7 +69,7 @@ public class SoulOverlay {
 
                     // Skip unnecessary tooltips
                     if (plainText.startsWith("Slot:") || plainText.contains("Slot: Body")) continue;
-                    if (plainText.startsWith("When on") || plainText.startsWith("When worn")) {
+                    if (plainText.contains("When on") || plainText.contains("When worn")) {
                         filteredTooltip.add(Component.literal("§6When intertwined with soul:"));
                         continue;
                     }

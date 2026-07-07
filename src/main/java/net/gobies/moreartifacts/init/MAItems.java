@@ -81,6 +81,7 @@ public class MAItems {
     public static final RegistryObject<Item> HighJumpers;
     public static final RegistryObject<Item> DragonEye;
     public static final RegistryObject<Item> RecallPotion;
+    public static final RegistryObject<Item> WormholePotion;
     public static final RegistryObject<Item> GraveScroll;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
@@ -168,7 +169,6 @@ public class MAItems {
         HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
         DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
 
-
         StealthManual = ARTIFACTS.register("stealth_manual", () -> new StealthManualItem(new Item.Properties()));
         CursedDoll = ARTIFACTS.register("cursed_doll", () -> new CursedDollItem(new Item.Properties()));
         GuardianThornNecklace = ARTIFACTS.register("guardian_thorn_necklace", () -> new GuardianThornNecklaceItem(new Item.Properties()));
@@ -177,10 +177,10 @@ public class MAItems {
         ShadowSoul = ARTIFACTS.register("shadow_soul", () -> new ShadowSoulItem(new Item.Properties()));
         BloodSoul = ARTIFACTS.register("blood_soul", () -> new BloodSoulItem(new Item.Properties()));
 
-
         Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));
 
         RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
+        WormholePotion = ARTIFACTS.register("wormhole_potion", () -> new WormholePotionItem(new Item.Properties()));
         SoulElixir = ARTIFACTS.register("soul_elixir", () -> new SoulElixirItem(new Item.Properties()));
         GraveScroll = ARTIFACTS.register("grave_scroll", () -> new GraveScrollItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
@@ -196,6 +196,6 @@ public class MAItems {
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
                 MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask, LeatherTreads,
                 DuneTreads, BlazingTreads, EnderianTreads, SculkTreads, MechanicalGears, HighJumpers, DragonEye, FrozenQuiver, FrostedShield, FrostGauntlet,
-                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, SoulElixir, GraveScroll);
+                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, WormholePotion, SoulElixir, GraveScroll);
     }
 }

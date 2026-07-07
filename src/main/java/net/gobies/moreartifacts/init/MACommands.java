@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.SoulSyncHelper;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.gobies.moreartifacts.util.SoulUtil;
@@ -79,6 +80,26 @@ public class MACommands {
                                 )
                         )
 
+        );
+        // Invis accept command
+        dispatcher.register(Commands.literal("wormhole_accept")
+                .requires(source -> true)
+                .executes(ctx -> {
+                    if (ctx.getSource().getEntity() instanceof ServerPlayer player) {
+                        ManageRequests.handleResponse(player, true);
+                    }
+                    return 1;
+                })
+        );
+        // Invis deny command
+        dispatcher.register(Commands.literal("wormhole_deny")
+                .requires(source -> true)
+                .executes(ctx -> {
+                    if (ctx.getSource().getEntity() instanceof ServerPlayer player) {
+                        ManageRequests.handleResponse(player, false);
+                    }
+                    return 1;
+                })
         );
     }
 

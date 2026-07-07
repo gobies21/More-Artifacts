@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.misc;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -10,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,6 +70,9 @@ public class GraveScrollItem extends Item {
                     if (targetLevel != null) {
                         BlockPos currentPos = serverPlayer.blockPosition();
                         BlockPos deathPos = deathPosition.pos();
+
+                        serverPlayer.awardStat(Stats.ITEM_USED.get(this));
+                        CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
 
                         MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(currentPos));
 

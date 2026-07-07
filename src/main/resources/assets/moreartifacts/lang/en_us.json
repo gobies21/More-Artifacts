@@ -46,6 +46,7 @@
   "item.moreartifacts.fire_stone": "Fire Stone",
   "item.moreartifacts.ice_stone": "Ice Stone",
   "item.moreartifacts.shadow_dust": "Shadow Dust",
+  "item.moreartifacts.wormhole_potion": "Potion of Wormhole",
   "item.moreartifacts.recall_potion": "Potion of Recall",
   "item.moreartifacts.soul_elixir": "Soul Elixir",
   "item.moreartifacts.grave_scroll": "Grave Scroll",
@@ -276,5 +277,6 @@
   "tooltip.moreartifacts.blood_soul.lifesteal3": "§6Attacks heal for §3+10.0% §6of the damage dealt",
   "tooltip.moreartifacts.blood_soul.lifesteal4": "§6Attacks heal for §3+15.0% §6of the damage dealt §3+1 §6heart",
   "tooltip.moreartifacts.blood_soul.lifesteal5": "§6Attacks heal for §3+20.0% §6of the damage dealt §3+2 §6hearts",
-  "tooltip.moreartifacts.soul_elixir": "A strong substance, capable of separating one from the soul"
+  "tooltip.moreartifacts.soul_elixir": "A strong substance, capable of separating one from the soul",
+  "gui.moreartifacts.wormhole.title": "Select a player to teleport to"
 }

@@ -3,11 +3,13 @@ package net.gobies.moreartifacts.item.misc;
 import net.gobies.moreartifacts.network.SoulSyncHelper;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -56,6 +58,9 @@ public class SoulElixirItem extends Item {
         if (!level.isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
             CompoundTag persistentData = serverPlayer.getPersistentData();
             String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
+
+            serverPlayer.awardStat(Stats.ITEM_USED.get(this));
+            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
 
             persistentData.remove(SoulUtil.SOUL_KEY);
 

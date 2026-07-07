@@ -23,6 +23,13 @@ public class MABrewing {
                     MAItems.RecallPotion.get().getDefaultInstance())
             );
         }
+        if (!CommonConfig.isItemDisabled(MAItems.WormholePotion.get())) {
+            BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
+                    Ingredient.of(MAItems.RecallPotion.get().getDefaultInstance()),
+                    Ingredient.of(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CommonConfig.WORMHOLE_POTION_INGREDIENT.get())))),
+                    MAItems.WormholePotion.get().getDefaultInstance())
+            );
+        }
         if (!CommonConfig.isItemDisabled(MAItems.SoulElixir.get())) {
             BrewingRecipeRegistry.addRecipe(new TrueBrewingRecipe(
                     Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),

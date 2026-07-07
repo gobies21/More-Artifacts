@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "moreartifacts:cobalt_shield",
+    "moreartifacts:obsidian_shield",
+    "moreartifacts:ankh_shield",
+    "moreartifacts:frosted_shield"
+  ]
+}

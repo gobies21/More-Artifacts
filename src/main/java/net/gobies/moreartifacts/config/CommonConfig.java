@@ -307,6 +307,17 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<String> RECALL_POTION_INGREDIENT;
     public static String recall_potion_ingredient;
 
+    public static ForgeConfigSpec.ConfigValue<Integer> WORMHOLE_POTION_USE_TIME;
+    public static int wormhole_potion_use_time;
+    public static ForgeConfigSpec.ConfigValue<Integer> WORMHOLE_POTION_COOLDOWN;
+    public static int wormhole_potion_cooldown;
+    public static ForgeConfigSpec.ConfigValue<Boolean> WORMHOLE_POTION_INTERDIMENSIONAL;
+    public static boolean wormhole_potion_interdimensional;
+    public static ForgeConfigSpec.ConfigValue<Boolean> WORMHOLE_POTION_GLOW;
+    public static boolean wormhole_potion_glow;
+    public static ForgeConfigSpec.ConfigValue<String> WORMHOLE_POTION_INGREDIENT;
+    public static String wormhole_potion_ingredient;
+
     public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_USE_TIME;
     public static int grave_scroll_use_time;
     public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_COOLDOWN;
@@ -609,6 +620,11 @@ public class CommonConfig {
             recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
             recall_potion_glow = RECALL_POTION_GLOW.get();
             recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
+            wormhole_potion_use_time = WORMHOLE_POTION_USE_TIME.get();
+            wormhole_potion_cooldown = WORMHOLE_POTION_COOLDOWN.get();
+            wormhole_potion_interdimensional = WORMHOLE_POTION_INTERDIMENSIONAL.get();
+            wormhole_potion_glow = WORMHOLE_POTION_GLOW.get();
+            wormhole_potion_ingredient = WORMHOLE_POTION_INGREDIENT.get();
             grave_scroll_use_time = GRAVE_SCROLL_USE_TIME.get();
             grave_scroll_cooldown = GRAVE_SCROLL_COOLDOWN.get();
             grave_scroll_glow = GRAVE_SCROLL_GLOW.get();
@@ -936,6 +952,14 @@ public class CommonConfig {
         RECALL_POTION_INTERDIMENSIONAL = BUILDER.comment("Can recall potion work from other dimensions").define("Interdimensional", false);
         RECALL_POTION_GLOW = BUILDER.comment("Does recall potion have enchantment glow").define("Glow", false);
         RECALL_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew recall potions").define("Ingredient", "minecraft:ender_pearl");
+        BUILDER.pop();
+
+        BUILDER.push("Wormhole_Potion");
+        WORMHOLE_POTION_USE_TIME = BUILDER.comment("Wormhole potion use time in ticks").define("Use_Time", 32);
+        WORMHOLE_POTION_COOLDOWN = BUILDER.comment("Wormhole potion cooldown in seconds").define("Cooldown", 0);
+        WORMHOLE_POTION_INTERDIMENSIONAL = BUILDER.comment("Can wormhole potion work from other dimensions").define("Interdimensional", true);
+        WORMHOLE_POTION_GLOW = BUILDER.comment("Does wormhole potion have enchantment glow").define("Glow", false);
+        WORMHOLE_POTION_INGREDIENT = BUILDER.comment("Main ingredient used to brew wormhole potions").define("Ingredient", "minecraft:ender_pearl");
         BUILDER.pop();
 
         BUILDER.push("Grave_Scroll");

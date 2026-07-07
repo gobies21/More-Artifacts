@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.util;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
@@ -131,6 +132,18 @@ public class MAUtils {
                     for (int z = -1; z <= 1; z++) {
                         Vec3 particlePos = position.add(x * 0.3, y * 0.5, z * 0.3);
                         serverPlayer.connection.send(new ClientboundLevelParticlesPacket(ParticleTypes.PORTAL, true, particlePos.x, particlePos.y, particlePos.z, 0.1F, 0.1F, 0.1F, 0.1F, 10));
+                    }
+                }
+            }
+        }
+    }
+    public static void spawnPortalParticles(ServerLevel world, Vec3 position) {
+        if (position != null && world != null) {
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    for (int z = -1; z <= 1; z++) {
+                        Vec3 particlePos = position.add(x * 0.3, y * 0.5, z * 0.3);
+                        world.sendParticles(ParticleTypes.PORTAL, particlePos.x, particlePos.y, particlePos.z, 10, 0.1D, 0.1D, 0.1D, 0.1D);
                     }
                 }
             }

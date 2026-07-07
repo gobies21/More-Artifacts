@@ -47,6 +47,22 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
+        // multiplayer testing
+        client2 {
+            parent runs.client
+            workingDirectory project.file('run_client2')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            args '--username', 'TestDummy'
+            mods {
+                moreartifacts {
+                    source sourceSets.main
+                }
+            }
+        }
+
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'

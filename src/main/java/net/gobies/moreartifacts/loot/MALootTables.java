@@ -76,6 +76,9 @@ public class MALootTables {
             if (!CommonConfig.isItemDisabled(MAItems.RecallPotion.get())) {
                 LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.RecallPotion.get(), 1, 3, CommonConfig.RECALL_POTION_DROP_CHANCE.get().floatValue());
             }
+            if (!CommonConfig.isItemDisabled(MAItems.WormholePotion.get())) {
+                LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.WormholePotion.get(), 1, 3, 0.10F);
+            }
             if (!CommonConfig.isItemDisabled(MAItems.MelodyPlushie.get())) {
                 LootTableHandler.addLoot(event, "gameplay/cat_morning_gift", MAItems.MelodyPlushie.get(), 1, 1, CommonConfig.MELODY_PLUSHIE_DROP_CHANCE.get().floatValue());
             }

@@ -11,16 +11,16 @@ import java.util.function.Supplier;
 
 public record SoulSyncPacket(CompoundTag data) {
 
-    public SoulSyncPacket(FriendlyByteBuf buf) {
-        this(buf.readNbt());
+    public SoulSyncPacket(FriendlyByteBuf buffer) {
+        this(buffer.readNbt());
     }
 
-    public static void encode(SoulSyncPacket msg, FriendlyByteBuf buf) {
-        buf.writeNbt(msg.data);
+    public static void encode(SoulSyncPacket msg, FriendlyByteBuf buffer) {
+        buffer.writeNbt(msg.data);
     }
 
-    public static void handle(SoulSyncPacket msg, Supplier<NetworkEvent.Context> ctxStr) {
-        NetworkEvent.Context context = ctxStr.get();
+    public static void handle(SoulSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             String soulType = msg.data.getString(SoulUtil.SOUL_KEY);
 

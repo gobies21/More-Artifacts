@@ -24,6 +24,8 @@ public class PacketHandler {
         addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handle);
         addNetworkMessage(InvisibilityBindMessage.class, InvisibilityBindMessage::buffer, InvisibilityBindMessage::new, InvisibilityBindMessage::handle);
         addNetworkMessage(NightVisionBindMessage.class, NightVisionBindMessage::buffer, NightVisionBindMessage::new, NightVisionBindMessage::handle);
+        addNetworkMessage(OpenWormholeScreenPacket.class, OpenWormholeScreenPacket::encode, OpenWormholeScreenPacket::new, OpenWormholeScreenPacket::handle);
+        addNetworkMessage(SelectWormholeTargetPacket.class, SelectWormholeTargetPacket::encode, SelectWormholeTargetPacket::new, SelectWormholeTargetPacket::handle);
         addNetworkMessage(SoulSyncPacket.class, SoulSyncPacket::encode, SoulSyncPacket::new, SoulSyncPacket::handle);
         addNetworkMessage(CooldownSyncPacket.class, CooldownSyncPacket::encode, CooldownSyncPacket::new, CooldownSyncPacket::handle);
     }

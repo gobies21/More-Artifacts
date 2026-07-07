@@ -18,6 +18,7 @@ import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
 import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
+import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CooldownHandler;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
@@ -114,6 +115,7 @@ public class MoreArtifacts {
         LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
         LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
         LifecycleManager.registerCleanupHook(SoulEvents::clearMaps);
+        LifecycleManager.registerCleanupHook(ManageRequests::clearMaps);
     }
 }
 

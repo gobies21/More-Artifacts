@@ -2,10 +2,12 @@ package net.gobies.moreartifacts.item.misc;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
@@ -63,6 +65,9 @@ public class RecallPotionItem extends Item {
                         if (respawnLocation.isPresent()) {
                             Vec3 respawnVec = respawnLocation.get();
                             Vec3 currentVec = serverPlayer.position();
+
+                            serverPlayer.awardStat(Stats.ITEM_USED.get(this));
+                            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
 
                             MAUtils.spawnPortalParticles(serverPlayer, currentVec);
                             serverPlayer.teleportTo(serverWorld, respawnVec.x, respawnVec.y, respawnVec.z, serverPlayer.getYRot(), serverPlayer.getXRot());

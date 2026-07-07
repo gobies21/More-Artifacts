@@ -12,12 +12,12 @@ import java.util.function.Supplier;
 
 public record CooldownSyncPacket(String artifactId) {
 
-    public CooldownSyncPacket(FriendlyByteBuf buf) {
-        this(buf.readUtf());
+    public CooldownSyncPacket(FriendlyByteBuf buffer) {
+        this(buffer.readUtf());
     }
 
-    public static void encode(CooldownSyncPacket msg, FriendlyByteBuf buf) {
-        buf.writeUtf(msg.artifactId());
+    public static void encode(CooldownSyncPacket msg, FriendlyByteBuf buffer) {
+        buffer.writeUtf(msg.artifactId());
     }
 
     public static void handle(CooldownSyncPacket msg, Supplier<NetworkEvent.Context> ctxSupplier) {
@@ -28,7 +28,7 @@ public record CooldownSyncPacket(String artifactId) {
 
     private static class ClientHandler {
         private static void process(String id) {
-            Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+            Minecraft mc = Minecraft.getInstance();
             if (mc.getSingleplayerServer() != null) return;
 
             Player player = mc.player;
