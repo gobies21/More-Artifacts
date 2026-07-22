@@ -45,11 +45,17 @@ public class PotionRingItemMixin {
                 if (effect == MobEffects.DAMAGE_RESISTANCE) {
                     int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.HeroShield.get(), effectIdString);
                     int effectLevel = Math.min(ringCount - 1, maxLevel);
-                    entity.addEffect(new MobEffectInstance(effect, -1, effectLevel, true, false));
+                    MobEffectInstance mobEffect = entity.getEffect(effect);
+                    if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {
+                        entity.addEffect(new MobEffectInstance(effect, 210, effectLevel, true, false));
+                    }
                 } else if (effect == MobEffects.REGENERATION) {
                     int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.MelodyPlushie.get(), effectIdString);
                     int effectLevel = Math.min(ringCount - 1, maxLevel);
-                    entity.addEffect(new MobEffectInstance(effect, -1, effectLevel, true, false));
+                    MobEffectInstance mobEffect = entity.getEffect(effect);
+                    if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {
+                        entity.addEffect(new MobEffectInstance(effect, 210, effectLevel, true, false));
+                    }
                 }
             }
         }

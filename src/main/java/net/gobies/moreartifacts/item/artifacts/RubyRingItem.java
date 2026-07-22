@@ -30,8 +30,8 @@ public class RubyRingItem extends Item implements ICurioItem {
         double damageIncrease = CommonConfig.RUBY_RING_DAMAGE_INCREASE.get() * 100;
         double healthThreshold = CommonConfig.RUBY_RING_HEALTH_THRESHOLD.get();
         double healthCap = CommonConfig.RUBY_RING_HEALTH_CAP.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.damage", String.format("%.1f", damageIncrease), healthThreshold).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.cap", healthCap).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.damage", String.format("%.0f", damageIncrease), String.format("%.0f", healthThreshold)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.cap", String.format("%.0f", healthCap)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

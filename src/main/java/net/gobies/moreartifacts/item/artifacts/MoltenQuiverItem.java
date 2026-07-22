@@ -30,10 +30,10 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
         double arrowDamage = (CommonConfig.MOLTEN_QUIVER_DAMAGE.get() - 1) * 100;
         double arrowSave = (CommonConfig.MOLTEN_QUIVER_AMMO.get() * 100);
         double arrowFireDamage = (CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_damage", String.format("%.0f", arrowDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.save_arrow", String.format("%.0f", arrowSave)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.fire").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_fire_damage", String.format("%.1f", arrowFireDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_fire_damage", String.format("%.0f", arrowFireDamage)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

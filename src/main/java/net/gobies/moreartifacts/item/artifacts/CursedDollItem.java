@@ -28,7 +28,7 @@ public class CursedDollItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double curseChance = (CommonConfig.CURSED_DOLL_CHANCE.get() * 100);
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse", String.format("%.1f", curseChance)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse", String.format("%.0f", curseChance)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse2").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

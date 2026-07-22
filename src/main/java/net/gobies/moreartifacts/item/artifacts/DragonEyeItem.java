@@ -7,7 +7,6 @@ import net.gobies.moreartifacts.compat.iceandfire2.IceandFire2Compat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.entity.FriendlyEndermanAI;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.monster.EnderMan;
@@ -26,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -81,14 +78,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
 
             appliedNightVision.put(playerId, effectMap);
 
-            if (isEnderDragonEye(stack)) {
-                double followingDistance = CommonConfig.ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get(); // Value halved for Y distance
-                AABB searchBox = player.getBoundingBox().inflate(followingDistance, followingDistance / 2, followingDistance);
-                List<EnderMan> endermen = player.level().getEntitiesOfClass(EnderMan.class, searchBox, EntitySelector.NO_SPECTATORS);
-                for (EnderMan enderMan : endermen) {
-                    new FriendlyEndermanAI(enderMan, player).updateEndermanAI();
-                }
-            } else {
+            if (!isEnderDragonEye(stack)) {
                 IceandFire2Compat.proccessEffects(player, stack);
             }
         }
@@ -143,15 +133,9 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 effectMap.remove(MobEffects.NIGHT_VISION);
             }
             appliedNightVision.put(playerId, effectMap);
-            if (isEnderDragonEye(stack)) {
-                double followingDistance = CommonConfig.ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get(); // Value halved for Y distance
-                AABB searchBox = player.getBoundingBox().inflate(followingDistance, followingDistance / 2, followingDistance);
-                List<EnderMan> endermen = player.level().getEntitiesOfClass(EnderMan.class, searchBox, EntitySelector.NO_SPECTATORS);
-                for (EnderMan enderMan : endermen) {
-                    new FriendlyEndermanAI(enderMan, player).revertEndermanAI();
-                }
+            if (!isEnderDragonEye(stack)) {
+                IceandFire2Compat.removeEffects(player, stack);
             }
-            IceandFire2Compat.removeEffects(player, stack);
         }
     }
 
@@ -256,7 +240,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
         } else {
             double summonChance = CommonConfig.ENDER_DRAGON_EYE_SUMMON_CHANCE.get() * 100;
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
-            tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.summon_enderman", String.format("%.1f", summonChance)).withStyle(ChatFormatting.DARK_AQUA));
+            tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.summon_enderman", String.format("%.0f", summonChance)).withStyle(ChatFormatting.BLUE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.strong_endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
             if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
                 tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));

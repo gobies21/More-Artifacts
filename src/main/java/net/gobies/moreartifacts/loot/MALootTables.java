@@ -95,12 +95,6 @@ public class MALootTables {
             if (!CommonConfig.isItemDisabled(MAItems.NaturesMantle.get())) {
                 LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
             }
-
-            //LootTableHandler.injectLoot(event, "archaeology/desert_pyramid", MAItems.StealthManual.get(), 1, 1, 0.95F);
-            //LootTableHandler.injectLoot(event, "archaeology/desert_well", MAItems.StealthManual.get(), 1, 1, 0.95F);
-            //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_common", MAItems.StealthManual.get(), 1, 1, 0.95F);
-            //LootTableHandler.injectLoot(event, "archaeology/trail_ruins_rare", MAItems.StealthManual.get(), 1, 1, 0.90F);
-
         }
     }
 
@@ -137,6 +131,24 @@ public class MALootTables {
                                 1,
                                 50,
                                 0.05f
+                        );
+                    }
+                    return null;
+                });
+            }
+        }
+        if (!CommonConfig.isItemDisabled(MAItems.StealthManual.get())) {
+            if (event.getType().equals(VillagerProfession.CARTOGRAPHER)) {
+                List<VillagerTrades.ItemListing> trades = event.getTrades().get(5);
+
+                trades.add((entity, random) -> {
+                    if (random.nextFloat() < 0.40) {
+                        return new MerchantOffer(
+                                new ItemStack(Items.EMERALD, 30),
+                                new ItemStack(MAItems.StealthManual.get(), 1),
+                                1,
+                                30,
+                                0.25f
                         );
                     }
                     return null;

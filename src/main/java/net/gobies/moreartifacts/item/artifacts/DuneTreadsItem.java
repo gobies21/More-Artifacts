@@ -70,8 +70,8 @@ public class DuneTreadsItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double movementSpeed = CommonConfig.DUNE_TREADS_SPEED.get() * 100;
         double sandSpeed = CommonConfig.DUNE_TREADS_SAND_SPEED.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.speed", String.format("%.1f", movementSpeed)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.bonus_on_sand", String.format("%.1f", sandSpeed)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.bonus_on_sand", String.format("%.0f", sandSpeed)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

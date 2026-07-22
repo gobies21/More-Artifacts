@@ -1,11 +1,13 @@
 package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.entity.FriendlyEndermanGoal;
 import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MASounds;
 import net.gobies.moreartifacts.item.artifacts.*;
 import net.gobies.moreartifacts.network.CooldownSyncPacket;
+import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.*;
 import net.minecraft.ChatFormatting;
@@ -33,6 +35,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Enemy;
@@ -42,7 +45,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -291,6 +296,7 @@ public class MAEvents {
         if (!player.level().isClientSide && player.isSleeping()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * CommonConfig.PLUSHIE_DURATION.get(), CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
+                player.heal(8 * CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get());
             }
         }
     }
@@ -317,7 +323,7 @@ public class MAEvents {
                 event.setCanceled(CommonConfig.ENABLE_ENDER_TWEAKS.get());
             }
         }
-        if (!event.isCanceled() && event.getSource().getEntity() instanceof LivingEntity player) {
+        if (!event.isCanceled() && event.getSource().getEntity() instanceof Player player) {
             LivingEntity attackedEntity = event.getEntity();
             int gloveCount = CurioHandler.getCurioCount(player, MAItems.EchoGlove.get());
             for (int i = 0; i < gloveCount; i++) {
@@ -331,7 +337,6 @@ public class MAEvents {
     }
 
     private static final String SUMMONED = "MA_Summoned";
-    private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
@@ -382,12 +387,10 @@ public class MAEvents {
                 if (!livingEntity.isDeadOrDying()) {
                     double healChance = CommonConfig.SPECTRE_AMULET_HEAL_CHANCE.get();
                     if (LuckHelper.roll(attacker, healChance, CommonConfig.SPECTRE_AMULET_LUCK_FACTOR.get())) {
-                        long currentTime = System.currentTimeMillis();
-                        long lastHealTime = cooldownMap.getOrDefault(attacker.getUUID(), 0L);
-
-                        if (currentTime - lastHealTime >= 1000) {
+                        String artifactId = "spectre_amulet";
+                        if (CooldownHandler.isReady(attacker, artifactId, 1)) {
                             attacker.heal(CommonConfig.SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue());
-                            cooldownMap.put(attacker.getUUID(), currentTime);
+                            CooldownHandler.updateCooldown(attacker, artifactId);
                         }
                     }
                 }
@@ -395,14 +398,13 @@ public class MAEvents {
         }
         if (sourceEntity instanceof Player attacker) {
             if (CurioHandler.isCurioEquipped(attacker, MAItems.NecroplasmAmulet.get())) {
-                if (event.getEntity() instanceof LivingEntity && !event.getEntity().isDeadOrDying()) {
+                if (!livingEntity.isDeadOrDying()) {
                     double healChance = CommonConfig.NECROPLASM_AMULET_HEAL_CHANCE.get();
                     if (LuckHelper.roll(attacker, healChance, CommonConfig.NECROPLASM_AMULET_LUCK_FACTOR.get())) {
-                        long currentTime = System.currentTimeMillis();
-                        long lastHealTime = cooldownMap.getOrDefault(attacker.getUUID(), 0L);
-                        if (currentTime - lastHealTime >= 1000) {
+                        String artifactId = "necroplasm_amulet";
+                        if (CooldownHandler.isReady(attacker, artifactId, 1)) {
                             attacker.heal(CommonConfig.NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue());
-                            cooldownMap.put(attacker.getUUID(), currentTime);
+                            CooldownHandler.updateCooldown(attacker, artifactId);
                         }
                     }
                 }
@@ -748,7 +750,29 @@ public class MAEvents {
             }
         }
     }
-    public static void clearMaps(UUID uuid) {
-        cooldownMap.remove(uuid);
+
+    @SubscribeEvent
+    public void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide()) return;
+
+        if (event.getEntity() instanceof EnderMan enderMan) {
+            for (WrappedGoal wrappedGoal : enderMan.goalSelector.getAvailableGoals()) {
+                if (wrappedGoal.getGoal() instanceof FriendlyEndermanGoal) return;
+            }
+            enderMan.goalSelector.addGoal(1, new FriendlyEndermanGoal(enderMan));
+        }
+    }
+
+    @SubscribeEvent
+    public void onCommandExecuted(CommandEvent event) {
+        String command = event.getParseResults().getReader().getString();
+        if (command.equals("/wormhole_accept") || command.equals("/wormhole_deny")) {
+            event.setCanceled(true);
+
+            if (event.getParseResults().getContext().getSource().getEntity() instanceof ServerPlayer player) {
+                boolean accepted = command.equals("/wormhole_accept");
+                ManageRequests.handleResponse(player, accepted);
+            }
+        }
     }
 }

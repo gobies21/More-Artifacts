@@ -190,7 +190,7 @@ public class ShadowSoulItem extends SoulItem {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage5_lore").withStyle(ChatFormatting.GOLD));
         }
         // Damage Tooltips
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.damage_dealt", String.format("%.1f", damageDealt)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.damage_dealt", String.format("%.0f", damageDealt)).withStyle(ChatFormatting.BLUE));
         if (stage >= 3) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.invis").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.SOUL_PASSIVE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
         }

@@ -21,7 +21,7 @@ public class ExplosionHandlerMixin {
             remap = false
     )
     public void onExplosion(Player player, Vec3 pos, float size, Entity source, CallbackInfo ci) {
-        if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get()) && CommonConfig.HERO_SHIELD_COMPAT.get()) {
+        if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get()) && CommonConfig.HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get()) {
             ci.cancel();
         }
     }

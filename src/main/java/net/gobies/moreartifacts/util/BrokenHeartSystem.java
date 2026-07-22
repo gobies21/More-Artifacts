@@ -104,6 +104,7 @@ public class BrokenHeartSystem {
         if (event.getEntity() instanceof ServerPlayer player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
                 clearBrokenHearts(player);
+                player.heal(player.getMaxHealth());
             }
         }
     }
@@ -111,13 +112,15 @@ public class BrokenHeartSystem {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         if (!(event.getEntity() instanceof ServerPlayer newPlayer)) return;
-        ServerPlayer oldPlayer = (ServerPlayer) event.getOriginal();
+        Player oldPlayer = event.getOriginal();
 
-        int brokenHearts = getBrokenHearts(oldPlayer);
-        newPlayer.getPersistentData().putInt(BROKEN_HEARTS, brokenHearts);
+        if (oldPlayer instanceof ServerPlayer) {
+            int brokenHearts = getBrokenHearts(oldPlayer);
+            newPlayer.getPersistentData().putInt(BROKEN_HEARTS, brokenHearts);
 
-        if (!event.isWasDeath()) {
-            applyHealthPenalty(newPlayer);
+            if (!event.isWasDeath()) {
+                applyHealthPenalty(newPlayer);
+            }
         }
     }
 

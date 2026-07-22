@@ -62,8 +62,8 @@ public class FireStoneItem extends Item implements ICurioItem {
         int fireDuration = CommonConfig.FIRE_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.FIRE_STONE_DAMAGE.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + String.format("%.1f", fireChance) + "%").withStyle(ChatFormatting.DARK_AQUA), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.DARK_AQUA)).withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + String.format("%.1f", increasedDamage) + "%").withStyle(ChatFormatting.DARK_AQUA)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + String.format("%.0f", fireChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + String.format("%.0f", increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);

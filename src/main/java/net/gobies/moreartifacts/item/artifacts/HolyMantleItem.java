@@ -30,9 +30,9 @@ public class HolyMantleItem extends Item implements ICurioItem {
         int cooldown = CommonConfig.HOLY_MANTLE_COOLDOWN.get();
         double absorptionChance = CommonConfig.HOLY_MANTLE_ABSORPTION_CHANCE.get() * 100;
         int maxHearts = CommonConfig.HOLY_MANTLE_MAX_HEARTS.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.cooldown", cooldown).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.absorption_chance", String.format("%.1f", absorptionChance)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.max_hearts", maxHearts).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.cooldown", cooldown).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.absorption_chance", String.format("%.0f", absorptionChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.max_hearts", maxHearts).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -35,8 +35,8 @@ public class GildedScarfItem extends Item implements ICurioItem {
         double damageTaken = CommonConfig.GILDED_DAMAGE_REDUCTION.get() * 100;
         double damageDealt = (CommonConfig.GILDED_DAMAGE_DEALT.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.neutral").withStyle(ChatFormatting.YELLOW));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", String.format("%.1f", damageTaken)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", String.format("%.1f", damageDealt)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", String.format("%.0f", damageTaken)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", String.format("%.0f", damageDealt)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

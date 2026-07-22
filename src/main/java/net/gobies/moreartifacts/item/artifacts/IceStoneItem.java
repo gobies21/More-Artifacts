@@ -62,13 +62,13 @@ public class IceStoneItem extends Item implements ICurioItem {
         double encaseChance = (CommonConfig.ICE_STONE_ENCASED_CHANCE.get() * 100);
         int encaseDuration = CommonConfig.ICE_STONE_ENCASED_DURATION.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.immunity").withStyle(ChatFormatting.AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", String.format("%.1f", iceChance), iceDuration).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", String.format("%.0f", iceChance), iceDuration).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", String.format("%.0f",  increasedDamage)).withStyle(ChatFormatting.BLUE));
         if (ModLoadedUtil.isIceandFireLoaded() && (CommonConfig.ICE_STONE_COMPAT.get())) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(4);
-                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", String.format("%.1f", encaseChance), encaseDuration).withStyle(ChatFormatting.DARK_AQUA));
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", String.format("%.0f", encaseChance), encaseDuration).withStyle(ChatFormatting.BLUE));
             }
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

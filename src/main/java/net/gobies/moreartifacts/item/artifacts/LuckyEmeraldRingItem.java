@@ -42,8 +42,8 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double emeraldChance = CommonConfig.EMERALD_RING_EMERALDS.get() * 100;
         double damageIncrease = (CommonConfig.EMERALD_RING_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.chance", String.format("%.1f", emeraldChance)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.damage", String.format("%.1f", damageIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.chance", String.format("%.0f", emeraldChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

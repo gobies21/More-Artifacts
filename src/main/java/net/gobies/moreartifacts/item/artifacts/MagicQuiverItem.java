@@ -25,8 +25,8 @@ public class MagicQuiverItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double arrowDamage = (CommonConfig.MAGIC_QUIVER_DAMAGE.get() - 1) * 100;
         double arrowSave = (CommonConfig.MAGIC_QUIVER_AMMO.get() * 100);
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.damage", String.format("%.0f", arrowDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.magic_quiver.save_arrow", String.format("%.0f", arrowSave)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

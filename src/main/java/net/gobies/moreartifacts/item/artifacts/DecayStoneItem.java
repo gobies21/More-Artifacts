@@ -43,12 +43,12 @@ public class DecayStoneItem extends Item implements ICurioItem {
         double increasedDamage = (CommonConfig.DECAY_STONE_DAMAGE.get() - 1) * 100;
         int healAmount = CommonConfig.DECAY_STONE_HEAL_AMOUNT.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.immunity").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.inflict_wither", String.format("%.1f", witherChance), witherLevel, witherDuration).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.increased_damage", String.format("%.1f", increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.inflict_wither", String.format("%.0f", witherChance), witherLevel, witherDuration).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.increased_damage", String.format("%.0f", increasedDamage)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.heal_amount", healAmount).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.heal_amount", healAmount).withStyle(ChatFormatting.BLUE));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

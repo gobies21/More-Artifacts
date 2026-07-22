@@ -50,8 +50,8 @@ public class MechanicalGearsItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double movementSpeed = CommonConfig.MECHANICAL_GEARS_SPEED.get() * 100;
         double dodgeChance = CommonConfig.MECHANICAL_GEARS_DODGE_CHANCE.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.speed", String.format("%.1f", movementSpeed)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.dodge", String.format("%.1f", dodgeChance)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.dodge", String.format("%.0f", dodgeChance)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

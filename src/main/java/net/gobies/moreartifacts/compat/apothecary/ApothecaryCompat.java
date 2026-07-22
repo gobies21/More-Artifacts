@@ -44,6 +44,9 @@ public class ApothecaryCompat {
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.removeEffect(player, AEffects.Burning.get());
             }
+            if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+                MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
+            }
         }
     }
 
@@ -69,6 +72,9 @@ public class ApothecaryCompat {
             }
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+                MAUtils.harmfulSpecificEffectImmune(event, AEffects.BrokenArmor.get());
             }
         }
     }

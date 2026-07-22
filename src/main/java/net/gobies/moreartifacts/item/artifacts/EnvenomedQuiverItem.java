@@ -29,8 +29,8 @@ public class EnvenomedQuiverItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double arrowDamage = (CommonConfig.ENVENOMED_QUIVER_DAMAGE.get() - 1) * 100;
         double arrowSave = (CommonConfig.ENVENOMED_QUIVER_AMMO.get() * 100);
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.damage", String.format("%.1f", arrowDamage)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.save_arrow", String.format("%.1f", arrowSave)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.damage", String.format("%.0f", arrowDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.save_arrow", String.format("%.0f", arrowSave)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envenomed_quiver.inflict").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

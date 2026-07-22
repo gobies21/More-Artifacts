@@ -15,12 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class Teleport {
-    private static final Map<UUID, Boolean> teleportStatus = new HashMap<>();
 
     //not perfect, but it works for now
     public static Vec3 solveTeleportDestination(Level level, Player player, BlockPos ignoreblockPos, Vec3 vec3) {
@@ -104,7 +99,6 @@ public class Teleport {
                 serverPlayer.connection.teleport(targetPosition.x, targetPosition.y, targetPosition.z, player.getYRot(), player.getXRot());
                 CooldownHandler.updateCooldown(player, artifactId);
                 PacketHandler.sendToClient(new CooldownSyncPacket(artifactId), serverPlayer);
-                updateTeleportStatus(player, true);
                 if (!level.isClientSide()) {
                     level.playSound(null, targetPosition.x, targetPosition.y, targetPosition.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
@@ -113,20 +107,6 @@ public class Teleport {
 
                 }
             }
-        } else {
-            updateTeleportStatus(player, false);
         }
-    }
-
-    public static boolean hasTeleported(Player player) {
-        return teleportStatus.getOrDefault(player.getUUID(), false);
-    }
-
-    public static void updateTeleportStatus(Player player, boolean hasTeleported) {
-        teleportStatus.put(player.getUUID(), hasTeleported);
-    }
-
-    public static void clearMaps(UUID uuid) {
-        teleportStatus.remove(uuid);
     }
 }

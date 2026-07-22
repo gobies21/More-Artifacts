@@ -3,12 +3,15 @@ package net.gobies.moreartifacts.compat.firstaid;
 import ichttt.mods.firstaid.FirstAid;
 import ichttt.mods.firstaid.FirstAidConfig;
 import ichttt.mods.firstaid.api.damagesystem.AbstractDamageablePart;
+import ichttt.mods.firstaid.api.debuff.IDebuff;
 import ichttt.mods.firstaid.api.event.FirstAidLivingDamageEvent;
 import ichttt.mods.firstaid.common.network.MessageUpdatePart;
 import ichttt.mods.firstaid.common.util.CommonUtils;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.LuckHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -41,9 +44,48 @@ public class FirstAidCompat {
             return;
         }
 
+        if (event.getUndistributedDamage() > 1000) return;
+        AbstractDamageablePart headAfter = event.getAfterDamage().HEAD;
+        AbstractDamageablePart headBefore = event.getBeforeDamage().HEAD;
+
+        if (headAfter != null && headBefore != null && headAfter.currentHealth < headBefore.currentHealth) {
+            float headDamage = headBefore.currentHealth - headAfter.currentHealth;
+            float damageReduction = 1.0F;
+
+            if (CommonConfig.WOODEN_HEADGEAR_FIRST_AID_COMPAT.get() && CurioHandler.isCurioEquipped(player, MAItems.WoodenHeadgear.get())) {
+                damageReduction *= (float) (1 - CommonConfig.WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get());
+            }
+            if (CommonConfig.GOLDEN_HEADGEAR_FIRST_AID_COMPAT.get() && CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
+                damageReduction *= (float) (1 - CommonConfig.GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get());
+            }
+            if (CommonConfig.NETHERITE_HEADGEAR_FIRST_AID_COMPAT.get() && CurioHandler.isCurioEquipped(player, MAItems.NetheriteHeadgear.get())) {
+                damageReduction *= (float) (1 - CommonConfig.NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get());
+            }
+
+            float reducedDamage = headDamage * damageReduction;
+            headAfter.currentHealth = headBefore.currentHealth - reducedDamage;
+
+            MessageUpdatePart updatePacket = new MessageUpdatePart(headAfter);
+            FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
+        }
+
+        if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+            if (headAfter != null && headBefore != null && headAfter.currentHealth < headBefore.currentHealth) {
+                if (LuckHelper.roll(player, CommonConfig.FIRST_AID_IGNORE_CHANCE.get(), 0.01)) {
+                    headAfter.currentHealth = headBefore.currentHealth;
+                    headAfter.loadDebuffInfo(new IDebuff[0]);
+                    event.setCanceled(true);
+
+                    MessageUpdatePart updatePacket = new MessageUpdatePart(headAfter);
+                    FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
+
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.6F);
+                    return;
+                }
+            }
+        }
         // Totem check, will try to make it more global in the future
         if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
-        if (event.getUndistributedDamage() > 1000) return;
         if (CurioHandler.isCurioEquipped(serverPlayer, MAItems.BrokenHeart.get())) {
             boolean dead = false;
             List<AbstractDamageablePart> fatalParts = new ArrayList<>();
@@ -100,6 +142,7 @@ public class FirstAidCompat {
             }
         }
     }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerWake(PlayerWakeUpEvent event) {
         Player player = event.getEntity();

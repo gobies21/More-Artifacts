@@ -43,12 +43,12 @@ public class VenomStoneItem extends Item implements ICurioItem {
         double increasedDamage = (CommonConfig.VENOM_STONE_DAMAGE.get() - 1) * 100;
         double deadlyChance = CommonConfig.VENOM_STONE_DEADLY_CHANCE.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.immunity").withStyle(ChatFormatting.GREEN));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.inflict_poison", String.format("%.1f", poisonChance), poisonLevel, poisonDuration).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.increased_damage", String.format("%.1f",  increasedDamage)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.inflict_poison", String.format("%.0f", poisonChance), poisonLevel, poisonDuration).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.increased_damage", String.format("%.0f",  increasedDamage)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.deadly.chance", String.format("%.1f",  deadlyChance)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.deadly.chance", String.format("%.0f",  deadlyChance)).withStyle(ChatFormatting.BLUE));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

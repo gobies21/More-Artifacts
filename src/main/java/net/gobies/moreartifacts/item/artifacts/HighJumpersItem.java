@@ -49,7 +49,7 @@ public class HighJumpersItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double movementSpeed = CommonConfig.HIGH_JUMPERS_SPEED.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.speed", String.format("%.1f", movementSpeed)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.jump").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

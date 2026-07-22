@@ -43,11 +43,13 @@ public class MechanicalClawItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double bleedChance = (CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * 100);
-        int bleedDamage = (CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get());
-        int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get());
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_chance", String.format("%.1f", bleedChance)).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_duration", bleedDamage, bleedDuration).withStyle(ChatFormatting.DARK_AQUA));
+        double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * 100;
+        int bleedDamage = CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get();
+        int bleedDuration = CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get();
+        double damageReceived = CommonConfig.BLEED_DAMAGE_RECEIVED.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_chance", String.format("%.0f", bleedChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_duration", bleedDamage, bleedDuration).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_received", String.format("%.0f", damageReceived)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

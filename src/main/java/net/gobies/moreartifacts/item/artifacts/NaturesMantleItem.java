@@ -45,7 +45,7 @@ public class NaturesMantleItem extends Item implements ICurioItem {
                     } else {
                         standStillCounter++;
                         if (standStillCounter >= randomDuration && !player.hasEffect(MobEffects.REGENERATION)) {
-                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 125, 0, false, false, false));
+                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 130, 0, true, true));
                             standStillCounter = 0;
                         }
                     }

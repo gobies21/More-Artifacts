@@ -45,7 +45,7 @@ public class EnhancedVisualsCompat {
     public void VisualExplosionEvent(VisualExplosionEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player != null && !event.isCanceled() && CommonConfig.HERO_SHIELD_COMPAT.get()) {
+        if (player != null && !event.isCanceled() && CommonConfig.HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
                 event.setCanceled(true);
             }

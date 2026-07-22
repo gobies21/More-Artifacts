@@ -3,7 +3,9 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -50,9 +52,17 @@ public class GoldenHeadgearItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double arrowDamageReduction = (1.0 - CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.golden_headgear.arrow.damage", String.format("%.1f", arrowDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        double arrowDamageReduction = CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get() * 100;
+        double headshotDamageReduction = CommonConfig.GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.golden_headgear.arrow.damage", String.format("%.0f", arrowDamageReduction)).withStyle(ChatFormatting.BLUE));
+        if (ModLoadedUtil.isFirstAidLoaded() && CommonConfig.GOLDEN_HEADGEAR_FIRST_AID_COMPAT.get()) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+            if (Screen.hasControlDown()) {
+                pTooltipComponents.remove(2);
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.headgear.headshot", String.format("%.0f", headshotDamageReduction)).withStyle(ChatFormatting.BLUE));
+            }
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
 }
 

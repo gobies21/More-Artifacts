@@ -6,6 +6,7 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -35,8 +36,10 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (!player.hasEffect(MobEffects.REGENERATION)) {
-                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, -1, CommonConfig.PLUSHIE_REGEN_LEVEL.get() - 1, false, false));
+            MobEffect effect = MobEffects.REGENERATION;
+            MobEffectInstance mobEffect = player.getEffect(effect);
+            if (mobEffect == null || mobEffect.getDuration() <= 110) {
+                player.addEffect(new MobEffectInstance(effect, 210, CommonConfig.PLUSHIE_REGEN_LEVEL.get() - 1, true, false));
             }
         }
     }
@@ -71,7 +74,7 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.regen").withStyle(ChatFormatting.LIGHT_PURPLE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.sleep").withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.sleep"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

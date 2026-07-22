@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 
 public record SelectWormholeTargetPacket(String targetName) {
 
-    public SelectWormholeTargetPacket(FriendlyByteBuf buf) {
-        this(buf.readUtf());
+    public SelectWormholeTargetPacket(FriendlyByteBuf buffer) {
+        this(buffer.readUtf());
     }
 
     public void encode(FriendlyByteBuf buffer) {

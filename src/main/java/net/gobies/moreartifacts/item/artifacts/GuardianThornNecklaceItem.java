@@ -51,9 +51,11 @@ public class GuardianThornNecklaceItem extends Item implements ICurioItem {
         int necklaceArmor = CommonConfig.GUARDIAN_THORN_NECKLACE_ARMOR.get();
         int necklaceThorns = CommonConfig.GUARDIAN_THORN_NECKLACE_THORNS.get();
         int necklaceArmorPierce = CommonConfig.GUARDIAN_THORN_NECKLACE_ARMOR_PIERCE.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.armor", necklaceArmor).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.thorns", necklaceThorns).withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.armor_pierce", necklaceArmorPierce).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.literal(""));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.around_neck").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.armor", necklaceArmor).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.thorns", necklaceThorns).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.guardian_thorn_necklace.armor_pierce", necklaceArmorPierce).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

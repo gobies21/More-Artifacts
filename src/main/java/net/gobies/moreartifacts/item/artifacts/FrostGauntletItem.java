@@ -42,8 +42,10 @@ public class FrostGauntletItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.freezing").withStyle(ChatFormatting.DARK_AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds").withStyle(ChatFormatting.DARK_AQUA));
+        double damageReceived = CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.freezing").withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds").withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds_damage_received", String.format("%.0f", damageReceived)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

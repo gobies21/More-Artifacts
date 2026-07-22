@@ -46,22 +46,6 @@ public class WormholePotionItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
         if (entity instanceof ServerPlayer serverPlayer) {
-            if (!serverPlayer.isCreative()) {
-                if (stack.getCount() == 1) {
-                    if (serverPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof WormholePotionItem) {
-                        serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
-                    } else {
-                        serverPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
-                    }
-                } else {
-                    stack.shrink(1);
-                    serverPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
-                }
-            }
-
-            serverPlayer.awardStat(Stats.ITEM_USED.get(this));
-            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
-
             List<ServerPlayer> otherPlayers = serverPlayer.server.getPlayerList().getPlayers();
             List<String> playerNames = new ArrayList<>(otherPlayers.size());
             for (ServerPlayer onlinePlayer : otherPlayers) {
@@ -73,6 +57,20 @@ public class WormholePotionItem extends Item {
             if (!playerNames.isEmpty()) {
                 PacketHandler.sendToClient(new OpenWormholeScreenPacket(playerNames), serverPlayer);
                 serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.WORMHOLE_POTION_COOLDOWN.get()); // 20 ticks = 1 second
+                serverPlayer.awardStat(Stats.ITEM_USED.get(this));
+                CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
+                if (!serverPlayer.isCreative()) {
+                    if (stack.getCount() == 1) {
+                        if (serverPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof WormholePotionItem) {
+                            serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                        } else {
+                            serverPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                        }
+                    } else {
+                        stack.shrink(1);
+                        serverPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
+                    }
+                }
             } else {
                 serverPlayer.sendSystemMessage(Component.literal("No players available for teleport"));
             }

@@ -127,12 +127,12 @@ dependencies {
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
     implementation fg.deobf("curse.maven:creativecore-257814:6383884")
 
-    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:7569074")
+    implementation fg.deobf("curse.maven:simply-potion-rings-1217574:8472112")
 
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
 
-    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:7620316")
+    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:8451346")
     //runtimeOnly(fg.deobf("curse.maven:artifacts-312353:6399828"))
 
     implementation fg.deobf("curse.maven:configured-457570:5180900")

@@ -22,9 +22,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -84,8 +84,10 @@ public class DamageEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.isCanceled()) return;
+        LivingEntity livingEntity = event.getEntity();
+        UUID targetId = livingEntity.getUUID();
         DamageSource source = event.getSource();
-        if (event.getEntity() instanceof Player player) {
+        if (livingEntity instanceof Player player) {
             double generalReduction = getTotalDamageReduction(player);
             double fireReduction = getFireDamageReduction(player);
 
@@ -110,6 +112,16 @@ public class DamageEvents {
 
                     attacker.hurt(event.getSource(), damageToReflect);
                     player.invulnerableTime += 12;
+                }
+            }
+
+            if (source.is(DamageTypes.ARROW) || SpartanWeaponryCompat.isArmorPiercingBolt(source)) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.WoodenHeadgear.get())) {
+                    finalReduction *= (1.0 - CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get());
+                } else if (CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
+                    finalReduction *= (1.0 - CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get());
+                } else if (CurioHandler.isCurioEquipped(player, MAItems.NetheriteHeadgear.get())) {
+                    finalReduction *= (1.0 - CommonConfig.NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION.get());
                 }
             }
 
@@ -258,18 +270,6 @@ public class DamageEvents {
                 }
             }
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.WoodenHeadgear.get())) {
-                event.setAmount((float) (event.getAmount() * CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
-            }
-
-            if (CurioHandler.isCurioEquipped(player, MAItems.GoldenHeadgear.get())) {
-                event.setAmount((float) (event.getAmount() * CommonConfig.GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
-            }
-
-            if (CurioHandler.isCurioEquipped(player, MAItems.NetheriteHeadgear.get())) {
-                event.setAmount((float) (event.getAmount() * CommonConfig.NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get()));
-            }
-
             if (CurioHandler.isCurioEquipped(player, MAItems.VanirMask.get())) {
                 event.setAmount((float) (event.getAmount() + CommonConfig.VANIR_MASK_DAMAGE_INCREASE.get()));
             }
@@ -333,6 +333,11 @@ public class DamageEvents {
 
             MAUtils.logDebug("Total Damage Increase for " + player.getName().getString() + ": " + String.format("%.2f", generalIncrease * 100) + "%");
         }
+        if (BLEEDING.containsKey(targetId)) {
+            event.setAmount((float) (event.getAmount() * (1 + CommonConfig.BLEED_DAMAGE_RECEIVED.get())));
+        } else if (FROSTED_WOUNDS.containsKey(targetId)) {
+            event.setAmount((float) (event.getAmount() * (1 + CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get())));
+        }
     }
 
     @SubscribeEvent
@@ -380,7 +385,7 @@ public class DamageEvents {
 
         // TODO Lycanites bleed compat
         int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
-        for (int i = 0; i < clawCount; i++) {
+        if (clawCount > 0) {
             int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;
             double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * clawCount;
             if (LuckHelper.roll(player, bleedChance, CommonConfig.MECHANICAL_CLAW_LUCK_FACTOR.get())) {
@@ -465,11 +470,10 @@ public class DamageEvents {
                 List<LivingEntity> nearbyEntities = world.getEntitiesOfClass(LivingEntity.class, area);
 
                 for (LivingEntity entity : nearbyEntities) {
-                    if (entity instanceof TamableAnimal && ((TamableAnimal) entity).isTame()) {
-                        continue;
-                    }
-                    if (entity != attacker && attacker.hasLineOfSight(entity)) {
-                        entity.setSecondsOnFire(2 * CommonConfig.FIRE_STONE_DURATION.get());
+                    if (entity instanceof Enemy) {
+                        if (entity != attacker && attacker.hasLineOfSight(entity)) {
+                            entity.setSecondsOnFire(2 * CommonConfig.FIRE_STONE_DURATION.get());
+                        }
                     }
                 }
             }

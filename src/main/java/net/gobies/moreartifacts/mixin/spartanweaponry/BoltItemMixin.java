@@ -4,6 +4,7 @@ import com.oblivioussp.spartanweaponry.item.BoltItem;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.LuckHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,22 +21,32 @@ public class BoltItemMixin {
             cancellable = true
     )
     private void quiverSaveBolt(ItemStack stack, ItemStack crossbow, Player player, CallbackInfoReturnable<Boolean> cir) {
-        boolean saveArrow = false;
         if (CurioHandler.isCurioEquipped(player, MAItems.MagicQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.MAGIC_QUIVER_AMMO.get()) {
-                saveArrow = true;
+            double saveChance = CommonConfig.MAGIC_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.MAGIC_QUIVER_LUCK_FACTOR.get())) {
+                cir.setReturnValue(true);
+                return;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.EnvenomedQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.ENVENOMED_QUIVER_AMMO.get()) {
-                saveArrow = true;
+            double saveChance = CommonConfig.ENVENOMED_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.ENVENOMED_QUIVER_LUCK_FACTOR.get())) {
+                cir.setReturnValue(true);
+                return;
             }
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
-            if (player.getRandom().nextFloat() < CommonConfig.MOLTEN_QUIVER_AMMO.get()) {
-                saveArrow = true;
+            double saveChance = CommonConfig.MOLTEN_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.MOLTEN_QUIVER_LUCK_FACTOR.get())) {
+                cir.setReturnValue(true);
+                return;
             }
         }
-        cir.setReturnValue(saveArrow);
+        if (CurioHandler.isCurioEquipped(player, MAItems.FrozenQuiver.get())) {
+            double saveChance = CommonConfig.FROZEN_QUIVER_AMMO.get();
+            if (LuckHelper.roll(player, saveChance, CommonConfig.FROZEN_QUIVER_LUCK_FACTOR.get())) {
+                cir.setReturnValue(true);
+            }
+        }
     }
 }

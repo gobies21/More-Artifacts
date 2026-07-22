@@ -18,8 +18,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
-
 public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public ObsidianShieldItem(Properties properties) {
         super(properties.stacksTo(1).rarity(Rarity.RARE).fireResistant().durability(1000));
@@ -55,7 +53,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double fireDamageReduction = (CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.immunity").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.fire_damage", String.format("%.1f", fireDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.fire_damage", String.format("%.0f", fireDamageReduction)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(3);

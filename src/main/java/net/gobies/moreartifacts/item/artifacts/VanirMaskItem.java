@@ -67,11 +67,11 @@ public class VanirMaskItem extends Item implements ICurioItem {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(2);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.1f", damageIncrease)).withStyle(ChatFormatting.DARK_AQUA));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.health", String.format("%.1f", healthIncrease)).withStyle(ChatFormatting.DARK_AQUA));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.speed", String.format("%.1f", speedIncrease)).withStyle(ChatFormatting.DARK_AQUA));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor", String.format("%.1f", armorIncrease)).withStyle(ChatFormatting.DARK_AQUA));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor_toughness", String.format("%.1f", armorToughnessIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.health", String.format("%.0f", healthIncrease)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.speed", String.format("%.0f", speedIncrease)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor", String.format("%.0f", armorIncrease)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor_toughness", String.format("%.0f", armorToughnessIncrease)).withStyle(ChatFormatting.BLUE));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }
     }

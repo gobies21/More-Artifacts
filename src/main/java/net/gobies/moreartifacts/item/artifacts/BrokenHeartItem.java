@@ -31,7 +31,7 @@ public class BrokenHeartItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double damageIncrease = (CommonConfig.BROKEN_HEART_DAMAGE_INCREASE.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.broken_heart", Component.literal("Broken Hearts").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x931C30)))).withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.broken_heart.damage", String.format("%.1f", damageIncrease)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.broken_heart.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.broken_heart.sleep").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

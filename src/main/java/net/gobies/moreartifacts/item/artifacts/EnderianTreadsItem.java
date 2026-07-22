@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.CooldownHandler;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -23,9 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class EnderianTreadsItem extends Item implements ICurioItem {
@@ -34,7 +33,6 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     }
 
     private static final UUID SPEED = UUID.fromString("07c0b340-7cc3-4bca-918f-2a9927cc4785");
-    private static final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
@@ -51,18 +49,15 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     }
 
     public static boolean canUseAbility(Player player) {
-        Long lastUsed = cooldownMap.get(player.getUUID());
-        long currentTime = System.currentTimeMillis();
-        long cooldownDuration = (long) (1000L * CommonConfig.ENDERIAN_TREADS_COOLDOWN.get());
+        String artifactId = "enderian_treads";
+        double cooldown = CommonConfig.ENDERIAN_TREADS_COOLDOWN.get();
 
-        if (lastUsed == null) {
-            MAUtils.logDebug("Teleported: {}" + player.getUUID());
-            return true;
+        boolean isReady = CooldownHandler.isReady(player, artifactId, cooldown);
+        if (isReady) {
+            MAUtils.logDebug("Teleported: " + player.getUUID());
         }
 
-        long timeSinceLastUse = currentTime - lastUsed;
-
-        return timeSinceLastUse >= cooldownDuration;
+        return isReady;
     }
 
 
@@ -95,8 +90,9 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     }
 
     public static void setCooldown(Player player) {
-        cooldownMap.put(player.getUUID(), System.currentTimeMillis());
+        CooldownHandler.updateCooldown(player, "enderian_treads");
     }
+
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
@@ -107,12 +103,9 @@ public class EnderianTreadsItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double movementSpeed = CommonConfig.ENDERIAN_TREADS_SPEED.get() * 100;
         double evadeCooldown = CommonConfig.ENDERIAN_TREADS_COOLDOWN.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.speed", String.format("%.1f", movementSpeed)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.evade").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.cooldown", evadeCooldown).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_treads.cooldown", evadeCooldown).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-    public static void clearMaps(UUID uuid) {
-        cooldownMap.remove(uuid);
     }
 }

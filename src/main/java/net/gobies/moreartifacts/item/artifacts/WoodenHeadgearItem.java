@@ -3,7 +3,9 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -40,9 +42,17 @@ public class WoodenHeadgearItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double arrowDamageReduction = (1.0 - CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get()) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.wooden_headgear.arrow.damage", String.format("%.1f", arrowDamageReduction)).withStyle(ChatFormatting.DARK_AQUA));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        double arrowDamageReduction = CommonConfig.WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get() * 100;
+        double headshotDamageReduction = CommonConfig.WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get() * 100;
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.wooden_headgear.arrow.damage", String.format("%.0f", arrowDamageReduction)).withStyle(ChatFormatting.BLUE));
+        if (ModLoadedUtil.isFirstAidLoaded() && CommonConfig.WOODEN_HEADGEAR_FIRST_AID_COMPAT.get()) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+            if (Screen.hasControlDown()) {
+                pTooltipComponents.remove(2);
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.headgear.headshot", String.format("%.0f", headshotDamageReduction)).withStyle(ChatFormatting.BLUE));
+            }
+            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        }
     }
 }
 

@@ -46,14 +46,7 @@ public class GraveScrollItem extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-        if (player instanceof ServerPlayer serverPlayer) {
-            if (serverPlayer.getLastDeathLocation().isEmpty()) {
-                return InteractionResultHolder.fail(itemStack);
-            }
-        }
-        player.startUsingItem(hand);
-        return InteractionResultHolder.consume(itemStack);
+        return ItemUtils.startUsingInstantly(level, player, hand);
     }
 
     @Override
@@ -80,7 +73,7 @@ public class GraveScrollItem extends Item {
                         MAUtils.spawnPortalParticles(serverPlayer, Vec3.atLowerCornerOf(deathPos));
                         targetLevel.playSound(null, deathPos.getX(), deathPos.getY(), deathPos.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-                        serverPlayer.invulnerableTime = 10;
+                        serverPlayer.invulnerableTime = 30;
                         if (!serverPlayer.getAbilities().instabuild) {
                             stack.shrink(1);
                             serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.GRAVE_SCROLL_COOLDOWN.get());

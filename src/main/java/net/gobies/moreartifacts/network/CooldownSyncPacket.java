@@ -10,6 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+// Send this packet to client in the event methods of artifacts with overlays and cooldowns
 public record CooldownSyncPacket(String artifactId) {
 
     public CooldownSyncPacket(FriendlyByteBuf buffer) {

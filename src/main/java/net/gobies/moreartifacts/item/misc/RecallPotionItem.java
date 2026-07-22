@@ -44,12 +44,7 @@ public class RecallPotionItem extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-        if (itemStack.getItem() instanceof RecallPotionItem) {
-            player.startUsingItem(hand);
-            return InteractionResultHolder.consume(itemStack);
-        }
-        return InteractionResultHolder.pass(itemStack);
+        return ItemUtils.startUsingInstantly(level, player, hand);
     }
 
     @Override

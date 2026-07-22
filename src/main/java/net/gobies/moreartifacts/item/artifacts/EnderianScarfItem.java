@@ -28,7 +28,7 @@ public class EnderianScarfItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double damageTaken = CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_scarf.damage_taken", String.format("%.1f", damageTaken)).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_scarf.damage_taken", String.format("%.0f", damageTaken)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -75,13 +75,19 @@ public class ManageRequests {
         ResourceKey<Level> targetDimension = targetLevel.dimension();
 
         if (accepted) {
+            if (targetDimension.location().toString().equals("irons_spellbooks:pocket_dimension")) {
+                requester.sendSystemMessage(Component.literal("Cannot access " + targetName + "'s pocket dimension"));
+                target.sendSystemMessage(Component.literal("Wormholes cannot go into pocket dimensions"));
+                return;
+            }
+
             if (interDimensional || requesterDimension.equals(targetDimension)) {
                 MAUtils.spawnPortalParticles(requesterLevel, currentVec);
                 requester.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
                 requesterLevel.playSound(null, requester.getX(), requester.getY(), requester.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                 targetLevel.playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                 MAUtils.spawnPortalParticles(requesterLevel, targetVec);
-                requester.sendSystemMessage(Component.literal("Teleport request accepted! Teleporting..."));
+                requester.sendSystemMessage(Component.literal("Teleport request accepted"));
                 target.sendSystemMessage(Component.literal("You accepted " + requesterName + "'s teleport request"));
             } else {
                 requester.sendSystemMessage(Component.literal("Wormholes cannot go through dimensions"));

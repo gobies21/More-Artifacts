@@ -16,13 +16,11 @@ import net.gobies.moreartifacts.event.SoulEvents;
 import net.gobies.moreartifacts.helper.LifecycleManager;
 import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
-import net.gobies.moreartifacts.item.artifacts.EnderianTreadsItem;
 import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CooldownHandler;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
-import net.gobies.moreartifacts.util.Teleport;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,7 +37,7 @@ import java.util.*;
 @Mod(MoreArtifacts.MOD_ID)
 public class MoreArtifacts {
     public static final String MOD_ID = "moreartifacts";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public MoreArtifacts() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -107,11 +105,8 @@ public class MoreArtifacts {
 
     private void cleanupMaps() {
         LifecycleManager.registerCleanupHook(DamageEvents::clearMaps);
-        LifecycleManager.registerCleanupHook(MAEvents::clearMaps);
-        LifecycleManager.registerCleanupHook(Teleport::clearMaps);
         LifecycleManager.registerCleanupHook(CooldownHandler::clearMaps);
         LifecycleManager.registerCleanupHook(DragonEyeItem::clearMaps);
-        LifecycleManager.registerCleanupHook(EnderianTreadsItem::clearMaps);
         LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
         LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
         LifecycleManager.registerCleanupHook(SoulEvents::clearMaps);

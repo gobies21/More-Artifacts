@@ -95,6 +95,8 @@ public class CommonConfig {
     public static int frosted_wounds_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> FROSTED_WOUNDS_DURATION;
     public static int frosted_wounds_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> FROSTED_WOUNDS_DAMAGE_RECEIVED;
+    public static float frosted_wounds_damage_received;
 
     public static ForgeConfigSpec.ConfigValue<Integer> SHACKLE_ARMOR;
     public static int shackle_armor;
@@ -105,8 +107,12 @@ public class CommonConfig {
     public static float explosion_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Integer> HERO_SHIELD_RES_LEVEL;
     public static int hero_shield_res_level;
-    public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_COMPAT;
-    public static boolean hero_shield_compat;
+    public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_ENHANCED_VISUALS_COMPAT;
+    public static boolean hero_shield_enhanced_visuals_compat;
+    public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_FIRST_AID_COMPAT;
+    public static boolean hero_shield_first_aid_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> FIRST_AID_IGNORE_CHANCE;
+    public static float first_aid_ignore_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_REDUCTION;
     public static float enderian_damage_reduction;
@@ -197,18 +203,30 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARMOR;
     public static float wooden_headgear_armor;
-    public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN;
-    public static float wooden_headgear_arrow_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION;
+    public static float wooden_headgear_arrow_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Boolean> WOODEN_HEADGEAR_FIRST_AID_COMPAT;
+    public static boolean wooden_headgear_first_aid_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
+    public static float wooden_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARMOR;
     public static float golden_headgear_armor;
-    public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN;
-    public static float golden_headgear_arrow_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION;
+    public static float golden_headgear_arrow_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Boolean> GOLDEN_HEADGEAR_FIRST_AID_COMPAT;
+    public static boolean golden_headgear_first_aid_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
+    public static float golden_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARMOR;
     public static float netherite_headgear_armor;
-    public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN;
-    public static float netherite_headgear_arrow_damage_taken;
+    public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION;
+    public static float netherite_headgear_arrow_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Boolean> NETHERITE_HEADGEAR_FIRST_AID_COMPAT;
+    public static boolean netherite_headgear_first_aid_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
+    public static float netherite_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_DAMAGE;
     public static float ender_dragon_claw_damage;
@@ -232,6 +250,8 @@ public class CommonConfig {
     public static int mechanical_claw_bleed_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_CLAW_BLEED_DURATION;
     public static int mechanical_claw_bleed_duration;
+    public static ForgeConfigSpec.ConfigValue<Double> BLEED_DAMAGE_RECEIVED;
+    public static float bleed_damage_received;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_LUCK_FACTOR;
     public static float mechanical_claw_luck_factor;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> BLEED_BLACKLISTED_ENTITIES;
@@ -499,7 +519,9 @@ public class CommonConfig {
             ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
             explosion_damage_reduction = EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
             hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
-            hero_shield_compat = HERO_SHIELD_COMPAT.get();
+            hero_shield_enhanced_visuals_compat = HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get();
+            hero_shield_first_aid_compat = HERO_SHIELD_FIRST_AID_COMPAT.get();
+            first_aid_ignore_chance = FIRST_AID_IGNORE_CHANCE.get().floatValue();
             skull_fire_damage_reduction = SKULL_FIRE_DAMAGE_REDUCTION.get().floatValue();
             obsidian_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
             ankh_charm_additional_effects = ANKH_CHARM_ADDITIONAL_EFFECTS.get();
@@ -530,6 +552,7 @@ public class CommonConfig {
             frost_gauntlet_damage = FROST_GAUNTLET_DAMAGE.get();
             frosted_wounds_damage = FROSTED_WOUNDS_DAMAGE.get();
             frosted_wounds_duration = FROSTED_WOUNDS_DURATION.get();
+            frosted_wounds_damage_received = FROSTED_WOUNDS_DAMAGE_RECEIVED.get().floatValue();
             shackle_armor = SHACKLE_ARMOR.get();
             plushie_health = PLUSHIE_HEALTH.get().floatValue();
             plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
@@ -571,11 +594,17 @@ public class CommonConfig {
             frozen_quiver_multiplier = FROZEN_QUIVER_MULTIPLIER.get();
             frozen_quiver_luck_factor = FROZEN_QUIVER_LUCK_FACTOR.get().floatValue();
             wooden_headgear_armor = WOODEN_HEADGEAR_ARMOR.get().floatValue();
-            wooden_headgear_arrow_damage_taken = WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            wooden_headgear_arrow_damage_reduction = WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
+            wooden_headgear_first_aid_compat = WOODEN_HEADGEAR_FIRST_AID_COMPAT.get();
+            wooden_headgear_headshot_damage_reduction = WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
             golden_headgear_armor = GOLDEN_HEADGEAR_ARMOR.get().floatValue();
-            golden_headgear_arrow_damage_taken = GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            golden_headgear_arrow_damage_reduction = GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
+            golden_headgear_first_aid_compat = GOLDEN_HEADGEAR_FIRST_AID_COMPAT.get();
+            golden_headgear_headshot_damage_reduction = GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
             netherite_headgear_armor = NETHERITE_HEADGEAR_ARMOR.get().floatValue();
-            netherite_headgear_arrow_damage_taken = NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN.get().floatValue();
+            netherite_headgear_arrow_damage_reduction = NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
+            netherite_headgear_first_aid_compat = NETHERITE_HEADGEAR_FIRST_AID_COMPAT.get();
+            netherite_headgear_headshot_damage_reduction = NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
             ender_dragon_claw_damage = ENDER_DRAGON_CLAW_DAMAGE.get().floatValue();
             ender_dragon_claw_chance = ENDER_DRAGON_CLAW_CHANCE.get().floatValue();
             ender_dragon_claw_luck_factor = ENDER_DRAGON_CLAW_LUCK_FACTOR.get().floatValue();
@@ -587,6 +616,7 @@ public class CommonConfig {
             mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
             mechanical_claw_bleed_duration = MECHANICAL_CLAW_BLEED_DURATION.get();
             mechanical_claw_luck_factor = MECHANICAL_CLAW_LUCK_FACTOR.get().floatValue();
+            bleed_damage_received = BLEED_DAMAGE_RECEIVED.get().floatValue();
             bleed_blacklisted_entities = BLEED_BLACKLISTED_ENTITIES.get();
             echo_glove_damage = ECHO_GLOVE_DAMAGE.get().floatValue();
             echo_glove_attack_speed = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
@@ -735,7 +765,9 @@ public class CommonConfig {
         IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
         EXPLOSION_DAMAGE_REDUCTION = BUILDER.comment("Explosion damage reduction in percentage").define("Explosion_Damage_Reduction", 0.75);
         HERO_SHIELD_RES_LEVEL = BUILDER.comment("Level of resistance hero shield provides").define("Level", 1);
-        HERO_SHIELD_COMPAT = BUILDER.comment("Enable compat to disable explosion overlay from enhanced visuals").define("EnhancedVisuals_Compat", true);
+        HERO_SHIELD_ENHANCED_VISUALS_COMPAT = BUILDER.comment("Enable compat to disable explosion overlay from enhanced visuals").define("EnhancedVisuals_Compat", true);
+        HERO_SHIELD_FIRST_AID_COMPAT = BUILDER.comment("Enable compat to add a chance to ignore headshots from first aid").define("FirstAid_Compat", true);
+        FIRST_AID_IGNORE_CHANCE = BUILDER.comment("Chance to ignore headshots in percentage").define("Ignore_Chance", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Obsidian_Skull");
@@ -797,8 +829,9 @@ public class CommonConfig {
         MECHANICAL_CLAW_SPEED = BUILDER.comment("Speed increased in percentage").define("Speed_Increase", 0.10);
         MECHANICAL_CLAW_BLEED_CHANCE = BUILDER.comment("Chance to inflict bleed onto hit enemies").define("Bleed_Chance", 0.25);
         MECHANICAL_CLAW_BLEED_DAMAGE = BUILDER.comment("Damage that bleed deals per second").define("Bleed_Damage", 1);
-        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 8);
-        MECHANICAL_CLAW_LUCK_FACTOR= BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.05, 0.0, 1.0);
+        MECHANICAL_CLAW_BLEED_DURATION = BUILDER.comment("Duration of bleed in seconds").define("Bleed_Duration", 5);
+        BLEED_DAMAGE_RECEIVED = BUILDER.comment("Increased damage dealt to targets inflicted with bleed in percentage").define("Damage_Received",  0.1);
+        MECHANICAL_CLAW_LUCK_FACTOR = BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.05, 0.0, 1.0);
         BLEED_BLACKLISTED_ENTITIES = BUILDER.comment("Blacklist for entities that cannot be affected by bleed").defineList("Blacklisted_Entities",List.of(), s -> s instanceof String);
         BUILDER.pop();
 
@@ -813,6 +846,7 @@ public class CommonConfig {
         FROST_GAUNTLET_DAMAGE = BUILDER.comment("Attack Damage increase").define("Attack_Damage", 2);
         FROSTED_WOUNDS_DAMAGE = BUILDER.comment("Damage that frosted wounds deals per second").define("Frosted_Wounds_Damage", 2);
         FROSTED_WOUNDS_DURATION = BUILDER.comment("Duration of frosted wounds in seconds").define("Frosted_Wounds_Duration", 10);
+        FROSTED_WOUNDS_DAMAGE_RECEIVED = BUILDER.comment("Increased damage dealt to targets inflicted with frosted wounds in percentage").define("Damage_Received", 0.25);
         BUILDER.pop();
 
         BUILDER.push("Shackle");
@@ -887,17 +921,23 @@ public class CommonConfig {
 
         BUILDER.push("Wooden_Headgear");
         WOODEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1.0);
-        WOODEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.95);
+        WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION = BUILDER.comment("Arrow damage reduction in percentage").define("Damage_Reduction", 0.05);
+        WOODEN_HEADGEAR_FIRST_AID_COMPAT = BUILDER.comment("Enable compat to enable headshot damage reduction").define("FirstAid_Compat", true);
+        WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION = BUILDER.comment("Headshot damage reduction in percentage").define("Headshot_Damage_Reduction", 0.04);
         BUILDER.pop();
 
         BUILDER.push("Golden_Headgear");
         GOLDEN_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 2.0);
-        GOLDEN_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.90);
+        GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION = BUILDER.comment("Arrow damage reduction in percentage").define("Damage_Reduction", 0.10);
+        GOLDEN_HEADGEAR_FIRST_AID_COMPAT = BUILDER.comment("Enable compat to enable headshot damage reduction").define("FirstAid_Compat", true);
+        GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION = BUILDER.comment("Headshot damage reduction in percentage").define("Headshot_Damage_Reduction", 0.08);
         BUILDER.pop();
 
         BUILDER.push("Netherite_Headgear");
         NETHERITE_HEADGEAR_ARMOR = BUILDER.comment("Armor increase").define("Armor", 3.0);
-        NETHERITE_HEADGEAR_ARROW_DAMAGE_TAKEN = BUILDER.comment("Damage taken in percentage").define("Damage_Taken", 0.85);
+        NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION = BUILDER.comment("Arrow damage reduction in percentage").define("Damage_Reduction", 0.15);
+        NETHERITE_HEADGEAR_FIRST_AID_COMPAT = BUILDER.comment("Enable compat to enable headshot damage reduction").define("FirstAid_Compat", true);
+        NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION = BUILDER.comment("Headshot damage reduction in percentage").define("Headshot_Damage_Reduction", 0.12);
         BUILDER.pop();
 
         BUILDER.push("Ender_Dragon_Claw");
@@ -972,9 +1012,9 @@ public class CommonConfig {
         BUILDER.push("Vanir_Mask");
         VANIR_MASK_DAMAGE_INCREASE = BUILDER.comment("Increased damage dealt to hit enemies").define("Damage_Increase", 2.0);
         VANIR_MASK_HEALTH_INCREASE = BUILDER.comment("Increased max health gained in percentage").define("Health_Increase", 0.10);
-        VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.25);
-        VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.25);
-        VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.25);
+        VANIR_MASK_SPEED_INCREASE = BUILDER.comment("Increased speed gained in percentage").define("Speed_Increase", 0.10);
+        VANIR_MASK_ARMOR_INCREASE = BUILDER.comment("Increased armor gained in percentage").define("Armor_Increase", 0.10);
+        VANIR_MASK_ARMOR_TOUGHNESS_INCREASE = BUILDER.comment("Increased armor toughness gained in percentage").define("Armor_Toughness_Increase", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Ruby_Ring");
@@ -1114,7 +1154,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Holy_Mantle");
-        HOLY_MANTLE_TRADE_CHANCE = BUILDER.comment("Holy mantle trade chance from max level cleric villagers in percentage").define("Trade_Chance", 0.10);
+        HOLY_MANTLE_TRADE_CHANCE = BUILDER.comment("Holy mantle trade chance from max level cleric villagers in percentage").define("Trade_Chance", 0.05);
         BUILDER.pop();
 
         BUILDER.push("Sculk_Lens");
