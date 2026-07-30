@@ -15,9 +15,7 @@ import net.gobies.moreartifacts.util.LuckHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
@@ -69,7 +67,7 @@ public class FirstAidCompat {
             FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
         }
 
-        if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+        if (CommonConfig.HERO_SHIELD_FIRST_AID_COMPAT.get() && CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
             if (headAfter != null && headBefore != null && headAfter.currentHealth < headBefore.currentHealth) {
                 if (LuckHelper.roll(player, CommonConfig.FIRST_AID_IGNORE_CHANCE.get(), 0.01)) {
                     headAfter.currentHealth = headBefore.currentHealth;
@@ -89,10 +87,9 @@ public class FirstAidCompat {
         if (CurioHandler.isCurioEquipped(serverPlayer, MAItems.BrokenHeart.get())) {
             boolean dead = false;
             List<AbstractDamageablePart> fatalParts = new ArrayList<>();
-
             for (AbstractDamageablePart part : event.getAfterDamage()) {
-                if (part.canCauseDeath && part.currentHealth <= 0) {
-                    if (part.getMaxHealth() >= 2) {
+                if (part.canCauseDeath && part.currentHealth <= 0.0F) {
+                    if (part.getMaxHealth() >= 2.0F) {
                         fatalParts.add(part);
                     } else {
                         dead = true;
@@ -105,40 +102,29 @@ public class FirstAidCompat {
                 if (maxHealth == null) {
                     return;
                 }
-
-                AttributeModifier activeModifier = maxHealth.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH_UUID);
-                double brokenHeartReduction = activeModifier != null ? activeModifier.getAmount() : 0.0;
                 double currentMaxHealth = maxHealth.getValue();
-                double originalMaxHealth = currentMaxHealth - brokenHeartReduction;
-                double healthToBreak = (originalMaxHealth * 0.2) + (double) (fatalParts.size() * 2) + event.getUndistributedDamage();
-
-                if (healthToBreak > currentMaxHealth - 2.0) {
+                double originalMaxHealth = currentMaxHealth + (BrokenHeartSystem.getBrokenHearts(serverPlayer) * 2.0D);
+                double healthToRemove = (originalMaxHealth * 0.2) + (fatalParts.size() * 2.0) + event.getUndistributedDamage();
+                if (healthToRemove > currentMaxHealth - 2.0D) {
                     return;
                 }
 
-                // Prevent first aid from killing player
-                event.setCanceled(true);
-                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.IRON_GOLEM_DAMAGE, SoundSource.PLAYERS, 1.0F, 0.8F);
-
-                int heartsToBreak = Math.max(1, (int) Math.ceil(healthToBreak / 2.0F));
-                int maxHeartContainers = Mth.ceil((float) originalMaxHealth / 2.0F) - 1;
+                int heartsToBreak = Math.max(1, (int) Math.ceil(healthToRemove / 2.0D));
+                int maxBrokenHearts = Math.max(0, (int)(originalMaxHealth / 2.0D) - 1);
                 int currentBrokenHearts = BrokenHeartSystem.getBrokenHearts(serverPlayer);
-                int availableContainersLeft = maxHeartContainers - currentBrokenHearts;
-
-                if (heartsToBreak > availableContainersLeft) {
-                    heartsToBreak = availableContainersLeft;
+                if (currentBrokenHearts + heartsToBreak > maxBrokenHearts) {
+                    return;
                 }
+                event.setCanceled(true);
+                player.getCombatTracker().recheckStatus();
+                for (AbstractDamageablePart part : fatalParts) {
+                    part.heal(1.0F, null, false);
+                    FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MessageUpdatePart(part));
+                }
+
                 BrokenHeartSystem.addBrokenHearts(serverPlayer, heartsToBreak);
 
-                float brokenMaxLimbHealth = serverPlayer.getMaxHealth();
-                for (AbstractDamageablePart part : event.getAfterDamage()) {
-                    if (fatalParts.contains(part)) {
-                        part.currentHealth = part.getMaxHealth();
-                        MessageUpdatePart updatePacket = new MessageUpdatePart(part);
-                        FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
-                    }
-                }
-                serverPlayer.setHealth(brokenMaxLimbHealth);
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.IRON_GOLEM_DAMAGE, SoundSource.PLAYERS, 1.0F, 0.8F);
             }
         }
     }

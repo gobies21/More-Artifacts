@@ -16,7 +16,7 @@ import net.gobies.moreartifacts.event.SoulEvents;
 import net.gobies.moreartifacts.helper.LifecycleManager;
 import net.gobies.moreartifacts.init.*;
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
-import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
+import net.gobies.moreartifacts.item.souls.SoulItem;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.CooldownHandler;
@@ -47,6 +47,7 @@ public class MoreArtifacts {
         MAParticles.register(modBus);
         MASounds.register(modBus);
         MACreativeTab.register(modBus);
+        MARecipes.register(modBus);
         MAEvents.register();
         SoulEvents.register();
         modBus.addListener(this::commonSetup);
@@ -107,7 +108,7 @@ public class MoreArtifacts {
         LifecycleManager.registerCleanupHook(DamageEvents::clearMaps);
         LifecycleManager.registerCleanupHook(CooldownHandler::clearMaps);
         LifecycleManager.registerCleanupHook(DragonEyeItem::clearMaps);
-        LifecycleManager.registerCleanupHook(ShadowSoulItem::clearMaps);
+        LifecycleManager.registerCleanupHook(SoulItem::clearMaps);
         LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
         LifecycleManager.registerCleanupHook(SoulEvents::clearMaps);
         LifecycleManager.registerCleanupHook(ManageRequests::clearMaps);

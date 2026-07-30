@@ -23,29 +23,33 @@ public class ApothecaryCompat {
             Player player = event.player;
             if (player.level().isClientSide()) return;
             if (player.getActiveEffects().isEmpty()) return;
-            if (!player.hasEffect(AEffects.Burning.get())) return;
+            if (player.tickCount % 5 != 0) return;
 
             //Burning Immunity
-            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
+            if (player.hasEffect(AEffects.Burning.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
+                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
+                if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
+                if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
+                if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
+                if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
+                    MAUtils.removeEffect(player, AEffects.Burning.get());
+                }
             }
-            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
-            }
-            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
-            }
-            if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
-            }
-            if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
-            }
-            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.removeEffect(player, AEffects.Burning.get());
-            }
-            if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
-                MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
+            if (player.hasEffect(AEffects.BrokenArmor.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+                    MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
+                }
             }
         }
     }

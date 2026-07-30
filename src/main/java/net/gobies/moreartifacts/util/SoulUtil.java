@@ -23,6 +23,9 @@ public class SoulUtil {
     public static final String SHADOW = "Shadow";
     public static final String BLOOD = "Blood";
     public static final String MATRIX = "Matrix";
+    public static final String UNKNOWN = "Unknown";
+
+    public static final String ABILITY_TOGGLE = "SoulAbilityToggle";
 
     public static final Set<Item> SOUL_STONES = Set.of(
             MAItems.ShadowSoul.get(),
@@ -69,7 +72,7 @@ public class SoulUtil {
     public static String getSoul(Item item) {
         if (item == MAItems.ShadowSoul.get()) return SHADOW;
         if (item == MAItems.BloodSoul.get()) return BLOOD;
-        return "Unknown";
+        return UNKNOWN;
     }
 
     public static void removeShadowAttributes(ServerPlayer serverPlayer) {

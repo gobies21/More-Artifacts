@@ -4,16 +4,26 @@ import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.LootTableHandler;
+import net.gobies.moreartifacts.util.LuckHelper;
 import net.gobies.moreartifacts.util.MAUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
@@ -58,7 +68,7 @@ public class MALootTables {
                 LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.EnderDragonClaw.get(), 1, 1, CommonConfig.ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue(), lootingValue * 5);
             }
             if (!CommonConfig.isItemDisabled(MAItems.DragonEye.get())) {
-                LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.DragonEye.get(), 1, 1, 0.05F, lootingValue);
+                LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.DragonEye.get(), 1, 1, 0.10F, lootingValue);
             }
             if (!CommonConfig.isItemDisabled(MAItems.TaintedMirror.get())) {
                 LootTableHandler.addLootWithLooting(event, "entities/warden", MAItems.TaintedMirror.get(), 1, 1, 0.10F, lootingValue);
@@ -95,6 +105,37 @@ public class MALootTables {
             if (!CommonConfig.isItemDisabled(MAItems.NaturesMantle.get())) {
                 LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
             }
+
+            LootTableHandler.addLoot(event, "chests/ruined_portal", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
+            LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
+            LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
+            LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
+            LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.02F);
+            LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.02F);
+            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
+            if (ModList.get().isLoaded("dungeoncrawl")) {
+                LootTableHandler.addLoot(event, "dungeoncrawl:chests/stage_5", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
+                LootTableHandler.addLoot(event, "dungeoncrawl:chests/treasure", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.05F);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (CommonConfig.isItemDisabled(MAItems.IceCrystal.get())) return;
+        Player player = event.getPlayer();
+        if (player.isCreative()) return;
+
+        BlockState state = event.getState();
+        if (state.is(Blocks.ICE) || state.is(Blocks.PACKED_ICE) || state.is(Blocks.BLUE_ICE)) {
+            LevelAccessor level = event.getLevel();
+            if (!level.isClientSide() && level instanceof Level serverLevel) {
+                BlockPos pos = event.getPos();
+
+                if (LuckHelper.roll(player, 0.001, 0.001)) {
+                    Block.popResource(serverLevel, pos, new ItemStack(MAItems.IceCrystal.get()));
+                }
+            }
         }
     }
 
@@ -126,7 +167,7 @@ public class MALootTables {
                     if (random.nextFloat() < CommonConfig.HOLY_MANTLE_TRADE_CHANCE.get()) {
                         return new MerchantOffer(
                                 new ItemStack(Items.EMERALD, 64),
-                                new ItemStack(Items.EMERALD, 64),
+                                new ItemStack(MAItems.ShadowDust.get(), 5),
                                 new ItemStack(MAItems.HolyMantle.get(), 1),
                                 1,
                                 50,
@@ -147,7 +188,7 @@ public class MALootTables {
                                 new ItemStack(Items.EMERALD, 30),
                                 new ItemStack(MAItems.StealthManual.get(), 1),
                                 1,
-                                30,
+                                25,
                                 0.25f
                         );
                     }

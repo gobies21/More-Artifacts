@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bcb",
+    " d "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:blue_ice"
+    },
+    "b": {
+      "item": "moreartifacts:shadow_dust"
+    },
+    "c": {
+      "item": "moreartifacts:ice_crystal"
+    },
+    "d": {
+      "item": "moreartifacts:mechanical_glove"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:frost_gauntlet",
+    "count": 1
+  }
+}

@@ -19,9 +19,9 @@ public abstract class DamageCalculator {
     public static double calculateTotalDamageReduction(Player player) {
         double generalReduction = 0.0;
 
-        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), (1 - CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get()));
-        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), (1 - CommonConfig.GILDED_DAMAGE_REDUCTION.get()));
-        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), (1 - CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get()));
+        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get());
+        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_REDUCTION.get());
+        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get());
 
         return Math.min(generalReduction, CommonConfig.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
     }
@@ -59,10 +59,9 @@ public abstract class DamageCalculator {
 
     public static double getDamageReduction(Player player, Item item, double configValue) {
         if (item == MAItems.ObsidianShield.get() || item == MAItems.AnkhShield.get()) {
-            return CurioHandler.isCurioEquipped(player, item) ? 1.0 - configValue : ShieldHandler.isShieldEquipped(player, item) ? 1.0 - configValue : 0.0;
-        } else {
-            return CurioHandler.isCurioEquipped(player, item) ? 1.0 - configValue : 0.0;
+            return (CurioHandler.isCurioEquipped(player, item) || ShieldHandler.isShieldEquipped(player, item)) ? configValue : 0.0;
         }
+        return CurioHandler.isCurioEquipped(player, item) ? configValue : 0.0;
     }
 
     public static double getDamageIncrease(Player player, Item item, double configValue) {

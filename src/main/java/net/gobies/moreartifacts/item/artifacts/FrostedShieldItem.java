@@ -1,4 +1,5 @@
 package net.gobies.moreartifacts.item.artifacts;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -59,10 +60,12 @@ public class FrostedShieldItem extends ShieldItem implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        double damageReduction = CommonConfig.FROSTED_SHIELD_DAMAGE_REDUCTION.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frosted_shield").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frosted_shield.reduction", String.format("%.0f", damageReduction)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl").withStyle(ChatFormatting.GRAY));
         if (Screen.hasControlDown()) {
-            pTooltipComponents.remove(2);
+            pTooltipComponents.remove(3);
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.normal.shield").withStyle(ChatFormatting.GRAY));
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shield.iron").withStyle(ChatFormatting.GRAY));
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.souls;
 
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -10,11 +11,17 @@ import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 
 public class SoulItem extends Item implements ICurioItem {
     public SoulItem(Properties properties) {
         super(properties);
     }
+
+    public static final Map<UUID, Map<MobEffect, ItemStack>> appliedEffect = new HashMap<>();
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack pStack) {
@@ -52,6 +59,10 @@ public class SoulItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof ServerPlayer player) {
             SoulUtil.imbueSoul(stack, player);
         }
+    }
+
+    public static void clearMaps(UUID uuid) {
+        appliedEffect.remove(uuid);
     }
 
     // TODO: Soul of the Matrix

@@ -2,10 +2,15 @@ package net.gobies.moreartifacts.item.souls;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,7 +21,9 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class BloodSoulItem extends SoulItem {
@@ -61,6 +68,61 @@ public class BloodSoulItem extends SoulItem {
     }
 
     @Override
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity().level().isClientSide()) return;
+
+        if (slotContext.entity() instanceof Player player) {
+            int stage = SoulUtil.getSoulStage(stack);
+            if (stage >= 3) {
+                String soulType = SoulUtil.getSoul(stack.getItem());
+                if (SoulUtil.UNKNOWN.equals(soulType)) return;
+
+                UUID playerId = player.getUUID();
+                appliedEffect.putIfAbsent(playerId, new HashMap<>());
+                Map<MobEffect, ItemStack> effectMap = appliedEffect.get(playerId);
+
+                CompoundTag tag = stack.getOrCreateTag();
+
+                boolean keyPressed = enabled(stack, soulType);
+
+                if (tag.getBoolean(soulType) != keyPressed) {
+                    tag.putBoolean(soulType, keyPressed);
+                }
+
+                BlockPos pos = player.blockPosition();
+                int lightLevel = player.level().getMaxLocalRawBrightness(pos);
+                boolean isDarkArea = lightLevel <= 7;
+
+                boolean abilityRequested = tag.getBoolean(soulType);
+                boolean abilityActive = abilityRequested && isDarkArea;
+
+                MobEffectInstance effect = player.getEffect(MobEffects.REGENERATION);
+                ItemStack source = effectMap.get(MobEffects.REGENERATION);
+
+                if (abilityActive) {
+                    if (effect == null || source == null || !ItemStack.isSameItemSameTags(source, stack)) {
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                        effectMap.put(MobEffects.REGENERATION, stack);
+                    } else if (effect.getDuration() <= 110) {
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                    }
+                } else {
+                    if (effect != null && source != null && ItemStack.isSameItemSameTags(source, stack)) {
+                        player.removeEffect(MobEffects.REGENERATION);
+                        effectMap.remove(MobEffects.REGENERATION);
+                    }
+                }
+
+                appliedEffect.put(playerId, effectMap);
+            }
+        }
+    }
+
+    private static boolean enabled(ItemStack stack, String soulType) {
+        return stack.getOrCreateTag().getBoolean(soulType);
+    }
+
+    @Override
     public boolean canUnequip(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (player.isCreative()) return true;
@@ -83,6 +145,19 @@ public class BloodSoulItem extends SoulItem {
         CompoundTag nbt = pStack.getOrCreateTag();
         int currentKills = nbt.getInt(SoulUtil.KILLS);
 
+        // Lore Tooltips
+        if (stage == 1) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage1_lore").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 2) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage2_lore").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 3) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage3_lore").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 4) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage4_lore").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 5) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage5_lore").withStyle(ChatFormatting.GOLD));
+        }
+
         // Lifesteal Tooltips
         if (stage == 1) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal1").withStyle(ChatFormatting.GOLD));
@@ -95,6 +170,11 @@ public class BloodSoulItem extends SoulItem {
         } else {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.lifesteal5").withStyle(ChatFormatting.GOLD));
         }
+
+        if (stage >= 3) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.regen").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.SOUL_PASSIVE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
+        }
+
 
         // Evolve Tooltips
         if (stage == 1) {

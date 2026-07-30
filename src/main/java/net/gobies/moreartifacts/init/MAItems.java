@@ -44,9 +44,9 @@ public class MAItems {
     public static final RegistryObject<Item> EnderianScarf;
     public static final RegistryObject<Item> TrueEnderianScarf;
     public static final RegistryObject<Item> GildedScarf;
-    public static final RegistryObject<Item> FieryScarf;
     public static final RegistryObject<Item> Balloon;
     public static final RegistryObject<Item> LuckyEmeraldRing;
+    public static final RegistryObject<Item> RubyRing;
     public static final RegistryObject<Item> SpectreAmulet;
     public static final RegistryObject<Item> VenomAmulet;
     public static final RegistryObject<Item> DecayAmulet;
@@ -69,7 +69,6 @@ public class MAItems {
     public static final RegistryObject<Item> FireStone;
     public static final RegistryObject<Item> IceStone;
     public static final RegistryObject<Item> VanirMask;
-    public static final RegistryObject<Item> RubyRing;
     public static final RegistryObject<Item> TaintedMirror;
     public static final RegistryObject<Item> NaturesMantle;
     public static final RegistryObject<Item> LeatherTreads;
@@ -82,7 +81,9 @@ public class MAItems {
     public static final RegistryObject<Item> DragonEye;
     public static final RegistryObject<Item> RecallPotion;
     public static final RegistryObject<Item> WormholePotion;
+    public static final RegistryObject<Item> SoulElixir;
     public static final RegistryObject<Item> GraveScroll;
+    public static final RegistryObject<Item> PhantomThread;
     public static final RegistryObject<Item> ShadowDust;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
@@ -97,8 +98,6 @@ public class MAItems {
     public static final RegistryObject<Item> BloodSoul;
 
     public static final RegistryObject<Item> Necklace;
-
-    public static final RegistryObject<Item> SoulElixir;
 
     public static void register(IEventBus eventBus) {
         ARTIFACTS.register(eventBus);
@@ -135,9 +134,9 @@ public class MAItems {
         EnderianScarf = ARTIFACTS.register("enderian_scarf", () -> new EnderianScarfItem(new Item.Properties()));
         TrueEnderianScarf = ARTIFACTS.register("true_enderian_scarf", () -> new TrueEnderianScarfItem(new Item.Properties()));
         GildedScarf = ARTIFACTS.register("gilded_scarf", () -> new GildedScarfItem(new Item.Properties()));
-        FieryScarf = ARTIFACTS.register("fiery_scarf", () -> new FieryScarfItem(new Item.Properties()));
         Balloon = ARTIFACTS.register("balloon", () -> new BalloonItem(new Item.Properties()));
         LuckyEmeraldRing = ARTIFACTS.register("lucky_emerald_ring", () -> new LuckyEmeraldRingItem(new Item.Properties()));
+        RubyRing = ARTIFACTS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
         SpectreAmulet = ARTIFACTS.register("spectre_amulet", () -> new SpectreAmuletItem(new Item.Properties()));
         VenomAmulet = ARTIFACTS.register("venom_amulet", () -> new VenomAmuletItem(new Item.Properties()));
         DecayAmulet = ARTIFACTS.register("decay_amulet", () -> new DecayAmuletItem(new Item.Properties()));
@@ -156,7 +155,6 @@ public class MAItems {
         DecayStone = ARTIFACTS.register("decay_stone", () -> new DecayStoneItem(new Item.Properties()));
         FireStone = ARTIFACTS.register("fire_stone", () -> new FireStoneItem(new Item.Properties()));
         IceStone = ARTIFACTS.register("ice_stone", () -> new IceStoneItem(new Item.Properties()));
-        RubyRing = ARTIFACTS.register("ruby_ring", () -> new RubyRingItem(new Item.Properties()));
         TaintedMirror = ARTIFACTS.register("tainted_mirror", () -> new TaintedMirrorItem(new Item.Properties()));
         NaturesMantle = ARTIFACTS.register("natures_mantle", () -> new NaturesMantleItem(new Item.Properties()));
         VanirMask = ARTIFACTS.register("vanir_mask", () -> new VanirMaskItem(new Item.Properties()));
@@ -183,6 +181,7 @@ public class MAItems {
         WormholePotion = ARTIFACTS.register("wormhole_potion", () -> new WormholePotionItem(new Item.Properties()));
         SoulElixir = ARTIFACTS.register("soul_elixir", () -> new SoulElixirItem(new Item.Properties()));
         GraveScroll = ARTIFACTS.register("grave_scroll", () -> new GraveScrollItem(new Item.Properties()));
+        PhantomThread = ARTIFACTS.register("phantom_thread", () -> new PhantomThreadItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
         ArtifactSmithingTemplate = ARTIFACTS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
 
@@ -191,11 +190,11 @@ public class MAItems {
     public static List<RegistryObject<Item>> getAllArtifacts() {
         return Arrays.asList(
                 Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, IceCrystal, CobaltShield, WitheredBezoar,
-                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, MechanicalGlove,
+                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, HeroShield, MechanicalGlove,
                 EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
                 Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
                 MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask, LeatherTreads,
                 DuneTreads, BlazingTreads, EnderianTreads, SculkTreads, MechanicalGears, HighJumpers, DragonEye, FrozenQuiver, FrostedShield, FrostGauntlet,
-                FieryScarf, StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, WormholePotion, SoulElixir, GraveScroll);
+                StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, WormholePotion, SoulElixir, GraveScroll, PhantomThread);
     }
 }

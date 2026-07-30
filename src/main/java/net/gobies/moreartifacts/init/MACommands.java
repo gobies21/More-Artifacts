@@ -112,7 +112,7 @@ public class MACommands {
             }
 
             int currentBrokenHearts = BrokenHeartSystem.getBrokenHearts(target);
-            AttributeModifier modifier = attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH_UUID);
+            AttributeModifier modifier = attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH);
             double currentModifierValue = modifier != null ? Math.abs(modifier.getAmount()) : 0.0;
 
             float maxHealth = target.getMaxHealth() + (float) currentModifierValue;

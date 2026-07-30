@@ -66,8 +66,10 @@ public class DragonEyeItem extends Item implements ICurioItem {
             ItemStack source = effectMap.get(MobEffects.NIGHT_VISION);
             if (nightVision) {
                 if (effect == null || source == null || !ItemStack.isSameItemSameTags(source, stack)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
                     effectMap.put(MobEffects.NIGHT_VISION, stack);
+                } else if (effect.getDuration() <= 210) {
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
                 }
             } else {
                 if (effect != null && source != null && ItemStack.isSameItemSameTags(source, stack)) {
@@ -106,7 +108,7 @@ public class DragonEyeItem extends Item implements ICurioItem {
 
             if (nightVision) {
                 if (currentSource == null || !ItemStack.isSameItemSameTags(currentSource, stack) || !player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
                     effectMap.put(MobEffects.NIGHT_VISION, stack);
                 }
             } else {

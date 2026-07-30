@@ -56,7 +56,6 @@ public class ShadowSoulItem extends SoulItem {
     private static final UUID SPEED = UUID.fromString("1bce74e7-81ea-4982-9a7a-6a182152d9db");
     private static final UUID ARMOR = UUID.fromString("c7616c3c-e5f4-496b-a7f5-7c5e217a0430");
     private static final UUID STEALTH = UUID.fromString("cbed1a47-0876-4541-95aa-9addfbf3353d");
-    private static final Map<UUID, Map<MobEffect, ItemStack>> appliedInvisibility = new HashMap<>();
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
@@ -77,32 +76,37 @@ public class ShadowSoulItem extends SoulItem {
         if (slotContext.entity() instanceof Player player) {
             int stage = SoulUtil.getSoulStage(stack);
             if (stage >= 3) {
+                String soulType = SoulUtil.getSoul(stack.getItem());
+                if (SoulUtil.UNKNOWN.equals(soulType)) return;
+
                 UUID playerId = player.getUUID();
-                appliedInvisibility.putIfAbsent(playerId, new HashMap<>());
-                Map<MobEffect, ItemStack> effectMap = appliedInvisibility.get(playerId);
+                appliedEffect.putIfAbsent(playerId, new HashMap<>());
+                Map<MobEffect, ItemStack> effectMap = appliedEffect.get(playerId);
 
                 CompoundTag tag = stack.getOrCreateTag();
-                boolean keyPressed = enabled(stack);
 
-                if (tag.getBoolean("Invisibility") != keyPressed) {
-                    tag.putBoolean("Invisibility", keyPressed);
+                boolean keyPressed = enabled(stack, soulType);
+
+                if (tag.getBoolean(soulType) != keyPressed) {
+                    tag.putBoolean(soulType, keyPressed);
                 }
 
                 BlockPos pos = player.blockPosition();
                 int lightLevel = player.level().getMaxLocalRawBrightness(pos);
                 boolean isDarkArea = lightLevel <= 7;
 
-                boolean invisibilityRequested = tag.getBoolean("Invisibility");
-
-                boolean invisibilityActive = invisibilityRequested && isDarkArea;
+                boolean abilityRequested = tag.getBoolean(soulType);
+                boolean abilityActive = abilityRequested && isDarkArea;
 
                 MobEffectInstance effect = player.getEffect(MobEffects.INVISIBILITY);
                 ItemStack source = effectMap.get(MobEffects.INVISIBILITY);
 
-                if (invisibilityActive) {
+                if (abilityActive) {
                     if (effect == null || source == null || !ItemStack.isSameItemSameTags(source, stack)) {
-                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, true, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
                         effectMap.put(MobEffects.INVISIBILITY, stack);
+                    } else if (effect.getDuration() <= 110) {
+                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
                     }
                 } else {
                     if (effect != null && source != null && ItemStack.isSameItemSameTags(source, stack)) {
@@ -111,7 +115,7 @@ public class ShadowSoulItem extends SoulItem {
                     }
                 }
 
-                appliedInvisibility.put(playerId, effectMap);
+                appliedEffect.put(playerId, effectMap);
 
                 if (ModLoadedUtil.isBetterStealthLoaded()) {
                     updateStealthModifier(player, stack, isDarkArea);
@@ -120,15 +124,15 @@ public class ShadowSoulItem extends SoulItem {
         }
     }
 
-    private static boolean enabled(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("Invisibility");
+    private static boolean enabled(ItemStack stack, String soulType) {
+        return stack.getOrCreateTag().getBoolean(soulType);
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             UUID playerId = player.getUUID();
-            Map<MobEffect, ItemStack> effectMap = appliedInvisibility.getOrDefault(playerId, new HashMap<>());
+            Map<MobEffect, ItemStack> effectMap = appliedEffect.getOrDefault(playerId, new HashMap<>());
 
             if (effectMap.containsKey(MobEffects.INVISIBILITY)) {
                 if (player.hasEffect(MobEffects.INVISIBILITY)) {
@@ -136,7 +140,7 @@ public class ShadowSoulItem extends SoulItem {
                 }
                 effectMap.remove(MobEffects.INVISIBILITY);
             }
-            appliedInvisibility.put(playerId, effectMap);
+            appliedEffect.put(playerId, effectMap);
             MAUtils.removeAttributes(player, BetterStealthCompat.stealthAttribute(), String.valueOf(STEALTH));
         }
     }
@@ -232,18 +236,14 @@ public class ShadowSoulItem extends SoulItem {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 300).withStyle(ChatFormatting.RED));
         } else if (stage == 3) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_2").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 3).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 500).withStyle(ChatFormatting.RED));
         } else if (stage == 4) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_3").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 3).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 1000).withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    public static void clearMaps(UUID uuid) {
-        appliedInvisibility.remove(uuid);
     }
 }
 

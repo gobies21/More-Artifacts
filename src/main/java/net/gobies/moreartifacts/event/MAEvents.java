@@ -49,6 +49,7 @@ import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -512,6 +513,7 @@ public class MAEvents {
             if (CooldownHandler.isReady(player, artifactId, cooldown)) {
                 event.setCanceled(true);
                 CooldownHandler.updateCooldown(player, artifactId);
+                player.getCooldowns().addCooldown(MAItems.HolyMantle.get(), (int) (20 * cooldown));
                 if (player instanceof ServerPlayer serverPlayer && !Objects.requireNonNull(serverPlayer.getServer()).isSingleplayer()) {
                     PacketHandler.sendToClient(new CooldownSyncPacket(artifactId), serverPlayer);
                 }
@@ -577,11 +579,12 @@ public class MAEvents {
             if (remainingHealth > 0) {
                 return;
             }
+            if (amount > 1000) return;
             AttributeInstance attribute = player.getAttribute(Attributes.MAX_HEALTH);
             if (attribute == null) {
                 return;
             }
-            AttributeModifier modifier = attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH_UUID);
+            AttributeModifier modifier = attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH);
 
             double currentModifierValue = modifier != null ? Math.abs(modifier.getAmount()) : 0.0;
             float naturalMaxHealth = player.getMaxHealth() + (float) currentModifierValue;
@@ -603,7 +606,8 @@ public class MAEvents {
 
             if (heartsToBreak >= availableContainersLeft) {
                 BrokenHeartSystem.addBrokenHearts(player, availableContainersLeft);
-                player.setHealth(0.0F);
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.IRON_GOLEM_DAMAGE, SoundSource.PLAYERS, 1.0F, 0.8F);
+                player.setHealth(1.0F);
             } else {
                 BrokenHeartSystem.addBrokenHearts(player, heartsToBreak);
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.IRON_GOLEM_DAMAGE, SoundSource.PLAYERS, 1.0F, 0.8F);
@@ -658,11 +662,11 @@ public class MAEvents {
                         }
                     }
                 } else if (SoulUtil.getSoulStage(soul) == 3) {
-                    CompoundTag nbt = soul.getOrCreateTag();
-                    int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                    ResourceLocation entityName = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
-                    if (entityName != null && "minecraft:wither".equals(entityName.toString())) {
-                        if (currentKills >= 3) { // 3 wither kills
+                    if (lightLevel <= 7) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+
+                        if (currentKills >= 500) { // 500 kills 3-4
                             SoulUtil.evolveSoul(soul, player);
                             nbt.remove(SoulUtil.KILLS);
                             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
@@ -671,11 +675,10 @@ public class MAEvents {
                         }
                     }
                 } else if (SoulUtil.getSoulStage(soul) == 4) {
-                    CompoundTag nbt = soul.getOrCreateTag();
-                    int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                    ResourceLocation entityName = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
-                    if (entityName != null && "minecraft:ender_dragon".equals(entityName.toString())) {
-                        if (currentKills >= 3) { // 3 dragon kills
+                    if (lightLevel <= 7) {
+                        CompoundTag nbt = soul.getOrCreateTag();
+                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                        if (currentKills >= 1000) { // 1000 kills 4-5
                             SoulUtil.evolveSoul(soul, player);
                             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
                         } else {
@@ -754,12 +757,20 @@ public class MAEvents {
     @SubscribeEvent
     public void onEntityJoinLevel(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
+        if (!(event.getEntity() instanceof EnderMan enderMan)) return;
+        for (WrappedGoal wrappedGoal : enderMan.goalSelector.getAvailableGoals()) {
+            if (wrappedGoal.getGoal() instanceof FriendlyEndermanGoal) return;
+        }
+        enderMan.goalSelector.addGoal(1, new FriendlyEndermanGoal(enderMan));
+    }
 
-        if (event.getEntity() instanceof EnderMan enderMan) {
-            for (WrappedGoal wrappedGoal : enderMan.goalSelector.getAvailableGoals()) {
-                if (wrappedGoal.getGoal() instanceof FriendlyEndermanGoal) return;
-            }
-            enderMan.goalSelector.addGoal(1, new FriendlyEndermanGoal(enderMan));
+
+    @SubscribeEvent
+    public void onItemTooltip(ItemTooltipEvent event) {
+        ItemStack item = event.getItemStack();
+        List<Component> tooltip = event.getToolTip();
+        if (!item.isEmpty() && item.hasTag() && Objects.requireNonNull(item.getTag()).getBoolean("Invisible")) {
+            tooltip.add(1, Component.literal("Invisible").withStyle(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC));
         }
     }
 

@@ -36,17 +36,22 @@ public class NaturesMantleItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
+            if (player.hasEffect(MobEffects.REGENERATION)) return;
             Level level = player.level();
             if (level.isDay()) {
                 if (!player.walkAnimation.isMoving() && !player.isSprinting()) {
+                    MobEffectInstance regen = player.getEffect(MobEffects.REGENERATION);
                     if (standStillCounter == 0) {
                         standStillCounter = 1;
                         randomDuration = level.random.nextInt(400) + 400;
                     } else {
                         standStillCounter++;
                         if (standStillCounter >= randomDuration && !player.hasEffect(MobEffects.REGENERATION)) {
-                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 130, 0, true, true));
+                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 180, 0, true, true));
                             standStillCounter = 0;
+                        }
+                        if (player.hasEffect(MobEffects.REGENERATION) && regen != null && regen.getDuration() <= 5) {
+                            player.removeEffect(MobEffects.REGENERATION);
                         }
                     }
                 } else {

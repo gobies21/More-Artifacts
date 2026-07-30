@@ -17,14 +17,19 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ManageRequests {
     private static final Map<UUID, UUID> activeRequests = new ConcurrentHashMap<>();
+    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public static void createRequest(ServerPlayer requester, ServerPlayer target) {
         if (requester == null || target == null) return;
-
-        activeRequests.put(target.getUUID(), requester.getUUID());
+        UUID targetUuid = target.getUUID();
+        UUID requesterUuid = requester.getUUID();
+        activeRequests.put(targetUuid, requesterUuid);
 
         HoverEvent acceptHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to accept teleport"));
         HoverEvent denyHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to deny teleport"));
@@ -46,6 +51,22 @@ public class ManageRequests {
 
         target.sendSystemMessage(message);
         requester.sendSystemMessage(Component.literal("Teleport request sent to " + target.getGameProfile().getName()));
+
+        scheduler.schedule(() -> {
+            if (activeRequests.remove(targetUuid, requesterUuid)) {
+                target.server.execute(() -> {
+                    ServerPlayer currentTarget = target.server.getPlayerList().getPlayer(targetUuid);
+                    ServerPlayer currentRequester = target.server.getPlayerList().getPlayer(requesterUuid);
+
+                    if (currentTarget != null) {
+                        currentTarget.sendSystemMessage(Component.literal("Teleport request from " + requester.getGameProfile().getName() + " has expired."));
+                    }
+                    if (currentRequester != null) {
+                        currentRequester.sendSystemMessage(Component.literal("Your teleport request to " + target.getGameProfile().getName() + " has expired."));
+                    }
+                });
+            }
+        }, 60, TimeUnit.SECONDS);
     }
 
     public static void handleResponse(ServerPlayer target, boolean accepted) {

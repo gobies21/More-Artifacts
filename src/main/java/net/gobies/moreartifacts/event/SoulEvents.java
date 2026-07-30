@@ -25,8 +25,6 @@ public class SoulEvents {
         MinecraftForge.EVENT_BUS.register(new SoulEvents());
     }
 
-    private static final String ABILITY_TOGGLE = "SoulAbilityToggle";
-
     private static final UUID SHADOW_SPEED = UUID.fromString("6a4fa28a-7e3e-4d43-bc97-9e48b813b19b");
     private static final UUID SHADOW_ARMOR = UUID.fromString("7f86dbdf-dc8a-4467-89fb-c3491ea9642b");
     private static final UUID SHADOW_STEALTH = UUID.fromString("0a6493b8-6ee4-436f-b2f5-b2230489cf00");
@@ -36,7 +34,7 @@ public class SoulEvents {
     private static final UUID BLOOD_ARMOR = UUID.fromString("47f4de22-72a7-42a3-b8ed-874e49747e9f");
     private static final UUID BLOOD_ARMOR_TOUGHNESS = UUID.fromString("26a47eb3-bf85-4417-af75-287cf04f77f3");
 
-    private static final Set<UUID> activeInvisiblePlayers = new HashSet<>();
+    private static final Set<UUID> activeAbility = new HashSet<>();
     private static final Set<UUID> darkAreaCache = new HashSet<>();
 
     @SubscribeEvent
@@ -80,25 +78,26 @@ public class SoulEvents {
             isDarkArea = darkAreaCache.contains(playerId);
         }
 
-        if (!persistentData.contains(ABILITY_TOGGLE)) {
-            persistentData.putBoolean(ABILITY_TOGGLE, true);
+        if (!persistentData.contains(SoulUtil.ABILITY_TOGGLE)) {
+            persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
         }
 
-        boolean invisibilityActive = persistentData.getBoolean(ABILITY_TOGGLE) && isDarkArea;
-        boolean currentlyTracked = activeInvisiblePlayers.contains(playerId);
+        boolean abilityActive = persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE) && isDarkArea;
+        boolean isActive = activeAbility.contains(playerId);
+        MobEffectInstance currentEffect = player.getEffect(MobEffects.INVISIBILITY);
 
-        if (invisibilityActive) {
-            MobEffectInstance currentEffect = player.getEffect(MobEffects.INVISIBILITY);
-            if (currentEffect == null || !currentlyTracked) {
-                player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, true, false));
-                activeInvisiblePlayers.add(playerId);
+        if (abilityActive) {
+            if (currentEffect == null || !isActive) {
+                player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
+                activeAbility.add(playerId);
+            } else if (currentEffect.getDuration() <= 110) {
+                player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
             }
-        } else if (currentlyTracked) {
-            MobEffectInstance currentEffect = player.getEffect(MobEffects.INVISIBILITY);
-            if (currentEffect != null && currentEffect.getDuration() == -1) {
+        } else if (isActive) {
+            if (currentEffect != null) {
                 player.removeEffect(MobEffects.INVISIBILITY);
             }
-            activeInvisiblePlayers.remove(playerId);
+            activeAbility.remove(playerId);
         }
     }
 
@@ -123,12 +122,36 @@ public class SoulEvents {
     }
 
     private void tickBloodSoul(Player player, CompoundTag persistentData) {
+        UUID playerId = player.getUUID();
         if (player.tickCount % 5 == 0) {
             if (player.tickCount % 10 == 0) {
                 manageBloodAttributes(player);
             }
+
+            if (!persistentData.contains(SoulUtil.ABILITY_TOGGLE)) {
+                persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
+            }
+
+            boolean abilityActive = persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE);
+            boolean isActive = activeAbility.contains(playerId);
+            MobEffectInstance currentEffect = player.getEffect(MobEffects.REGENERATION);
+
+            if (abilityActive) {
+                if (currentEffect == null || !isActive) {
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                    activeAbility.add(playerId);
+                } else if (currentEffect.getDuration() <= 110) {
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                }
+            } else if (isActive) {
+                if (currentEffect != null) {
+                    player.removeEffect(MobEffects.REGENERATION);
+                }
+                activeAbility.remove(playerId);
+            }
         }
     }
+
 
     private static void manageBloodAttributes(Player player) {
         AttributeInstance healthAttr = player.getAttribute(Attributes.MAX_HEALTH);
@@ -166,7 +189,7 @@ public class SoulEvents {
             newData.putString(SoulUtil.SOUL_KEY, activeSoul);
 
             if (SoulUtil.SHADOW.equals(activeSoul)) {
-                newData.putBoolean(ABILITY_TOGGLE, oldData.getBoolean(ABILITY_TOGGLE));
+                newData.putBoolean(SoulUtil.ABILITY_TOGGLE, oldData.getBoolean(SoulUtil.ABILITY_TOGGLE));
                 manageShadowAttributes(newPlayer);
             } else if (SoulUtil.BLOOD.equals(activeSoul)) {
                 manageBloodAttributes(newPlayer);
@@ -175,7 +198,7 @@ public class SoulEvents {
     }
 
     public static void clearMaps(UUID uuid) {
-        activeInvisiblePlayers.remove(uuid);
+        activeAbility.remove(uuid);
         darkAreaCache.remove(uuid);
     }
 }

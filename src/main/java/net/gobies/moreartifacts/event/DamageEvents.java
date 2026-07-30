@@ -125,6 +125,12 @@ public class DamageEvents {
                 }
             }
 
+            if (CurioHandler.isCurioEquipped(player, MAItems.FrostedShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.FrostedShield.get())) {
+                if (player.getHealth() <= player.getMaxHealth() / 2 || player.getHealth() <= (player.getMaxHealth() / 2) + (BrokenHeartSystem.getBrokenHearts(player) * 2)) {
+                    finalReduction *= (1.0 - CommonConfig.FROSTED_SHIELD_DAMAGE_REDUCTION.get());
+                }
+            }
+
             event.setAmount((float) finalReduction);
 
             MAUtils.logDebug("Total Damage Reduction for " + player.getName().getString() + ": " + String.format("%.2f", generalReduction * 100) + "%");
@@ -333,18 +339,18 @@ public class DamageEvents {
 
             MAUtils.logDebug("Total Damage Increase for " + player.getName().getString() + ": " + String.format("%.2f", generalIncrease * 100) + "%");
         }
-        if (BLEEDING.containsKey(targetId)) {
+        if (MAStatusEffects.bleeding().containsKey(targetId)) {
             event.setAmount((float) (event.getAmount() * (1 + CommonConfig.BLEED_DAMAGE_RECEIVED.get())));
-        } else if (FROSTED_WOUNDS.containsKey(targetId)) {
+        } else if (MAStatusEffects.frostedWounds().containsKey(targetId)) {
             event.setAmount((float) (event.getAmount() * (1 + CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get())));
         }
     }
 
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent event) {
+        if (event.player.level().isClientSide) return;
         if (event.phase != TickEvent.Phase.START) return;
         Player player = event.player;
-        if (player.level().isClientSide) return;
         if (player.tickCount % 5 != 0) return;
 
         UUID playerUUID = player.getUUID();
@@ -360,9 +366,6 @@ public class DamageEvents {
             MAUtils.logDebug("Artifacts equipped for " + player.getName().getString() + ": " + currentEquippedState);
         }
     }
-
-    private static final Map<UUID, Integer> BLEEDING = MAStatusEffects.bleeding();
-    private static final Map<UUID, Integer> FROSTED_WOUNDS = MAStatusEffects.frosted_wounds();
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
@@ -383,27 +386,26 @@ public class DamageEvents {
         }
         UUID targetId = target.getUUID();
 
-        // TODO Lycanites bleed compat
         int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
         if (clawCount > 0) {
             int bleedDuration = (CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get() * 20) * clawCount;
             double bleedChance = CommonConfig.MECHANICAL_CLAW_BLEED_CHANCE.get() * clawCount;
             if (LuckHelper.roll(player, bleedChance, CommonConfig.MECHANICAL_CLAW_LUCK_FACTOR.get())) {
-                if (FROSTED_WOUNDS.containsKey(targetId)) {
-                    int frostTicks = FROSTED_WOUNDS.getOrDefault(targetId, 0);
-                    FROSTED_WOUNDS.put(targetId, frostTicks + bleedDuration);
+                if (MAStatusEffects.frostedWounds().containsKey(targetId)) {
+                    int frostTicks = MAStatusEffects.frostedWounds().getOrDefault(targetId, 0);
+                    MAStatusEffects.frostedWounds().put(targetId, frostTicks + bleedDuration);
                 } else {
-                    BLEEDING.put(targetId, bleedDuration);
+                    MAStatusEffects.bleeding().put(targetId, bleedDuration);
                 }
             }
         }
 
         int frostCount = CurioHandler.getCurioCount(player, MAItems.FrostGauntlet.get());
-        if (frostCount > 0 && BLEEDING.containsKey(targetId) && target.getTicksFrozen() > 0) {
-            BLEEDING.remove(targetId);
+        if (frostCount > 0 && MAStatusEffects.bleeding().containsKey(targetId) && target.getTicksFrozen() > 0) {
+            MAStatusEffects.bleeding().remove(targetId);
             int baseDuration = 20 * CommonConfig.FROSTED_WOUNDS_DURATION.get();
-            int frostTicks = FROSTED_WOUNDS.getOrDefault(targetId, 0);
-            FROSTED_WOUNDS.put(targetId, frostTicks + (baseDuration * frostCount));
+            int frostTicks = MAStatusEffects.frostedWounds().getOrDefault(targetId, 0);
+            MAStatusEffects.frostedWounds().put(targetId, frostTicks + (baseDuration * frostCount));
         }
     }
 
@@ -413,10 +415,10 @@ public class DamageEvents {
         if (entity.level().isClientSide) return;
 
         UUID entityId = entity.getUUID();
-        if (BLEEDING.containsKey(entityId)) {
-            int remainingTicks = BLEEDING.get(entityId);
+        if (MAStatusEffects.bleeding().containsKey(entityId)) {
+            int remainingTicks = MAStatusEffects.bleeding().get(entityId);
             if (remainingTicks <= 0) {
-                BLEEDING.remove(entityId);
+                MAStatusEffects.bleeding().remove(entityId);
                 return;
             }
 
@@ -426,17 +428,17 @@ public class DamageEvents {
                 entity.hurt(bleedDamage, CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get());
                 entity.invulnerableTime = prevInvulnerableTime;
             }
-            BLEEDING.put(entityId, remainingTicks - 1);
+            MAStatusEffects.bleeding().put(entityId, remainingTicks - 1);
             if (entity.level() instanceof ServerLevel serverLevel && remainingTicks % 20 == 0) {
                 int particleCount = 5 + entity.getRandom().nextInt(6);
                 serverLevel.sendParticles(MAParticles.BLOOD.get(), entity.getX(), entity.getY() + (entity.getBbHeight() * 0.5), entity.getZ(), particleCount, 0.3, 0.3, 0.2, 0.01);
             }
         }
 
-        if (FROSTED_WOUNDS.containsKey(entityId)) {
-            int remainingTicks = FROSTED_WOUNDS.get(entityId);
+        if (MAStatusEffects.frostedWounds().containsKey(entityId)) {
+            int remainingTicks = MAStatusEffects.frostedWounds().get(entityId);
             if (remainingTicks <= 0) {
-                FROSTED_WOUNDS.remove(entityId);
+                MAStatusEffects.frostedWounds().remove(entityId);
                 return;
             }
 
@@ -447,7 +449,7 @@ public class DamageEvents {
                 entity.setTicksFrozen(CommonConfig.FROSTED_WOUNDS_DURATION.get() * 15);
                 entity.invulnerableTime = prevInvulnerableTime;
             }
-            FROSTED_WOUNDS.put(entityId, remainingTicks - 1);
+            MAStatusEffects.frostedWounds().put(entityId, remainingTicks - 1);
             if (entity.level() instanceof ServerLevel serverLevel && remainingTicks % 20 == 0) {
                 int particleCount = 5 + entity.getRandom().nextInt(6);
                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + (entity.getBbHeight() * 0.5), entity.getZ(), particleCount, 0.3, 0.3, 0.2, 0.01);
@@ -487,7 +489,7 @@ public class DamageEvents {
         if (event.getLevel().isClientSide()) return;
         boolean isArrow = projectile instanceof AbstractArrow;
         boolean isBolt = SpartanWeaponryCompat.isArmorPiercingBolt(projectile);
-        if (!isArrow && !isBolt) return;
+        if (!isArrow || !isBolt) return;
 
         int magicQuiverCount = CurioHandler.getCurioCount(player, MAItems.MagicQuiver.get());
         int envenomedQuiverCount = CurioHandler.getCurioCount(player, MAItems.EnvenomedQuiver.get());
@@ -515,9 +517,7 @@ public class DamageEvents {
             projectile.setDeltaMovement(motion.scale(velocityMultiplier));
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
-            if (isArrow) {
-                projectile.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
-            }
+            projectile.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
         }
     }
 

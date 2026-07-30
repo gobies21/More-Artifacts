@@ -22,7 +22,7 @@ public class PacketHandler {
 
     public static void registerMessages() {
         addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handle);
-        addNetworkMessage(InvisibilityBindMessage.class, InvisibilityBindMessage::buffer, InvisibilityBindMessage::new, InvisibilityBindMessage::handle);
+        addNetworkMessage(SoulAbilityBindMessage.class, SoulAbilityBindMessage::buffer, SoulAbilityBindMessage::new, SoulAbilityBindMessage::handle);
         addNetworkMessage(NightVisionBindMessage.class, NightVisionBindMessage::buffer, NightVisionBindMessage::new, NightVisionBindMessage::handle);
         addNetworkMessage(OpenWormholeScreenPacket.class, OpenWormholeScreenPacket::encode, OpenWormholeScreenPacket::new, OpenWormholeScreenPacket::handle);
         addNetworkMessage(SelectWormholeTargetPacket.class, SelectWormholeTargetPacket::encode, SelectWormholeTargetPacket::new, SelectWormholeTargetPacket::handle);

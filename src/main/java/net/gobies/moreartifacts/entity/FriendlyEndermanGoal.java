@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Endermite;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -82,6 +83,11 @@ public class FriendlyEndermanGoal extends Goal {
     public void tick() {
         if (this.player == null) return;
 
+        LivingEntity currentTarget = enderMan.getTarget();
+        if (currentTarget != null && !currentTarget.isAlive()) {
+            enderMan.setTarget(null);
+        }
+
         LivingEntity combatTarget = getValidTarget();
         boolean shouldUpdatePath = --this.pathUpdateDelay <= 0;
 
@@ -126,6 +132,11 @@ public class FriendlyEndermanGoal extends Goal {
     }
 
     private LivingEntity getValidTarget() {
+        LivingEntity enderMite = enderMan.getTarget();
+        if (enderMite instanceof Endermite && enderMite.isAlive()) {
+            return enderMite;
+        }
+
         if (this.player == null) return null;
 
         LivingEntity target = this.player.getLastHurtMob();

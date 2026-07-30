@@ -3,6 +3,8 @@ package net.gobies.moreartifacts.network;
 import net.gobies.moreartifacts.client.screen.WormholeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
@@ -20,7 +22,14 @@ public record OpenWormholeScreenPacket(List<String> players) {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> Minecraft.getInstance().setScreen(new WormholeScreen(this.players)));
-        ctx.get().setPacketHandled(true);
+        NetworkEvent.Context context = ctx.get();
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHandler.process(this.players)));
+        context.setPacketHandled(true);
+    }
+
+    private static class ClientHandler {
+        private static void process(List<String> players) {
+            Minecraft.getInstance().setScreen(new WormholeScreen(players));
+        }
     }
 }

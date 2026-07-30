@@ -17,7 +17,7 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID)
 public class BrokenHeartSystem {
 
-    public static final UUID BROKEN_HEART_HEALTH_UUID = UUID.fromString("4640ad16-b37a-4af1-8473-28b572cf99ee");
+    public static final UUID BROKEN_HEART_HEALTH = UUID.fromString("4640ad16-b37a-4af1-8473-28b572cf99ee");
     public static final String BROKEN_HEARTS = "BrokenHearts";
 
     public static int getBrokenHearts(Player player) {
@@ -29,7 +29,7 @@ public class BrokenHeartSystem {
         if (attribute == null) {
             return null;
         }
-        return attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH_UUID);
+        return attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH);
     }
 
     public static void addBrokenHearts(ServerPlayer player, int hearts) {
@@ -60,8 +60,8 @@ public class BrokenHeartSystem {
             return;
         }
 
-        if (attribute.getModifier(BROKEN_HEART_HEALTH_UUID) != null) {
-            attribute.removeModifier(BROKEN_HEART_HEALTH_UUID);
+        if (attribute.getModifier(BROKEN_HEART_HEALTH) != null) {
+            attribute.removeModifier(BROKEN_HEART_HEALTH);
         }
 
         player.setHealth(player.getMaxHealth());
@@ -76,7 +76,7 @@ public class BrokenHeartSystem {
         int brokenHearts = getBrokenHearts(player);
         float healthLoss = brokenHearts * 2.0F;
 
-        AttributeModifier existing = attribute.getModifier(BROKEN_HEART_HEALTH_UUID);
+        AttributeModifier existing = attribute.getModifier(BROKEN_HEART_HEALTH);
         if (existing != null) {
             if (existing.getAmount() == -healthLoss) {
                 return;
@@ -84,7 +84,7 @@ public class BrokenHeartSystem {
             attribute.removeModifier(existing);
         }
         if (healthLoss > 0) {
-            attribute.addTransientModifier(new AttributeModifier(BROKEN_HEART_HEALTH_UUID, "ma_broken_hearts", -healthLoss, AttributeModifier.Operation.ADDITION));
+            attribute.addTransientModifier(new AttributeModifier(BROKEN_HEART_HEALTH, "ma_broken_hearts", -healthLoss, AttributeModifier.Operation.ADDITION));
         }
 
         if (player.getHealth() > player.getMaxHealth()) {
@@ -102,7 +102,7 @@ public class BrokenHeartSystem {
     @SubscribeEvent
     public static void onPlayerWake(PlayerWakeUpEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
+            if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get()) && getBrokenHearts(player) > 0) {
                 clearBrokenHearts(player);
                 player.heal(player.getMaxHealth());
             }

@@ -2,12 +2,13 @@ package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.client.overlay.BrokenHeartOverlay;
+import net.gobies.moreartifacts.client.overlay.CurioHudOverlay;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MAParticles;
-import net.gobies.moreartifacts.network.InvisibilityBindMessage;
 import net.gobies.moreartifacts.network.NightVisionBindMessage;
 import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.network.SoulAbilityBindMessage;
 import net.gobies.moreartifacts.particle.BloodParticle;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.network.TeleportBindMessage;
@@ -36,6 +37,7 @@ public class ClientEvents {
     public static final KeyMapping EYE_TELEPORT_KEY = new KeyMapping("key.moreartifacts.eye.teleport", GLFW.GLFW_KEY_C, "key.moreartifacts.category") {
         private boolean isDownOld = false;
         private long lastPressTime = 0;
+
         @Override
         public void setDown(boolean isDown) {
             super.setDown(isDown);
@@ -55,6 +57,7 @@ public class ClientEvents {
     };
     public static final KeyMapping DRAGON_EYE_KEY = new KeyMapping("key.moreartifacts.dragon.eye", GLFW.GLFW_KEY_C, "key.moreartifacts.category") {
         private boolean isDownOld = false;
+
         @SuppressWarnings("InstantiationOfUtilityClass")
         @Override
         public void setDown(boolean isDown) {
@@ -73,6 +76,7 @@ public class ClientEvents {
 
     public static final KeyMapping SOUL_PASSIVE_KEY = new KeyMapping("key.moreartifacts.soul_passive", GLFW.GLFW_KEY_Y, "key.moreartifacts.category") {
         private boolean isDownOld = false;
+
         @SuppressWarnings("InstantiationOfUtilityClass")
         @Override
         public void setDown(boolean isDown) {
@@ -81,7 +85,7 @@ public class ClientEvents {
             if (player == null) return;
 
             if (isDown && !isDownOld) {
-                PacketHandler.sendToServer(new InvisibilityBindMessage());
+                PacketHandler.sendToServer(new SoulAbilityBindMessage());
                 MAUtils.logDebug("Shadow Soul key pressed; toggle packet sent");
             }
             isDownOld = isDown;
@@ -111,5 +115,6 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerAbove(VanillaGuiOverlay.PLAYER_HEALTH.id(), "broken_heart_overlay", BrokenHeartOverlay.OVERLAY);
+        event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "curios_hud_overlay", CurioHudOverlay.CURIO_HUD);
     }
 }

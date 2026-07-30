@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -40,12 +41,15 @@ public class ItemDisabler {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemTooltip(ItemTooltipEvent event) {
         Item item = event.getItemStack().getItem();
         if (CommonConfig.isItemDisabled(item)) {
-            event.getToolTip().removeAll(event.getToolTip());
-            event.getToolTip().add(Component.literal("This item is disabled").withStyle(ChatFormatting.RED));
+            List<Component> tooltip = event.getToolTip();
+
+            tooltip.clear();
+
+            tooltip.add(0, Component.literal("This item is disabled").withStyle(ChatFormatting.RED));
         }
     }
 }
