@@ -32,7 +32,6 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, String.valueOf(ATTACK_DAMAGE_UUID), CommonConfig.MECHANICAL_CLAW_DAMAGE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
         modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, String.valueOf(ATTACK_SPEED_UUID), CommonConfig.MECHANICAL_CLAW_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-
         return modifiers;
     }
 

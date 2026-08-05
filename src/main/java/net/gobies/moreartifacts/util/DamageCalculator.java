@@ -19,9 +19,11 @@ public abstract class DamageCalculator {
     public static double calculateTotalDamageReduction(Player player) {
         double generalReduction = 0.0;
 
-        generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get());
-        generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_REDUCTION.get());
-        generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get());
+        if (!ModLoadedUtil.isApothecaryLoaded()) {
+            generalReduction += getDamageReduction(player, MAItems.EnderianScarf.get(), CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get());
+            generalReduction += getDamageReduction(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_REDUCTION.get());
+            generalReduction += getDamageReduction(player, MAItems.TrueEnderianScarf.get(), CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get());
+        }
 
         return Math.min(generalReduction, CommonConfig.MAX_DAMAGE_REDUCTION.get()); // Damage Reduction Cap
     }
@@ -39,7 +41,9 @@ public abstract class DamageCalculator {
     public static double calculateDamageIncrease(Player player) {
         double generalIncrease = 0.0;
 
-        generalIncrease += getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
+        if (!ModLoadedUtil.isApothecaryLoaded()) {
+            generalIncrease += getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
+        }
         generalIncrease += getDamageIncrease(player, MAItems.EnderDragonClaw.get(), CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.LuckyEmeraldRing.get(), CommonConfig.EMERALD_RING_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.VenomStone.get(), CommonConfig.VENOM_STONE_DAMAGE.get());
@@ -48,6 +52,7 @@ public abstract class DamageCalculator {
         generalIncrease += getDamageIncrease(player, MAItems.IceStone.get(), CommonConfig.ICE_STONE_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
+        generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());

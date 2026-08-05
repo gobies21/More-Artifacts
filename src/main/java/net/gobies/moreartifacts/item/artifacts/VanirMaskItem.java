@@ -1,13 +1,13 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -32,23 +32,13 @@ public class VanirMaskItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.ARMOR, CommonConfig.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ARMOR));
-            MAUtils.addAttributes(player, Attributes.ARMOR_TOUGHNESS, CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(ARMOR_TOUGHNESS));
-            MAUtils.addAttributes(player, Attributes.MAX_HEALTH, CommonConfig.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MAX_HEALTH));
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(MOVEMENT_SPEED));
-        }
-    }
-
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, Attributes.ARMOR, String.valueOf(ARMOR));
-            MAUtils.removeAttributes(player, Attributes.ARMOR_TOUGHNESS, String.valueOf(ARMOR_TOUGHNESS));
-            MAUtils.removeAttributes(player, Attributes.MAX_HEALTH, String.valueOf(MAX_HEALTH));
-            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(MOVEMENT_SPEED));
-        }
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        modifiers.put(Attributes.ARMOR, new AttributeModifier(uuid, String.valueOf(ARMOR), CommonConfig.VANIR_MASK_ARMOR_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        modifiers.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, String.valueOf(ARMOR_TOUGHNESS), CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, String.valueOf(MAX_HEALTH), CommonConfig.VANIR_MASK_HEALTH_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(MOVEMENT_SPEED), CommonConfig.VANIR_MASK_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        return modifiers;
     }
 
     @Override
@@ -59,23 +49,10 @@ public class VanirMaskItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double damageIncrease = CommonConfig.VANIR_MASK_DAMAGE_INCREASE.get();
-        double healthIncrease = CommonConfig.VANIR_MASK_HEALTH_INCREASE.get() * 100;
-        double speedIncrease = CommonConfig.VANIR_MASK_SPEED_INCREASE.get() * 100;
-        double armorIncrease = CommonConfig.VANIR_MASK_ARMOR_INCREASE.get() * 100;
-        double armorToughnessIncrease = CommonConfig.VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
-        if (Screen.hasControlDown()) {
-            pTooltipComponents.remove(2);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.health", String.format("%.0f", healthIncrease)).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.speed", String.format("%.0f", speedIncrease)).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor", String.format("%.0f", armorIncrease)).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.armor_toughness", String.format("%.0f", armorToughnessIncrease)).withStyle(ChatFormatting.BLUE));
-            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        }
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
-
 }
 
 

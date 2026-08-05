@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.compat.iceandfire2;
 
 import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -15,13 +16,15 @@ public class IceandFire2Compat extends DragonEyeItem {
     public static void proccessEffects(Player player, ItemStack stack) {
         if (ModLoadedUtil.isIceandFireLoaded()) {
             if (isFireDragonEye(stack)) {
-                if (!player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, -1, 0, true, false));
+                MobEffect effect = MobEffects.FIRE_RESISTANCE;
+                MobEffectInstance mobEffect = player.getEffect(effect);
+                if (mobEffect == null || mobEffect.getDuration() <= 110) {
+                    player.addEffect(new MobEffectInstance(effect, 210, 0, true, false));
                 }
             }
             if (isIceDragonEye(stack)) {
 
-                }
+            }
             if (isLightningDragonEye(stack)) {
             }
         }

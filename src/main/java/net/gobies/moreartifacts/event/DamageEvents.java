@@ -141,8 +141,10 @@ public class DamageEvents {
             RandomSource random = player.getRandom();
             double generalIncrease = 0.0;
 
-            if (CurioHandler.isCurioEquipped(player, MAItems.GildedScarf.get())) {
-                generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
+            if (!ModLoadedUtil.isApothecaryLoaded()) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.GildedScarf.get())) {
+                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.GildedScarf.get(), CommonConfig.GILDED_DAMAGE_DEALT.get());
+                }
             }
 
             if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
@@ -240,19 +242,25 @@ public class DamageEvents {
             if (event.getSource().is(DamageTypes.ARROW) || SpartanWeaponryCompat.isArmorPiercingBolt(event.getSource())) {
                 int magicQuiverCount = CurioHandler.getCurioCount(player, MAItems.MagicQuiver.get());
                 for (int i = 0; i < magicQuiverCount; i++) {
-                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
+                    if (!ModLoadedUtil.isApothecaryLoaded()) {
+                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MagicQuiver.get(), CommonConfig.MAGIC_QUIVER_DAMAGE.get());
+                    }
                 }
 
                 int envenomedQuiverCount = CurioHandler.getCurioCount(player, MAItems.EnvenomedQuiver.get());
                 for (int i = 0; i < envenomedQuiverCount; i++) {
-                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
+                    if (!ModLoadedUtil.isApothecaryLoaded()) {
+                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.EnvenomedQuiver.get(), CommonConfig.ENVENOMED_QUIVER_DAMAGE.get());
+                    }
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * CommonConfig.ENVENOMED_QUIVER_POISON_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_POISON_LEVEL.get()));
                     target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * CommonConfig.ENVENOMED_QUIVER_WITHER_DURATION.get(), CommonConfig.ENVENOMED_QUIVER_WITHER_LEVEL.get()));
                 }
 
                 int moltenQuiverCount = CurioHandler.getCurioCount(player, MAItems.MoltenQuiver.get());
                 for (int i = 0; i < moltenQuiverCount; i++) {
-                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
+                    if (!ModLoadedUtil.isApothecaryLoaded()) {
+                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
+                    }
                     target.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
 
                     if (target.isOnFire()) {
@@ -261,11 +269,14 @@ public class DamageEvents {
                 }
                 int frozenQuiverCount = CurioHandler.getCurioCount(player, MAItems.FrozenQuiver.get());
                 for (int i = 0; i < frozenQuiverCount; i++) {
-                    generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
+                    if (!ModLoadedUtil.isApothecaryLoaded()) {
+                        generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
+                    }
                     float frozenDamage = event.getAmount();
                     int roundedFreeze = Math.round(frozenDamage);
                     int totalFreeze = (roundedFreeze + 10) * CommonConfig.FROZEN_QUIVER_MULTIPLIER.get();
-                    target.setTicksFrozen(totalFreeze + 20);
+                    int freezeCap = Math.min(totalFreeze, 200);
+                    target.setTicksFrozen(target.getTicksFrozen() + freezeCap);
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, totalFreeze / 2, 0, false, false));
                 }
             } else if (source.is(DamageTypes.PLAYER_ATTACK)) {

@@ -25,7 +25,9 @@ public class CommonConfig {
 
     private static final Map<String, ForgeConfigSpec.BooleanValue> TOGGLE = new HashMap<>();
 
+    /*
     // Artifacts
+    */
     public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_REDUCTION;
     public static float skull_fire_damage_reduction;
 
@@ -510,6 +512,14 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_TRADE_CHANCE;
     public static float holy_mantle_trade_chance;
     /*
+    // Artifacts
+    */
+    public static ForgeConfigSpec.ConfigValue<Double> BLOOD_SOUL_DROP_CHANCE;
+    public static float blood_soul_drop_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> SHADOW_SOUL_DROP_CHANCE;
+    public static float shadow_soul_drop_chance;
+
+    /*
     // General
     */
     public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_REDUCTION;
@@ -736,6 +746,8 @@ public class CommonConfig {
             cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
             melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
             holy_mantle_trade_chance = HOLY_MANTLE_TRADE_CHANCE.get().floatValue();
+            blood_soul_drop_chance = BLOOD_SOUL_DROP_CHANCE.get().floatValue();
+            shadow_soul_drop_chance = SHADOW_SOUL_DROP_CHANCE.get().floatValue();
             max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
             max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
             max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
@@ -1144,6 +1156,24 @@ public class CommonConfig {
 
         /*
         // Artifact Category End
+        */
+        BUILDER.pop();
+
+        /*
+        // Soul Category
+        */
+        BUILDER.comment("Global soul settings for all of their stats and abilities").push("Souls");
+
+        BUILDER.push("Blood Soul");
+        BLOOD_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the blood soul drops from any mob when one-shotting them").define("Drop_Chance", 0.001);
+        BUILDER.pop();
+
+        BUILDER.push("Shadow Soul");
+        SHADOW_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the shadow soul drops from any mob when defeated in dark areas").define("Drop_Chance", 0.001);
+        BUILDER.pop();
+
+        /*
+        // Soul Category End
         */
         BUILDER.pop();
 

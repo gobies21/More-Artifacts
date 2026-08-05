@@ -110,12 +110,14 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
-    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1:api"))
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.3.1+1.20.1")
+    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1:api"))
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1")
 
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:8548863")
+    //compileOnly("curse.maven:apothecary-potion-expansion-1278100:8548863"))
     runtimeOnly(fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220"))
 
     implementation fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
@@ -131,8 +133,6 @@ dependencies {
 
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
-
-    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:8451346")
     //runtimeOnly(fg.deobf("curse.maven:artifacts-312353:6399828"))
 
     implementation fg.deobf("curse.maven:configured-457570:5180900")
@@ -149,6 +149,8 @@ dependencies {
     implementation fg.deobf("curse.maven:spark-361579:4738952")
     implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
+
+    //implementation "curse.maven:mo-bends-unofficial-modern-port-1438637:8573355"
 }
 
 mixin {

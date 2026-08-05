@@ -29,7 +29,6 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         modifiers.put(Attributes.LUCK, new AttributeModifier(uuid, String.valueOf(LUCK), CommonConfig.EMERALD_RING_LUCK.get(), AttributeModifier.Operation.ADDITION));
-
         return modifiers;
     }
 

@@ -73,7 +73,6 @@ public class NaturesMantleItem extends Item implements ICurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), CommonConfig.NATURES_MANTLE_SPEED_INCREASE.get(), AttributeModifier.Operation.MULTIPLY_BASE));
-
         return modifiers;
     }
 

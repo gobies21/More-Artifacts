@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
@@ -33,6 +34,7 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
 
     private static final UUID ENTITY_REACH = UUID.fromString("dad6258c-89f4-4725-9b85-a12cc7a500c6");
     private static final UUID BLOCK_REACH = UUID.fromString("a6c6ef61-13c4-495d-b66d-1d035e53df7f");
+    private static final UUID DAMAGE_RESISTANCE = UUID.fromString("d1a0356d-1887-4857-9581-ed4dfcf102b1");
 
     @Override
     public boolean isEnderMask(SlotContext slotContext, EnderMan enderMan, ItemStack stack) {
@@ -43,9 +45,11 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        if (ModLoadedUtil.isApothecaryLoaded()) {
+            modifiers.put(ApothecaryCompat.damageResistance(), new AttributeModifier(uuid, String.valueOf(DAMAGE_RESISTANCE), CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        }
         modifiers.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, String.valueOf(ENTITY_REACH), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
         modifiers.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(uuid, String.valueOf(BLOCK_REACH), CommonConfig.TRUE_ENDERIAN_REACH.get(), AttributeModifier.Operation.ADDITION));
-
         return modifiers;
     }
 
@@ -58,13 +62,16 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double scarfDamageTaken = CommonConfig.TRUE_ENDERIAN_DAMAGE_REDUCTION.get() * 100;
         double scarfEvadeChance = CommonConfig.TRUE_ENDERIAN_EVADE.get() * 100;
+        int num =  ModLoadedUtil.isApothecaryLoaded() ? 3 : 4;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.neutral").withStyle(ChatFormatting.LIGHT_PURPLE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.0f", scarfDamageTaken)).withStyle(ChatFormatting.BLUE));
+        if (!ModLoadedUtil.isApothecaryLoaded()) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.0f", scarfDamageTaken)).withStyle(ChatFormatting.BLUE));
+        }
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", String.format("%.0f", scarfEvadeChance)).withStyle(ChatFormatting.BLUE));
         if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.TRUE_ENDERIAN_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
-                pTooltipComponents.remove(4);
+                pTooltipComponents.remove(num);
                 pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
             }
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -61,10 +61,10 @@ public class SoulOverlay {
             guiGraphics.renderItem(activeSoulStack, renderX, renderY);
             guiGraphics.renderItemDecorations(mc.font, activeSoulStack, renderX, renderY);
             if (mouseX >= renderX && mouseX < renderX + 16 && mouseY >= renderY && mouseY < renderY + 16) {
-                List<Component> rawTooltip = activeSoulStack.getTooltipLines(player, TooltipFlag.Default.NORMAL);
+                List<Component> tooltip = activeSoulStack.getTooltipLines(player, TooltipFlag.Default.NORMAL);
                 List<Component> filteredTooltip = new ArrayList<>();
 
-                for (Component line : rawTooltip) {
+                for (Component line : tooltip) {
                     String plainText = line.getString();
 
                     // Skip unnecessary tooltips

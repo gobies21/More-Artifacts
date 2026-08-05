@@ -1,9 +1,14 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
+import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -26,6 +31,16 @@ public class HighJumpersItem extends Item implements ICurioItem {
     }
 
     private static final UUID SPEED = UUID.fromString("dfd10780-fa54-4955-be2b-4ee77a44fc24");
+    private static final UUID JUMP_HEIGHT = UUID.fromString("c094dd46-0ca2-40b3-a2f1-69563e44085b");
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        if (ModLoadedUtil.isApothecaryLoaded()) {
+            modifiers.put(ApothecaryCompat.jumpHeight(), new AttributeModifier(uuid, String.valueOf(JUMP_HEIGHT), 1, AttributeModifier.Operation.ADDITION));
+        }
+        return modifiers;
+    }
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
@@ -50,7 +65,9 @@ public class HighJumpersItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double movementSpeed = CommonConfig.HIGH_JUMPERS_SPEED.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.jump").withStyle(ChatFormatting.GRAY));
+        if (!ModLoadedUtil.isApothecaryLoaded()) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.jump").withStyle(ChatFormatting.GRAY));
+        }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

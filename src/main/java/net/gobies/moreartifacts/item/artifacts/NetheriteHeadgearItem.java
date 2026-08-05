@@ -35,7 +35,6 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         modifiers.put(Attributes.ARMOR, new AttributeModifier(uuid, String.valueOf(ARMOR), CommonConfig.NETHERITE_HEADGEAR_ARMOR.get(), AttributeModifier.Operation.ADDITION));
-
         return modifiers;
     }
 

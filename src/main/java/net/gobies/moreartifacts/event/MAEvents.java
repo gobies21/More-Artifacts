@@ -267,6 +267,7 @@ public class MAEvents {
 
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
+        if (ModLoadedUtil.isApothecaryLoaded()) return;
         if (event.getEntity() instanceof Player player) {
             int ballonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
             for (int i = 0; i < ballonCount; i++) {
@@ -280,6 +281,7 @@ public class MAEvents {
 
     @SubscribeEvent
     public void onFallDamageReduction(LivingFallEvent event) {
+        if (ModLoadedUtil.isApothecaryLoaded()) return;
         if (event.getEntity() instanceof Player player) {
             int balloonCount = CurioHandler.getCurioCount(player, MAItems.Balloon.get());
             for (int i = 0; i < balloonCount; i++) {
@@ -623,133 +625,143 @@ public class MAEvents {
     public void onMobKill(LivingDeathEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
         ItemStack soul = SoulUtil.isSoulEquipped(player);
-        if (soul.isEmpty()) return;
+        LivingEntity victim = event.getEntity();
+        Level level = victim.getCommandSenderWorld();
+        BlockPos pos = victim.blockPosition();
+        int lightLevel = level.getMaxLocalRawBrightness(pos);
 
-        if (player.getCommandSenderWorld().isClientSide()) return;
-        if (event.getEntity() instanceof Enemy) {
+        if (!soul.isEmpty()) {
+            if (player.getCommandSenderWorld().isClientSide()) return;
+            if (event.getEntity() instanceof Enemy) {
 
-            LivingEntity victim = event.getEntity();
-            Level level = victim.getCommandSenderWorld();
-            BlockPos pos = victim.blockPosition();
-            int lightLevel = level.getMaxLocalRawBrightness(pos);
+                // Evolve Soul of Shadows (stage 1-2-3)
+                if (soul.is(MAItems.ShadowSoul.get())) {
+                    if (SoulUtil.getSoulStage(soul) == 1) {
+                        if (lightLevel <= 7) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
 
-            // Evolve Soul of Shadows (stage 1-2-3)
-            if (soul.is(MAItems.ShadowSoul.get())) {
-                if (SoulUtil.getSoulStage(soul) == 1) {
-                    if (lightLevel <= 7) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-
-                        if (currentKills >= 100) { // 100 kills 1-2
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                            if (currentKills >= 100) { // 100 kills 1-2
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 2) {
-                    if (lightLevel <= 7) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                    } else if (SoulUtil.getSoulStage(soul) == 2) {
+                        if (lightLevel <= 7) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
 
-                        if (currentKills >= 300) { // 300 kills 2-3
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                            if (currentKills >= 300) { // 300 kills 2-3
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 3) {
-                    if (lightLevel <= 7) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                    } else if (SoulUtil.getSoulStage(soul) == 3) {
+                        if (lightLevel <= 7) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
 
-                        if (currentKills >= 500) { // 500 kills 3-4
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                            if (currentKills >= 500) { // 500 kills 3-4
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 4) {
-                    if (lightLevel <= 7) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                        if (currentKills >= 1000) { // 1000 kills 4-5
-                            SoulUtil.evolveSoul(soul, player);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                    } else if (SoulUtil.getSoulStage(soul) == 4) {
+                        if (lightLevel <= 7) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                            if (currentKills >= 1000) { // 1000 kills 4-5
+                                SoulUtil.evolveSoul(soul, player);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
                     }
                 }
             }
         }
+        if (lightLevel <= 7) {
+            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.001)) {
+                victim.spawnAtLocation(MAItems.ShadowSoul.get());
+            }
+        }
     }
 
     @SubscribeEvent
-    public void onEntityKill(LivingHurtEvent event) {
+    public void onEntityKill(LivingDamageEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
         ItemStack soul = SoulUtil.isSoulEquipped(player);
-        if (soul.isEmpty()) return;
+        LivingEntity victim = event.getEntity();
+        if (!soul.isEmpty()) {
+            if (player.getCommandSenderWorld().isClientSide()) return;
+            if (event.getEntity() instanceof Enemy) {
 
-        if (player.getCommandSenderWorld().isClientSide()) return;
-        if (event.getEntity() instanceof Enemy) {
-
-            LivingEntity victim = event.getEntity();
-            if (soul.is(MAItems.BloodSoul.get())) {
-                if (SoulUtil.getSoulStage(soul) == 1) {
-                    if (victim.getMaxHealth() <= event.getAmount()) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                        if (currentKills >= 100) { // 100 kills 1-2
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                if (soul.is(MAItems.BloodSoul.get())) {
+                    if (SoulUtil.getSoulStage(soul) == 1) {
+                        if (victim.getMaxHealth() <= event.getAmount()) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                            if (currentKills >= 100) { // 100 kills 1-2
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 2) {
-                    if (victim.getMaxHealth() <= event.getAmount()) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                        if (currentKills >= 300) { // 300 kills 2-3
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                    } else if (SoulUtil.getSoulStage(soul) == 2) {
+                        if (victim.getMaxHealth() <= event.getAmount()) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                            if (currentKills >= 300) { // 300 kills 2-3
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 3) {
-                    if (victim.getMaxHealth() <= event.getAmount()) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                        if (currentKills >= 500) { // 500 kills 3-4
-                            SoulUtil.evolveSoul(soul, player);
-                            nbt.remove(SoulUtil.KILLS);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                    } else if (SoulUtil.getSoulStage(soul) == 3) {
+                        if (victim.getMaxHealth() <= event.getAmount()) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                            if (currentKills >= 500) { // 500 kills 3-4
+                                SoulUtil.evolveSoul(soul, player);
+                                nbt.remove(SoulUtil.KILLS);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
-                    }
-                } else if (SoulUtil.getSoulStage(soul) == 4) {
-                    if (victim.getMaxHealth() <= event.getAmount()) {
-                        CompoundTag nbt = soul.getOrCreateTag();
-                        int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
-                        if (currentKills >= 1000) { // 1000 kills 4-5
-                            SoulUtil.evolveSoul(soul, player);
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
-                            player.setHealth(player.getMaxHealth() * 0.75F);
-                        } else {
-                            nbt.putInt(SoulUtil.KILLS, currentKills);
+                    } else if (SoulUtil.getSoulStage(soul) == 4) {
+                        if (victim.getMaxHealth() <= event.getAmount()) {
+                            CompoundTag nbt = soul.getOrCreateTag();
+                            int currentKills = nbt.getInt(SoulUtil.KILLS) + 1;
+                            if (currentKills >= 1000) { // 1000 kills 4-5
+                                SoulUtil.evolveSoul(soul, player);
+                                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.0F, 0.8F);
+                                player.setHealth(player.getMaxHealth() * 0.75F);
+                            } else {
+                                nbt.putInt(SoulUtil.KILLS, currentKills);
+                            }
                         }
                     }
                 }
+            }
+        }
+        if (victim.getMaxHealth() <= event.getAmount()) {
+            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.001)) {
+                victim.spawnAtLocation(MAItems.BloodSoul.get());
             }
         }
     }

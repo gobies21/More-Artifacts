@@ -1,9 +1,11 @@
 package net.gobies.moreartifacts.compat.apothecary;
 
+import net.gobies.apothecary.init.AAttributes;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ShieldHandler;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -81,5 +83,21 @@ public class ApothecaryCompat {
                 MAUtils.harmfulSpecificEffectImmune(event, AEffects.BrokenArmor.get());
             }
         }
+    }
+
+    public static Attribute damageResistance() {
+        return AAttributes.DAMAGE_RESISTANCE.get();
+    }
+
+    public static Attribute damageMultiplier() {
+        return AAttributes.DAMAGE_MULTIPLIER.get();
+    }
+
+    public static Attribute jumpHeight() {
+        return AAttributes.JUMP_HEIGHT.get();
+    }
+
+    public static Attribute projectileDamage() {
+        return AAttributes.PROJECTILE_DAMAGE.get();
     }
 }

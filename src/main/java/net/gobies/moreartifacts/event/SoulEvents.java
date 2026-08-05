@@ -1,6 +1,9 @@
 package net.gobies.moreartifacts.event;
 
+import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
+import net.gobies.moreartifacts.init.MAEffects;
+import net.gobies.moreartifacts.util.LuckHelper;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.gobies.moreartifacts.util.SoulUtil;
@@ -12,8 +15,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -26,6 +32,7 @@ public class SoulEvents {
     }
 
     private static final UUID SHADOW_SPEED = UUID.fromString("6a4fa28a-7e3e-4d43-bc97-9e48b813b19b");
+    private static final UUID SHADOW_JUMP_HEIGHT = UUID.fromString("a79428d0-efac-47f2-8512-1cb2482f1fc4");
     private static final UUID SHADOW_ARMOR = UUID.fromString("7f86dbdf-dc8a-4467-89fb-c3491ea9642b");
     private static final UUID SHADOW_STEALTH = UUID.fromString("0a6493b8-6ee4-436f-b2f5-b2230489cf00");
 
@@ -74,30 +81,31 @@ public class SoulEvents {
             if (ModLoadedUtil.isBetterStealthLoaded()) {
                 updateShadowStealthModifier(player, isDarkArea);
             }
-        } else {
+
             isDarkArea = darkAreaCache.contains(playerId);
-        }
 
-        if (!persistentData.contains(SoulUtil.ABILITY_TOGGLE)) {
-            persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
-        }
-
-        boolean abilityActive = persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE) && isDarkArea;
-        boolean isActive = activeAbility.contains(playerId);
-        MobEffectInstance currentEffect = player.getEffect(MobEffects.INVISIBILITY);
-
-        if (abilityActive) {
-            if (currentEffect == null || !isActive) {
-                player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
-                activeAbility.add(playerId);
-            } else if (currentEffect.getDuration() <= 110) {
-                player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
+            if (!persistentData.contains(SoulUtil.ABILITY_TOGGLE)) {
+                persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
             }
-        } else if (isActive) {
-            if (currentEffect != null) {
-                player.removeEffect(MobEffects.INVISIBILITY);
+
+            boolean abilityActive = persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE) && isDarkArea;
+            boolean isActive = activeAbility.contains(playerId);
+            MobEffectInstance currentEffect = player.getEffect(MobEffects.INVISIBILITY);
+
+            if (abilityActive) {
+                if (currentEffect == null || !isActive) {
+                    player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
+                    activeAbility.add(playerId);
+                } else if (currentEffect.getDuration() <= 110) {
+                    player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 210, 0, true, false));
+                }
+            } else if (isActive) {
+                if (currentEffect != null) {
+                    player.removeEffect(MobEffects.INVISIBILITY);
+                }
+                activeAbility.remove(playerId);
             }
-            activeAbility.remove(playerId);
+            MAUtils.removeEffect(player, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.DARKNESS);
         }
     }
 
@@ -105,6 +113,11 @@ public class SoulEvents {
         AttributeInstance speedAttr = player.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speedAttr != null && speedAttr.getModifier(SHADOW_SPEED) == null) {
             speedAttr.addPermanentModifier(new AttributeModifier(SHADOW_SPEED, "Shadow Speed", 0.40, AttributeModifier.Operation.MULTIPLY_BASE));
+        }
+
+        AttributeInstance jumpHeightAttr = player.getAttribute(ApothecaryCompat.jumpHeight());
+        if (jumpHeightAttr != null && jumpHeightAttr.getModifier(SHADOW_JUMP_HEIGHT) == null) {
+            jumpHeightAttr.addPermanentModifier(new AttributeModifier(SHADOW_JUMP_HEIGHT, "Shadow Jump Height", 0.20, AttributeModifier.Operation.MULTIPLY_BASE));
         }
 
         AttributeInstance armorAttr = player.getAttribute(Attributes.ARMOR);
@@ -149,6 +162,7 @@ public class SoulEvents {
                 }
                 activeAbility.remove(playerId);
             }
+            MAUtils.removeEffect(player, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
         }
     }
 
@@ -173,6 +187,55 @@ public class SoulEvents {
         if (armorToughnessAttr != null && armorToughnessAttr.getModifier(BLOOD_ARMOR_TOUGHNESS) == null) {
             armorToughnessAttr.addPermanentModifier(new AttributeModifier(BLOOD_ARMOR_TOUGHNESS, "Blood Armor Toughness Penalty", -0.25, AttributeModifier.Operation.MULTIPLY_BASE));
         }
+    }
+
+    @SubscribeEvent
+    public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
+        if (event.getEntity() instanceof Player player) {
+            CompoundTag persistentData = player.getPersistentData();
+            String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
+            if (SoulUtil.SHADOW.equals(activeSoul)) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.DARKNESS);
+            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingDeath(LivingDeathEvent event) {
+        if (event.getEntity().level().isClientSide) return;
+        if (event.getSource().getEntity() instanceof Player player) {
+            if (event.getEntity() == player) return;
+            ItemStack soul = SoulUtil.isSoulEquipped(player);
+            CompoundTag persistentData = player.getPersistentData();
+            String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
+
+            if (SoulUtil.getSoulStage(soul) == 4) {
+                if (LuckHelper.roll(player, 0.25, 0.01)) {
+                    applyBloodRage(player);
+                }
+            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+                if (LuckHelper.roll(player, 0.50, 0.01)) {
+                    applyBloodRage(player);
+                }
+            }
+        }
+    }
+
+    private static void applyBloodRage(Player player) {
+        MobEffectInstance activeEffect = player.getEffect(MAEffects.BloodRage.get());
+        int amplifier = 0;
+
+        if (activeEffect != null) {
+            amplifier = activeEffect.getAmplifier();
+
+            if (amplifier < (5 - 1)) {
+                amplifier++;
+            }
+        }
+
+        player.addEffect(new MobEffectInstance(MAEffects.BloodRage.get(), 100, amplifier, false, true, true));
     }
 
     @SubscribeEvent

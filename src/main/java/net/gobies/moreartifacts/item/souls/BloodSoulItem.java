@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 
@@ -140,22 +141,22 @@ public class BloodSoulItem extends SoulItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         int stage = SoulUtil.getSoulStage(pStack);
         CompoundTag nbt = pStack.getOrCreateTag();
         int currentKills = nbt.getInt(SoulUtil.KILLS);
 
         // Lore Tooltips
         if (stage == 1) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage1_lore").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage1_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 2) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage2_lore").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage2_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 3) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage3_lore").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage3_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 4) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage4_lore").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage4_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 5) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage5_lore").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.stage5_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
         }
 
         // Lifesteal Tooltips
@@ -173,6 +174,23 @@ public class BloodSoulItem extends SoulItem {
 
         if (stage >= 3) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.regen").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.SOUL_PASSIVE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
+        }
+
+        if (stage == 4) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.blood_rage1").withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.blood_rage_stack").withStyle(ChatFormatting.BLUE));
+        } else if (stage == 5) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.blood_rage2").withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.blood_rage_stack").withStyle(ChatFormatting.BLUE));
+        }
+
+        // Unequipped Tooltips
+        if (stage >= 2 && stage <= 3) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.unequip").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 4) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.no_unequip").withStyle(ChatFormatting.GOLD));
+        } else if (stage == 5) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul_connected").withStyle(ChatFormatting.GOLD));
         }
 
 
@@ -194,6 +212,16 @@ public class BloodSoulItem extends SoulItem {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blood_soul.evolve_1").withStyle(ChatFormatting.GOLD));
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 1000).withStyle(ChatFormatting.RED));
         }
+
+        // Immunity Tooltips
+        if (stage == 5) {
+            pTooltipComponents.add(Component.literal(" "));
+            pTooltipComponents.add(Component.literal("Immunities:").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.literal("§6- §cPoison").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("§6- §cWither").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("§6- §cMining Fatigue").withStyle(ChatFormatting.RED));
+        }
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
 
