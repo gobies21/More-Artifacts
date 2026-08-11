@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
@@ -32,11 +31,6 @@ public class AnkhShieldRenderer implements ICurioRenderer {
         if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
         LivingEntity entity = slotContext.entity();
         poseStack.pushPose();
-        poseStack.scale(1.2f, 1.1f, 1.2f);
-        poseStack.translate(0.0, 0.0, 0.01);
-        if (entity.hasItemInSlot(EquipmentSlot.CHEST)) poseStack.translate(0.0, 0.0, 0.025);
-        ICurioRenderer.translateIfSneaking(poseStack, entity);
-        ICurioRenderer.rotateIfSneaking(poseStack, entity);
         this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
         M specificModel = renderLayerParent.getModel();
         @SuppressWarnings("unchecked")

@@ -1,10 +1,12 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -29,17 +31,10 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
     private static final UUID SPEED = UUID.fromString("dccdc886-bd04-4859-82b3-a01ea0c1217b");
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.BLAZING_TREADS_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
-        }
-    }
-
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
-        }
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), CommonConfig.BLAZING_TREADS_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        return modifiers;
     }
 
     @Override
@@ -71,9 +66,8 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double movementSpeed = CommonConfig.BLAZING_TREADS_SPEED.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blazing_treads.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hot_block_immune").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.blazing_treads.dodge").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

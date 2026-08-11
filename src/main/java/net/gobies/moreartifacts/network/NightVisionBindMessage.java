@@ -20,8 +20,8 @@ public class NightVisionBindMessage {
 
     public static void buffer(NightVisionBindMessage message, FriendlyByteBuf buffer) {}
 
-    public static void handle(NightVisionBindMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public static void handle(NightVisionBindMessage message, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
             if (player == null) return;

@@ -31,10 +31,6 @@ public class NecroplasmAmuletRenderer implements ICurioRenderer {
         if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
         LivingEntity entity = slotContext.entity();
         poseStack.pushPose();
-        poseStack.translate(0.0, 0.0, -0.02);
-        if (entity.isCrouching()) poseStack.translate(0.0, 0.03, -0.03);
-        ICurioRenderer.translateIfSneaking(poseStack, entity);
-        ICurioRenderer.rotateIfSneaking(poseStack, entity);
         this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
         M specificModel = renderLayerParent.getModel();
         @SuppressWarnings("unchecked")

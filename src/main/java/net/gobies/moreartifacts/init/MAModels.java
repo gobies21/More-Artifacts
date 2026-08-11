@@ -10,7 +10,6 @@ public class MAModels {
     public static void modelSetup() {
         CuriosRendererRegistry.register(MAItems.Sunglasses.get(), SunglassesRenderer::new);
         CuriosRendererRegistry.register(MAItems.SculkShades.get(), SculkShadesRenderer::new);
-        CuriosRendererRegistry.register(MAItems.SculkLens.get(), SculkLensRenderer::new);
         CuriosRendererRegistry.register(MAItems.CobaltShield.get(), CobaltShieldRenderer::new);
         CuriosRendererRegistry.register(MAItems.ObsidianShield.get(), ObsidianShieldRenderer::new);
         CuriosRendererRegistry.register(MAItems.AnkhShield.get(), AnkhShieldRenderer::new);
@@ -32,7 +31,6 @@ public class MAModels {
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MAModelLayer.SUNGLASSES, SunglassesModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.SCULK_SHADES, SculkShadesModel::createBodyLayer);
-        event.registerLayerDefinition(MAModelLayer.SCULK_LENS, SculkLensModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.COBALT_SHIELD, CobaltShieldModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.ANKH_SHIELD, AnkhShieldModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.OBSIDIAN_SHIELD, ObsidianShieldModel::createBodyLayer);

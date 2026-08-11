@@ -150,7 +150,11 @@ dependencies {
     implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
 
-    //implementation "curse.maven:mo-bends-unofficial-modern-port-1438637:8573355"
+    //implementation fg.deobf("curse.maven:artifacts-312353:7903806")
+    implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
+    implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
+
+    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8573355")
 }
 
 mixin {

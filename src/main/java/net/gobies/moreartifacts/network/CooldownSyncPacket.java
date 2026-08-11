@@ -21,8 +21,8 @@ public record CooldownSyncPacket(String artifactId) {
         buffer.writeUtf(msg.artifactId());
     }
 
-    public static void handle(CooldownSyncPacket msg, Supplier<NetworkEvent.Context> ctxSupplier) {
-        NetworkEvent.Context context = ctxSupplier.get();
+    public static void handle(CooldownSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHandler.process(msg.artifactId())));
         context.setPacketHandled(true);
     }

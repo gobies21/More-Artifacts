@@ -33,14 +33,12 @@ public class SunglassesRenderer implements ICurioRenderer {
         if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
         LivingEntity entity = slotContext.entity();
         poseStack.pushPose();
-        //poseStack.scale(1.0f, 1.2f, 1.0f);
-        //poseStack.translate(0.0, 0.05, 0.01);
         this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
         M specificModel = renderLayerParent.getModel();
         @SuppressWarnings("unchecked")
         T typedEntity = (T) entity;
         specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
-        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.itemEntityTranslucentCull(TEXTURE), false, stack.hasFoil());
         this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
     }

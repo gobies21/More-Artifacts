@@ -39,7 +39,7 @@ public class BloodSoulItem extends SoulItem {
     TODO: Stage 2 = Attacks have a chance to heal for a full heart
     TODO: Stage 3 = Attacks heal for 10% of damage dealt
     TODO: Stage 4 = Attacks heal for 15% of damage dealt + 1 Heart
-    TODO: Stage 5 = Attacks heal for 20% of damage dealt + 2 Hearts
+    TODO: Stage 5 = Attacks heal for 20% of damage dealt + 2 Hearts (scale +10%)
 
 
     // Stage 2-3: Cannot unequip while at full health

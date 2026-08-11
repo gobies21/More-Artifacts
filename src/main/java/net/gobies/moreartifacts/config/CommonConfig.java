@@ -93,6 +93,8 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.ConfigValue<Integer> FROST_GAUNTLET_DAMAGE;
     public static int frost_gauntlet_damage;
+    public static ForgeConfigSpec.ConfigValue<Double> FROST_GAUNTLET_ATTACK_SPEED;
+    public static float frost_gauntlet_attack_speed;
     public static ForgeConfigSpec.ConfigValue<Integer> FROSTED_WOUNDS_DAMAGE;
     public static int frosted_wounds_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> FROSTED_WOUNDS_DURATION;
@@ -536,6 +538,8 @@ public class CommonConfig {
     public static boolean enable_loot_tables;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_LUCK_FACTOR;
     public static boolean enable_luck_factor;
+    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_AIR_DODGE;
+    public static boolean enable_air_dodge;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
@@ -574,6 +578,7 @@ public class CommonConfig {
             mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
             mechanical_glove_speed = MECHANICAL_GLOVE_SPEED.get().floatValue();
             frost_gauntlet_damage = FROST_GAUNTLET_DAMAGE.get();
+            frost_gauntlet_attack_speed = FROST_GAUNTLET_ATTACK_SPEED.get().floatValue();
             frosted_wounds_damage = FROSTED_WOUNDS_DAMAGE.get();
             frosted_wounds_duration = FROSTED_WOUNDS_DURATION.get();
             frosted_wounds_damage_received = FROSTED_WOUNDS_DAMAGE_RECEIVED.get().floatValue();
@@ -755,6 +760,7 @@ public class CommonConfig {
             enable_ender_tweaks = ENABLE_ENDER_TWEAKS.get();
             enable_loot_tables = ENABLE_LOOT_TABLES.get();
             enable_luck_factor = ENABLE_LUCK_FACTOR.get();
+            enable_air_dodge = ENABLE_AIR_DODGE.get();
         }
     }
 
@@ -778,6 +784,7 @@ public class CommonConfig {
         ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
         ENABLE_LOOT_TABLES = BUILDER.comment("Enables loot tables from this mod").define("Enable_Loot_Tables", true);
         ENABLE_LUCK_FACTOR = BUILDER.comment("Enables luck affecting artifact chanced based effects").define("Enable_Luck_Factor", true);
+        ENABLE_AIR_DODGE = BUILDER.comment("Enables being able to dash in the air with artifacts that have the ability to dodge").define("Enable_Air_Dodge", false);
         BUILDER.pop();
 
         /*
@@ -885,7 +892,7 @@ public class CommonConfig {
 
         BUILDER.push("Enderian_Treads");
         ENDERIAN_TREADS_SPEED = BUILDER.comment("Speed increase gained in percentage").define("Speed_Increase", 0.20);
-        ENDERIAN_TREADS_COOLDOWN = BUILDER.comment("Cooldown for evading attacks in seconds").define("Cooldown", 60.0);
+        ENDERIAN_TREADS_COOLDOWN = BUILDER.comment("Cooldown for blinking in seconds").define("Cooldown", 3.0);
         BUILDER.pop();
 
         BUILDER.push("Envenomed_Quiver");
@@ -908,6 +915,7 @@ public class CommonConfig {
 
         BUILDER.push("Frost_Gauntlet");
         FROST_GAUNTLET_DAMAGE = BUILDER.comment("Attack Damage increase").define("Attack_Damage", 2);
+        FROST_GAUNTLET_ATTACK_SPEED = BUILDER.comment("Attack Speed increase").define("Attack_Speed", 0.0);
         FROSTED_WOUNDS_DAMAGE = BUILDER.comment("Damage that frosted wounds deals per second").define("Frosted_Wounds_Damage", 2);
         FROSTED_WOUNDS_DURATION = BUILDER.comment("Duration of frosted wounds in seconds").define("Frosted_Wounds_Duration", 10);
         FROSTED_WOUNDS_DAMAGE_RECEIVED = BUILDER.comment("Increased damage dealt to targets inflicted with frosted wounds in percentage").define("Damage_Received", 0.25);
@@ -1165,11 +1173,11 @@ public class CommonConfig {
         BUILDER.comment("Global soul settings for all of their stats and abilities").push("Souls");
 
         BUILDER.push("Blood Soul");
-        BLOOD_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the blood soul drops from any mob when one-shotting them").define("Drop_Chance", 0.001);
+        BLOOD_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the blood soul drops from any mob when one-shotting them").define("Drop_Chance", 0.0001);
         BUILDER.pop();
 
         BUILDER.push("Shadow Soul");
-        SHADOW_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the shadow soul drops from any mob when defeated in dark areas").define("Drop_Chance", 0.001);
+        SHADOW_SOUL_DROP_CHANCE = BUILDER.comment("The chance that the shadow soul drops from any mob when defeated in dark areas").define("Drop_Chance", 0.0001);
         BUILDER.pop();
 
         /*

@@ -32,8 +32,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import java.util.*;
-
 @Mod(MoreArtifacts.MOD_ID)
 public class MoreArtifacts {
     public static final String MOD_ID = "moreartifacts";

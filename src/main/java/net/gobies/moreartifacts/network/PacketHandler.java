@@ -28,6 +28,7 @@ public class PacketHandler {
         addNetworkMessage(SelectWormholeTargetPacket.class, SelectWormholeTargetPacket::encode, SelectWormholeTargetPacket::new, SelectWormholeTargetPacket::handle);
         addNetworkMessage(SoulSyncPacket.class, SoulSyncPacket::encode, SoulSyncPacket::new, SoulSyncPacket::handle);
         addNetworkMessage(CooldownSyncPacket.class, CooldownSyncPacket::encode, CooldownSyncPacket::new, CooldownSyncPacket::handle);
+        addNetworkMessage(DodgePacket.class, DodgePacket::encode, DodgePacket::decode, DodgePacket::handle);
     }
 
     public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {

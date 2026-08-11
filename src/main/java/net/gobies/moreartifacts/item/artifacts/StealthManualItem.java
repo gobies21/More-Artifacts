@@ -64,6 +64,7 @@ public class StealthManualItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.sneak").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.dodge_distance").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.cobweb").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

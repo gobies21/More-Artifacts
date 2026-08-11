@@ -31,8 +31,6 @@ public class MelodyPlushieRenderer implements ICurioRenderer {
         if (!ClientConfig.ENABLE_ARTIFACT_MODELS.get()) return;
         LivingEntity entity = slotContext.entity();
         poseStack.pushPose();
-        //poseStack.scale(1.0f, 1.2f, 1.0f);
-        //poseStack.translate(0.0, 0.05, 0.01);
         this.model.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, headYaw, headPitch);
         M specificModel = renderLayerParent.getModel();
         @SuppressWarnings("unchecked")

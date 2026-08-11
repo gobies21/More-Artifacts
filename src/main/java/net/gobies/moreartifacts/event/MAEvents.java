@@ -7,10 +7,13 @@ import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MASounds;
 import net.gobies.moreartifacts.item.artifacts.*;
 import net.gobies.moreartifacts.network.CooldownSyncPacket;
+import net.gobies.moreartifacts.network.DodgePacket;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
 import net.gobies.moreartifacts.util.*;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,6 +47,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.TickEvent;
@@ -552,16 +558,6 @@ public class MAEvents {
         if (!(entity instanceof ServerPlayer player)) return;
         if (event.isCanceled()) return;
 
-        if (CurioHandler.isCurioEquipped(player, MAItems.EnderianTreads.get())) {
-            if (player.getHealth() - event.getAmount() <= 0) {
-                if (EnderianTreadsItem.canUseAbility(player)) {
-                    EnderianTreadsItem.teleportPlayer(player);
-                    EnderianTreadsItem.setCooldown(player);
-                    event.setCanceled(true);
-                }
-            }
-        }
-
         if (CurioHandler.isCurioEquipped(player, MAItems.BrokenHeart.get())) {
             if (ModLoadedUtil.isFirstAidLoaded()) {
                 return;
@@ -691,7 +687,7 @@ public class MAEvents {
             }
         }
         if (lightLevel <= 7) {
-            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.001)) {
+            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.00003)) {
                 victim.spawnAtLocation(MAItems.ShadowSoul.get());
             }
         }
@@ -760,7 +756,7 @@ public class MAEvents {
             }
         }
         if (victim.getMaxHealth() <= event.getAmount()) {
-            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.001)) {
+            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.00003)) {
                 victim.spawnAtLocation(MAItems.BloodSoul.get());
             }
         }
@@ -797,5 +793,54 @@ public class MAEvents {
                 ManageRequests.handleResponse(player, accepted);
             }
         }
+    }
+
+    private static final long pressTime = 300;
+    private static long lastW, lastA, lastS, lastD = 0;
+    private static boolean wasW, wasA, wasS, wasD = false;
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void onInput(MovementInputUpdateEvent event) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null || player.isPassenger() || player.getAbilities().flying) return;
+
+        ItemStack stack = DodgeProperties.getDodgeItem(player);
+        if (stack.isEmpty()) return;
+
+        double cooldown = DodgeProperties.getDodgeCooldown(stack);
+        if (!CooldownHandler.isReady(player, DodgeProperties.DODGE_COOLDOWN, cooldown)) return;
+
+        boolean airDodge = CommonConfig.ENABLE_AIR_DODGE.get();
+        if (!airDodge && !player.onGround()) return;
+
+        boolean isW = event.getInput().up;
+        boolean isA = event.getInput().left;
+        boolean isS = event.getInput().down;
+        boolean isD = event.getInput().right;
+        long currentTime = System.currentTimeMillis();
+
+        if (isW && !wasW) {
+            if (currentTime - lastW < pressTime) triggerDodge(0);
+            lastW = currentTime;
+        }
+        if (isA && !wasA) {
+            if (currentTime - lastA < pressTime) triggerDodge(1);
+            lastA = currentTime;
+        }
+        if (isS && !wasS) {
+            if (currentTime - lastS < pressTime) triggerDodge(2);
+            lastS = currentTime;
+        }
+        if (isD && !wasD) {
+            if (currentTime - lastD < pressTime) triggerDodge(3);
+            lastD = currentTime;
+        }
+
+        wasW = isW; wasA = isA; wasS = isS; wasD = isD;
+    }
+
+    private static void triggerDodge(int direction) {
+        PacketHandler.sendToServer(new DodgePacket(direction));
     }
 }

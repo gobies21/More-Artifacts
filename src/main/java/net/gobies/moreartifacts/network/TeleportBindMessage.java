@@ -28,8 +28,8 @@ public class TeleportBindMessage {
         buffer.writeInt(message.pressedms);
     }
 
-    public static void handle(TeleportBindMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public static void handle(TeleportBindMessage message, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> pressAction(Objects.requireNonNull(context.getSender()), message.type));
         context.setPacketHandled(true);
     }

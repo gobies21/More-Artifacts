@@ -26,12 +26,14 @@ public class FrostGauntletItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID ATTACK_DAMAGE_UUID = UUID.fromString("28bd36f2-e98a-4ef7-984b-33ade3649b4c");
+    private static final UUID ATTACK_DAMAGE = UUID.fromString("28bd36f2-e98a-4ef7-984b-33ade3649b4c");
+    private static final UUID ATTACK_SPEED = UUID.fromString("7971a73e-8d2e-4ff7-afc3-9878c8ab87ef");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
-        modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, String.valueOf(ATTACK_DAMAGE_UUID), CommonConfig.FROST_GAUNTLET_DAMAGE.get(), AttributeModifier.Operation.ADDITION));
+        modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, String.valueOf(ATTACK_DAMAGE), CommonConfig.FROST_GAUNTLET_DAMAGE.get(), AttributeModifier.Operation.ADDITION));
+        modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, String.valueOf(ATTACK_SPEED), CommonConfig.FROST_GAUNTLET_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
         return modifiers;
     }
 

@@ -46,6 +46,7 @@ public class ShadowSoulItem extends SoulItem {
     TODO: Stage 4 = +40% Damage in dark areas, (same other abilities as stage 3) + 20% Chance to summon shadow hands to hit targets when attacking, shadow hands will do 25% of your damage
     TODO: Stage 5 = +50% Damage in dark areas, (same other abilities as stage 3) + Shadow hands become permanent and can be toggled into different states/stances, they will still do 25% of your damage
      for weaker enemies with a specified max health will be crushed and instant killed by shadow hands (players excluded). The soul becomes entangled with yours removing the item from your inventory and becoming permanent (a way to remove souls will be added)
+     (scale -10%)
 
 
     // Stage 2-3: Cannot unequip in darkness

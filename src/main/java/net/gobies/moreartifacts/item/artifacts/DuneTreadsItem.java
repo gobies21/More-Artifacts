@@ -1,9 +1,12 @@
 package net.gobies.moreartifacts.item.artifacts;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -31,16 +34,15 @@ public class DuneTreadsItem extends Item implements ICurioItem {
     private static final UUID SAND_SPEED_BONUS = UUID.fromString("ae90f103-452c-4f44-909d-55be869b31f1");
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.DUNE_TREADS_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
-        }
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
+        modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), CommonConfig.DUNE_TREADS_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE));
+        return modifiers;
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
             MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SAND_SPEED_BONUS));
         }
     }
@@ -68,9 +70,7 @@ public class DuneTreadsItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        double movementSpeed = CommonConfig.DUNE_TREADS_SPEED.get() * 100;
         double sandSpeed = CommonConfig.DUNE_TREADS_SAND_SPEED.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.speed", String.format("%.0f", movementSpeed)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.dune_treads.bonus_on_sand", String.format("%.0f", sandSpeed)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
