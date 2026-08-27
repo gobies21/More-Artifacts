@@ -25,7 +25,7 @@ public class MAModels {
         //CuriosRendererRegistry.register(MAItems.MagicQuiver.get(), MagicQuiverRenderer::new);
         //CuriosRendererRegistry.register(MAItems.MechanicalGlove.get(), MechanicalGloveRenderer::new);
         //CuriosRendererRegistry.register(MAItems.MechanicalClaw.get(), MechanicalClawRenderer::new);
-
+        //CuriosRendererRegistry.register(MAItems.NaturesMantle.get(), NaturesMantleRenderer::new);
     }
 
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -46,5 +46,6 @@ public class MAModels {
         event.registerLayerDefinition(MAModelLayer.MAGIC_QUIVER, MagicQuiverModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MECHANICAL_GLOVE, MechanicalGloveModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MECHANICAL_CLAW, MechanicalClawModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.NATURES_MANTLE, NaturesMantleModel::createBodyLayer);
     }
 }

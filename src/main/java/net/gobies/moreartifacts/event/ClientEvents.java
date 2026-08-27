@@ -92,11 +92,14 @@ public class ClientEvents {
         }
     };
 
+    public static final KeyMapping DODGE_KEY = new KeyMapping("key.moreartifacts.dodge", GLFW.GLFW_KEY_LEFT_ALT, "key.moreartifacts.category");
+
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(EYE_TELEPORT_KEY);
         event.register(DRAGON_EYE_KEY);
         event.register(SOUL_PASSIVE_KEY);
+        event.register(DODGE_KEY);
     }
 
     @Mod.EventBusSubscriber({Dist.CLIENT})
@@ -108,6 +111,7 @@ public class ClientEvents {
                 EYE_TELEPORT_KEY.consumeClick();
                 DRAGON_EYE_KEY.consumeClick();
                 SOUL_PASSIVE_KEY.consumeClick();
+                DODGE_KEY.consumeClick();
             }
         }
     }

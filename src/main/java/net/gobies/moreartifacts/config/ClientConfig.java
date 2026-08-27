@@ -21,6 +21,8 @@ public class ClientConfig {
     public static boolean broken_heart_overlay;
     public static ForgeConfigSpec.ConfigValue<Boolean> HOLY_MANTLE_OVERLAY;
     public static boolean holy_mantle_overlay;
+    public static ForgeConfigSpec.ConfigValue<Boolean> DOUBLE_TAP_DODGE;
+    public static boolean double_tap_dodge;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_CURIO_HUD;
     public static boolean enable_curio_hud;
     public static ForgeConfigSpec.ConfigValue<Boolean> RENDER_VERTICALLY;
@@ -45,6 +47,7 @@ public class ClientConfig {
             enderian_eye_overlay = ENDERIAN_EYE_OVERLAY.get();
             broken_heart_overlay = BROKEN_HEART_OVERLAY.get();
             holy_mantle_overlay = HOLY_MANTLE_OVERLAY.get();
+            double_tap_dodge = DOUBLE_TAP_DODGE.get();
             enable_curio_hud = ENABLE_CURIO_HUD.get();
             render_vertically = RENDER_VERTICALLY.get();
             flip_render_order = FLIP_RENDER_ORDER.get();
@@ -60,10 +63,11 @@ public class ClientConfig {
         BUILDER.comment("General client settings").push("General");
         ENABLE_ARTIFACT_MODELS = BUILDER.comment("Enable artifacts models displaying on the player").define("Enable_Artifact_Models", true);
         ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Enderian_Eye_Overlay", true);
-        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering").define("Broken_Heart_Overlay", true);
-        HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", true);
+        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering (WIP)").define("Broken_Heart_Overlay", true);
+        HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", false);
+        DOUBLE_TAP_DODGE = BUILDER.comment("Enable double tapping movement keys to dodge").define("Double_Tap_Dodge", true);
         BUILDER.push("Curio_Hud");
-        ENABLE_CURIO_HUD = BUILDER.comment("Enable curios rendering on the screen based on whats equipped").define("Enable_Curio_Hud", true);
+        ENABLE_CURIO_HUD = BUILDER.comment("Enable curios rendering on the screen based on whats equipped (WIP)").define("Enable_Curio_Hud", false);
         RENDER_VERTICALLY = BUILDER.comment("Should curios render vertically instead of horizontally").define("Render_Vertically", false);
         FLIP_RENDER_ORDER = BUILDER.comment("Should the render order be flipped, so that head slot items render at the opposite side").define("Flip_Render_Order", false);
         MAX_CURIOS = BUILDER.comment("Max curios that can be rendered from this overlay").defineInRange("Max_Curios", 8, 1, 32);

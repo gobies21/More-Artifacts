@@ -22,10 +22,10 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
     public static String DODGE_COOLDOWN = "dodge_cooldown";
 
     public static DodgeProperties getDodgeProperties(Item item) {
-        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.2, 2.0);
+        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.25, 2.0);
         if (item == MAItems.HighJumpers.get()) return new DodgeProperties(1.2, 0.5, 2.0);
-        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.2, 2.0);
-        if (item == MAItems.SculkTreads.get()) return new DodgeProperties(1.5, 0.2, 2.0);
+        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.25, 2.0);
+        if (item == MAItems.SculkTreads.get()) return new DodgeProperties(1.5, 0.25, 2.0);
         if (item == MAItems.EnderianTreads.get()) return new DodgeProperties(1.5, 0.0, CommonConfig.ENDERIAN_TREADS_COOLDOWN.get(), true);
         return null;
     }

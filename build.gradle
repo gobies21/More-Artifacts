@@ -154,7 +154,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
 
-    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8573355")
+    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8742268")
 }
 
 mixin {

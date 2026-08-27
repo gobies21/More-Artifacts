@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.event;
 
+import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.entity.FriendlyEndermanGoal;
 import net.gobies.moreartifacts.init.MAEffects;
@@ -199,6 +200,8 @@ public class MAEvents {
                     double deltaXZ = Math.cos(angle + (side ? (Math.PI / 2D) : (-Math.PI / 2D)));
                     Vec3 knockbackVector = new Vec3(deltaXZ, 0.3D, deltaXZ).normalize().scale(1.0D);
 
+                    float randomPitch = 1.2F + player.getRandom().nextFloat() * 0.1F;
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, randomPitch);
                     player.setDeltaMovement(knockbackVector);
                     player.hurtMarked = true;
                     event.setCanceled(true);
@@ -795,7 +798,7 @@ public class MAEvents {
         }
     }
 
-    private static final long pressTime = 300;
+    private static final long pressTime = 200;
     private static long lastW, lastA, lastS, lastD = 0;
     private static boolean wasW, wasA, wasS, wasD = false;
 
@@ -818,29 +821,85 @@ public class MAEvents {
         boolean isA = event.getInput().left;
         boolean isS = event.getInput().down;
         boolean isD = event.getInput().right;
-        long currentTime = System.currentTimeMillis();
 
-        if (isW && !wasW) {
-            if (currentTime - lastW < pressTime) triggerDodge(0);
-            lastW = currentTime;
-        }
-        if (isA && !wasA) {
-            if (currentTime - lastA < pressTime) triggerDodge(1);
-            lastA = currentTime;
-        }
-        if (isS && !wasS) {
-            if (currentTime - lastS < pressTime) triggerDodge(2);
-            lastS = currentTime;
-        }
-        if (isD && !wasD) {
-            if (currentTime - lastD < pressTime) triggerDodge(3);
-            lastD = currentTime;
+        if (ClientEvents.DODGE_KEY.consumeClick()) {
+            long time = 0;
+            int dodgeDirection = -1;
+
+            if (isW && lastW > time) {
+                time = lastW;
+                dodgeDirection = 0;
+            }
+            if (isA && lastA > time) {
+                time = lastA;
+                dodgeDirection = 1;
+            }
+            if (isS && lastS > time) {
+                time = lastS;
+                dodgeDirection = 2;
+            }
+            if (isD && lastD > time) {
+                dodgeDirection = 3;
+            }
+
+            if (dodgeDirection != -1) {
+                triggerDodge(dodgeDirection);
+            }
+
+            if (!isW) lastW = 0;
+            if (!isA) lastA = 0;
+            if (!isS) lastS = 0;
+            if (!isD) lastD = 0;
+
+            wasW = isW;
+            wasA = isA;
+            wasS = isS;
+            wasD = isD;
+            return;
         }
 
-        wasW = isW; wasA = isA; wasS = isS; wasD = isD;
+        if (ClientConfig.DOUBLE_TAP_DODGE.get()) {
+            long currentTime = System.currentTimeMillis();
+
+            if (isW && !wasW) {
+                if (currentTime - lastW < pressTime) {
+                    triggerDodge(0);
+                    currentTime = 0;
+                }
+                lastW = currentTime;
+            }
+            if (isA && !wasA) {
+                if (currentTime - lastA < pressTime) {
+                    triggerDodge(1);
+                    currentTime = 0;
+                }
+                lastA = currentTime;
+            }
+            if (isS && !wasS) {
+                if (currentTime - lastS < pressTime) {
+                    triggerDodge(2);
+                    currentTime = 0;
+                }
+                lastS = currentTime;
+            }
+            if (isD && !wasD) {
+                if (currentTime - lastD < pressTime) {
+                    triggerDodge(3);
+                    currentTime = 0;
+                }
+                lastD = currentTime;
+            }
+
+            wasW = isW;
+            wasA = isA;
+            wasS = isS;
+            wasD = isD;
+        }
     }
 
     private static void triggerDodge(int direction) {
         PacketHandler.sendToServer(new DodgePacket(direction));
     }
+
+    // TODO: Mobs spawning with curios rarely
 }

@@ -293,5 +293,6 @@
   "tooltip.moreartifacts.sculk_treads.dodge": "§6Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
   "tooltip.moreartifacts.blazing_treads.dodge": "§6Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
   "tooltip.moreartifacts.stealth_manual.dodge_distance": "Increases dodge distance by §9+20%",
-  "tooltip.moreartifacts.mechanical_gears.dodge": "§7Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>"
+  "tooltip.moreartifacts.mechanical_gears.dodge": "§7Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
+  "key.moreartifacts.dodge": "Dodge"
 }

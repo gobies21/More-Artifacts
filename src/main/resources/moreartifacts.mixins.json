@@ -9,6 +9,7 @@
     "PlayerMixin",
     "VibrationSystemListenerMixin",
     "enhancedvisuals.ExplosionHandlerMixin",
+    "mobends.ArmorRenderingFacadeMixin",
     "potionrings2.PotionRingItemMixin",
     "spartanweaponry.BoltItemMixin"
   ],

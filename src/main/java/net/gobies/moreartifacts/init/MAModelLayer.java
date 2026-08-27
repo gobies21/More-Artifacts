@@ -21,6 +21,7 @@ public class MAModelLayer {
         public static final ModelLayerLocation MAGIC_QUIVER;
         public static final ModelLayerLocation MECHANICAL_GLOVE;
         public static final ModelLayerLocation MECHANICAL_CLAW;
+        public static final ModelLayerLocation NATURES_MANTLE;
 
         static {
             SUNGLASSES = new ModelLayerLocation(new ResourceLocation("moreartifacts", "sunglasses"), "sunglasses");
@@ -40,5 +41,7 @@ public class MAModelLayer {
             MAGIC_QUIVER = new ModelLayerLocation(new ResourceLocation("moreartifacts", "magic_quiver"), "magic_quiver");
             MECHANICAL_GLOVE = new ModelLayerLocation(new ResourceLocation("moreartifacts", "mechanical_glove"), "mechanical_glove");
             MECHANICAL_CLAW = new ModelLayerLocation(new ResourceLocation("moreartifacts", "mechanical_claw"), "mechanical_claw");
+            NATURES_MANTLE = new ModelLayerLocation(new ResourceLocation("moreartifacts", "natures_mantle"), "natures_mantle");
+
         }
 }
