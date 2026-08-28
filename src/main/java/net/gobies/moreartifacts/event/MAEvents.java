@@ -319,10 +319,10 @@ public class MAEvents {
         Entity attacker = event.getSource().getEntity();
         DamageSource source = event.getSource();
         if (target != null && attacker != null) {
-            if (attacker instanceof LivingEntity) {
-                if (CurioHandler.isCurioEquipped((LivingEntity) attacker, MAItems.DragonEye.get())) {
-                    ItemStack stack = CurioHandler.getEquippedCurio((LivingEntity) attacker, MAItems.DragonEye.get());
-                    if (stack != null && DragonEyeItem.isEnderDragonEye(stack)) {
+            if (attacker instanceof LivingEntity livingEntity) {
+                if (CurioHandler.isCurioEquipped(livingEntity, MAItems.DragonEye.get())) {
+                    ItemStack stack = CurioHandler.getEquippedCurio(livingEntity, MAItems.DragonEye.get());
+                    if (stack != null && DragonEyeItem.isEnderDragonEye(stack) && CurioHandler.isCurioVisible(livingEntity, MAItems.DragonEye.get())) {
                         if (target instanceof EnderMan) {
                             event.setCanceled(true);
                         }
@@ -336,13 +336,14 @@ public class MAEvents {
             }
         }
         if (!event.isCanceled() && event.getSource().getEntity() instanceof Player player) {
-            LivingEntity attackedEntity = event.getEntity();
             int gloveCount = CurioHandler.getCurioCount(player, MAItems.EchoGlove.get());
             for (int i = 0; i < gloveCount; i++) {
                 double ignoreChance = CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get() * gloveCount;
                 if (LuckHelper.roll(player, ignoreChance, CommonConfig.ECHO_GLOVE_LUCK_FACTOR.get())) {
                     // reduce the invincibility time by a fixed number of ticks
-                    attackedEntity.invulnerableTime = Math.max(0, attackedEntity.invulnerableTime - 5);
+                    if (target != null) {
+                        target.invulnerableTime = Math.max(0, target.invulnerableTime - 5);
+                    }
                 }
             }
         }
@@ -798,7 +799,7 @@ public class MAEvents {
         }
     }
 
-    private static final long pressTime = 200;
+    private static final long pressTime = 150;
     private static long lastW, lastA, lastS, lastD = 0;
     private static boolean wasW, wasA, wasS, wasD = false;
 
@@ -889,12 +890,12 @@ public class MAEvents {
                 }
                 lastD = currentTime;
             }
-
-            wasW = isW;
-            wasA = isA;
-            wasS = isS;
-            wasD = isD;
         }
+
+        wasW = isW;
+        wasA = isA;
+        wasS = isS;
+        wasD = isD;
     }
 
     private static void triggerDodge(int direction) {

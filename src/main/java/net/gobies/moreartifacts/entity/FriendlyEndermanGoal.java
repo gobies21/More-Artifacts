@@ -43,7 +43,7 @@ public class FriendlyEndermanGoal extends Goal {
 
     private static boolean isOwner(Player owner) {
         ItemStack stack = CurioHandler.getEquippedCurio(owner, MAItems.DragonEye.get());
-        return !stack.isEmpty() && DragonEyeItem.isEnderDragonEye(stack);
+        return !stack.isEmpty() && DragonEyeItem.isEnderDragonEye(stack) && CurioHandler.isCurioVisible(owner, MAItems.DragonEye.get());
     }
 
     @Override

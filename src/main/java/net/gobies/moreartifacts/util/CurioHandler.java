@@ -18,9 +18,7 @@ public class CurioHandler {
 
     public static int getCurioCount(LivingEntity entity, Item item) {
         var lazyOptional = CuriosApi.getCuriosInventory(entity);
-        if (!lazyOptional.isPresent()) {
-            return 0;
-        }
+        if (!lazyOptional.isPresent()) return 0;
 
         ICuriosItemHandler handler = lazyOptional.orElseThrow(IllegalStateException::new);
         int count = 0;
@@ -39,9 +37,7 @@ public class CurioHandler {
 
     public static ItemStack getEquippedCurio(LivingEntity entity, Item item) {
         var lazyOptional = CuriosApi.getCuriosInventory(entity);
-        if (!lazyOptional.isPresent()) {
-            return ItemStack.EMPTY;
-        }
+        if (!lazyOptional.isPresent()) return ItemStack.EMPTY;
 
         ICuriosItemHandler handler = lazyOptional.orElseThrow(IllegalStateException::new);
 
@@ -55,5 +51,15 @@ public class CurioHandler {
             }
         }
         return ItemStack.EMPTY;
+    }
+
+    public static boolean isCurioVisible(LivingEntity entity, Item item) {
+        var lazyOptional = CuriosApi.getCuriosInventory(entity);
+        if (!lazyOptional.isPresent()) return false;
+
+        return lazyOptional.orElseThrow(IllegalStateException::new)
+                .findFirstCurio(item)
+                .map(result -> result.slotContext().visible())
+                .orElse(false);
     }
 }
