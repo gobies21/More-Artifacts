@@ -244,10 +244,11 @@ public class DragonEyeItem extends Item implements ICurioItem {
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.summon_enderman", String.format("%.0f", summonChance)).withStyle(ChatFormatting.BLUE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.strong_endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
+            tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.visibility").withStyle(ChatFormatting.LIGHT_PURPLE));
             if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
                 tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 if (Screen.hasControlDown()) {
-                    tooltip.remove(5);
+                    tooltip.remove(6);
                     tooltip.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
                 }
             }

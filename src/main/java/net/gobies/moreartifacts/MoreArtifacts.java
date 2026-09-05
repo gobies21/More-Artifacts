@@ -6,7 +6,6 @@ import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
 import net.gobies.moreartifacts.compat.firstaid.FirstAidCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
 import net.gobies.moreartifacts.compat.jei.JeiCompat;
-import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.effect.MAStatusEffects;
@@ -60,7 +59,6 @@ public class MoreArtifacts {
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(MABrewing::register);
         if (ModLoadedUtil.isSpartanWeaponryLoaded()) {
-            SpartanWeaponryCompat.loadCompat();
             log("[More Artifacts] Spartan Weaponry Compat Loaded");
         }
         if (ModLoadedUtil.isEnhancedVisualsLoaded()) {

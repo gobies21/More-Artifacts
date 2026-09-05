@@ -77,57 +77,57 @@ public class MAEvents {
         MobEffect effect = event.getEffectInstance().getEffect();
         if (event.getEntity() instanceof Player player) {
             if (CurioHandler.isCurioEquipped(player, MAItems.Bezoar.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON);
+                MAUtils.makeEffectImmune(event, MobEffects.POISON);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.Vitamins.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN);
+                MAUtils.makeEffectImmune(event, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.Sunglasses.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.BLINDNESS);
+                MAUtils.makeEffectImmune(event, MobEffects.BLINDNESS);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.FastClock.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN);
+                MAUtils.makeEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.Nectar.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.CONFUSION);
+                MAUtils.makeEffectImmune(event, MobEffects.CONFUSION);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.DesertCharm.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.HUNGER);
+                MAUtils.makeEffectImmune(event, MobEffects.HUNGER);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.SculkLens.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.DARKNESS);
+                MAUtils.makeEffectImmune(event, MobEffects.DARKNESS);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.WitherShard.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.WITHER);
+                MAUtils.makeEffectImmune(event, MobEffects.WITHER);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.ShulkerHeart.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.LEVITATION);
+                MAUtils.makeEffectImmune(event, MobEffects.LEVITATION);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.PurificationCharm.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.HUNGER, MobEffects.CONFUSION);
+                MAUtils.makeEffectImmune(event, MobEffects.HUNGER, MobEffects.CONFUSION);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.SculkShades.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.BLINDNESS, MobEffects.DARKNESS);
+                MAUtils.makeEffectImmune(event, MobEffects.BLINDNESS, MobEffects.DARKNESS);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.WitheredBezoar.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON, MobEffects.WITHER);
+                MAUtils.makeEffectImmune(event, MobEffects.POISON, MobEffects.WITHER);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.ShulkedClock.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.LEVITATION);
+                MAUtils.makeEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.LEVITATION);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhCharm.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhCharm.get())) {
-                MAUtils.harmfulEffectImmunity(event);
+                MAUtils.makeHarmfulEffectImmune(event);
                 AnkhCharmItem.additionalEffectImmunity(event);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.harmfulEffectImmunity(event);
+                MAUtils.makeHarmfulEffectImmune(event);
                 AnkhShieldItem.additionalEffectImmunity(event);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.VenomStone.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON);
+                MAUtils.makeEffectImmune(event, MobEffects.POISON);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.DecayStone.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.WITHER);
+                MAUtils.makeEffectImmune(event, MobEffects.WITHER);
             }
         }
         if (livingEntity.hasEffect(MAEffects.Virulent.get())) {
@@ -690,11 +690,6 @@ public class MAEvents {
                 }
             }
         }
-        if (lightLevel <= 7) {
-            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.00003)) {
-                victim.spawnAtLocation(MAItems.ShadowSoul.get());
-            }
-        }
     }
 
     @SubscribeEvent
@@ -759,11 +754,6 @@ public class MAEvents {
                 }
             }
         }
-        if (victim.getMaxHealth() <= event.getAmount()) {
-            if (LuckHelper.roll(player, CommonConfig.SHADOW_SOUL_DROP_CHANCE.get(), 0.00003)) {
-                victim.spawnAtLocation(MAItems.BloodSoul.get());
-            }
-        }
     }
 
     @SubscribeEvent
@@ -824,7 +814,7 @@ public class MAEvents {
         boolean isD = event.getInput().right;
 
         if (ClientEvents.DODGE_KEY.consumeClick()) {
-            long time = 0;
+            long time = -1;
             int dodgeDirection = -1;
 
             if (isW && lastW > time) {
@@ -847,11 +837,6 @@ public class MAEvents {
                 triggerDodge(dodgeDirection);
             }
 
-            if (!isW) lastW = 0;
-            if (!isA) lastA = 0;
-            if (!isS) lastS = 0;
-            if (!isD) lastD = 0;
-
             wasW = isW;
             wasA = isA;
             wasS = isS;
@@ -865,30 +850,34 @@ public class MAEvents {
             if (isW && !wasW) {
                 if (currentTime - lastW < pressTime) {
                     triggerDodge(0);
-                    currentTime = 0;
+                    lastW = 0;
+                } else {
+                    lastW = currentTime;
                 }
-                lastW = currentTime;
             }
             if (isA && !wasA) {
                 if (currentTime - lastA < pressTime) {
                     triggerDodge(1);
-                    currentTime = 0;
+                    lastA = 0;
+                } else {
+                    lastA = currentTime;
                 }
-                lastA = currentTime;
             }
             if (isS && !wasS) {
                 if (currentTime - lastS < pressTime) {
                     triggerDodge(2);
-                    currentTime = 0;
+                    lastS = 0;
+                } else {
+                    lastS = currentTime;
                 }
-                lastS = currentTime;
             }
             if (isD && !wasD) {
                 if (currentTime - lastD < pressTime) {
                     triggerDodge(3);
-                    currentTime = 0;
+                    lastD = 0;
+                } else {
+                    lastD = currentTime;
                 }
-                lastD = currentTime;
             }
         }
 

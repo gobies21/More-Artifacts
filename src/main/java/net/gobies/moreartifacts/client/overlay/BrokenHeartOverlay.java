@@ -22,7 +22,6 @@ import java.util.Random;
 public class BrokenHeartOverlay {
 
     // TODO: First aid compat for broken hearts overlay in their custom gui
-    // TODO: Fix desync on ghost max health when gaining broken hearts
     // TODO: Fix broken heart regeneration effect
     private static final ResourceLocation HEART = new ResourceLocation("moreartifacts:textures/gui/broken_heart.png");
 
@@ -66,9 +65,9 @@ public class BrokenHeartOverlay {
         int[] computedVanillaShakes = new int[totalHeartContainers];
         Random random = new Random(ticks * 312871L);
         boolean isLowHealth = (player.getHealth() + player.getAbsorptionAmount()) <= 4.0F;
-        for (int i1 = totalHeartContainers - 1; i1 >= 0; --i1) {
+        for (int i = totalHeartContainers - 1; i >= 0; --i) {
             if (isLowHealth) {
-                computedVanillaShakes[i1] = random.nextInt(2);
+                computedVanillaShakes[i] = random.nextInt(2);
             }
         }
 

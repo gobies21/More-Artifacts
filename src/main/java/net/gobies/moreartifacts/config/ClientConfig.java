@@ -63,9 +63,9 @@ public class ClientConfig {
         BUILDER.comment("General client settings").push("General");
         ENABLE_ARTIFACT_MODELS = BUILDER.comment("Enable artifacts models displaying on the player").define("Enable_Artifact_Models", true);
         ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Enderian_Eye_Overlay", true);
-        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering (WIP)").define("Broken_Heart_Overlay", true);
+        BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering").define("Broken_Heart_Overlay", true);
         HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", false);
-        DOUBLE_TAP_DODGE = BUILDER.comment("Enable double tapping movement keys to dodge").define("Double_Tap_Dodge", true);
+        DOUBLE_TAP_DODGE = BUILDER.comment("Enable double tapping movement keys to dodge").define("Double_Tap_Dodge", false);
         BUILDER.push("Curio_Hud");
         ENABLE_CURIO_HUD = BUILDER.comment("Enable curios rendering on the screen based on whats equipped (WIP)").define("Enable_Curio_Hud", false);
         RENDER_VERTICALLY = BUILDER.comment("Should curios render vertically instead of horizontally").define("Render_Vertically", false);

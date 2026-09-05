@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.event;
 
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.util.LuckHelper;
 import net.gobies.moreartifacts.util.MAUtils;
@@ -52,9 +53,9 @@ public class SoulEvents {
 
         String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
 
-        if (SoulUtil.SHADOW.equals(activeSoul)) {
+        if (SoulType.SHADOW.key.equals(activeSoul)) {
             tickShadowSoul(player, persistentData);
-        } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+        } else if (SoulType.BLOOD.key.equals(activeSoul)) {
             tickBloodSoul(player, persistentData);
         }
     }
@@ -194,10 +195,10 @@ public class SoulEvents {
         if (event.getEntity() instanceof Player player) {
             CompoundTag persistentData = player.getPersistentData();
             String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
-            if (SoulUtil.SHADOW.equals(activeSoul)) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.DARKNESS);
-            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
-                MAUtils.harmfulSpecificEffectImmune(event, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
+            if (SoulType.SHADOW.key.equals(activeSoul)) {
+                MAUtils.makeEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.DARKNESS);
+            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
+                MAUtils.makeEffectImmune(event, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
             }
         }
     }
@@ -215,7 +216,7 @@ public class SoulEvents {
                 if (LuckHelper.roll(player, 0.25, 0.01)) {
                     applyBloodRage(player);
                 }
-            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
                 if (LuckHelper.roll(player, 0.50, 0.01)) {
                     applyBloodRage(player);
                 }
@@ -251,10 +252,10 @@ public class SoulEvents {
         if (!activeSoul.isEmpty()) {
             newData.putString(SoulUtil.SOUL_KEY, activeSoul);
 
-            if (SoulUtil.SHADOW.equals(activeSoul)) {
+            if (SoulType.SHADOW.key.equals(activeSoul)) {
                 newData.putBoolean(SoulUtil.ABILITY_TOGGLE, oldData.getBoolean(SoulUtil.ABILITY_TOGGLE));
                 manageShadowAttributes(newPlayer);
-            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
                 manageBloodAttributes(newPlayer);
             }
         }

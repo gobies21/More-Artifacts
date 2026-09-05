@@ -104,6 +104,7 @@ public class CurioHudOverlay {
         return count;
     }
 
+    // Needs performance/detection improvements
     private static void renderItemIcon(GuiGraphics guiGraphics, Minecraft mc, ItemStack stack) {
         BakedModel model = mc.getItemRenderer().getModel(stack, null, null, 0);
         boolean simpleSprite = (!model.isGui3d() && !model.isCustomRenderer() && !stack.hasFoil());

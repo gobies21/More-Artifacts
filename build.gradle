@@ -139,7 +139,6 @@ dependencies {
     implementation fg.deobf("curse.maven:catalogue-459701:4766090")
 
     runtimeOnly(fg.deobf("curse.maven:free-cam-557076:4643128"))
-    runtimeOnly(fg.deobf("curse.maven:pehkui-319596:5393101"))
     runtimeOnly(fg.deobf("curse.maven:crafttweaker-239197:6914010"))
     runtimeOnly(fg.deobf("curse.maven:jade-324717:6271651"))
     implementation fg.deobf("curse.maven:cold-sweat-506194:7893262")
@@ -154,7 +153,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
 
-    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8742268")
+    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8803648")
 }
 
 mixin {

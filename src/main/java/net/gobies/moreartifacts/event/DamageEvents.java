@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.event;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.compat.spartanweaponry.SpartanWeaponryCompat;
 import net.gobies.moreartifacts.effect.MAStatusEffects;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MAParticles;
@@ -319,7 +320,7 @@ public class DamageEvents {
                     double damageScale = 1.0 + (soulLevel * 0.10);
                     generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.ShadowSoul.get(), damageScale);
                 }
-            } else if (SoulUtil.SHADOW.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
+            } else if (SoulType.SHADOW.key.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
                 BlockPos pos = target.blockPosition();
                 int lightLevel = target.level().getMaxLocalRawBrightness(pos);
                 if (lightLevel <= 7) {
@@ -341,7 +342,7 @@ public class DamageEvents {
                 } else if (soulLevel == 4) {
                     player.heal(event.getAmount() * 0.15F + 2);
                 }
-            } else if (SoulUtil.BLOOD.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
+            } else if (SoulType.BLOOD.key.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY))) {
                 player.heal(event.getAmount() * 0.20F + 4);
             }
 
@@ -500,7 +501,7 @@ public class DamageEvents {
         if (event.getLevel().isClientSide()) return;
         boolean isArrow = projectile instanceof AbstractArrow;
         boolean isBolt = SpartanWeaponryCompat.isArmorPiercingBolt(projectile);
-        if (!isArrow || !isBolt) return;
+        if (!isArrow && !isBolt) return;
 
         int magicQuiverCount = CurioHandler.getCurioCount(player, MAItems.MagicQuiver.get());
         int envenomedQuiverCount = CurioHandler.getCurioCount(player, MAItems.EnvenomedQuiver.get());

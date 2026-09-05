@@ -172,7 +172,7 @@
   "tooltip.moreartifacts.burning_immune": "Grants immunity to Burning",
   "tooltip.moreartifacts.hot_block_immune": "Prevents being damaged by Hot Blocks",
   "tooltip.moreartifacts.enderian_treads.speed": "§6Increases movement speed by §9+%.1f%%",
-  "tooltip.moreartifacts.enderian_treads.blink": "§6Grants the ability to §5Blink §f<§eDouble-Tap Movement Keys§f>",
+  "tooltip.moreartifacts.enderian_treads.blink": "§6Grants the ability to §5Blink §f<",
   "tooltip.moreartifacts.enderian_treads.cooldown": "%.1f §6Second cooldown",
   "tooltip.moreartifacts.sculk_treads.speed": "§6Increases movement speed by §9+%.1f%%",
   "tooltip.moreartifacts.sculk_treads.vibrations": "Walking no longer emits vibrations",
@@ -289,10 +289,11 @@
   "tooltip.moreartifacts.blood_soul.blood_rage1": "§9+25% §6Chance to gain Blood Rage upon killing enemies",
   "tooltip.moreartifacts.blood_soul.blood_rage_stack": "§6Consecutive kills increases level, stacks up to §95",
   "tooltip.moreartifacts.blood_soul.blood_rage2": "§9+50% §6Chance to gain Blood Rage upon killing enemies",
-  "tooltip.moreartifacts.high_jumpers.dodge": "§7Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
-  "tooltip.moreartifacts.sculk_treads.dodge": "§6Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
-  "tooltip.moreartifacts.blazing_treads.dodge": "§6Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
+  "tooltip.moreartifacts.high_jumpers.dodge": "§7Grants the ability to Dodge §f<",
+  "tooltip.moreartifacts.sculk_treads.dodge": "§6Grants the ability to Dodge §f<",
+  "tooltip.moreartifacts.blazing_treads.dodge": "§6Grants the ability to Dodge §f<",
   "tooltip.moreartifacts.stealth_manual.dodge_distance": "Increases dodge distance by §9+20%",
-  "tooltip.moreartifacts.mechanical_gears.dodge": "§7Grants the ability to Dodge §f<§eDouble-Tap Movement Keys§f>",
-  "key.moreartifacts.dodge": "Dodge"
+  "tooltip.moreartifacts.mechanical_gears.dodge": "§7Grants the ability to Dodge §f<",
+  "key.moreartifacts.dodge": "Dodge",
+  "tooltip.moreartifacts.ender_dragon_eye.visibility": "Visibility toggles enderman following"
 }

@@ -62,25 +62,25 @@ public class ApothecaryCompat {
 
             //Burning Immunity
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.Burning.get());
+                MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
-                MAUtils.harmfulSpecificEffectImmune(event, AEffects.BrokenArmor.get());
+                MAUtils.makeEffectImmune(event, AEffects.BrokenArmor.get());
             }
         }
     }

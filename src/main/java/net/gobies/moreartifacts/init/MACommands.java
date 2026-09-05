@@ -4,8 +4,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.network.ManageRequests;
-import net.gobies.moreartifacts.network.SoulSyncHelper;
+import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.commands.CommandSourceStack;
@@ -20,6 +21,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID)
 public class MACommands {
@@ -62,9 +65,9 @@ public class MACommands {
                                 .then(Commands.literal("add")
                                         .then(Commands.argument("soulType", StringArgumentType.word())
                                                 .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
-                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "soulType"), true))
+                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), true))
                                                 .then(Commands.argument("target", EntityArgument.player())
-                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), StringArgumentType.getString(ctx, "soulType"), true))
+                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), true))
                                                 )
                                         )
                                 )
@@ -72,9 +75,9 @@ public class MACommands {
                                 .then(Commands.literal("remove")
                                         .then(Commands.argument("soulType", StringArgumentType.word())
                                                 .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
-                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "soulType"), false))
+                                                .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), false))
                                                 .then(Commands.argument("target", EntityArgument.player())
-                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), StringArgumentType.getString(ctx, "soulType"), false))
+                                                        .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), false))
                                                 )
                                         )
                                 )
@@ -162,17 +165,21 @@ public class MACommands {
         return 1;
     }
 
-    private static int modifySoulData(CommandSourceStack source, ServerPlayer target, String soulType, boolean isAdding) {
+    private static int modifySoulData(CommandSourceStack source, ServerPlayer target, SoulType soulType, boolean isAdding) {
         CompoundTag persistentData = target.getPersistentData();
 
         if (isAdding) {
+            if (persistentData.contains(SoulUtil.SOUL_KEY)) {
+                source.sendFailure(Component.literal(target.getScoreboardName() + " already has an active soul"));
+                return 0;
+            }
             switch (soulType) {
-                case SoulUtil.SHADOW -> {
-                    persistentData.putString(SoulUtil.SOUL_KEY, SoulUtil.SHADOW);
-                    persistentData.putBoolean("ShadowSoulInvisToggle", true);
+                case SHADOW -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.SHADOW.key);
+                    persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
                 }
-                case SoulUtil.BLOOD -> {
-                    persistentData.putString(SoulUtil.SOUL_KEY, SoulUtil.BLOOD);
+                case BLOOD -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.BLOOD.key);
                     // TODO
                 }
                 default -> {
@@ -187,9 +194,9 @@ public class MACommands {
             String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
             persistentData.remove(SoulUtil.SOUL_KEY);
 
-            if (SoulUtil.SHADOW.equals(activeSoul)) {
+            if (SoulType.SHADOW.key.equals(activeSoul)) {
                 SoulUtil.removeShadowAttributes(target);
-            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
                 SoulUtil.removeBloodAttributes(target);
             }
             source.sendSuccess(() -> Component.literal("Successfully removed soul data from " + target.getScoreboardName()), true);

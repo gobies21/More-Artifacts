@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.misc;
 
-import net.gobies.moreartifacts.network.SoulSyncHelper;
+import net.gobies.moreartifacts.helper.SoulType;
+import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -64,9 +65,9 @@ public class SoulElixirItem extends Item {
 
             persistentData.remove(SoulUtil.SOUL_KEY);
 
-            if (SoulUtil.SHADOW.equals(activeSoul)) {
+            if (SoulType.SHADOW.key.equals(activeSoul)) {
                 SoulUtil.removeShadowAttributes(serverPlayer);
-            } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
                 SoulUtil.removeBloodAttributes(serverPlayer);
             }
             SoulSyncHelper.syncSouls(serverPlayer);

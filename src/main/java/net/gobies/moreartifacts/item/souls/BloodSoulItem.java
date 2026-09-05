@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.souls;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -76,7 +77,7 @@ public class BloodSoulItem extends SoulItem {
             int stage = SoulUtil.getSoulStage(stack);
             if (stage >= 3) {
                 String soulType = SoulUtil.getSoul(stack.getItem());
-                if (SoulUtil.UNKNOWN.equals(soulType)) return;
+                if (SoulType.UNKNOWN.key.equals(soulType)) return;
 
                 UUID playerId = player.getUUID();
                 appliedEffect.putIfAbsent(playerId, new HashMap<>());

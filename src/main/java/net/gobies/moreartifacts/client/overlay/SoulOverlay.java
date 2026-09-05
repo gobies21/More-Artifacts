@@ -1,8 +1,8 @@
 package net.gobies.moreartifacts.client.overlay;
 
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.network.SoulSyncPacket;
-import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -50,9 +50,9 @@ public class SoulOverlay {
 
         ItemStack activeSoulStack = ItemStack.EMPTY;
 
-        if (SoulUtil.SHADOW.equals(activeSoul)) {
+        if (SoulType.SHADOW.key.equals(activeSoul)) {
             activeSoulStack = new ItemStack(MAItems.ShadowSoul.get());
-        } else if (SoulUtil.BLOOD.equals(activeSoul)) {
+        } else if (SoulType.BLOOD.key.equals(activeSoul)) {
             activeSoulStack = new ItemStack(MAItems.BloodSoul.get());
         }
 

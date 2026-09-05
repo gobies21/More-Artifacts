@@ -1,7 +1,8 @@
 package net.gobies.moreartifacts.util;
 
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAItems;
-import net.gobies.moreartifacts.network.SoulSyncHelper;
+import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -16,24 +17,19 @@ import java.util.UUID;
 
 public class SoulUtil {
 
+    public static final String SOUL_KEY = "Soul";
     private static final String STAGE = "SoulStage";
     public static final String KILLS = "KillsToUpgrade";
 
-    public static final String SOUL_KEY = "Soul";
-    public static final String SHADOW = "Shadow";
-    public static final String BLOOD = "Blood";
-    public static final String MATRIX = "Matrix";
-    public static final String UNKNOWN = "Unknown";
-
     public static final String ABILITY_TOGGLE = "SoulAbilityToggle";
 
-    public static final Set<Item> SOUL_STONES = Set.of(
+    public static final Set<Item> SOULS = Set.of(
             MAItems.ShadowSoul.get(),
             MAItems.BloodSoul.get()
     );
 
     public static ItemStack isSoulEquipped(Player player) {
-        for (Item soulStone : SOUL_STONES) {
+        for (Item soulStone : SOULS) {
             ItemStack soul = CurioHandler.getEquippedCurio(player, soulStone);
             if (!soul.isEmpty()) {
                 return soul;
@@ -43,7 +39,7 @@ public class SoulUtil {
     }
 
     public static int getSoulStage(ItemStack stack) {
-        if (!SOUL_STONES.contains(stack.getItem())) return 0;
+        if (!SOULS.contains(stack.getItem())) return 0;
 
         CompoundTag nbt = stack.getOrCreateTag();
         if (!nbt.contains(STAGE)) {
@@ -53,7 +49,7 @@ public class SoulUtil {
     }
 
     public static void evolveSoul(ItemStack stack, Player player) {
-        if (!SOUL_STONES.contains(stack.getItem())) return;
+        if (!SOULS.contains(stack.getItem())) return;
         CompoundTag nbt = stack.getOrCreateTag();
         int currentLevel = getSoulStage(stack);
 
@@ -70,9 +66,9 @@ public class SoulUtil {
     }
 
     public static String getSoul(Item item) {
-        if (item == MAItems.ShadowSoul.get()) return SHADOW;
-        if (item == MAItems.BloodSoul.get()) return BLOOD;
-        return UNKNOWN;
+        if (item == MAItems.ShadowSoul.get()) return SoulType.SHADOW.key;
+        if (item == MAItems.BloodSoul.get()) return SoulType.BLOOD.key;
+        return SoulType.UNKNOWN.key;
     }
 
     public static void removeShadowAttributes(ServerPlayer serverPlayer) {

@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.network;
 
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,7 +30,7 @@ public class SoulAbilityBindMessage {
             CompoundTag persistentData = player.getPersistentData();
             String playerSoul = persistentData.getString(SoulUtil.SOUL_KEY);
 
-            if (!playerSoul.isEmpty() && !SoulUtil.UNKNOWN.equals(playerSoul)) {
+            if (!playerSoul.isEmpty() && !SoulType.UNKNOWN.key.equals(playerSoul)) {
                 String toggleKey = SoulUtil.ABILITY_TOGGLE;
                 persistentData.putBoolean(toggleKey, !persistentData.getBoolean(toggleKey));
             }
@@ -41,7 +42,7 @@ public class SoulAbilityBindMessage {
                             ItemStack stack = stackHandler.getStackInSlot(slot);
                             int stage = SoulUtil.getSoulStage(stack);
 
-                            if (SoulUtil.SOUL_STONES.contains(stack.getItem()) && stage >= 3) {
+                            if (SoulUtil.SOULS.contains(stack.getItem()) && stage >= 3) {
                                 String soulType = SoulUtil.getSoul(stack.getItem());
                                 CompoundTag tag = stack.getOrCreateTag();
 

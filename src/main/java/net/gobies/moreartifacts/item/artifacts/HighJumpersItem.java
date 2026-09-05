@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -51,7 +52,7 @@ public class HighJumpersItem extends Item implements ICurioItem {
         if (!ModLoadedUtil.isApothecaryLoaded()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.jump").withStyle(ChatFormatting.GRAY));
         }
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.dodge").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.high_jumpers.dodge").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.DODGE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

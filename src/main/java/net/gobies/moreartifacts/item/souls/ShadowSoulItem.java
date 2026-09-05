@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.gobies.moreartifacts.util.SoulUtil;
@@ -84,7 +85,7 @@ public class ShadowSoulItem extends SoulItem {
             int stage = SoulUtil.getSoulStage(stack);
             if (stage >= 3) {
                 String soulType = SoulUtil.getSoul(stack.getItem());
-                if (SoulUtil.UNKNOWN.equals(soulType)) return;
+                if (SoulType.UNKNOWN.key.equals(soulType)) return;
 
                 UUID playerId = player.getUUID();
                 appliedEffect.putIfAbsent(playerId, new HashMap<>());

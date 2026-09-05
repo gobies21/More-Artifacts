@@ -39,8 +39,8 @@ public class MAUtils {
             event.setCanceled(true);
         }
     }
-    // Method to grant immunity to all harmful effects
-    public static void harmfulEffectImmunity(MobEffectEvent event) {
+    // Method to grant immunity to all vanilla harmful effects
+    public static void makeHarmfulEffectImmune(MobEffectEvent event) {
         List<MobEffect> harmfulEffects = Arrays.asList(
                 MobEffects.POISON,
                 MobEffects.WITHER,
@@ -60,7 +60,7 @@ public class MAUtils {
         }
     }
     // Method to grant immunity to specific harmful effects
-    public static void harmfulSpecificEffectImmune(MobEffectEvent event, MobEffect... specificEffects) {
+    public static void makeEffectImmune(MobEffectEvent event, MobEffect... specificEffects) {
         List<MobEffect> effectsList = Arrays.asList(specificEffects);
         MobEffect effect = Objects.requireNonNull(event.getEffectInstance()).getEffect();
         if (effectsList.contains(effect)) {
@@ -117,14 +117,15 @@ public class MAUtils {
             }
         }
     }
-    // Method to get looting values based off if JLME is installed
+    // Method to get looting values
     public static float lootingValues() {
         if (ModList.get().isLoaded("jlme")) {
-            return 0.005f;
+            return 0.0025f;
         } else {
-            return 0.01f;
+            return 0.005f;
         }
     }
+    // Method to spawn portal particles from and to the players positions
     public static void spawnPortalParticles(ServerPlayer serverPlayer, Vec3 position) {
         if (position != null) {
             for (int x = -1; x <= 1; x++) {
@@ -137,6 +138,7 @@ public class MAUtils {
             }
         }
     }
+    // Method to spawn portal particles from and to the players positions
     public static void spawnPortalParticles(ServerLevel world, Vec3 position) {
         if (position != null && world != null) {
             for (int x = -1; x <= 1; x++) {

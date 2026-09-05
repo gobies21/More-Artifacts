@@ -1,6 +1,8 @@
-package net.gobies.moreartifacts.network;
+package net.gobies.moreartifacts.helper;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.network.SoulSyncPacket;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,8 +35,8 @@ public class SoulSyncHelper {
         CompoundTag tag = new CompoundTag();
         tag.putString(SoulUtil.SOUL_KEY, currentSoul);
 
-        if (persistent.contains("SoulAbilityToggle")) {
-            tag.putBoolean("SoulAbilityToggle", persistent.getBoolean("SoulAbilityToggle"));
+        if (persistent.contains(SoulUtil.ABILITY_TOGGLE)) {
+            tag.putBoolean(SoulUtil.ABILITY_TOGGLE, persistent.getBoolean(SoulUtil.ABILITY_TOGGLE));
         }
 
         PacketHandler.sendToClient(new SoulSyncPacket(tag), player);

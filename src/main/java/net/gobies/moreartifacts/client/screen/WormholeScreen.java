@@ -21,19 +21,15 @@ public class WormholeScreen extends Screen {
 
     private static final int VIEW_BOUNDS_TOP = 35;
     private static final int VIEW_BOUNDS_OFFSET_BOTTOM = 15;
-    private static final int TRACK_PADDING = 5;
-    private static final int TRACK_WIDTH = 4;
-
-    private static final int TEXT_COLOR = 0xFFFFFF;
-    private static final int BAR_COLOR = 0xFF808080;
-    private static final int TRACK_COLOR = 0x33FFFFFF;
+    private static final int BAR_MARGIN = 5;
+    private static final int BAR_WIDTH = 4;
 
     private final List<String> players;
     private final List<Button> playerButtons = new ArrayList<>();
 
     private double scrollAmount = 0;
     private int maxScroll = 0;
-    private boolean isDraggingScrollbar = false;
+    private boolean isScrolling = false;
 
     private int scrollbarX;
     private int trackHeight;
@@ -49,7 +45,7 @@ public class WormholeScreen extends Screen {
         super.init();
         this.playerButtons.clear();
         this.scrollAmount = 0;
-        this.isDraggingScrollbar = false;
+        this.isScrolling = false;
 
         int startX = (this.width - BUTTON_WIDTH) / 2;
 
@@ -70,7 +66,7 @@ public class WormholeScreen extends Screen {
 
         this.scrollbarX = (this.width / 2) + (BUTTON_WIDTH / 2) + 5;
         int viewBoundsBottom = this.height - VIEW_BOUNDS_OFFSET_BOTTOM;
-        this.trackHeight = viewBoundsBottom - VIEW_BOUNDS_TOP - (TRACK_PADDING * 2);
+        this.trackHeight = viewBoundsBottom - VIEW_BOUNDS_TOP - (BAR_MARGIN * 2);
         this.barHeight = Math.max(20, (this.trackHeight * this.trackHeight) / Math.max(1, this.players.size() * NAME_SPACING));
     }
 
@@ -92,14 +88,14 @@ public class WormholeScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.disableScissor();
 
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 15, TEXT_COLOR);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 15, 0xFFFFFF);
 
         if (this.maxScroll > 0) {
-            int trackTop = VIEW_BOUNDS_TOP + TRACK_PADDING;
+            int trackTop = VIEW_BOUNDS_TOP + BAR_MARGIN;
             int barY = trackTop + (int) ((this.scrollAmount / this.maxScroll) * (this.trackHeight - this.barHeight));
 
-            guiGraphics.fill(this.scrollbarX, trackTop, this.scrollbarX + TRACK_WIDTH, viewBoundsBottom - TRACK_PADDING, TRACK_COLOR);
-            guiGraphics.fill(this.scrollbarX, barY, this.scrollbarX + TRACK_WIDTH, barY + this.barHeight, BAR_COLOR);
+            guiGraphics.fill(this.scrollbarX, trackTop, this.scrollbarX + BAR_WIDTH, viewBoundsBottom - BAR_MARGIN, 0x33FFFFFF);
+            guiGraphics.fill(this.scrollbarX, barY, this.scrollbarX + BAR_WIDTH, barY + this.barHeight, 0xFF808080);
         }
     }
 
@@ -107,14 +103,14 @@ public class WormholeScreen extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.maxScroll > 0 && button == 0) {
             int viewBoundsBottom = this.height - VIEW_BOUNDS_OFFSET_BOTTOM;
-            int trackTop = VIEW_BOUNDS_TOP + TRACK_PADDING;
-            int trackBottom = viewBoundsBottom - TRACK_PADDING;
+            int trackTop = VIEW_BOUNDS_TOP + BAR_MARGIN;
+            int trackBottom = viewBoundsBottom - BAR_MARGIN;
             int barY = trackTop + (int) ((this.scrollAmount / this.maxScroll) * (this.trackHeight - this.barHeight));
 
-            if (mouseX >= this.scrollbarX && mouseX <= this.scrollbarX + TRACK_WIDTH && mouseY >= trackTop && mouseY <= trackBottom) {
-                this.isDraggingScrollbar = true;
+            if (mouseX >= this.scrollbarX && mouseX <= this.scrollbarX + BAR_WIDTH && mouseY >= trackTop && mouseY <= trackBottom) {
+                this.isScrolling = true;
                 if (mouseY < barY || mouseY > barY + this.barHeight) {
-                    updateScrollFromMouse(mouseY);
+                    updateScroll(mouseY);
                 }
                 return true;
             }
@@ -124,8 +120,8 @@ public class WormholeScreen extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (this.maxScroll > 0 && this.isDraggingScrollbar && button == 0) {
-            updateScrollFromMouse(mouseY);
+        if (this.maxScroll > 0 && this.isScrolling && button == 0) {
+            updateScroll(mouseY);
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -134,7 +130,7 @@ public class WormholeScreen extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            this.isDraggingScrollbar = false;
+            this.isScrolling = false;
         }
         return super.mouseReleased(mouseX, mouseY, button);
     }
@@ -145,8 +141,8 @@ public class WormholeScreen extends Screen {
         return true;
     }
 
-    private void updateScrollFromMouse(double mouseY) {
-        int trackTop = VIEW_BOUNDS_TOP + TRACK_PADDING;
+    private void updateScroll(double mouseY) {
+        int trackTop = VIEW_BOUNDS_TOP + BAR_MARGIN;
         float progress = (float) (mouseY - trackTop - (this.barHeight / 2.0F)) / (float) (this.trackHeight - this.barHeight);
         this.scrollAmount = Mth.clamp(progress * this.maxScroll, 0, this.maxScroll);
     }

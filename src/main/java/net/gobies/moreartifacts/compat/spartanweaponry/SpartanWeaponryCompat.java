@@ -1,6 +1,5 @@
 package net.gobies.moreartifacts.compat.spartanweaponry;
 
-import com.oblivioussp.spartanweaponry.init.ModDamageTypes;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
@@ -11,12 +10,9 @@ import java.util.Objects;
 
 public class SpartanWeaponryCompat {
 
-    public static void loadCompat() {
-    }
-
     public static boolean isArmorPiercingBolt(DamageSource damageType) {
         if (ModLoadedUtil.isSpartanWeaponryLoaded()) {
-            return damageType.is(ModDamageTypes.KEY_ARMOR_PIERCING_BOLT);
+            return damageType.getMsgId().equals("armor_piercing_bolt");
         }
         return false;
     }

@@ -9,9 +9,33 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ForgeGui.class)
 public abstract class ForgeGuiMixin {
+
+    @ModifyVariable(
+            method = "renderHealth",
+            at = @At(
+                    value = "STORE",
+                    ordinal = 0
+            ),
+            name = "healthMax",
+            remap = false
+    )
+    private float syncMaxHealth(float healthMax) {
+        if (ClientConfig.BROKEN_HEART_OVERLAY.get()) {
+            Minecraft mc = Minecraft.getInstance();
+            Player player = mc.player;
+            if (player == null) return healthMax;
+
+            AttributeModifier modifier = BrokenHeartSystem.getBrokenHeartModifier(player);
+            if (modifier == null || modifier.getAmount() == 0) return healthMax;
+
+            return player.getMaxHealth();
+        }
+        return healthMax;
+    }
 
     @ModifyArg(
             method = "renderHealth",
