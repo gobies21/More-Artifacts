@@ -18,6 +18,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.fml.ModList;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class MAUtils {
@@ -97,24 +98,19 @@ public class MAUtils {
     }
     // Method to add attributes from a player's attribute map
     public static void addAttributes(Player player, Attribute attribute, double amount, AttributeModifier.Operation operation, String name) {
-        UUID modifierId = UUID.nameUUIDFromBytes((player.getUUID() + name).getBytes());
-        if (player.getAttribute(attribute) != null) {
-            AttributeInstance attributeInstance = player.getAttribute(attribute);
-            if (Objects.requireNonNull(attributeInstance).getModifier(modifierId) == null) {
-                AttributeModifier modifier = new AttributeModifier(modifierId, attribute.getDescriptionId(), amount, operation);
-                attributeInstance.addTransientModifier(modifier);
-            }
+        UUID modifierId = new UUID(player.getUUID().getMostSignificantBits(), player.getUUID().getLeastSignificantBits() ^ name.hashCode());
+        AttributeInstance attributeInstance = player.getAttribute(attribute);
+        if (attributeInstance != null && attributeInstance.getModifier(modifierId) == null) {
+            AttributeModifier modifier = new AttributeModifier(modifierId, attribute.getDescriptionId(), amount, operation);
+            attributeInstance.addTransientModifier(modifier);
         }
     }
     // Method to remove attributes from a player's attribute map
     public static void removeAttributes(Player player, Attribute attribute, String name) {
-        UUID modifierId = UUID.nameUUIDFromBytes((player.getUUID() + name).getBytes());
-        if (player.getAttribute(attribute) != null) {
-            AttributeInstance attributeInstance = player.getAttribute(attribute);
-            AttributeModifier modifier = Objects.requireNonNull(attributeInstance).getModifier(modifierId);
-            if (modifier != null) {
-                attributeInstance.removeModifier(modifierId);
-            }
+        UUID modifierId = new UUID(player.getUUID().getMostSignificantBits(), player.getUUID().getLeastSignificantBits() ^ name.hashCode());
+        AttributeInstance attributeInstance = player.getAttribute(attribute);
+        if (attributeInstance != null && attributeInstance.getModifier(modifierId) != null) {
+            attributeInstance.removeModifier(modifierId);
         }
     }
     // Method to get looting values
@@ -151,6 +147,13 @@ public class MAUtils {
             }
         }
     }
+
+    private static final DecimalFormat FORMAT = new DecimalFormat("#.##");
+
+    public static String formatDecimal(double value) {
+        return FORMAT.format(value);
+    }
+
     // Method to log debug messages
     public static void logDebug(String message) {
         if (CommonConfig.ENABLE_DEBUG.get()) {

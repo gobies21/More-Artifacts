@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:root",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:holy_mantle"
+    },
+    "title": "Holy Shield",
+    "description": "Obtain the Holy Mantle from a cleric villager trade",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_holy_mantle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:holy_mantle"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_holy_mantle"
+    ]
+  ]
+}

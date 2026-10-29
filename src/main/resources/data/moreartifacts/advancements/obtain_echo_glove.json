@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_mechanical_glove",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:echo_glove"
+    },
+    "title": "The Vibrations of Light",
+    "description": "Upgrade a Mechanical Glove into a Echo Glove",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_echo_glove": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:echo_glove"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_echo_glove"
+    ]
+  ]
+}

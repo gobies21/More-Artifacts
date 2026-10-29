@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -41,8 +42,8 @@ public class LuckyEmeraldRingItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double emeraldChance = CommonConfig.EMERALD_RING_EMERALDS.get() * 100;
         double damageIncrease = (CommonConfig.EMERALD_RING_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.chance", String.format("%.0f", emeraldChance)).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.chance", MAUtils.formatDecimal(emeraldChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lucky_emerald_ring.damage", MAUtils.formatDecimal(damageIncrease)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

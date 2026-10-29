@@ -4,41 +4,59 @@ import net.minecraftforge.fml.ModList;
 
 public class ModLoadedUtil {
 
+    private static final boolean spartanWeaponry = ModList.get().isLoaded("spartanweaponry");
+    private static final boolean enhancedVisuals = ModList.get().isLoaded("enhancedvisuals");
+    private static final boolean iceAndFire = ModList.get().isLoaded("iceandfire");
+    private static final boolean iceAndFire2 = ModList.get().isLoaded("iceandfire2");
+    private static final boolean potionRings = ModList.get().isLoaded("potionrings2");
+    private static final boolean apothecary = ModList.get().isLoaded("apothecary");
+    private static final boolean jei = ModList.get().isLoaded("jei");
+    private static final boolean coldSweat = ModList.get().isLoaded("cold_sweat");
+    private static final boolean betterStealth = ModList.get().isLoaded("betterstealth");
+    private static final boolean firstAid = ModList.get().isLoaded("firstaid");
+    private static final boolean ironsSpellbooks = ModList.get().isLoaded("irons_spellbooks");
+
     public static boolean isSpartanWeaponryLoaded() {
-        return ModList.get().isLoaded("spartanweaponry");
+        return spartanWeaponry;
     }
 
     public static boolean isEnhancedVisualsLoaded() {
-        return ModList.get().isLoaded("enhancedvisuals");
+        return enhancedVisuals;
     }
 
     public static boolean isIceandFireLoaded() {
-        return ModList.get().isLoaded("iceandfire");
+        return iceAndFire;
     }
 
     public static boolean isIceandFire2Loaded() {
-        return ModList.get().isLoaded("iceandfire2");
+        return iceAndFire2;
     }
 
     public static boolean isPotionRingsLoaded() {
-        return ModList.get().isLoaded("potionrings2");
+        return potionRings;
     }
 
     public static boolean isApothecaryLoaded() {
-        return ModList.get().isLoaded("apothecary");
+        return apothecary;
     }
 
     public static boolean isJeiLoaded() {
-        return ModList.get().isLoaded("jei");
+        return jei;
     }
 
     public static boolean isColdSweatLoaded() {
-        return ModList.get().isLoaded("cold_sweat");
+        return coldSweat;
     }
+
     public static boolean isBetterStealthLoaded() {
-        return ModList.get().isLoaded("betterstealth");
+        return betterStealth;
     }
+
     public static boolean isFirstAidLoaded() {
-        return ModList.get().isLoaded("firstaid");
+        return firstAid;
+    }
+
+    public static boolean isIronsSpellbooksLoaded() {
+        return ironsSpellbooks;
     }
 }

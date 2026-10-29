@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -49,11 +50,11 @@ public class MoltenQuiverItem extends Item implements ICurioItem {
         double arrowSave = (CommonConfig.MOLTEN_QUIVER_AMMO.get() * 100);
         double arrowFireDamage = (CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get() - 1) * 100;
         if (!ModLoadedUtil.isApothecaryLoaded()) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_damage", String.format("%.0f", arrowDamage)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_damage", MAUtils.formatDecimal(arrowDamage)).withStyle(ChatFormatting.BLUE));
         }
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.save_arrow", String.format("%.0f", arrowSave)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.save_arrow", MAUtils.formatDecimal(arrowSave)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.fire").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_fire_damage", String.format("%.0f", arrowFireDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.molten_quiver.increased_fire_damage", MAUtils.formatDecimal(arrowFireDamage)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

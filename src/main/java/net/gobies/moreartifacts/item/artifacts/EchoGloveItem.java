@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -45,7 +46,7 @@ public class EchoGloveItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double ignoreChance = (CommonConfig.ECHO_GLOVE_IGNORE_CHANCE.get() * 100);
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.ignore_chance", String.format("%.0f", ignoreChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.echo_glove.ignore_chance", MAUtils.formatDecimal(ignoreChance)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

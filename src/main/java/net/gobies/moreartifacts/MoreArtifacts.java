@@ -2,6 +2,7 @@ package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
+import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
 import net.gobies.moreartifacts.compat.firstaid.FirstAidCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
@@ -79,6 +80,10 @@ public class MoreArtifacts {
         if (ModLoadedUtil.isApothecaryLoaded()) {
             ApothecaryCompat.loadCompat();
             log("[More Artifacts] Apothecary Compat Loaded");
+        }
+        if (ModLoadedUtil.isColdSweatLoaded()) {
+            ColdSweatCompat.loadCompat();
+            log("[More Artifacts] Cold Sweat Compat Loaded");
         }
         if (ModLoadedUtil.isFirstAidLoaded()) {
             FirstAidCompat.loadCompat();

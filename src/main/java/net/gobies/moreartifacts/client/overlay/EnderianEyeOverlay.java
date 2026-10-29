@@ -24,8 +24,8 @@ public class EnderianEyeOverlay {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Post event) {
-        if (event.getOverlay() != VanillaGuiOverlay.HOTBAR.type()) return;
         if (!ClientConfig.ENDERIAN_EYE_OVERLAY.get()) return;
+        if (event.getOverlay() != VanillaGuiOverlay.HOTBAR.type()) return;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) return;

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:shadow_diamond"
+    },
+    "b": {
+      "item": "moreartifacts:shadow_dust"
+    },
+    "c": {
+      "item": "moreartifacts:hero_shield"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:shadow_aegis",
+    "count": 1
+  }
+}

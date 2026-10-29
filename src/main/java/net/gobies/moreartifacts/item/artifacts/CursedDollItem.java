@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -28,7 +29,7 @@ public class CursedDollItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double curseChance = (CommonConfig.CURSED_DOLL_CHANCE.get() * 100);
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse", String.format("%.0f", curseChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse", MAUtils.formatDecimal(curseChance)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.cursed_doll.curse2").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

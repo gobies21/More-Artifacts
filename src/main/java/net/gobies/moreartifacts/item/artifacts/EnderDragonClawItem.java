@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -29,7 +30,7 @@ public class EnderDragonClawItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double clawChance = (CommonConfig.ENDER_DRAGON_CLAW_CHANCE.get() * 100);
         double clawDamage = (CommonConfig.ENDER_DRAGON_CLAW_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ender_dragon_claw.chance.damage", String.format("%.0f", clawChance), String.format("%.0f", clawDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ender_dragon_claw.chance.damage", MAUtils.formatDecimal(clawChance), MAUtils.formatDecimal(clawDamage)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

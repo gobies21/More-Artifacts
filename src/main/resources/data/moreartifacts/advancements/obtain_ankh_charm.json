@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_obsidian_shield",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:ankh_charm"
+    },
+    "title": "Ankhitional Immunity",
+    "description": "Craft the Ankh Charm",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_ankh_charm": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:ankh_charm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ankh_charm"
+    ]
+  ]
+}

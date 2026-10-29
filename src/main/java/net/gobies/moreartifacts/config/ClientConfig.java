@@ -21,8 +21,12 @@ public class ClientConfig {
     public static boolean broken_heart_overlay;
     public static ForgeConfigSpec.ConfigValue<Boolean> HOLY_MANTLE_OVERLAY;
     public static boolean holy_mantle_overlay;
+    public static ForgeConfigSpec.ConfigValue<Boolean> DODGE_OVERLAY;
+    public static boolean dodge_overlay;
     public static ForgeConfigSpec.ConfigValue<Boolean> DOUBLE_TAP_DODGE;
     public static boolean double_tap_dodge;
+    public static ForgeConfigSpec.ConfigValue<Boolean> SOUL_OVERLAY;
+    public static boolean soul_overlay;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_CURIO_HUD;
     public static boolean enable_curio_hud;
     public static ForgeConfigSpec.ConfigValue<Boolean> RENDER_VERTICALLY;
@@ -47,7 +51,9 @@ public class ClientConfig {
             enderian_eye_overlay = ENDERIAN_EYE_OVERLAY.get();
             broken_heart_overlay = BROKEN_HEART_OVERLAY.get();
             holy_mantle_overlay = HOLY_MANTLE_OVERLAY.get();
+            dodge_overlay = DODGE_OVERLAY.get();
             double_tap_dodge = DOUBLE_TAP_DODGE.get();
+            soul_overlay = SOUL_OVERLAY.get();
             enable_curio_hud = ENABLE_CURIO_HUD.get();
             render_vertically = RENDER_VERTICALLY.get();
             flip_render_order = FLIP_RENDER_ORDER.get();
@@ -64,8 +70,10 @@ public class ClientConfig {
         ENABLE_ARTIFACT_MODELS = BUILDER.comment("Enable artifacts models displaying on the player").define("Enable_Artifact_Models", true);
         ENDERIAN_EYE_OVERLAY = BUILDER.comment("Enable the overlay for the enderian eye cooldown").define("Enderian_Eye_Overlay", true);
         BROKEN_HEART_OVERLAY = BUILDER.comment("Enable the broken heart overlay rendering").define("Broken_Heart_Overlay", true);
-        HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", false);
+        HOLY_MANTLE_OVERLAY = BUILDER.comment("Enable the holy mantle overlay rendering").define("Holy_Mantle_Overlay", true);
+        DODGE_OVERLAY = BUILDER.comment("Enable the dodge overlay appearing in the experience bar").define("Dodge_Overlay", true);
         DOUBLE_TAP_DODGE = BUILDER.comment("Enable double tapping movement keys to dodge").define("Double_Tap_Dodge", false);
+        SOUL_OVERLAY = BUILDER.comment("Enable the soul overlay rendering").define("Soul_Overlay", true);
         BUILDER.push("Curio_Hud");
         ENABLE_CURIO_HUD = BUILDER.comment("Enable curios rendering on the screen based on whats equipped (WIP)").define("Enable_Curio_Hud", false);
         RENDER_VERTICALLY = BUILDER.comment("Should curios render vertically instead of horizontally").define("Render_Vertically", false);

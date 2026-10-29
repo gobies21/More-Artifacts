@@ -116,15 +116,14 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
-    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:8548863")
+    implementation fg.deobf("curse.maven:apothecary-potion-expansion-1278100:8994711")
     //compileOnly("curse.maven:apothecary-potion-expansion-1278100:8548863"))
     runtimeOnly(fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220"))
 
     implementation fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
 
-    implementation fg.deobf("curse.maven:neat-238372:5838485")
-
-    implementation fg.deobf("curse.maven:blessfulled-1182590:6624691")
+    runtimeOnly(implementation fg.deobf("curse.maven:neat-238372:5838485"))
+    runtimeOnly(implementation fg.deobf("curse.maven:blessfulled-1182590:6624691"))
 
     implementation fg.deobf("curse.maven:enhancedvisuals-255389:6192498")
     implementation fg.deobf("curse.maven:creativecore-257814:6383884")
@@ -135,7 +134,7 @@ dependencies {
     implementation fg.deobf("curse.maven:citadel-331936:6002521")
     //runtimeOnly(fg.deobf("curse.maven:artifacts-312353:6399828"))
 
-    implementation fg.deobf("curse.maven:configured-457570:5180900")
+    runtimeOnly(fg.deobf("curse.maven:configured-457570:5180900"))
     implementation fg.deobf("curse.maven:catalogue-459701:4766090")
 
     runtimeOnly(fg.deobf("curse.maven:free-cam-557076:4643128"))
@@ -144,7 +143,8 @@ dependencies {
     implementation fg.deobf("curse.maven:cold-sweat-506194:7893262")
 
     implementation fg.deobf("curse.maven:demis-better-stealth-1343821:6989663")
-    implementation fg.deobf("curse.maven:first-aid-276837:5531834")
+    //implementation fg.deobf("curse.maven:first-aid-276837:5531834")
+    compileOnly(fg.deobf("curse.maven:first-aid-276837:5531834"))
     implementation fg.deobf("curse.maven:spark-361579:4738952")
     implementation fg.deobf("curse.maven:just-enough-effect-descriptions-jeed-532286:6172935")
     implementation fg.deobf("curse.maven:embeddium-908741:5681725")
@@ -153,7 +153,17 @@ dependencies {
     implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
 
-    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:8803648")
+    implementation fg.deobf("curse.maven:mo-bends-unofficial-modern-port-1438637:9167997")
+    runtimeOnly(fg.deobf("curse.maven:modernfix-790626:9124107"))
+    runtimeOnly(fg.deobf("curse.maven:gobs-armory-1232432:6588501"))
+
+    //implementation fg.deobf("curse.maven:obscure-tooltips-715660:8922032")
+    //implementation fg.deobf("curse.maven:fragmentum-1123970:9202572")
+
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:6488484")
+    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
+    implementation fg.deobf("curse.maven:geckolib-388172:6333474")
+    implementation fg.deobf("curse.maven:caelus-308989:5281700")
 }
 
 mixin {

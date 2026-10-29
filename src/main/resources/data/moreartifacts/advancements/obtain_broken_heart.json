@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:root",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:broken_heart"
+    },
+    "title": "Eternal Sorrow",
+    "description": "Find the Broken heart",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_broken_heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:broken_heart"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_broken_heart"
+    ]
+  ]
+}

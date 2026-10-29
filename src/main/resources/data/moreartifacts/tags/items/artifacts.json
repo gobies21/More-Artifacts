@@ -22,6 +22,7 @@
     "moreartifacts:ankh_shield",
     "moreartifacts:melody_plushie",
     "moreartifacts:hero_shield",
+    "moreartifacts:shadow_aegis",
     "moreartifacts:mechanical_glove",
     "moreartifacts:enderian_scarf",
     "moreartifacts:true_enderian_scarf",
@@ -67,6 +68,9 @@
     "moreartifacts:guardian_thorn_necklace",
     "moreartifacts:holy_mantle",
     "moreartifacts:broken_heart",
-    "moreartifacts:necklace"
+    "moreartifacts:necklace",
+    "moreartifacts:sin_ring",
+    "moreartifacts:envy_ring",
+    "moreartifacts:wrath_ring"
   ]
 }

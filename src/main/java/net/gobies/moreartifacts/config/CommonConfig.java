@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.config;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.init.MAItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -120,6 +121,19 @@ public class CommonConfig {
     public static boolean hero_shield_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> FIRST_AID_IGNORE_CHANCE;
     public static float first_aid_ignore_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Integer> SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE;
+    public static int shadow_aegis_ignore_damage_chance;
+    public static ForgeConfigSpec.ConfigValue<Double> SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION;
+    public static float shadow_aegis_explosion_damage_reduction;
+    public static ForgeConfigSpec.ConfigValue<Integer> SHADOW_AEGIS_RES_LEVEL;
+    public static int shadow_aegis_res_level;
+    public static ForgeConfigSpec.ConfigValue<Boolean> SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT;
+    public static boolean shadow_aegis_enhanced_visuals_compat;
+    public static ForgeConfigSpec.ConfigValue<Boolean> SHADOW_AEGIS_FIRST_AID_COMPAT;
+    public static boolean shadow_aegis_first_aid_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> SHADOW_AEGIS_FIRST_AID_IGNORE_CHANCE;
+    public static float shadow_aegis_first_aid_ignore_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_REDUCTION;
     public static float enderian_damage_reduction;
@@ -448,6 +462,11 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_LUCK_FACTOR;
     public static float holy_mantle_luck_factor;
 
+    public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_SNEAK_SPEED;
+    public static float stealth_manual_sneak_speed;
+    public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_DODGE_DISTANCE;
+    public static float stealth_manual_dodge_distance;
+
     public static ForgeConfigSpec.ConfigValue<Double> BROKEN_HEART_DAMAGE_INCREASE;
     public static float broken_heart_damage_increase;
 
@@ -514,6 +533,9 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_TRADE_CHANCE;
     public static float holy_mantle_trade_chance;
 
+    public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_TRADE_CHANCE;
+    public static float stealth_manual_trade_chance;
+
     /*
     // General
     */
@@ -534,15 +556,58 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_AIR_DODGE;
     public static boolean enable_air_dodge;
 
+    // Souls
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ENVY_ATTRIBUTES;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MAGIC_DAMAGE_CONVERSION;
+    public static float envy_magic_damage_conversion;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_FLIGHT_MANA_COST;
+    public static float envy_flight_mana_cost;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_START_COST;
+    public static float envy_start_cost;
+    public static ForgeConfigSpec.ConfigValue<Boolean> IRONS_SPELLBOOKS_MANA_COMPAT;
+    public static boolean irons_spellbooks_mana_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_FLIGHT_TIME;
+    public static float envy_spellbooks_flight_time;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_OFFSET;
+    public static float envy_spellbooks_mana_offset;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_START_COST;
+    public static float envy_spellbooks_start_cost;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_1;
+    public static float envy_evolve_damage_1;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_2;
+    public static float envy_evolve_damage_2;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_3;
+    public static float envy_evolve_damage_3;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_4;
+    public static float envy_evolve_damage_4;
+
+
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> WRATH_ATTRIBUTES;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_1;
+    public static float wrath_evolve_damage_1;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_2;
+    public static float wrath_evolve_damage_2;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_3;
+    public static float wrath_evolve_damage_3;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_4;
+    public static float wrath_evolve_damage_4;
+
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
         if (configEvent.getConfig().getFileName().equals(FILENAME)) {
+            SoulAttributes.bakeConfig();
             ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
             explosion_damage_reduction = EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
             hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
             hero_shield_enhanced_visuals_compat = HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get();
             hero_shield_first_aid_compat = HERO_SHIELD_FIRST_AID_COMPAT.get();
             first_aid_ignore_chance = FIRST_AID_IGNORE_CHANCE.get().floatValue();
+            shadow_aegis_ignore_damage_chance = SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE.get();
+            shadow_aegis_explosion_damage_reduction = SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
+            shadow_aegis_res_level = SHADOW_AEGIS_RES_LEVEL.get();
+            shadow_aegis_enhanced_visuals_compat = SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT.get();
+            shadow_aegis_first_aid_compat = SHADOW_AEGIS_FIRST_AID_COMPAT.get();
+            shadow_aegis_first_aid_ignore_chance = FIRST_AID_IGNORE_CHANCE.get().floatValue();
             skull_fire_damage_reduction = SKULL_FIRE_DAMAGE_REDUCTION.get().floatValue();
             obsidian_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
             ankh_charm_additional_effects = ANKH_CHARM_ADDITIONAL_EFFECTS.get();
@@ -722,6 +787,8 @@ public class CommonConfig {
             holy_mantle_max_hearts = HOLY_MANTLE_MAX_HEARTS.get();
             holy_mantle_luck_factor = HOLY_MANTLE_LUCK_FACTOR.get().floatValue();
             broken_heart_damage_increase = BROKEN_HEART_DAMAGE_INCREASE.get().floatValue();
+            stealth_manual_sneak_speed = STEALTH_MANUAL_SNEAK_SPEED.get().floatValue();
+            stealth_manual_dodge_distance = STEALTH_MANUAL_DODGE_DISTANCE.get().floatValue();
             phantom_thread_head = PHANTOM_THREAD_HEAD.get();
             phantom_thread_chest = PHANTOM_THREAD_CHEST.get();
             phantom_thread_legs = PHANTOM_THREAD_LEGS.get();
@@ -744,6 +811,7 @@ public class CommonConfig {
             cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
             melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
             holy_mantle_trade_chance = HOLY_MANTLE_TRADE_CHANCE.get().floatValue();
+            stealth_manual_trade_chance = STEALTH_MANUAL_TRADE_CHANCE.get().floatValue();
             max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
             max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
             max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
@@ -752,6 +820,22 @@ public class CommonConfig {
             enable_loot_tables = ENABLE_LOOT_TABLES.get();
             enable_luck_factor = ENABLE_LUCK_FACTOR.get();
             enable_air_dodge = ENABLE_AIR_DODGE.get();
+            envy_magic_damage_conversion = ENVY_MAGIC_DAMAGE_CONVERSION.get().floatValue();
+            envy_flight_mana_cost = ENVY_FLIGHT_MANA_COST.get().floatValue();
+            envy_start_cost = ENVY_START_COST.get().floatValue();
+            irons_spellbooks_mana_compat = IRONS_SPELLBOOKS_MANA_COMPAT.get();
+            envy_spellbooks_flight_time = ENVY_SPELLBOOKS_FLIGHT_TIME.get().floatValue();
+            envy_spellbooks_mana_offset = ENVY_SPELLBOOKS_MANA_OFFSET.get().floatValue();
+            envy_spellbooks_start_cost = ENVY_SPELLBOOKS_START_COST.get().floatValue();
+            envy_evolve_damage_1 = ENVY_EVOLVE_DAMAGE_1.get().floatValue();
+            envy_evolve_damage_2 = ENVY_EVOLVE_DAMAGE_2.get().floatValue();
+            envy_evolve_damage_3 = ENVY_EVOLVE_DAMAGE_3.get().floatValue();
+            envy_evolve_damage_4 = ENVY_EVOLVE_DAMAGE_4.get().floatValue();
+            wrath_evolve_damage_1 = WRATH_EVOLVE_DAMAGE_1.get().floatValue();
+            wrath_evolve_damage_2 = WRATH_EVOLVE_DAMAGE_2.get().floatValue();
+            wrath_evolve_damage_3 = WRATH_EVOLVE_DAMAGE_3.get().floatValue();
+            wrath_evolve_damage_4 = WRATH_EVOLVE_DAMAGE_4.get().floatValue();
+
         }
     }
 
@@ -770,7 +854,7 @@ public class CommonConfig {
         BUILDER.comment("General settings").push("General");
         MAX_DAMAGE_REDUCTION = BUILDER.comment("Global max damage reduction from artifacts in percentage").defineInRange("Max_Damage_Reduction", 1.0, 0.01, 1.0);
         MAX_FIRE_DAMAGE_REDUCTION = BUILDER.comment("Global max fire damage reduction from artifacts in percentage").defineInRange("Max_Fire_Damage_Reduction", 1.0, 0.01, 1.0);
-        MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 2.0);
+        MAX_DAMAGE_INCREASE = BUILDER.comment("Global max damage increase from artifacts in percentage").defineInRange("Max_Damage_Increase", 2.0, 0.01, 1000.0);
         ENABLE_DEBUG = BUILDER.comment("Enable debugging").define("Debug", false);
         ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
         ENABLE_LOOT_TABLES = BUILDER.comment("Enables loot tables from this mod").define("Enable_Loot_Tables", true);
@@ -781,7 +865,7 @@ public class CommonConfig {
         /*
         // Artifact Toggles
         */
-        BUILDER.comment("Toggle for which artifacts are enabled/disabled").push("Toggles");
+        BUILDER.comment("Toggle for which artifacts or items are enabled/disabled").push("Toggles");
         for (RegistryObject<Item> artifact : MAItems.getAllArtifacts()) {
             String itemID = Objects.requireNonNull(artifact.getId()).toString();
             String itemPath = artifact.getId().getPath();
@@ -818,7 +902,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Broken_Heart");
-        BROKEN_HEART_DAMAGE_INCREASE = BUILDER.comment("Damage increase for each broken heart the player has").define("Damage_Increase", 1.05);
+        BROKEN_HEART_DAMAGE_INCREASE = BUILDER.comment("Damage increase for each broken heart the player has").define("Damage_Increase", 1.025);
         BUILDER.pop();
 
         BUILDER.push("Cursed_Doll");
@@ -859,12 +943,12 @@ public class CommonConfig {
 
         BUILDER.push("Ender_Dragon_Claw");
         ENDER_DRAGON_CLAW_DAMAGE = BUILDER.comment("Increased damage dealt in percentage").define("Damage_Dealt", 1.50);
-        ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.05);
+        ENDER_DRAGON_CLAW_CHANCE = BUILDER.comment("Chance to increase damage dealt").define("Chance", 0.10);
         ENDER_DRAGON_CLAW_LUCK_FACTOR = BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.01, 0.0, 1.0);
         BUILDER.pop();
 
         BUILDER.push("Ender_Dragon_Eye");
-        ENDER_DRAGON_EYE_SUMMON_CHANCE = BUILDER.comment("Chance to summon endermen to fight for you when hit in percentage").define("Summon_Chance", 0.01);
+        ENDER_DRAGON_EYE_SUMMON_CHANCE = BUILDER.comment("Chance to summon endermen to fight for you when hit in percentage").define("Summon_Chance", 0.05);
         ENDER_DRAGON_EYE_FOLLOW_DISTANCE = BUILDER.comment("Distance at which endermen can follow you from in blocks").define("Follow_Distance", 20.0);
         ENDER_DRAGON_EYE_LUCK_FACTOR = BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.01, 0.0, 1.0);
         ENDER_DRAGON_EYE_COMPAT = BUILDER.comment("Enable compat to disable endermen static from enhanced visuals").define("EnhancedVisuals_Compat", true);
@@ -1096,10 +1180,24 @@ public class CommonConfig {
         SHACKLE_ARMOR = BUILDER.comment("Armor increase").define("Armor", 1);
         BUILDER.pop();
 
+        BUILDER.push("Shadow_Aegis");
+        SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE = BUILDER.comment("Amount of hits taken until damage is ignored").define("Hits", 5);
+        SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION = BUILDER.comment("Explosion damage reduction in percentage").define("Explosion_Damage_Reduction", 0.80);
+        SHADOW_AEGIS_RES_LEVEL = BUILDER.comment("Level of resistance shadow aegis provides").define("Level", 2);
+        SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT = BUILDER.comment("Enable compat to disable explosion overlay from enhanced visuals").define("EnhancedVisuals_Compat", true);
+        SHADOW_AEGIS_FIRST_AID_COMPAT = BUILDER.comment("Enable compat to add a chance to ignore headshots from first aid").define("FirstAid_Compat", true);
+        SHADOW_AEGIS_FIRST_AID_IGNORE_CHANCE = BUILDER.comment("Chance to ignore headshots in percentage").define("Ignore_Chance", 0.15);
+        BUILDER.pop();
+
         BUILDER.push("Spectre_Amulet");
         SPECTRE_AMULET_HEAL_CHANCE = BUILDER.comment("Chance to heal").define("Heal_Chance", 0.40);
         SPECTRE_AMULET_HEAL_AMOUNT = BUILDER.comment("Amount of health gained from attacking").define("Heal_Amount", 2.0);
         SPECTRE_AMULET_LUCK_FACTOR= BUILDER.comment("Percentage chance increase added to the base chance per luck attribute").defineInRange("Luck_Factor", 0.05, 0.0, 1.0);
+        BUILDER.pop();
+
+        BUILDER.push("Stealth_Manual");
+        STEALTH_MANUAL_SNEAK_SPEED = BUILDER.comment("Sneak speed increase in percentage").define("Sneak_Speed", 0.50);
+        STEALTH_MANUAL_DODGE_DISTANCE = BUILDER.comment("Dodge distance increase in percentage").define("Dodge_Distance", 1.2);
         BUILDER.pop();
 
         BUILDER.push("Tainted_Mirror");
@@ -1162,6 +1260,56 @@ public class CommonConfig {
         // Soul Category
         */
         BUILDER.comment("Global soul settings for all of their stats and abilities").push("Souls");
+        BUILDER.push("Envy");
+        ENVY_MAGIC_DAMAGE_CONVERSION = BUILDER.comment("Amount of damage that is converted into magic damage per stage").define("Magic_Damage", 0.10);
+        ENVY_FLIGHT_MANA_COST = BUILDER.comment("Mana cost per second of using flight").define("Mana_Cost", 4.0);
+        ENVY_START_COST = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Start_Cost", 10.0);
+        BUILDER.push("Evolve");
+        ENVY_EVOLVE_DAMAGE_1 = BUILDER.comment("Damage required to evolve from stage 1 -> 2").define("Stage2", 2000.0);
+        ENVY_EVOLVE_DAMAGE_2 = BUILDER.comment("Damage required to evolve from stage 2 -> 3").define("Stage3", 5000.0);
+        ENVY_EVOLVE_DAMAGE_3 = BUILDER.comment("Damage required to evolve from stage 3 -> 4").define("Stage4", 25000.0);
+        ENVY_EVOLVE_DAMAGE_4 = BUILDER.comment("Damage required to evolve from stage 4 -> 5").define("Stage5", 50000.0);
+        BUILDER.pop();
+        BUILDER.push("Irons_Spellbooks");
+        IRONS_SPELLBOOKS_MANA_COMPAT = BUILDER.comment("Enable using irons spellbooks mana system instead of this mods mana system").define("Spellbooks_Mana_System", true);
+        ENVY_SPELLBOOKS_FLIGHT_TIME = BUILDER.comment("Total time the player can fly until their mana runs out in seconds").define("Flight_Time", 25.0);
+        ENVY_SPELLBOOKS_MANA_OFFSET = BUILDER.comment("Mana to take away every second on top of the flight time").define("Mana_Offset", 3.0);
+        ENVY_SPELLBOOKS_START_COST = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Start_Cost", 100.0);
+        BUILDER.pop();
+        ENVY_ATTRIBUTES = BUILDER.comment(
+                "Soul Attributes",
+                "Format: \"attribute;base;(per stage) increment;operation\"",
+                "Operations: ADDITION, MULTIPLY_BASE, MULTIPLY_TOTAL"
+        ).defineList("envy_attributes", List.of(
+                "apothecary:magic_damage;0.20;0.075;MULTIPLY_BASE",
+                "minecraft:generic.movement_speed;0.05;0.05;MULTIPLY_BASE",
+                "apothecary:jump_height;0.0;0.05;MULTIPLY_BASE",
+                "apothecary:magic_shielding;2.0;2.0;ADDITION",
+                "minecraft:generic.armor;-0.05;-0.05;MULTIPLY_BASE",
+                "minecraft:generic.knockback_resistance;-0.30;-0.05;MULTIPLY_BASE"
+        ), o -> o instanceof String);
+        BUILDER.pop();
+
+        BUILDER.push("Wrath");
+        BUILDER.push("Evolve");
+        WRATH_EVOLVE_DAMAGE_1 = BUILDER.comment("Damage required to evolve from stage 1 -> 2").define("Stage2", 2000.0);
+        WRATH_EVOLVE_DAMAGE_2 = BUILDER.comment("Damage required to evolve from stage 2 -> 3").define("Stage3", 5000.0);
+        WRATH_EVOLVE_DAMAGE_3 = BUILDER.comment("Damage required to evolve from stage 3 -> 4").define("Stage4", 25000.0);
+        WRATH_EVOLVE_DAMAGE_4 = BUILDER.comment("Damage required to evolve from stage 4 -> 5").define("Stage5", 50000.0);
+        BUILDER.pop();
+        WRATH_ATTRIBUTES = BUILDER.comment(
+                "Soul Attributes",
+                "Format: \"attribute;base;(per stage) increment;operation\"",
+                "Operations: ADDITION, MULTIPLY_BASE, MULTIPLY_TOTAL"
+        ).defineList("wrath_attributes", List.of(
+                "minecraft:generic.attack_damage;0.10;0.10;MULTIPLY_BASE",
+                "minecraft:generic.max_health;0.05;0.05;MULTIPLY_BASE",
+                "minecraft:generic.knockback_resistance;0.0;0.25;ADDITION",
+                "minecraft:generic.attack_speed;-0.05;-0.05;MULTIPLY_BASE",
+                "minecraft:generic.armor;-0.05;-0.05;MULTIPLY_BASE",
+                "apothecary:magic_shielding;-1.0;-1.0;ADDITION"
+        ), o -> o instanceof String);
+        BUILDER.pop();
 
         /*
         // Soul Category End
@@ -1194,7 +1342,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Shulker_Heart");
-        SHULKER_HEART_DROP_CHANCE = BUILDER.comment("Shulker Heart drop chance from shulkers in percentage").define("Drop_Chance", 0.15);
+        SHULKER_HEART_DROP_CHANCE = BUILDER.comment("Shulker Heart drop chance from shulkers in percentage").define("Drop_Chance", 0.10);
         BUILDER.pop();
 
         BUILDER.push("Enderian_Scarf");
@@ -1208,7 +1356,7 @@ public class CommonConfig {
         BUILDER.push("Magic_Quiver");
         MAGIC_QUIVER_SKELETON_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from skeletons in percentage").define("Skeleton_Drop_Chance", 0.01);
         MAGIC_QUIVER_PILLAGER_DROP_CHANCE = BUILDER.comment("Magic Quiver drop chance from pillagers in percentage").define("Pillager_Drop_Chance", 0.04);
-        MAGIC_QUIVER_TRADE_CHANCE = BUILDER.comment("Magic Quiver trade chance from fletcher villagers in percentage").define("Trade_Chance", 0.30);
+        MAGIC_QUIVER_TRADE_CHANCE = BUILDER.comment("Magic Quiver trade chance from fletcher villagers in percentage").define("Trade_Chance", 0.25);
         BUILDER.pop();
 
         BUILDER.push("Ender_Dragon_Claw");
@@ -1220,7 +1368,11 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Holy_Mantle");
-        HOLY_MANTLE_TRADE_CHANCE = BUILDER.comment("Holy mantle trade chance from max level cleric villagers in percentage").define("Trade_Chance", 0.05);
+        HOLY_MANTLE_TRADE_CHANCE = BUILDER.comment("Holy Mantle trade chance from max level cleric villagers in percentage").define("Trade_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Stealth_Manual");
+        STEALTH_MANUAL_TRADE_CHANCE = BUILDER.comment("Stealth Manual trade chance from max level cartographer villagers in percentage").define("Trade_Chance", 0.05);
         BUILDER.pop();
 
         BUILDER.push("Sculk_Lens");

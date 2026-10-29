@@ -62,7 +62,7 @@ public class FrostedShieldItem extends ShieldItem implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double damageReduction = CommonConfig.FROSTED_SHIELD_DAMAGE_REDUCTION.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frosted_shield").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frosted_shield.reduction", String.format("%.0f", damageReduction)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frosted_shield.reduction", MAUtils.formatDecimal(damageReduction)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl").withStyle(ChatFormatting.GRAY));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(3);

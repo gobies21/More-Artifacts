@@ -36,7 +36,7 @@ public class SculkShadesRenderer implements ICurioRenderer {
         @SuppressWarnings("unchecked")
         T typedEntity = (T) entity;
         specificModel.prepareMobModel(typedEntity, limbSwing, limbSwingAmount, partialTicks);
-        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.itemEntityTranslucentCull(TEXTURE), false, stack.hasFoil());
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.itemEntityTranslucentCull(TEXTURE), false, false);
         this.model.renderToBuffer(poseStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
     }

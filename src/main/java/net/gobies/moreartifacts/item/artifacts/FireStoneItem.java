@@ -1,17 +1,12 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
-import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.ModLoadedUtil;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +18,6 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 public class FireStoneItem extends Item implements ICurioItem {
     public FireStoneItem(Properties properties) {
@@ -39,17 +33,6 @@ public class FireStoneItem extends Item implements ICurioItem {
         }
     }
 
-    private static final UUID HEAT_TOLERANCE = UUID.fromString("cd93e1bb-c47e-47e7-a913-2ae6a865a765");
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
-        if (ModLoadedUtil.isColdSweatLoaded()) {
-            modifiers.put(ColdSweatCompat.heatToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_TOLERANCE), 0.10, AttributeModifier.Operation.ADDITION));
-        }
-        return modifiers;
-    }
-
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
         return true;
@@ -62,8 +45,8 @@ public class FireStoneItem extends Item implements ICurioItem {
         int fireDuration = CommonConfig.FIRE_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.FIRE_STONE_DAMAGE.get() - 1) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + String.format("%.0f", fireChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + String.format("%.0f", increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + MAUtils.formatDecimal(fireChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);

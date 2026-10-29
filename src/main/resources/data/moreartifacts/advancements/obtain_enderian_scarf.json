@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:root",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:enderian_scarf"
+    },
+    "title": "Woven in the End",
+    "description": "Obtain an Enderian Scarf from an enderman",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_enderian_scarf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:enderian_scarf"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enderian_scarf"
+    ]
+  ]
+}

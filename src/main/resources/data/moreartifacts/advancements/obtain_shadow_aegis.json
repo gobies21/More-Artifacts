@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_hero_shield",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:shadow_aegis"
+    },
+    "title": "Engulfed in Shadow",
+    "description": "Upgrade the Hero Shield into the Aegis of Shadows",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "has_shadow_aegis": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:shadow_aegis"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shadow_aegis"
+    ]
+  ]
+}

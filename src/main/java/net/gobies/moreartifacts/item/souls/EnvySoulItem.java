@@ -1,10 +1,10 @@
 package net.gobies.moreartifacts.item.souls;
 
-import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
@@ -19,7 +19,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -33,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ShadowSoulItem extends SoulItem {
-    public ShadowSoulItem(Properties properties) {
-        super(properties.stacksTo(1));
+public class EnvySoulItem extends SoulItem {
+    public EnvySoulItem(Properties properties) {
+        super(properties);
     }
 
     /*
@@ -56,25 +55,11 @@ public class ShadowSoulItem extends SoulItem {
     // Icon in inventory to inform what soul the player has if any
     */
 
-    private static final UUID SPEED = UUID.fromString("1bce74e7-81ea-4982-9a7a-6a182152d9db");
-    private static final UUID ARMOR = UUID.fromString("c7616c3c-e5f4-496b-a7f5-7c5e217a0430");
-    private static final UUID JUMP_HEIGHT = UUID.fromString("fc0e1190-a46c-425f-8e3a-cb45e0c981c4");
     private static final UUID STEALTH = UUID.fromString("cbed1a47-0876-4541-95aa-9addfbf3353d");
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
-        int currentSoulStage = SoulUtil.getSoulStage(stack);
-        double speedBonus = 0.15 + (currentSoulStage * 0.05);
-        double jumpHeightBonus = 0.0 + (currentSoulStage * 0.04);
-        double armorPenalty = 0.05 + (currentSoulStage * 0.05);
-        modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, String.valueOf(SPEED), speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (ModLoadedUtil.isApothecaryLoaded()) {
-            modifiers.put(ApothecaryCompat.jumpHeight(), new AttributeModifier(uuid, String.valueOf(JUMP_HEIGHT), jumpHeightBonus, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-        modifiers.put(Attributes.ARMOR, new AttributeModifier(uuid, String.valueOf(ARMOR), -armorPenalty, AttributeModifier.Operation.MULTIPLY_BASE));
-
-        return modifiers;
+        return SoulAttributes.getCurioModifiers(uuid, stack, SoulAttributes.ENVY_ATTRIBUTES, "curio_envy:");
     }
 
     @Override
@@ -186,49 +171,44 @@ public class ShadowSoulItem extends SoulItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         int stage = SoulUtil.getSoulStage(pStack);
         CompoundTag nbt = pStack.getOrCreateTag();
-        int currentKills = nbt.getInt(SoulUtil.KILLS);
+        int currentDamage = nbt.getInt(SoulUtil.SoulDamage);
         double damageDealt = ((1.00 - 1) + (stage * 0.1)) * 100;
-        double shadowHandChance = (0.25) * 100;
+
         // Lore Tooltips
         if (stage == 1) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage1_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage1_lore").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 2) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage2_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage2_lore").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 3) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage3_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage3_lore").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 4) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage4_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage4_lore").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         } else if (stage == 5) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage5_lore").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stage5_lore").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC));
         }
         // Damage Tooltips
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.damage_dealt", String.format("%.0f", damageDealt)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envy_soul.magic_damage", String.format("%.0f", damageDealt)).withStyle(ChatFormatting.BLUE));
         if (stage >= 3) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.invis").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.SOUL_PASSIVE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.invis").withStyle(ChatFormatting.LIGHT_PURPLE).append(Component.literal(ClientEvents.SOUL_PASSIVE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
         }
-
-        // Shadow Hands Tooltips
-        if (stage == 4) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hand_chance", String.format("%.1f", shadowHandChance)).withStyle(ChatFormatting.DARK_AQUA));
-        } else if (stage == 5) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hands").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.shadow_hands2").withStyle(ChatFormatting.GOLD));
+        if (stage == 5) {
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.envy_soul.flight").withStyle(ChatFormatting.LIGHT_PURPLE));
         }
 
         // Unequipped Tooltips
         if (stage >= 2 && stage <= 3) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.unequip").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.unequip").withStyle(ChatFormatting.GRAY));
         } else if (stage == 4) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.no_unequip").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.no_unequip").withStyle(ChatFormatting.GRAY));
         } else if (stage == 5) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul_connected").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul_connected").withStyle(ChatFormatting.GRAY));
         }
 
         // Compat Tooltips
         if (ModLoadedUtil.isBetterStealthLoaded()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
-                pTooltipComponents.remove(stage + 2);
+                pTooltipComponents.remove(stage + 1);
 
                 pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.stealth").withStyle(ChatFormatting.GRAY));
             }
@@ -236,28 +216,28 @@ public class ShadowSoulItem extends SoulItem {
         // Evolve Tooltips
         if (stage == 1) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 100).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.evolve").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.damage_required", currentDamage, CommonConfig.ENVY_EVOLVE_DAMAGE_1.get().intValue()).withStyle(ChatFormatting.RED));
         } else if (stage == 2) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 300).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.evolve").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.damage_required", currentDamage, CommonConfig.ENVY_EVOLVE_DAMAGE_2.get().intValue()).withStyle(ChatFormatting.RED));
         } else if (stage == 3) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 500).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.evolve").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.damage_required", currentDamage, CommonConfig.ENVY_EVOLVE_DAMAGE_3.get().intValue()).withStyle(ChatFormatting.RED));
         } else if (stage == 4) {
             pTooltipComponents.add(Component.literal(" "));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.evolve_1").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_soul.kills_required", currentKills, 1000).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.evolve").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.soul.damage_required", currentDamage, CommonConfig.ENVY_EVOLVE_DAMAGE_4.get().intValue()).withStyle(ChatFormatting.RED));
         }
 
         if (stage == 5) {
             pTooltipComponents.add(Component.literal(" "));
             pTooltipComponents.add(Component.literal("Immunities:").withStyle(ChatFormatting.GOLD));
-            pTooltipComponents.add(Component.literal("§6- §cSlowness").withStyle(ChatFormatting.RED));
-            pTooltipComponents.add(Component.literal("§6- §cBlindness").withStyle(ChatFormatting.RED));
-            pTooltipComponents.add(Component.literal("§6- §cDarkness").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("- §cSlowness").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("- §cBlindness").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("- §cDarkness").withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

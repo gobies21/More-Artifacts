@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -46,9 +47,9 @@ public class MechanicalClawItem extends Item implements ICurioItem {
         int bleedDamage = CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get();
         int bleedDuration = CommonConfig.MECHANICAL_CLAW_BLEED_DURATION.get();
         double damageReceived = CommonConfig.BLEED_DAMAGE_RECEIVED.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_chance", String.format("%.0f", bleedChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_chance", MAUtils.formatDecimal(bleedChance)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_duration", bleedDamage, bleedDuration).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_received", String.format("%.0f", damageReceived)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_claw.bleed_damage_received", MAUtils.formatDecimal(damageReceived)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

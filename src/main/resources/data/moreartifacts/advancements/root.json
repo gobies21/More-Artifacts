@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "moreartifacts:bezoar"
+    },
+    "title": "More Artifacts",
+    "description": "Discover powerful and unique artifacts!",
+    "background": "minecraft:textures/block/polished_andesite.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "always_true": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "always_true"
+    ]
+  ]
+}

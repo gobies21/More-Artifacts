@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class DamageCalculator {
-    private static final List<Item> itemsToCheck = MAItems.getAllArtifacts().stream()
-            .map(RegistryObject::get)
-            .toList();
+    private static final List<Item> itemsToCheck = MAItems.getAllArtifacts().stream().map(RegistryObject::get).toList();
 
     public static double calculateTotalDamageReduction(Player player) {
         double generalReduction = 0.0;
@@ -57,7 +55,6 @@ public abstract class DamageCalculator {
         generalIncrease += getDamageIncrease(player, MAItems.FrozenQuiver.get(), CommonConfig.FROZEN_QUIVER_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
         generalIncrease += getDamageIncrease(player, MAItems.RubyRing.get(), CommonConfig.RUBY_RING_DAMAGE_INCREASE.get());
-        generalIncrease += getDamageIncrease(player, MAItems.ShadowSoul.get(), 1.10);
 
         return Math.min(generalIncrease, CommonConfig.MAX_DAMAGE_INCREASE.get()); // Damage Increase Cap
     }

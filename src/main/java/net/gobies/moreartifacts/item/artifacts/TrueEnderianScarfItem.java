@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -65,9 +66,9 @@ public class TrueEnderianScarfItem extends Item implements ICurioItem {
         int num =  ModLoadedUtil.isApothecaryLoaded() ? 3 : 4;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.neutral").withStyle(ChatFormatting.LIGHT_PURPLE));
         if (!ModLoadedUtil.isApothecaryLoaded()) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", String.format("%.0f", scarfDamageTaken)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.damage_taken", MAUtils.formatDecimal(scarfDamageTaken)).withStyle(ChatFormatting.BLUE));
         }
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", String.format("%.0f", scarfEvadeChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.evade_chance", MAUtils.formatDecimal(scarfEvadeChance)).withStyle(ChatFormatting.BLUE));
         if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.TRUE_ENDERIAN_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {

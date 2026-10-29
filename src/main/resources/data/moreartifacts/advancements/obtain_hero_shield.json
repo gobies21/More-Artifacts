@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:root",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:hero_shield"
+    },
+    "title": "The Rising of a Hero",
+    "description": "Craft the Hero Shield",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_hero_shield": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:hero_shield"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_hero_shield"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_magic_quiver",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:molten_quiver"
+    },
+    "title": "Hot Shot",
+    "description": "Upgrade a Magic Quiver into a Molten Quiver",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_molten_quiver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:molten_quiver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_molten_quiver"
+    ]
+  ]
+}

@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -29,7 +30,7 @@ public class ObsidianSkullItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double fireDamageReduction = (CommonConfig.SKULL_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.burning_immune").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_skull.fire_damage", String.format("%.0f", fireDamageReduction)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_skull.fire_damage", MAUtils.formatDecimal(fireDamageReduction)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

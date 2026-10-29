@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
@@ -50,7 +51,7 @@ public class StealthManualItem extends Item implements ICurioItem {
 
     private void updateSpeedModifier(Player player) {
         if (player.isCrouching()) {
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, 0.50, AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
+            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.STEALTH_MANUAL_SNEAK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
         } else {
             MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
         }

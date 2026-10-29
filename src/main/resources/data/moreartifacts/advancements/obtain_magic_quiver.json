@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:root",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:magic_quiver"
+    },
+    "title": "Archery",
+    "description": "Obtain a Magic Quiver from a skeleton or pillager",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_magic_quiver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:magic_quiver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_magic_quiver"
+    ]
+  ]
+}

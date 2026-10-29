@@ -23,16 +23,16 @@ public class PhantomThreadRecipe extends CustomRecipe {
     }
 
     private boolean isSlotEnabled(ArmorItem armorItem) {
-        boolean HEAD = CommonConfig.PHANTOM_THREAD_HEAD.get();
-        boolean CHEST = CommonConfig.PHANTOM_THREAD_CHEST.get();
-        boolean LEGS = CommonConfig.PHANTOM_THREAD_LEGS.get();
-        boolean FEET = CommonConfig.PHANTOM_THREAD_FEET.get();
+        boolean headSlot = CommonConfig.PHANTOM_THREAD_HEAD.get();
+        boolean chestSlot = CommonConfig.PHANTOM_THREAD_CHEST.get();
+        boolean legSlot = CommonConfig.PHANTOM_THREAD_LEGS.get();
+        boolean feetSlot = CommonConfig.PHANTOM_THREAD_FEET.get();
         EquipmentSlot slot = armorItem.getType().getSlot();
         return switch (slot) {
-            case HEAD -> HEAD;
-            case CHEST -> CHEST;
-            case LEGS -> LEGS;
-            case FEET -> FEET;
+            case HEAD -> headSlot;
+            case CHEST -> chestSlot;
+            case LEGS -> legSlot;
+            case FEET -> feetSlot;
             default -> false;
         };
     }
@@ -72,9 +72,9 @@ public class PhantomThreadRecipe extends CustomRecipe {
         }
 
         if (!targetArmor.isEmpty()) {
-            boolean isCurrentlyInvisible = targetArmor.hasTag() && Objects.requireNonNull(targetArmor.getTag()).getBoolean("Invisible");
+            boolean isInvisible = targetArmor.hasTag() && Objects.requireNonNull(targetArmor.getTag()).getBoolean("Invisible");
 
-            if (isCurrentlyInvisible) {
+            if (isInvisible) {
                 targetArmor.getTag().remove("Invisible");
                 if (targetArmor.getTag().isEmpty()) {
                     targetArmor.setTag(null);

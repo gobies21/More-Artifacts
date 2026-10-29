@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -52,12 +53,12 @@ public class NetheriteHeadgearItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double arrowDamageReduction = CommonConfig.NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION.get() * 100;
         double headshotDamageReduction = CommonConfig.NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.netherite_headgear.arrow.damage", String.format("%.0f", arrowDamageReduction)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.netherite_headgear.arrow.damage", MAUtils.formatDecimal(arrowDamageReduction)).withStyle(ChatFormatting.BLUE));
         if (ModLoadedUtil.isFirstAidLoaded() && CommonConfig.NETHERITE_HEADGEAR_FIRST_AID_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(2);
-                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.headgear.headshot", String.format("%.0f", headshotDamageReduction)).withStyle(ChatFormatting.BLUE));
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.headgear.headshot", MAUtils.formatDecimal(headshotDamageReduction)).withStyle(ChatFormatting.BLUE));
             }
             super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         }

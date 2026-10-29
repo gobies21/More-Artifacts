@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -31,7 +32,7 @@ public class HolyMantleItem extends Item implements ICurioItem {
         double absorptionChance = CommonConfig.HOLY_MANTLE_ABSORPTION_CHANCE.get() * 100;
         int maxHearts = CommonConfig.HOLY_MANTLE_MAX_HEARTS.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.cooldown", cooldown).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.absorption_chance", String.format("%.0f", absorptionChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.absorption_chance", MAUtils.formatDecimal(absorptionChance)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.holy_mantle.max_hearts", maxHearts).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

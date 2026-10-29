@@ -1,0 +1,36 @@
+{
+  "parent": "moreartifacts:obtain_ankh_charm",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:ankh_shield"
+    },
+    "title": "Ankhumulation Complete",
+    "description": "Craft the Ankh Shield",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_ankh_shield": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:ankh_shield"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ankh_shield"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
+}

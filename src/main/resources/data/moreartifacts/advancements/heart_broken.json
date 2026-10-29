@@ -1,0 +1,24 @@
+{
+  "parent": "moreartifacts:obtain_broken_heart",
+  "display": {
+    "icon": {
+      "item": "minecraft:wither_rose"
+    },
+    "title": "Near Death Experience",
+    "description": "Have your heart broken for the first time",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "heart_broken": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "heart_broken"
+    ]
+  ]
+}

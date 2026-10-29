@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_withered_bezoar",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:shulked_clock"
+    },
+    "title": "Does this thing work?",
+    "description": "Craft a Shulked Clock",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_shulked_clock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:shulked_clock"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shulked_clock"
+    ]
+  ]
+}

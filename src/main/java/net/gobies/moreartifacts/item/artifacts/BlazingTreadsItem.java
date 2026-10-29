@@ -4,6 +4,8 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -42,6 +44,7 @@ public class BlazingTreadsItem extends Item implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
             if (player.isSprinting() && player.level().isClientSide) {
+                if (!CurioHandler.isCurioVisible(player, MAItems.BlazingTreads.get())) return;
                 spawnFireParticles(player);
             }
         }

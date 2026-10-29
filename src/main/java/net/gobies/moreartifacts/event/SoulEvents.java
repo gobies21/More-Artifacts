@@ -1,28 +1,32 @@
 package net.gobies.moreartifacts.event;
 
-import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
+import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.helper.SoulType;
-import net.gobies.moreartifacts.init.MAEffects;
-import net.gobies.moreartifacts.util.LuckHelper;
-import net.gobies.moreartifacts.util.MAUtils;
-import net.gobies.moreartifacts.util.ModLoadedUtil;
-import net.gobies.moreartifacts.util.SoulUtil;
+import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.network.ManaSyncPacket;
+import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 
@@ -32,15 +36,7 @@ public class SoulEvents {
         MinecraftForge.EVENT_BUS.register(new SoulEvents());
     }
 
-    private static final UUID SHADOW_SPEED = UUID.fromString("6a4fa28a-7e3e-4d43-bc97-9e48b813b19b");
-    private static final UUID SHADOW_JUMP_HEIGHT = UUID.fromString("a79428d0-efac-47f2-8512-1cb2482f1fc4");
-    private static final UUID SHADOW_ARMOR = UUID.fromString("7f86dbdf-dc8a-4467-89fb-c3491ea9642b");
     private static final UUID SHADOW_STEALTH = UUID.fromString("0a6493b8-6ee4-436f-b2f5-b2230489cf00");
-
-    private static final UUID BLOOD_MAX_HEALTH = UUID.fromString("b223ce63-e4c2-4b95-a63c-85c166e41c81");
-    private static final UUID BLOOD_ATTACK_SPEED = UUID.fromString("39d7cfe1-2854-4609-9bb0-0ffebcb029c1");
-    private static final UUID BLOOD_ARMOR = UUID.fromString("47f4de22-72a7-42a3-b8ed-874e49747e9f");
-    private static final UUID BLOOD_ARMOR_TOUGHNESS = UUID.fromString("26a47eb3-bf85-4417-af75-287cf04f77f3");
 
     private static final Set<UUID> activeAbility = new HashSet<>();
     private static final Set<UUID> darkAreaCache = new HashSet<>();
@@ -53,20 +49,20 @@ public class SoulEvents {
 
         String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
 
-        if (SoulType.SHADOW.key.equals(activeSoul)) {
-            tickShadowSoul(player, persistentData);
-        } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-            tickBloodSoul(player, persistentData);
+        if (SoulType.ENVY.key.equals(activeSoul)) {
+            tickEnvySoul(player, persistentData);
+        } else if (SoulType.WRATH.key.equals(activeSoul)) {
+            tickWrathSoul(player, persistentData);
         }
     }
 
-    private static void tickShadowSoul(Player player, CompoundTag persistentData) {
+    private static void tickEnvySoul(Player player, CompoundTag persistentData) {
         UUID playerId = player.getUUID();
         boolean isDarkArea;
 
         if (player.tickCount % 5 == 0) {
             if (player.tickCount % 10 == 0) {
-                manageShadowAttributes(player);
+                SoulAttributes.manageEnvyAttributes(player);
             }
 
             BlockPos pos = player.blockPosition();
@@ -80,7 +76,7 @@ public class SoulEvents {
             }
 
             if (ModLoadedUtil.isBetterStealthLoaded()) {
-                updateShadowStealthModifier(player, isDarkArea);
+                updateEnvyStealthModifier(player, isDarkArea);
             }
 
             isDarkArea = darkAreaCache.contains(playerId);
@@ -110,24 +106,7 @@ public class SoulEvents {
         }
     }
 
-    private static void manageShadowAttributes(Player player) {
-        AttributeInstance speedAttr = player.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttr != null && speedAttr.getModifier(SHADOW_SPEED) == null) {
-            speedAttr.addPermanentModifier(new AttributeModifier(SHADOW_SPEED, "Shadow Speed", 0.40, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-        AttributeInstance jumpHeightAttr = player.getAttribute(ApothecaryCompat.jumpHeight());
-        if (jumpHeightAttr != null && jumpHeightAttr.getModifier(SHADOW_JUMP_HEIGHT) == null) {
-            jumpHeightAttr.addPermanentModifier(new AttributeModifier(SHADOW_JUMP_HEIGHT, "Shadow Jump Height", 0.20, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-        AttributeInstance armorAttr = player.getAttribute(Attributes.ARMOR);
-        if (armorAttr != null && armorAttr.getModifier(SHADOW_ARMOR) == null) {
-            armorAttr.addPermanentModifier(new AttributeModifier(SHADOW_ARMOR, "Shadow Armor Penalty", -0.30, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-    }
-
-    private static void updateShadowStealthModifier(Player player, boolean isDarkArea) {
+    private static void updateEnvyStealthModifier(Player player, boolean isDarkArea) {
         if (isDarkArea) {
             MAUtils.addAttributes(player, BetterStealthCompat.stealthAttribute(), 0.5, AttributeModifier.Operation.ADDITION, String.valueOf(SHADOW_STEALTH));
         } else {
@@ -135,11 +114,11 @@ public class SoulEvents {
         }
     }
 
-    private void tickBloodSoul(Player player, CompoundTag persistentData) {
+    private void tickWrathSoul(Player player, CompoundTag persistentData) {
         UUID playerId = player.getUUID();
         if (player.tickCount % 5 == 0) {
             if (player.tickCount % 10 == 0) {
-                manageBloodAttributes(player);
+                SoulAttributes.manageWrathAttributes(player);
             }
 
             if (!persistentData.contains(SoulUtil.ABILITY_TOGGLE)) {
@@ -148,45 +127,22 @@ public class SoulEvents {
 
             boolean abilityActive = persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE);
             boolean isActive = activeAbility.contains(playerId);
-            MobEffectInstance currentEffect = player.getEffect(MobEffects.REGENERATION);
+            MobEffectInstance currentEffect = player.getEffect(MobEffects.DAMAGE_BOOST);
 
             if (abilityActive) {
                 if (currentEffect == null || !isActive) {
-                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 210, 0, true, false));
                     activeAbility.add(playerId);
                 } else if (currentEffect.getDuration() <= 110) {
-                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 210, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 210, 0, true, false));
                 }
             } else if (isActive) {
                 if (currentEffect != null) {
-                    player.removeEffect(MobEffects.REGENERATION);
+                    player.removeEffect(MobEffects.DAMAGE_BOOST);
                 }
                 activeAbility.remove(playerId);
             }
             MAUtils.removeEffect(player, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
-        }
-    }
-
-
-    private static void manageBloodAttributes(Player player) {
-        AttributeInstance healthAttr = player.getAttribute(Attributes.MAX_HEALTH);
-        if (healthAttr != null && healthAttr.getModifier(BLOOD_MAX_HEALTH) == null) {
-            healthAttr.addPermanentModifier(new AttributeModifier(BLOOD_MAX_HEALTH, "Blood Max Health", 0.75, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-        AttributeInstance attackSpeedAttr = player.getAttribute(Attributes.ATTACK_SPEED);
-        if (attackSpeedAttr != null && attackSpeedAttr.getModifier(BLOOD_ATTACK_SPEED) == null) {
-            attackSpeedAttr.addPermanentModifier(new AttributeModifier(BLOOD_ATTACK_SPEED, "Blood Attack Speed", 0.30, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-        AttributeInstance armorAttr = player.getAttribute(Attributes.ARMOR);
-        if (armorAttr != null && armorAttr.getModifier(BLOOD_ARMOR) == null) {
-            armorAttr.addPermanentModifier(new AttributeModifier(BLOOD_ARMOR, "Blood Armor Penalty", -0.50, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-        AttributeInstance armorToughnessAttr = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
-        if (armorToughnessAttr != null && armorToughnessAttr.getModifier(BLOOD_ARMOR_TOUGHNESS) == null) {
-            armorToughnessAttr.addPermanentModifier(new AttributeModifier(BLOOD_ARMOR_TOUGHNESS, "Blood Armor Toughness Penalty", -0.25, AttributeModifier.Operation.MULTIPLY_BASE));
         }
     }
 
@@ -195,10 +151,10 @@ public class SoulEvents {
         if (event.getEntity() instanceof Player player) {
             CompoundTag persistentData = player.getPersistentData();
             String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
-            if (SoulType.SHADOW.key.equals(activeSoul)) {
+            if (SoulType.ENVY.key.equals(activeSoul)) {
                 MAUtils.makeEffectImmune(event, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.DARKNESS);
-            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-                MAUtils.makeEffectImmune(event, MobEffects.POISON, MobEffects.WITHER, MobEffects.DIG_SLOWDOWN);
+            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+                MAUtils.makeEffectImmune(event, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN);
             }
         }
     }
@@ -214,29 +170,14 @@ public class SoulEvents {
 
             if (SoulUtil.getSoulStage(soul) == 4) {
                 if (LuckHelper.roll(player, 0.25, 0.01)) {
-                    applyBloodRage(player);
+                    SoulUtil.applySinful(player, 110, 4);
                 }
-            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
+            } else if (SoulType.WRATH.key.equals(activeSoul)) {
                 if (LuckHelper.roll(player, 0.50, 0.01)) {
-                    applyBloodRage(player);
+                    SoulUtil.applySinful(player, 110, 5);
                 }
             }
         }
-    }
-
-    private static void applyBloodRage(Player player) {
-        MobEffectInstance activeEffect = player.getEffect(MAEffects.BloodRage.get());
-        int amplifier = 0;
-
-        if (activeEffect != null) {
-            amplifier = activeEffect.getAmplifier();
-
-            if (amplifier < (5 - 1)) {
-                amplifier++;
-            }
-        }
-
-        player.addEffect(new MobEffectInstance(MAEffects.BloodRage.get(), 100, amplifier, false, true, true));
     }
 
     @SubscribeEvent
@@ -252,11 +193,142 @@ public class SoulEvents {
         if (!activeSoul.isEmpty()) {
             newData.putString(SoulUtil.SOUL_KEY, activeSoul);
 
-            if (SoulType.SHADOW.key.equals(activeSoul)) {
+            if (SoulType.ENVY.key.equals(activeSoul)) {
                 newData.putBoolean(SoulUtil.ABILITY_TOGGLE, oldData.getBoolean(SoulUtil.ABILITY_TOGGLE));
-                manageShadowAttributes(newPlayer);
-            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-                manageBloodAttributes(newPlayer);
+                SoulAttributes.manageEnvyAttributes(newPlayer);
+                if (event.isWasDeath()) {
+                    float maxMana = ManaUtil.getMana(newPlayer);
+                    ManaUtil.setMana(newPlayer, maxMana);
+                }
+            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+                SoulAttributes.manageWrathAttributes(newPlayer);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLoggedIn(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            float currentMana = ManaUtil.getMana(serverPlayer);
+            PacketHandler.sendToClient(new ManaSyncPacket(currentMana), serverPlayer);
+        }
+    }
+
+    private boolean isConverted = false;
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onLivingHurt(LivingHurtEvent event) {
+        if (isConverted) return;
+
+        if (event.getSource().getEntity() instanceof Player player && !event.getSource().is(DamageTypes.MAGIC)) {
+            if (event.getSource().getDirectEntity() != player) return;
+
+            float ringConversionRate = 0f;
+            float soulConversionRate = 0f;
+
+            if (CurioHandler.isCurioEquipped(player, MAItems.EnvyRing.get())) {
+                if (LuckHelper.roll(player, 0.25, 0.025)) {
+                    ringConversionRate = 1.0f;
+                }
+            }
+
+            if (CurioHandler.isCurioEquipped(player, MAItems.EnvySoul.get())) {
+                ItemStack stack = CurioHandler.getEquippedCurio(player, MAItems.EnvySoul.get());
+                int stage = SoulUtil.getSoulStage(stack);
+                if (stage >= 1 && stage <= 4) {
+                    soulConversionRate = stage * CommonConfig.ENVY_MAGIC_DAMAGE_CONVERSION.get().floatValue();
+                }
+            } else {
+                String activeSoul = player.getPersistentData().getString(SoulUtil.SOUL_KEY);
+                if (SoulType.ENVY.key.equals(activeSoul)) {
+                    soulConversionRate = 5 * CommonConfig.ENVY_MAGIC_DAMAGE_CONVERSION.get().floatValue();
+                }
+            }
+
+            float conversionRate = Math.max(ringConversionRate, soulConversionRate);
+
+            if (conversionRate > 0f) {
+                float magicDamage = event.getAmount() * conversionRate;
+                float physicalDamage = event.getAmount() - magicDamage;
+                event.setAmount(physicalDamage);
+
+                var magicSource = event.getEntity().level().damageSources().indirectMagic(player, player);
+                LivingHurtEvent magicEvent = new LivingHurtEvent(event.getEntity(), magicSource, magicDamage);
+
+                isConverted = true;
+                MinecraftForge.EVENT_BUS.post(magicEvent);
+                isConverted = false;
+
+                if (!magicEvent.isCanceled()) {
+                    event.setAmount(physicalDamage + magicEvent.getAmount());
+                }
+
+                if (CurioHandler.isCurioEquipped(player, MAItems.EnvyRing.get())) {
+                    SoulUtil.applySinful(player, 210, 2);
+                }
+            }
+        }
+    }
+
+    private static final float REGEN_RATE = 0.05f;
+
+    @SubscribeEvent
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide() || event.player.isDeadOrDying())
+            return;
+
+        Player player = event.player;
+        if (player.isCreative() || player.isSpectator()) return;
+
+        float currentMana = ManaUtil.getMana(player);
+        float flightCost;
+        if (ModLoadedUtil.isIronsSpellbooksLoaded() && CommonConfig.IRONS_SPELLBOOKS_MANA_COMPAT.get()) {
+            var maxManaAttr = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("irons_spellbooks", "max_mana"));
+
+            float maxMana = ManaUtil.DEFAULT_MAX_MANA;
+            if (maxManaAttr != null && player.getAttribute(maxManaAttr) != null) {
+                maxMana = (float) player.getAttributeValue(maxManaAttr);
+            }
+
+            float flightTime = CommonConfig.ENVY_SPELLBOOKS_FLIGHT_TIME.get().floatValue(); // Seconds
+            float manaCost = CommonConfig.ENVY_FLIGHT_MANA_COST.get().floatValue();
+            float offset = manaCost * 0.05f;
+
+            flightCost = (maxMana / (flightTime * 20.0f)) + offset;
+        } else {
+            float manaCost = CommonConfig.ENVY_FLIGHT_MANA_COST.get().floatValue();
+            flightCost = manaCost * 0.05f;
+        }
+
+        String activeSoul = player.getPersistentData().getString(SoulUtil.SOUL_KEY);
+        boolean canFly = SoulType.ENVY.key.equals(activeSoul);
+        float startCost;
+        if (!ModLoadedUtil.isIronsSpellbooksLoaded() || !CommonConfig.IRONS_SPELLBOOKS_MANA_COMPAT.get()) {
+            startCost = CommonConfig.ENVY_START_COST.get().floatValue();
+        } else {
+            startCost = CommonConfig.ENVY_SPELLBOOKS_START_COST.get().floatValue();
+        }
+        float requiredMana = player.getAbilities().flying ? flightCost : startCost;
+
+        if (canFly && currentMana >= requiredMana) {
+            if (!player.getAbilities().mayfly) {
+                player.getAbilities().mayfly = true;
+                player.onUpdateAbilities();
+            }
+            if (player.getAbilities().flying) {
+                ManaUtil.setMana(player, currentMana - flightCost);
+            }
+        } else {
+            if (player.getAbilities().mayfly) {
+                player.getAbilities().flying = false;
+                player.getAbilities().mayfly = false;
+                player.onUpdateAbilities();
+            }
+        }
+
+        if (!ModLoadedUtil.isIronsSpellbooksLoaded() || !CommonConfig.IRONS_SPELLBOOKS_MANA_COMPAT.get()) {
+            if (!player.getAbilities().flying && currentMana < ManaUtil.DEFAULT_MAX_MANA) {
+                ManaUtil.setMana(player, ManaUtil.getMana(player) + REGEN_RATE);
             }
         }
     }

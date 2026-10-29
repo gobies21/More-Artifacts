@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -56,8 +57,8 @@ public class GildedScarfItem extends Item implements ICurioItem {
         if (!ModLoadedUtil.isApothecaryLoaded()) {
             double damageTaken = CommonConfig.GILDED_DAMAGE_REDUCTION.get() * 100;
             double damageDealt = (CommonConfig.GILDED_DAMAGE_DEALT.get() - 1) * 100;
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", String.format("%.0f", damageTaken)).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", String.format("%.0f", damageDealt)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_taken", MAUtils.formatDecimal(damageTaken)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.gilded_scarf.damage_dealt", MAUtils.formatDecimal(damageDealt)).withStyle(ChatFormatting.BLUE));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

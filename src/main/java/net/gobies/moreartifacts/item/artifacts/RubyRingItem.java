@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -30,8 +31,8 @@ public class RubyRingItem extends Item implements ICurioItem {
         double damageIncrease = CommonConfig.RUBY_RING_DAMAGE_INCREASE.get() * 100;
         double healthThreshold = CommonConfig.RUBY_RING_HEALTH_THRESHOLD.get();
         double healthCap = CommonConfig.RUBY_RING_HEALTH_CAP.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.damage", String.format("%.0f", damageIncrease), String.format("%.0f", healthThreshold)).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.cap", String.format("%.0f", healthCap)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.damage", MAUtils.formatDecimal(damageIncrease), MAUtils.formatDecimal(healthThreshold)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ruby_ring.cap", MAUtils.formatDecimal(healthCap)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

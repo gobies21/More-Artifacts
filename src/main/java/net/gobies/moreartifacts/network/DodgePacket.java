@@ -9,14 +9,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
-public record DodgePacket(int direction) {
+public record DodgePacket(DodgeProperties.DodgeDirection direction) {
 
     public static void encode(DodgePacket msg, FriendlyByteBuf buffer) {
-        buffer.writeInt(msg.direction);
+        buffer.writeEnum(msg.direction);
     }
 
     public static DodgePacket decode(FriendlyByteBuf buffer) {
-        return new DodgePacket(buffer.readInt());
+        return new DodgePacket(buffer.readEnum(DodgeProperties.DodgeDirection.class));
     }
 
     public static void handle(DodgePacket msg, Supplier<NetworkEvent.Context> ctx) {

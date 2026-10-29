@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_mechanical_glove",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:mechanical_claw"
+    },
+    "title": "Blood, Sweat, and Gears",
+    "description": "Upgrade a Mechanical Glove into a Mechanical Claw",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_mechanical_claw": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:mechanical_claw"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_mechanical_claw"
+    ]
+  ]
+}

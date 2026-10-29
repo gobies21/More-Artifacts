@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aca",
+    "dbd",
+    "aea"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:shadow_diamond"
+    },
+    "b": {
+      "item": "moreartifacts:wrath_ring"
+    },
+    "c": {
+      "item": "minecraft:nether_star"
+    },
+    "d": {
+      "item": "minecraft:magma_cream"
+    },
+    "e": {
+      "item": "minecraft:blaze_powder"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:wrath_soul",
+    "count": 1
+  }
+}

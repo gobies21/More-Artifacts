@@ -5,11 +5,12 @@
     "moreartifacts:obsidian_shield",
     "moreartifacts:ankh_shield",
     "moreartifacts:hero_shield",
+    "moreartifacts:shadow_aegis",
     "moreartifacts:tainted_mirror",
     "moreartifacts:frosted_shield",
     "moreartifacts:natures_mantle",
     "moreartifacts:broken_heart",
-    "moreartifacts:shadow_soul",
-    "moreartifacts:blood_soul"
+    "moreartifacts:envy_soul",
+    "moreartifacts:wrath_soul"
   ]
 }

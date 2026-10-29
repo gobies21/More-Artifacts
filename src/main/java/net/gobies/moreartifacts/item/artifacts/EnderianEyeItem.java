@@ -2,6 +2,7 @@ package net.gobies.moreartifacts.item.artifacts;
 
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -55,7 +56,7 @@ public class EnderianEyeItem extends Item implements ICurioItem {
         int radius = CommonConfig.ENDERIAN_EYE_RADIUS.get();
         double cooldown = CommonConfig.ENDERIAN_EYE_COOLDOWN.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.teleport").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.radius.cooldown", radius, String.format("%.0f", cooldown)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_eye.radius.cooldown", radius, MAUtils.formatDecimal(cooldown)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.press").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.EYE_TELEPORT_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.teleport").withStyle(ChatFormatting.WHITE)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

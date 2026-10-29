@@ -105,6 +105,12 @@ public class MALootTables {
             if (!CommonConfig.isItemDisabled(MAItems.NaturesMantle.get())) {
                 LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
             }
+            if (!CommonConfig.isItemDisabled(MAItems.BrokenHeart.get())) {
+                LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.BrokenHeart.get(), 1, 1, 0.05F);
+            }
+
+            LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.ShadowDust.get(), 1, 3, 0.10F);
+            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ShadowDust.get(), 2, 5, 0.05F);
 
             LootTableHandler.addLoot(event, "chests/ruined_portal", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
             LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
@@ -183,7 +189,7 @@ public class MALootTables {
                 List<VillagerTrades.ItemListing> trades = event.getTrades().get(5);
 
                 trades.add((entity, random) -> {
-                    if (random.nextFloat() < 0.40) {
+                    if (random.nextFloat() < CommonConfig.STEALTH_MANUAL_TRADE_CHANCE.get()) {
                         return new MerchantOffer(
                                 new ItemStack(Items.EMERALD, 30),
                                 new ItemStack(MAItems.StealthManual.get(), 1),

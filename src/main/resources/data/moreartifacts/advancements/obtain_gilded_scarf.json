@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_enderian_scarf",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:gilded_scarf"
+    },
+    "title": "The Midas Scarf",
+    "description": "Upgrade an Enderian Scarf into a Gilded Scarf",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_gilded_scarf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:gilded_scarf"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gilded_scarf"
+    ]
+  ]
+}

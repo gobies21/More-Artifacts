@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_magic_quiver",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:frozen_quiver"
+    },
+    "title": "Cold Shot",
+    "description": "Upgrade a Magic Quiver into a Frozen Quiver",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_frozen_quiver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:frozen_quiver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_frozen_quiver"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_mechanical_glove",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:frost_gauntlet"
+    },
+    "title": "Iced Out",
+    "description": "Upgrade a Mechanical Glove into a Frost Gauntlet",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_frost_gauntlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:frost_gauntlet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_frost_gauntlet"
+    ]
+  ]
+}

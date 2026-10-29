@@ -82,6 +82,21 @@ public class FirstAidCompat {
                 }
             }
         }
+        if (CommonConfig.SHADOW_AEGIS_FIRST_AID_COMPAT.get() && CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
+            if (headAfter != null && headBefore != null && headAfter.currentHealth < headBefore.currentHealth) {
+                if (LuckHelper.roll(player, CommonConfig.SHADOW_AEGIS_FIRST_AID_IGNORE_CHANCE.get(), 0.02)) {
+                    headAfter.currentHealth = headBefore.currentHealth;
+                    headAfter.loadDebuffInfo(new IDebuff[0]);
+                    event.setCanceled(true);
+
+                    MessageUpdatePart updatePacket = new MessageUpdatePart(headAfter);
+                    FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);
+
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.6F);
+                    return;
+                }
+            }
+        }
         // Totem check, will try to make it more global in the future
         if (player.getMainHandItem().is(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().is(Items.TOTEM_OF_UNDYING)) return;
         if (CurioHandler.isCurioEquipped(serverPlayer, MAItems.BrokenHeart.get())) {
@@ -145,7 +160,6 @@ public class FirstAidCompat {
                             attribute.setBaseValue(attribute.getBaseValue());
                         }
                     }
-                    CommonUtils.healPlayerByPercentage(1.0, damageModel, serverPlayer);
                     for (AbstractDamageablePart part : damageModel) {
                         MessageUpdatePart updatePacket = new MessageUpdatePart(part);
                         FirstAid.NETWORKING.send(PacketDistributor.PLAYER.with(() -> serverPlayer), updatePacket);

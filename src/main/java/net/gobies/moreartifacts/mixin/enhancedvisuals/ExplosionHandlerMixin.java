@@ -24,5 +24,8 @@ public class ExplosionHandlerMixin {
         if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get()) && CommonConfig.HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get()) {
             ci.cancel();
         }
+        if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get()) && CommonConfig.SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT.get()) {
+            ci.cancel();
+        }
     }
 }

@@ -42,7 +42,7 @@ public class MechanicalClawRenderer implements ICurioRenderer {
             poseStack.translate(0.075, 0.0, 0.0);
         }
         arm.translateAndRotate(poseStack);
-        VertexConsumer buffer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, stack.hasFoil());
+        VertexConsumer buffer = ItemRenderer.getFoilBuffer(bufferSource, RenderType.entityCutout(TEXTURE), false, false);
         this.model.mechanical_claw.render(poseStack, buffer, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
         poseStack.popPose();
     }

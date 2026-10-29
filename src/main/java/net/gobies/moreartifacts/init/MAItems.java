@@ -2,18 +2,16 @@ package net.gobies.moreartifacts.init;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.item.artifacts.*;
+import net.gobies.moreartifacts.item.materials.*;
 import net.gobies.moreartifacts.item.misc.*;
-import net.gobies.moreartifacts.item.materials.ArtifactSmithingTemplateItem;
-import net.gobies.moreartifacts.item.materials.ShadowDustItem;
-import net.gobies.moreartifacts.item.souls.BloodSoulItem;
-import net.gobies.moreartifacts.item.souls.ShadowSoulItem;
+import net.gobies.moreartifacts.item.souls.*;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MAItems {
@@ -85,17 +83,23 @@ public class MAItems {
     public static final RegistryObject<Item> GraveScroll;
     public static final RegistryObject<Item> PhantomThread;
     public static final RegistryObject<Item> ShadowDust;
+    public static final RegistryObject<Item> ShadowDiamond;
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
     public static final RegistryObject<Item> StealthManual;
     public static final RegistryObject<Item> CursedDoll;
+    public static final RegistryObject<Item> ShadowAegis;
     public static final RegistryObject<Item> GuardianThornNecklace;
     public static final RegistryObject<Item> HolyMantle;
 
     public static final RegistryObject<Item> BrokenHeart;
 
-    public static final RegistryObject<Item> ShadowSoul;
-    public static final RegistryObject<Item> BloodSoul;
+    public static final RegistryObject<Item> SinRing;
+    public static final RegistryObject<Item> EnvyRing;
+    public static final RegistryObject<Item> WrathRing;
+
+    public static final RegistryObject<Item> EnvySoul;
+    public static final RegistryObject<Item> WrathSoul;
 
     public static final RegistryObject<Item> Necklace;
 
@@ -166,35 +170,38 @@ public class MAItems {
         MechanicalGears = ARTIFACTS.register("mechanical_gears", () -> new MechanicalGearsItem(new Item.Properties()));
         HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
         DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
-
         StealthManual = ARTIFACTS.register("stealth_manual", () -> new StealthManualItem(new Item.Properties()));
         CursedDoll = ARTIFACTS.register("cursed_doll", () -> new CursedDollItem(new Item.Properties()));
+        ShadowAegis = ARTIFACTS.register("shadow_aegis", () -> new ShadowAegisItem(new Item.Properties()));
         GuardianThornNecklace = ARTIFACTS.register("guardian_thorn_necklace", () -> new GuardianThornNecklaceItem(new Item.Properties()));
         HolyMantle = ARTIFACTS.register("holy_mantle", () -> new HolyMantleItem(new Item.Properties()));
         BrokenHeart = ARTIFACTS.register("broken_heart", () -> new BrokenHeartItem(new Item.Properties()));
-        ShadowSoul = ARTIFACTS.register("shadow_soul", () -> new ShadowSoulItem(new Item.Properties()));
-        BloodSoul = ARTIFACTS.register("blood_soul", () -> new BloodSoulItem(new Item.Properties()));
+        SinRing = ARTIFACTS.register("sin_ring", () -> new SinRingItem(new Item.Properties()));
+        EnvyRing = ARTIFACTS.register("envy_ring", () -> new EnvyRingItem(new Item.Properties()));
+        WrathRing = ARTIFACTS.register("wrath_ring", () -> new WrathRingItem(new Item.Properties()));
+
+        EnvySoul = ARTIFACTS.register("envy_soul", () -> new EnvySoulItem(new Item.Properties()));
+        WrathSoul = ARTIFACTS.register("wrath_soul", () -> new WrathSoulItem(new Item.Properties()));
 
         Necklace = ARTIFACTS.register("necklace", () -> new NecklaceItem(new Item.Properties()));
-
         RecallPotion = ARTIFACTS.register("recall_potion", () -> new RecallPotionItem(new Item.Properties()));
         WormholePotion = ARTIFACTS.register("wormhole_potion", () -> new WormholePotionItem(new Item.Properties()));
         SoulElixir = ARTIFACTS.register("soul_elixir", () -> new SoulElixirItem(new Item.Properties()));
         GraveScroll = ARTIFACTS.register("grave_scroll", () -> new GraveScrollItem(new Item.Properties()));
         PhantomThread = ARTIFACTS.register("phantom_thread", () -> new PhantomThreadItem(new Item.Properties()));
         ShadowDust = ARTIFACTS.register("shadow_dust", () -> new ShadowDustItem(new Item.Properties()));
+        ShadowDiamond = ARTIFACTS.register("shadow_diamond", () -> new ShadowDiamondItem(new Item.Properties()));
         ArtifactSmithingTemplate = ARTIFACTS.register("artifact_upgrade_smithing_template", () -> new ArtifactSmithingTemplateItem(new Item.Properties()));
 
     }
 
+    private static List<RegistryObject<Item>> artifactHolder;
+
     public static List<RegistryObject<Item>> getAllArtifacts() {
-        return Arrays.asList(
-                Bezoar, Vitamins, FastClock, Sunglasses, Nectar, DesertCharm, ShulkerHeart, WitherShard, SculkLens, IceCrystal, CobaltShield, WitheredBezoar,
-                SculkShades, ShulkedClock, PurificationCharm, ObsidianSkull, ObsidianShield, AnkhCharm, AnkhShield, MelodyPlushie, HeroShield, MechanicalGlove,
-                EnderianScarf, TrueEnderianScarf, GildedScarf, Balloon, LuckyEmeraldRing, SpectreAmulet, VenomAmulet, DecayAmulet, NecroplasmAmulet,
-                Shackle, MagicQuiver, EnvenomedQuiver, MoltenQuiver, WoodenHeadgear, GoldenHeadgear, NetheriteHeadgear, EnderianEye, EnderDragonClaw,
-                MechanicalClaw, EchoGlove, VenomStone, DecayStone, FireStone, IceStone, RubyRing, TaintedMirror, NaturesMantle, VanirMask, LeatherTreads,
-                DuneTreads, BlazingTreads, EnderianTreads, SculkTreads, MechanicalGears, HighJumpers, DragonEye, FrozenQuiver, FrostedShield, FrostGauntlet,
-                StealthManual, CursedDoll, GuardianThornNecklace, HolyMantle, BrokenHeart, Necklace, RecallPotion, WormholePotion, SoulElixir, GraveScroll, PhantomThread);
+        if (artifactHolder == null) {
+            artifactHolder = new ArrayList<>();
+            artifactHolder.addAll(ARTIFACTS.getEntries());
+        }
+        return artifactHolder;
     }
 }

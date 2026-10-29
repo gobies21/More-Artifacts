@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    "b b",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:shadow_dust"
+    },
+    "b": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:sin_ring",
+    "count": 1
+  }
+}

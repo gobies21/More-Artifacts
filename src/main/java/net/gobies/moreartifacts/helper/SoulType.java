@@ -1,9 +1,8 @@
 package net.gobies.moreartifacts.helper;
 
 public enum SoulType {
-    SHADOW("Shadow"),
-    BLOOD("Blood"),
-    MATRIX("Matrix"),
+    ENVY("Envy"),
+    WRATH("Wrath"),
     UNKNOWN("Unknown");
 
     SoulType(String key) {

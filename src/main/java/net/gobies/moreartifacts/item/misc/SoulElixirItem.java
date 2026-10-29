@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.item.misc;
 
+import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.gobies.moreartifacts.util.SoulUtil;
@@ -65,10 +66,10 @@ public class SoulElixirItem extends Item {
 
             persistentData.remove(SoulUtil.SOUL_KEY);
 
-            if (SoulType.SHADOW.key.equals(activeSoul)) {
-                SoulUtil.removeShadowAttributes(serverPlayer);
-            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-                SoulUtil.removeBloodAttributes(serverPlayer);
+            if (SoulType.ENVY.key.equals(activeSoul)) {
+                SoulAttributes.removeEnvyAttributes(serverPlayer);
+            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+                SoulAttributes.removeWrathAttributes(serverPlayer);
             }
             SoulSyncHelper.syncSouls(serverPlayer);
             serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.5F, 0.8F);

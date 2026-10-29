@@ -1,12 +1,10 @@
 package net.gobies.moreartifacts.item.artifacts;
 
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
-import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.compat.iceandfire2.IceandFire2Compat;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,8 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -37,8 +33,6 @@ public class DragonEyeItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
-    private static final UUID HEAT_RESISTANCE = UUID.fromString("160bf2bf-f77e-4a63-838d-a976cb07440f");
-    private static final UUID COLD_RESISTANCE = UUID.fromString("eb11e816-ab14-4cef-a928-2929e3a2a081");
     private static final Map<UUID, Map<MobEffect, ItemStack>> appliedNightVision = new HashMap<>();
 
     @Override
@@ -48,28 +42,32 @@ public class DragonEyeItem extends Item implements ICurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
+        if (slotContext.entity().level().isClientSide()) return;
+
         if (slotContext.entity() instanceof Player player) {
             UUID playerId = player.getUUID();
             appliedNightVision.putIfAbsent(playerId, new HashMap<>());
             Map<MobEffect, ItemStack> effectMap = appliedNightVision.get(playerId);
 
             CompoundTag tag = stack.getOrCreateTag();
+
             boolean keyPressed = enabled(stack);
 
             if (tag.getBoolean("NightVision") != keyPressed) {
                 tag.putBoolean("NightVision", keyPressed);
             }
 
-            boolean nightVision = tag.getBoolean("NightVision");
-            MobEffectInstance effect = player.getEffect(MobEffects.NIGHT_VISION);
+            boolean abilityActive = tag.getBoolean("NightVision");
 
+            MobEffectInstance effect = player.getEffect(MobEffects.NIGHT_VISION);
             ItemStack source = effectMap.get(MobEffects.NIGHT_VISION);
-            if (nightVision) {
+
+            if (abilityActive) {
                 if (effect == null || source == null || !ItemStack.isSameItemSameTags(source, stack)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 410, 0, true, false));
                     effectMap.put(MobEffects.NIGHT_VISION, stack);
-                } else if (effect.getDuration() <= 210) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
+                } else if (effect.getDuration() <= 310) {
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 410, 0, true, false));
                 }
             } else {
                 if (effect != null && source != null && ItemStack.isSameItemSameTags(source, stack)) {
@@ -108,11 +106,10 @@ public class DragonEyeItem extends Item implements ICurioItem {
 
             if (nightVision) {
                 if (currentSource == null || !ItemStack.isSameItemSameTags(currentSource, stack) || !player.hasEffect(MobEffects.NIGHT_VISION)) {
-                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 210, 0, true, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 410, 0, true, false));
                     effectMap.put(MobEffects.NIGHT_VISION, stack);
                 }
             } else {
-                // Remove effect if toggled off
                 if (currentSource != null && ItemStack.isSameItemSameTags(currentSource, stack) && player.hasEffect(MobEffects.NIGHT_VISION)) {
                     player.removeEffect(MobEffects.NIGHT_VISION);
                     effectMap.remove(MobEffects.NIGHT_VISION);
@@ -139,20 +136,6 @@ public class DragonEyeItem extends Item implements ICurioItem {
                 IceandFire2Compat.removeEffects(player, stack);
             }
         }
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
-        if (ModLoadedUtil.isColdSweatLoaded()) {
-            if (isFireDragonEye(stack)) {
-                modifiers.put(ColdSweatCompat.heatToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(HEAT_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
-            }
-            if (isIceDragonEye(stack)) {
-                modifiers.put(ColdSweatCompat.coldToleranceAttribute(), new AttributeModifier(uuid, String.valueOf(COLD_RESISTANCE), 1.0, AttributeModifier.Operation.ADDITION));
-            }
-        }
-        return modifiers;
     }
 
     public static boolean isFireDragonEye(ItemStack stack) {
@@ -235,21 +218,40 @@ public class DragonEyeItem extends Item implements ICurioItem {
         tooltip.add(Component.translatable("tooltip.moreartifacts.dragon_eye").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.DRAGON_EYE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
         if (isFireDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.fire_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
+            if (ModLoadedUtil.isColdSweatLoaded()) {
+                tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+                if (Screen.hasControlDown()) {
+                    tooltip.remove(3);
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hyperthermia.cold_sweat").withStyle(ChatFormatting.GRAY));
+                }
+            }
         } else if (isIceDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.ice_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
+            if (ModLoadedUtil.isColdSweatLoaded()) {
+                tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+                if (Screen.hasControlDown()) {
+                    tooltip.remove(3);
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hypothermia.cold_sweat").withStyle(ChatFormatting.GRAY));
+                }
+            }
         } else if (isLightningDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.lightning_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
         } else {
             double summonChance = CommonConfig.ENDER_DRAGON_EYE_SUMMON_CHANCE.get() * 100;
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
-            tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.summon_enderman", String.format("%.0f", summonChance)).withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.summon_enderman", MAUtils.formatDecimal(summonChance)).withStyle(ChatFormatting.BLUE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.strong_endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.visibility").withStyle(ChatFormatting.LIGHT_PURPLE));
-            if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
+            if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get() || ModLoadedUtil.isColdSweatLoaded()) {
                 tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 if (Screen.hasControlDown()) {
                     tooltip.remove(6);
-                    tooltip.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
+                    if (ModLoadedUtil.isColdSweatLoaded()) {
+                        tooltip.add(Component.translatable("tooltip.moreartifacts.hypothermia.cold_sweat").withStyle(ChatFormatting.GRAY));
+                    }
+                    if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
+                        tooltip.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
+                    }
                 }
             }
         }

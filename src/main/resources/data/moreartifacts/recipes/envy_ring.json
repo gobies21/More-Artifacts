@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "c",
+    "b",
+    "a"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:shadow_diamond"
+    },
+    "b": {
+      "item": "moreartifacts:sin_ring"
+    },
+    "c": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:envy_ring",
+    "count": 1
+  }
+}

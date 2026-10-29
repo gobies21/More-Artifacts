@@ -18,13 +18,20 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
         this(distance, lift, cooldown, false);
     }
 
+    public enum DodgeDirection {
+        FORWARD,
+        LEFT,
+        RIGHT,
+        BACKWARD
+    }
+
     // Functionality and util methods of dodge mechanics
     public static String DODGE_COOLDOWN = "dodge_cooldown";
 
     public static DodgeProperties getDodgeProperties(Item item) {
-        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.25, 2.0);
-        if (item == MAItems.HighJumpers.get()) return new DodgeProperties(1.2, 0.5, 2.0);
-        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.25, 2.0);
+        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.25, 3.0);
+        if (item == MAItems.HighJumpers.get()) return new DodgeProperties(1.2, 0.5, 3.0);
+        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.25, 2.5);
         if (item == MAItems.SculkTreads.get()) return new DodgeProperties(1.5, 0.25, 2.0);
         if (item == MAItems.EnderianTreads.get()) return new DodgeProperties(1.5, 0.0, CommonConfig.ENDERIAN_TREADS_COOLDOWN.get(), true);
         return null;
@@ -63,8 +70,10 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
         }
 
         if (CurioHandler.isCurioEquipped(entity, MAItems.StealthManual.get())) {
-            distance *= 1.20;
+            distance *= CommonConfig.STEALTH_MANUAL_DODGE_DISTANCE.get();
         }
+
+        distance = Math.ceil(distance * 10) / 10.0;
         return Math.max(0.2, distance);
     }
 
@@ -87,14 +96,15 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
         return properties != null && properties.blink;
     }
 
-    public static void executeDodge(ServerPlayer player, int direction, double distance, double lift, boolean blink) {
+    public static void executeDodge(ServerPlayer player, DodgeDirection direction, double distance, double lift, boolean blink) {
         player.invulnerableTime += getInvulnerableFrames(player);
         float finalYaw = player.getYRot();
         if (player.isPassenger()) return;
         switch (direction) {
-            case 1 -> finalYaw -= 90.0F;  // Left
-            case 2 -> finalYaw += 180.0F; // Backward
-            case 3 -> finalYaw += 90.0F;  // Right
+            case FORWARD  -> {}
+            case LEFT -> finalYaw -= 90.0F;  // Left
+            case RIGHT -> finalYaw += 90.0F;  // Right
+            case BACKWARD -> finalYaw += 180.0F; // Backward
         }
 
         double radians = Math.toRadians(finalYaw);
@@ -168,6 +178,8 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
 
             player.setDeltaMovement(newVelocity);
             player.hurtMarked = true;
+
         }
+        MAUtils.logDebug("Dodge triggered for " + player.getName().getString() + " {Direction: " + direction + ", Distance: " + distance + ", Lift: " + lift + "}");
     }
 }

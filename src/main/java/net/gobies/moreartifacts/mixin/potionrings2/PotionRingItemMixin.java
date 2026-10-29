@@ -1,29 +1,26 @@
 package net.gobies.moreartifacts.mixin.potionrings2;
 
+import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.potionrings2.PRConfig;
 import net.gobies.potionrings2.init.PRItems;
 import net.gobies.potionrings2.item.potionrings.PotionRingItem;
+import net.gobies.potionrings2.util.RingHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
-
-import java.util.stream.IntStream;
 
 @Mixin(PotionRingItem.class)
 public class PotionRingItemMixin {
@@ -40,39 +37,34 @@ public class PotionRingItemMixin {
             String effectIdString = nbt.getString("Effect");
             ResourceLocation effectId = new ResourceLocation(effectIdString);
             MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(effectId);
-            int maxLevel = PRConfig.LEVEL.get() - 1;
             if (effect != null) {
-                if (effect == MobEffects.DAMAGE_RESISTANCE) {
-                    int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.HeroShield.get(), effectIdString);
-                    int effectLevel = Math.min(ringCount - 1, maxLevel);
-                    MobEffectInstance mobEffect = entity.getEffect(effect);
-                    if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {
-                        entity.addEffect(new MobEffectInstance(effect, 210, effectLevel, true, false));
+                int ringCount = RingHandler.getEquippedRingCount(entity, PRItems.PotionRing.get(), effectIdString);
+                int maxLevel = PRConfig.LEVEL.get() - 1;
+                int effectLevel = ringCount - 1;
+
+                if (entity instanceof Player player) {
+                    if (effect == MobEffects.DAMAGE_RESISTANCE) {
+                        if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+                            effectLevel += CommonConfig.HERO_SHIELD_RES_LEVEL.get();
+                        }
+                        if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
+                            effectLevel += CommonConfig.SHADOW_AEGIS_RES_LEVEL.get();
+                        }
                     }
-                } else if (effect == MobEffects.REGENERATION) {
-                    int ringCount = moreArtifacts$getEquippedRingCount(entity, PRItems.PotionRing.get(), MAItems.MelodyPlushie.get(), effectIdString);
-                    int effectLevel = Math.min(ringCount - 1, maxLevel);
-                    MobEffectInstance mobEffect = entity.getEffect(effect);
-                    if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {
-                        entity.addEffect(new MobEffectInstance(effect, 210, effectLevel, true, false));
-                    }
+
+                    if (effect == MobEffects.REGENERATION) {
+                        if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
+                            effectLevel += CommonConfig.PLUSHIE_REGEN_LEVEL.get();
+                        }
+                    }   
+                }
+
+                effectLevel = Math.min(effectLevel, maxLevel);
+                MobEffectInstance mobEffect = entity.getEffect(effect);
+                if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {
+                    entity.addEffect(new MobEffectInstance(effect, 210, effectLevel, true, false));
                 }
             }
         }
-    }
-
-    @Unique
-    private static int moreArtifacts$getEquippedRingCount(LivingEntity entity, @NotNull Item targetItem, @Nullable Item optionalItem, String effectIdString) {
-        return CuriosApi.getCuriosInventory(entity).resolve().map(handler -> (int) handler.getCurios().values().stream()
-                .flatMap(curio -> {
-                    int slots = curio.getSlots();
-                    return IntStream.range(0, slots).mapToObj(slotIndex -> curio.getStacks().getStackInSlot(slotIndex));
-                }).filter(itemStack -> {
-                    Item stackItem = itemStack.getItem();
-                    if (stackItem == targetItem && itemStack.getTag() != null) {
-                        return itemStack.hasTag() && effectIdString.equals(itemStack.getTag().getString("Effect"));
-                    }
-                    return optionalItem != null && stackItem == optionalItem;
-                }).count()).orElse(0);
     }
 }

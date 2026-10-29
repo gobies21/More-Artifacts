@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "moreartifacts:lucky_emerald_ring",
-    "moreartifacts:ruby_ring"
+    "moreartifacts:ruby_ring",
+    "moreartifacts:sin_ring",
+    "moreartifacts:envy_ring",
+    "moreartifacts:wrath_ring"
   ]
 }

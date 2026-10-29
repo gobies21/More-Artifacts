@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aca",
+    "dbd",
+    "aca"
+  ],
+  "key": {
+    "a": {
+      "item": "moreartifacts:shadow_diamond"
+    },
+    "b": {
+      "item": "moreartifacts:envy_ring"
+    },
+    "c": {
+      "item": "minecraft:ender_pearl"
+    },
+    "d": {
+      "item": "minecraft:experience_bottle"
+    }
+  },
+  "result": {
+    "item": "moreartifacts:envy_soul",
+    "count": 1
+  }
+}

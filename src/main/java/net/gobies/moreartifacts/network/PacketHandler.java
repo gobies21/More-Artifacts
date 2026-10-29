@@ -29,6 +29,7 @@ public class PacketHandler {
         addNetworkMessage(SoulSyncPacket.class, SoulSyncPacket::encode, SoulSyncPacket::new, SoulSyncPacket::handle);
         addNetworkMessage(CooldownSyncPacket.class, CooldownSyncPacket::encode, CooldownSyncPacket::new, CooldownSyncPacket::handle);
         addNetworkMessage(DodgePacket.class, DodgePacket::encode, DodgePacket::decode, DodgePacket::handle);
+        addNetworkMessage(ManaSyncPacket.class, ManaSyncPacket::encode, ManaSyncPacket::new, ManaSyncPacket::handle);
     }
 
     public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {

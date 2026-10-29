@@ -1,10 +1,13 @@
 package net.gobies.moreartifacts.mixin;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,6 +42,20 @@ public class LivingEntityMixin {
             damageAmount = CombatRules.getDamageAfterAbsorb(damageAmount, Math.max(armor - armorPierce, 0f), toughness);
 
             cir.setReturnValue(damageAmount);
+        }
+    }
+
+    @Inject(
+            method = "hasEffect",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void isPoison(MobEffect effect, CallbackInfoReturnable<Boolean> cir) {
+        if (effect == MobEffects.POISON) {
+            LivingEntity entity = (LivingEntity) (Object) this;
+            if (entity.getActiveEffectsMap().containsKey(MAEffects.Virulent.get())) {
+                cir.setReturnValue(true);
+            }
         }
     }
 }

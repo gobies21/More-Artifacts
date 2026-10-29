@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -48,9 +49,9 @@ public class FrozenQuiverItem extends Item implements ICurioItem {
         double arrowDamage = (CommonConfig.FROZEN_QUIVER_DAMAGE.get() - 1) * 100;
         double arrowSave = (CommonConfig.FROZEN_QUIVER_AMMO.get() * 100);
         if (!ModLoadedUtil.isApothecaryLoaded()) {
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frozen_quiver.increased_damage", String.format("%.0f", arrowDamage)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frozen_quiver.increased_damage", MAUtils.formatDecimal(arrowDamage)).withStyle(ChatFormatting.BLUE));
         }
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frozen_quiver.save_arrow", String.format("%.0f", arrowSave)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frozen_quiver.save_arrow", MAUtils.formatDecimal(arrowSave)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frozen_quiver.freezing").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

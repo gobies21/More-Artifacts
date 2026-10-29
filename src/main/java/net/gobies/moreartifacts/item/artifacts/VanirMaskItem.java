@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -50,7 +51,7 @@ public class VanirMaskItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double damageIncrease = CommonConfig.VANIR_MASK_DAMAGE_INCREASE.get();
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir.mask.bloodflow").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", String.format("%.0f", damageIncrease)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.vanir_mask.damage", MAUtils.formatDecimal(damageIncrease)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

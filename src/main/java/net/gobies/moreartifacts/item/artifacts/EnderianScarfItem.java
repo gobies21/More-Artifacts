@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -47,7 +48,7 @@ public class EnderianScarfItem extends Item implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (ModLoadedUtil.isApothecaryLoaded()) return;
         double damageTaken = CommonConfig.ENDERIAN_DAMAGE_REDUCTION.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_scarf.damage_taken", String.format("%.0f", damageTaken)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.enderian_scarf.damage_taken", MAUtils.formatDecimal(damageTaken)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

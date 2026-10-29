@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_vitamins",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:sculk_shades"
+    },
+    "title": "The sun no more",
+    "description": "Craft Sculk Shades",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_sculk_shades": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:sculk_shades"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sculk_shades"
+    ]
+  ]
+}

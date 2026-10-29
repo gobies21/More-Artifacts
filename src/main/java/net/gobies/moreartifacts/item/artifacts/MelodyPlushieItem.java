@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,13 +35,22 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
     private static final UUID MAX_HEALTH = UUID.fromString("d02f1181-d5f2-46c6-b80c-510422dfca27");
 
     @Override
+    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+        addEffects(slotContext);
+    }
+
+    @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            MobEffect effect = MobEffects.REGENERATION;
-            MobEffectInstance mobEffect = player.getEffect(effect);
-            if (mobEffect == null || mobEffect.getDuration() <= 110) {
-                player.addEffect(new MobEffectInstance(effect, 210, CommonConfig.PLUSHIE_REGEN_LEVEL.get() - 1, true, false));
-            }
+        addEffects(slotContext);
+    }
+
+    private void addEffects(SlotContext slotContext) {
+        LivingEntity livingEntity = slotContext.entity();
+        if (livingEntity.level().isClientSide) return;
+        MobEffect effect = MobEffects.REGENERATION;
+        MobEffectInstance mobEffect = livingEntity.getEffect(effect);
+        if (mobEffect == null || mobEffect.getDuration() <= 110) {
+            livingEntity.addEffect(new MobEffectInstance(effect, 210, CommonConfig.PLUSHIE_REGEN_LEVEL.get() - 1, true, false));
         }
     }
 

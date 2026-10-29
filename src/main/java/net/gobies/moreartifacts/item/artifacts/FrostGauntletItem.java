@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -47,7 +48,7 @@ public class FrostGauntletItem extends Item implements ICurioItem {
         double damageReceived = CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get() * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.freezing").withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds").withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds_damage_received", String.format("%.0f", damageReceived)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.frost_gauntlet.frosted_wounds_damage_received", MAUtils.formatDecimal(damageReceived)).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

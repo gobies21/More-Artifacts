@@ -1,5 +1,6 @@
 package net.gobies.moreartifacts.client.overlay;
 
+import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.network.SoulSyncPacket;
@@ -23,8 +24,11 @@ import java.util.List;
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class SoulOverlay {
 
+    // TODO: Obscura tooltips compat
+
     @SubscribeEvent
     public static void onRenderScreen(ScreenEvent.Render.Post event) {
+        if (!ClientConfig.SOUL_OVERLAY.get()) return;
         var screen = event.getScreen();
         if (!(screen instanceof AbstractContainerScreen<?> containerScreen)) return;
 
@@ -38,7 +42,7 @@ public class SoulOverlay {
         if (player == null) return;
 
         String activeSoul = SoulSyncPacket.SoulClientData.getActiveSoul();
-        if (activeSoul.isEmpty() || "Unknown".equals(activeSoul)) return;
+        if (activeSoul.isEmpty() || SoulType.UNKNOWN.key.equals(activeSoul)) return;
 
         GuiGraphics guiGraphics = event.getGuiGraphics();
 
@@ -50,10 +54,10 @@ public class SoulOverlay {
 
         ItemStack activeSoulStack = ItemStack.EMPTY;
 
-        if (SoulType.SHADOW.key.equals(activeSoul)) {
-            activeSoulStack = new ItemStack(MAItems.ShadowSoul.get());
-        } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-            activeSoulStack = new ItemStack(MAItems.BloodSoul.get());
+        if (SoulType.ENVY.key.equals(activeSoul)) {
+            activeSoulStack = new ItemStack(MAItems.EnvySoul.get());
+        } else if (SoulType.WRATH.key.equals(activeSoul)) {
+            activeSoulStack = new ItemStack(MAItems.WrathSoul.get());
         }
 
         if (!activeSoulStack.isEmpty()) {

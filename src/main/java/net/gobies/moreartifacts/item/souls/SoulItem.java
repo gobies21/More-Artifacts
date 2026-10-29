@@ -1,6 +1,8 @@
 package net.gobies.moreartifacts.item.souls;
 
 import net.gobies.moreartifacts.util.SoulUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +20,7 @@ import java.util.UUID;
 
 public class SoulItem extends Item implements ICurioItem {
     public SoulItem(Properties properties) {
-        super(properties);
+        super(properties.stacksTo(1).fireResistant());
     }
 
     public static final Map<UUID, Map<MobEffect, ItemStack>> appliedEffect = new HashMap<>();
@@ -59,6 +61,12 @@ public class SoulItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof ServerPlayer player) {
             SoulUtil.imbueSoul(stack, player);
         }
+    }
+
+
+    @Override
+    public @NotNull Component getName(@NotNull ItemStack stack) {
+        return super.getName(stack).copy().withStyle(ChatFormatting.GOLD);
     }
 
     public static void clearMaps(UUID uuid) {

@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.event;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.client.overlay.BrokenHeartOverlay;
 import net.gobies.moreartifacts.client.overlay.CurioHudOverlay;
+import net.gobies.moreartifacts.client.overlay.VirulentOverlay;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.init.MAParticles;
@@ -119,6 +120,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerAbove(VanillaGuiOverlay.PLAYER_HEALTH.id(), "broken_heart_overlay", BrokenHeartOverlay.OVERLAY);
+        event.registerAbove(VanillaGuiOverlay.PLAYER_HEALTH.id(), "virulent_overlay", VirulentOverlay.OVERLAY);
         event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "curios_hud_overlay", CurioHudOverlay.CURIO_HUD);
     }
 }

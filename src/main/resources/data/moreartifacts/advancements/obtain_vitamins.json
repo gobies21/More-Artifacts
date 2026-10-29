@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_purification_charm",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:vitamins"
+    },
+    "title": "Staying Healthy",
+    "description": "Obtain vitamins from an elder guardian",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_vitamins": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:vitamins"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vitamins"
+    ]
+  ]
+}

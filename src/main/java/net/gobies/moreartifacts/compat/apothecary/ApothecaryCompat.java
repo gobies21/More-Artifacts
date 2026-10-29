@@ -53,6 +53,16 @@ public class ApothecaryCompat {
                     MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
                 }
             }
+            if (player.hasEffect(AEffects.BrokenArmor.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
+                    MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
+                }
+            }
+            if (player.hasEffect(AEffects.RupturedArmor.get())) {
+                if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
+                    MAUtils.removeEffect(player, AEffects.RupturedArmor.get());
+                }
+            }
         }
     }
 

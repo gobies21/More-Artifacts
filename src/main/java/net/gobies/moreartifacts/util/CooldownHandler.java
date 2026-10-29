@@ -20,7 +20,7 @@ public class CooldownHandler {
     // Update cooldown
     public static void updateCooldown(Player player, String artifactId) {
         long time = System.currentTimeMillis();
-        cooldownMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).put(artifactId, time);
+        cooldownMap.computeIfAbsent(player.getUUID(), uuid -> new HashMap<>()).put(artifactId, time);
     }
 
     // Check ready

@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_magic_quiver",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:envenomed_quiver"
+    },
+    "title": "Deadly Shot",
+    "description": "Upgrade a Magic Quiver into an Envenomed Quiver",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_envenomed_quiver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:envenomed_quiver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_envenomed_quiver"
+    ]
+  ]
+}

@@ -3,6 +3,8 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.event.ClientEvents;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -43,8 +45,8 @@ public class MechanicalGearsItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double dodgeChance = CommonConfig.MECHANICAL_GEARS_DODGE_CHANCE.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.evade", String.format("%.0f", dodgeChance)).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.dodge").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.evade", MAUtils.formatDecimal(dodgeChance)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.mechanical_gears.dodge").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.DODGE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

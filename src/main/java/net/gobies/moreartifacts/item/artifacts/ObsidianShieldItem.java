@@ -53,7 +53,7 @@ public class ObsidianShieldItem extends ShieldItem implements ICurioItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         double fireDamageReduction = (CommonConfig.OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION.get()) * 100;
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.immunity").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.fire_damage", String.format("%.0f", fireDamageReduction)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.obsidian_shield.fire_damage", MAUtils.formatDecimal(fireDamageReduction)).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(3);

@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.helper.SoulSyncHelper;
@@ -64,7 +65,7 @@ public class MACommands {
                                 // Sub Command: add
                                 .then(Commands.literal("add")
                                         .then(Commands.argument("soulType", StringArgumentType.word())
-                                                .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
+                                                .suggests((ctx, builder) -> builder.suggest("Envy").suggest("Wrath").buildFuture())
                                                 .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), true))
                                                 .then(Commands.argument("target", EntityArgument.player())
                                                         .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), true))
@@ -74,7 +75,7 @@ public class MACommands {
                                 // Sub Command: remove
                                 .then(Commands.literal("remove")
                                         .then(Commands.argument("soulType", StringArgumentType.word())
-                                                .suggests((ctx, builder) -> builder.suggest("Shadow").suggest("Blood").buildFuture())
+                                                .suggests((ctx, builder) -> builder.suggest("Envy").suggest("Wrath").buildFuture())
                                                 .executes(ctx -> modifySoulData(ctx.getSource(), ctx.getSource().getPlayerOrException(), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), false))
                                                 .then(Commands.argument("target", EntityArgument.player())
                                                         .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), false))
@@ -82,9 +83,9 @@ public class MACommands {
                                         )
                                 )
                         )
-
         );
         // Invis accept command
+
         dispatcher.register(Commands.literal("wormhole_accept")
                 .requires(source -> true)
                 .executes(ctx -> {
@@ -174,12 +175,12 @@ public class MACommands {
                 return 0;
             }
             switch (soulType) {
-                case SHADOW -> {
-                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.SHADOW.key);
+                case ENVY -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.ENVY.key);
                     persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
                 }
-                case BLOOD -> {
-                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.BLOOD.key);
+                case WRATH -> {
+                    persistentData.putString(SoulUtil.SOUL_KEY, SoulType.WRATH.key);
                     // TODO
                 }
                 default -> {
@@ -194,10 +195,10 @@ public class MACommands {
             String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
             persistentData.remove(SoulUtil.SOUL_KEY);
 
-            if (SoulType.SHADOW.key.equals(activeSoul)) {
-                SoulUtil.removeShadowAttributes(target);
-            } else if (SoulType.BLOOD.key.equals(activeSoul)) {
-                SoulUtil.removeBloodAttributes(target);
+            if (SoulType.ENVY.key.equals(activeSoul)) {
+                SoulAttributes.removeEnvyAttributes(target);
+            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+                SoulAttributes.removeWrathAttributes(target);
             }
             source.sendSuccess(() -> Component.literal("Successfully removed soul data from " + target.getScoreboardName()), true);
         }

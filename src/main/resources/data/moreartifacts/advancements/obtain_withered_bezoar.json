@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_sculk_shades",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:withered_bezoar"
+    },
+    "title": "Anti D.O.T",
+    "description": "Craft a Withered Bezoar",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_withered_bezoar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:withered_bezoar"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_withered_bezoar"
+    ]
+  ]
+}
