@@ -11,24 +11,24 @@ public class CooldownHandler {
     private static final Map<UUID, Map<String, Long>> cooldownMap = new HashMap<>();
 
     public static double getCooldown(Player player, String artifactId) {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = player.level().getGameTime();
         Map<String, Long> playerCooldowns = cooldownMap.getOrDefault(player.getUUID(), new HashMap<>());
         long lastTime = playerCooldowns.getOrDefault(artifactId, 0L);
-        return (currentTime - lastTime) / 1000.0;
+        return (currentTime - lastTime) / 20.0;
     }
 
     // Update cooldown
     public static void updateCooldown(Player player, String artifactId) {
-        long time = System.currentTimeMillis();
+        long time = player.level().getGameTime();
         cooldownMap.computeIfAbsent(player.getUUID(), uuid -> new HashMap<>()).put(artifactId, time);
     }
 
     // Check ready
     public static boolean isReady(Player player, String artifactId, double cooldown) {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = player.level().getGameTime();
         Map<String, Long> playerCooldowns = cooldownMap.getOrDefault(player.getUUID(), new HashMap<>());
         long lastTime = playerCooldowns.getOrDefault(artifactId, 0L);
-        return (currentTime - lastTime) >= (cooldown * 1000);
+        return (currentTime - lastTime) >= (cooldown * 20);
     }
 
     public static void clearMaps(UUID uuid) {

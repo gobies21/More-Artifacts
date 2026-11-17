@@ -1,8 +1,14 @@
 package net.gobies.moreartifacts.helper;
 
 import net.gobies.moreartifacts.MoreArtifacts;
+import net.gobies.moreartifacts.block.NectarBlock;
+import net.gobies.moreartifacts.init.MABlocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,6 +47,16 @@ public class LifecycleManager {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player)) {
             executeCleanup(entity.getUUID());
+        }
+        if (entity instanceof ItemEntity itemEntity) {
+            ItemStack stack = itemEntity.getItem();
+            if (stack.is(MABlocks.Nectar.get().asItem())) {
+                CompoundTag tag = stack.getTag();
+                if (tag != null && tag.contains("Quality")) {
+                    BlockPos pos = itemEntity.blockPosition();
+                    NectarBlock.QUALITY.remove(pos);
+                }
+            }
         }
     }
 

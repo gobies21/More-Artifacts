@@ -7,24 +7,32 @@ import net.gobies.moreartifacts.util.LootTableHandler;
 import net.gobies.moreartifacts.util.LuckHelper;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.List;
 
@@ -68,13 +76,16 @@ public class MALootTables {
                 LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.EnderDragonClaw.get(), 1, 1, CommonConfig.ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue(), lootingValue * 5);
             }
             if (!CommonConfig.isItemDisabled(MAItems.DragonEye.get())) {
-                LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.DragonEye.get(), 1, 1, 0.10F, lootingValue);
+                LootTableHandler.addLootWithLooting(event, "entities/ender_dragon", MAItems.DragonEye.get(), 1, 1, CommonConfig.ENDER_DRAGON_EYE_DROP_CHANCE.get().floatValue(), lootingValue);
             }
             if (!CommonConfig.isItemDisabled(MAItems.TaintedMirror.get())) {
-                LootTableHandler.addLootWithLooting(event, "entities/warden", MAItems.TaintedMirror.get(), 1, 1, 0.10F, lootingValue);
+                LootTableHandler.addLootWithLooting(event, "entities/warden", MAItems.TaintedMirror.get(), 1, 1, CommonConfig.TAINTED_MIRROR_DROP_CHANCE.get().floatValue(), lootingValue);
             }
             if (!CommonConfig.isItemDisabled(MAItems.CursedDoll.get())) {
-                LootTableHandler.addLootWithLooting(event, "entities/witch", MAItems.CursedDoll.get(), 1, 1, 0.02F, lootingValue);
+                LootTableHandler.addLootWithLooting(event, "entities/witch", MAItems.CursedDoll.get(), 1, 1, CommonConfig.CURSED_DOLL_DROP_CHANCE.get().floatValue(), lootingValue);
+            }
+            if (!CommonConfig.isItemDisabled(MAItems.RedBelt.get())) {
+                LootTableHandler.addLootWithLooting(event, "entities/piglin_brute", MAItems.RedBelt.get(), 1, 1, CommonConfig.RED_BELT_DROP_CHANCE.get().floatValue(), lootingValue);
             }
 
             if (!CommonConfig.isItemDisabled(MAItems.SculkLens.get())) {
@@ -87,30 +98,32 @@ public class MALootTables {
                 LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.RecallPotion.get(), 1, 3, CommonConfig.RECALL_POTION_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.WormholePotion.get())) {
-                LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.WormholePotion.get(), 1, 3, 0.10F);
+                if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+                    LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.WormholePotion.get(), 1, 3, CommonConfig.WORMHOLE_POTION_DROP_CHANCE.get().floatValue());
+                }
             }
             if (!CommonConfig.isItemDisabled(MAItems.MelodyPlushie.get())) {
                 LootTableHandler.addLoot(event, "gameplay/cat_morning_gift", MAItems.MelodyPlushie.get(), 1, 1, CommonConfig.MELODY_PLUSHIE_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.DuneTreads.get())) {
-                LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, 0.15F);
+                LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.DuneTreads.get(), 1, 1, CommonConfig.DUNE_TREADS_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.RubyRing.get())) {
-                LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.RubyRing.get(), 1, 1, 0.10F);
-                LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.RubyRing.get(), 1, 1, 0.05F);
+                LootTableHandler.addLoot(event, "chests/bastion_treasure", MAItems.RubyRing.get(), 1, 1, CommonConfig.RUBY_RING_DROP_CHANCE.get().floatValue() + 0.05F);
+                LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.RubyRing.get(), 1, 1, CommonConfig.RUBY_RING_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.IceCrystal.get())) {
-                LootTableHandler.addLoot(event, "chests/igloo_chest", MAItems.IceCrystal.get(), 1, 1, 1.0F);
+                LootTableHandler.addLoot(event, "chests/igloo_chest", MAItems.IceCrystal.get(), 1, 1, CommonConfig.ICE_CRYSTAL_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.NaturesMantle.get())) {
-                LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, 0.20F);
+                LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.NaturesMantle.get(), 1, 1, CommonConfig.NATURES_MANTLE_DROP_CHANCE.get().floatValue());
             }
             if (!CommonConfig.isItemDisabled(MAItems.BrokenHeart.get())) {
-                LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.BrokenHeart.get(), 1, 1, 0.05F);
+                LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.BrokenHeart.get(), 1, 1, CommonConfig.BROKEN_HEART_DROP_CHANCE.get().floatValue());
             }
 
-            LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.ShadowDust.get(), 1, 3, 0.10F);
-            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ShadowDust.get(), 2, 5, 0.05F);
+            LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.ShadowDust.get(), 1, 3, CommonConfig.SHADOW_DUST_DUNGEON_DROP_CHANCE.get().floatValue());
+            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ShadowDust.get(), 2, 5, CommonConfig.SHADOW_DUST_ANCIENT_CITY_DROP_CHANCE.get().floatValue());
 
             LootTableHandler.addLoot(event, "chests/ruined_portal", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
             LootTableHandler.addLoot(event, "chests/jungle_temple", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
@@ -118,7 +131,8 @@ public class MALootTables {
             LootTableHandler.addLoot(event, "chests/bastion_other", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.03F);
             LootTableHandler.addLoot(event, "chests/desert_pyramid", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.02F);
             LootTableHandler.addLoot(event, "chests/simple_dungeon", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.02F);
-            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
+            LootTableHandler.addLoot(event, "chests/ancient_city", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.05F);
+
             if (ModList.get().isLoaded("dungeoncrawl")) {
                 LootTableHandler.addLoot(event, "dungeoncrawl:chests/stage_5", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.01F);
                 LootTableHandler.addLoot(event, "dungeoncrawl:chests/treasure", MAItems.ArtifactSmithingTemplate.get(), 1, 1, 0.05F);
@@ -142,6 +156,24 @@ public class MALootTables {
                     Block.popResource(serverLevel, pos, new ItemStack(MAItems.IceCrystal.get()));
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDrops(LivingDropsEvent event) {
+        if (!(event.getEntity() instanceof Creeper creeper)) return;
+        if (!creeper.isPowered()) return;
+        Entity source = event.getSource().getEntity();
+        if (!(source instanceof Player player)) return;
+
+        double chance = CommonConfig.STORM_FANG_DROP_CHANCE.get();
+
+        int looting = EnchantmentHelper.getEnchantmentLevel(Enchantments.MOB_LOOTING, player);
+
+        chance += looting * lootingValue;
+
+        if (LuckHelper.roll(player, chance, 0.01)) {
+            event.getDrops().add(new ItemEntity(creeper.level(), creeper.getX(), creeper.getY(), creeper.getZ(), new ItemStack(MAItems.StormFang.get())));
         }
     }
 

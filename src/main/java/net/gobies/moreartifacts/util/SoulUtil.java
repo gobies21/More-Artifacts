@@ -4,16 +4,21 @@ import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAEffects;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.helper.SoulSyncHelper;
+import net.gobies.moreartifacts.network.SoulSyncPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class SoulUtil {
 
@@ -21,7 +26,9 @@ public class SoulUtil {
     private static final String STAGE = "SoulStage";
     public static final String SoulDamage = "SoulDamage";
 
+    public static final String PASSIVE_TOGGLE = "SoulPassiveToggle";
     public static final String ABILITY_TOGGLE = "SoulAbilityToggle";
+    public static final Set<UUID> activePassive = new HashSet<>();
 
     public static final Set<Item> SOULS = Set.of(
             MAItems.EnvySoul.get(),
@@ -48,6 +55,38 @@ public class SoulUtil {
         return nbt.getInt(STAGE);
     }
 
+    public static boolean hasSoul(Player player, SoulType soulType) {
+        if (soulType == SoulType.UNKNOWN) return false;
+        return soulType.key.equals(player.getPersistentData().getString(SoulUtil.SOUL_KEY));
+    }
+
+    public static boolean getPassive(Player player) {
+        CompoundTag persistentData = player.getPersistentData();
+        return persistentData.getBoolean(SoulUtil.PASSIVE_TOGGLE);
+    }
+
+    public static void setPassive(Player player, boolean passiveToggle) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.putBoolean(SoulUtil.PASSIVE_TOGGLE, passiveToggle);
+    }
+
+    public static boolean getActive(Player player) {
+        CompoundTag persistentData = player.getPersistentData();
+        return persistentData.getBoolean(SoulUtil.ABILITY_TOGGLE);
+    }
+
+    public static void setActive(Player player, boolean abilityToggle) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, abilityToggle);
+    }
+
+    public static boolean hasActiveSoul(Player player, SoulType soul) {
+        if (player.level().isClientSide) {
+            return SoulSyncPacket.SoulClientData.hasActiveSoul(player.getUUID(), soul);
+        }
+        return hasSoul(player, soul) && getActive(player);
+    }
+
     public static void evolveSoul(ItemStack stack, Player player) {
         if (!SOULS.contains(stack.getItem())) return;
         CompoundTag nbt = stack.getOrCreateTag();
@@ -60,6 +99,12 @@ public class SoulUtil {
             player.getPersistentData().putString(SOUL_KEY, soulType);
             if (player instanceof ServerPlayer serverPlayer) {
                 SoulSyncHelper.syncSouls(serverPlayer);
+                MAUtils.awardAdvancement(serverPlayer, "soul_max");
+                LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverPlayer.level());
+                if (lightning != null) {
+                    lightning.moveTo(serverPlayer.position());
+                    serverPlayer.level().addFreshEntity(lightning);
+                }
             }
             stack.shrink(1);
         }
@@ -93,6 +138,6 @@ public class SoulUtil {
             }
         }
 
-        player.addEffect(new MobEffectInstance(MAEffects.Sinful.get(), duration, amplifier, false, true, true));
+        player.addEffect(new MobEffectInstance(MAEffects.Sinful.get(), duration, amplifier, false, false, true));
     }
 }

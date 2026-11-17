@@ -5,7 +5,7 @@
       "item": "moreartifacts:sculk_shades"
     },
     "title": "The sun no more",
-    "description": "Craft Sculk Shades",
+    "description": "Craft sculk shades",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

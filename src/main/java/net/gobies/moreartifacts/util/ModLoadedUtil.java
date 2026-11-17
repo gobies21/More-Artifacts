@@ -15,6 +15,7 @@ public class ModLoadedUtil {
     private static final boolean betterStealth = ModList.get().isLoaded("betterstealth");
     private static final boolean firstAid = ModList.get().isLoaded("firstaid");
     private static final boolean ironsSpellbooks = ModList.get().isLoaded("irons_spellbooks");
+    private static final boolean lycanitesMobs = ModList.get().isLoaded("lycanitesmobs");
 
     public static boolean isSpartanWeaponryLoaded() {
         return spartanWeaponry;
@@ -58,5 +59,9 @@ public class ModLoadedUtil {
 
     public static boolean isIronsSpellbooksLoaded() {
         return ironsSpellbooks;
+    }
+
+    public static boolean isLycanitesMobsLoaded() {
+        return lycanitesMobs;
     }
 }

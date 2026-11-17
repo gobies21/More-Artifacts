@@ -23,9 +23,7 @@ public class IceCrystalItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.isFreezing()) {
-                player.setTicksFrozen(-1);
-            }
+            player.setTicksFrozen(0);
         }
     }
 

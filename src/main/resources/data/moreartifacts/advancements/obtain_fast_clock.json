@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_bezoar",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:fast_clock"
+    },
+    "title": "Turn off the Alarm",
+    "description": "Obtain a fast clock from a stray",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_fast_clock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:fast_clock"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fast_clock"
+    ]
+  ]
+}

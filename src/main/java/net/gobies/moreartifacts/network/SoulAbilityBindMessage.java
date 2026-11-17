@@ -1,14 +1,22 @@
 package net.gobies.moreartifacts.network;
 
+import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.gobies.moreartifacts.helper.SoulType;
+import net.gobies.moreartifacts.init.MAEffects;
+import net.gobies.moreartifacts.init.MASounds;
+import net.gobies.moreartifacts.soul.WrathHandler;
+import net.gobies.moreartifacts.util.MAUtils;
+import net.gobies.moreartifacts.util.ManaUtil;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.gobies.moreartifacts.util.SoulUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.network.NetworkEvent;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.function.Supplier;
 
@@ -27,30 +35,68 @@ public class SoulAbilityBindMessage {
             ServerPlayer player = context.getSender();
             if (player == null) return;
 
-            CompoundTag persistentData = player.getPersistentData();
-            String playerSoul = persistentData.getString(SoulUtil.SOUL_KEY);
+            String playerSoul = player.getPersistentData().getString(SoulUtil.SOUL_KEY);
+            if (playerSoul.isEmpty() || SoulUtil.hasSoul(player, SoulType.UNKNOWN)) return;
 
-            if (!playerSoul.isEmpty() && !SoulType.UNKNOWN.key.equals(playerSoul)) {
-                String toggleKey = SoulUtil.ABILITY_TOGGLE;
-                persistentData.putBoolean(toggleKey, !persistentData.getBoolean(toggleKey));
+            float currentMana = ManaUtil.getMana(player);
+            boolean active = SoulUtil.getActive(player);
+            boolean newState = !active;
+            boolean isEnvy = SoulUtil.hasSoul(player, SoulType.ENVY);
+            boolean isWrath = SoulUtil.hasSoul(player, SoulType.WRATH);
+            boolean spellbooksCompat = ModLoadedUtil.isIronsSpellbooksLoaded() && CommonConfig.IRONS_SPELLBOOKS_MANA_COMPAT.get();
+
+            if (isEnvy) {
+                if (!active) {
+                    float requiredMana = CommonConfig.ENVY_MANA_SHIELD_START_THRESHOLD.get().floatValue();
+                    if (spellbooksCompat) {
+                        requiredMana = CommonConfig.ENVY_SPELLBOOKS_MANA_SHIELD_START_THRESHOLD.get().floatValue();
+                    }
+                    if (currentMana <= requiredMana) {
+                        player.displayClientMessage(Component.translatable("client.moreartifacts.mana").withStyle(ChatFormatting.RED), true);
+                        return;
+                    }
+                }
+
+                float manaCost = CommonConfig.ENVY_MANA_SHIELD_COST.get().floatValue();
+                if (spellbooksCompat) {
+                    manaCost = CommonConfig.ENVY_SPELLBOOKS_MANA_SHIELD_COST.get().floatValue();
+                }
+
+                if (currentMana >= manaCost && !active) {
+                    SoulUtil.setActive(player, true);
+                    ManaUtil.setMana(player, currentMana - manaCost);
+                } else {
+                    SoulUtil.setActive(player, newState);
+                }
+
+                if (CommonConfig.MANA_SHIELD_SOUNDS.get()) {
+                    var sound = newState ? MASounds.MANA_SHIELD_ENABLED.get() : MASounds.MANA_SHIELD_DISABLED.get();
+                    player.playNotifySound(sound, SoundSource.PLAYERS, 1.5F, MAUtils.getRandomPitch());
+                }
+            } else if (isWrath) {
+                if (!WrathHandler.annihilation.containsKey(player.getUUID())) {
+                    MobEffectInstance sinful = player.getEffect(MAEffects.Sinful.get());
+                    if (sinful == null) {
+                        player.displayClientMessage(Component.literal("§cYou need sinful to trigger annihilation"), true);
+                        return;
+                    }
+
+                    float damageMultiplier = CommonConfig.WRATH_ANNIHILATION_DAMAGE_MULTIPLIER.get().floatValue();
+                    int stacks = sinful.getAmplifier() + 1;
+                    float finalMultiplier = Math.min(1.0F + (stacks * damageMultiplier), CommonConfig.WRATH_ANNIHILATION_MAX_STACKS.get());
+
+                    WrathHandler.annihilation.put(player.getUUID(), finalMultiplier);
+                    player.removeEffect(MAEffects.Sinful.get());
+
+                    SoulUtil.setActive(player, true);
+                    PacketHandler.sendToClient(new AnnihilationStackSyncPacket(stacks), player);
+                    player.playNotifySound(MASounds.ANNIHILATION_STACK.get(), SoundSource.PLAYERS, 1.5F, MAUtils.getRandomPitch());
+                }
+            } else {
+                SoulUtil.setActive(player, newState);
             }
 
-            CuriosApi.getCuriosInventory(player).ifPresent(handler ->
-                    handler.getCurios().forEach((identifier, stacksHandler) -> {
-                        IDynamicStackHandler stackHandler = stacksHandler.getStacks();
-                        for (int slot = 0; slot < stackHandler.getSlots(); slot++) {
-                            ItemStack stack = stackHandler.getStackInSlot(slot);
-                            int stage = SoulUtil.getSoulStage(stack);
-
-                            if (SoulUtil.SOULS.contains(stack.getItem()) && stage >= 3) {
-                                String soulType = SoulUtil.getSoul(stack.getItem());
-                                CompoundTag tag = stack.getOrCreateTag();
-
-                                tag.putBoolean(soulType, !tag.getBoolean(soulType));
-                            }
-                        }
-                    })
-            );
+            SoulSyncHelper.syncSouls(player);
         });
         context.setPacketHandled(true);
     }

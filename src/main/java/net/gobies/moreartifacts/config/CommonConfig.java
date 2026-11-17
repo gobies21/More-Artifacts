@@ -12,10 +12,8 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = MoreArtifacts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonConfig {
@@ -30,812 +28,400 @@ public class CommonConfig {
     // Artifacts
     */
     public static ForgeConfigSpec.ConfigValue<Double> SKULL_FIRE_DAMAGE_REDUCTION;
-    public static float skull_fire_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> OBSIDIAN_SHIELD_FIRE_DAMAGE_REDUCTION;
-    public static float obsidian_shield_fire_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_CHARM_ADDITIONAL_EFFECTS;
-    public static List<? extends String> ankh_charm_additional_effects;
 
     public static ForgeConfigSpec.ConfigValue<Double> ANKH_SHIELD_FIRE_DAMAGE_REDUCTION;
-    public static float ankh_shield_fire_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANKH_SHIELD_ADDITIONAL_EFFECTS;
-    public static List<? extends String> ankh_shield_additional_effects;
 
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_AMULET_WITHER_CHANCE;
-    public static float decay_amulet_wither_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_AMULET_WITHER_DURATION;
-    public static int decay_amulet_wither_duration;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_AMULET_WITHER_LEVEL;
-    public static int decay_amulet_wither_level;
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_AMULET_LUCK_FACTOR;
-    public static float decay_amulet_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_AMULET_POISON_CHANCE;
-    public static float venom_amulet_poison_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> VENOM_AMULET_POISON_DURATION;
-    public static int venom_amulet_poison_duration;
     public static ForgeConfigSpec.ConfigValue<Integer> VENOM_AMULET_POISON_LEVEL;
-    public static int venom_amulet_poison_level;
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_AMULET_LUCK_FACTOR;
-    public static float venom_amulet_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> SPECTRE_AMULET_HEAL_CHANCE;
-    public static float spectre_amulet_heal_chance;
     public static ForgeConfigSpec.ConfigValue<Double> SPECTRE_AMULET_HEAL_AMOUNT;
-    public static float spectre_amulet_heal_amount;
     public static ForgeConfigSpec.ConfigValue<Double> SPECTRE_AMULET_LUCK_FACTOR;
-    public static float spectre_amulet_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_AMULET_HEAL_CHANCE;
-    public static float necroplasm_amulet_heal_chance;
     public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_AMULET_HEAL_AMOUNT;
-    public static float necroplasm_amulet_heal_amount;
     public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_AMULET_POISON_CHANCE;
-    public static float necroplasm_amulet_poison_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> NECROPLASM_AMULET_POISON_LEVEL;
-    public static int necroplasm_amulet_poison_level;
     public static ForgeConfigSpec.ConfigValue<Integer> NECROPLASM_AMULET_POISON_DURATION;
-    public static int necroplasm_amulet_poison_duration;
     public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_AMULET_WITHER_CHANCE;
-    public static float necroplasm_amulet_wither_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> NECROPLASM_AMULET_WITHER_LEVEL;
-    public static int necroplasm_amulet_wither_level;
     public static ForgeConfigSpec.ConfigValue<Integer> NECROPLASM_AMULET_WITHER_DURATION;
-    public static int necroplasm_amulet_wither_duration;
     public static ForgeConfigSpec.ConfigValue<Double> NECROPLASM_AMULET_LUCK_FACTOR;
-    public static float necroplasm_amulet_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_GLOVE_DAMAGE;
-    public static int mechanical_glove_damage;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GLOVE_SPEED;
-    public static float mechanical_glove_speed;
 
     public static ForgeConfigSpec.ConfigValue<Integer> FROST_GAUNTLET_DAMAGE;
-    public static int frost_gauntlet_damage;
     public static ForgeConfigSpec.ConfigValue<Double> FROST_GAUNTLET_ATTACK_SPEED;
-    public static float frost_gauntlet_attack_speed;
     public static ForgeConfigSpec.ConfigValue<Integer> FROSTED_WOUNDS_DAMAGE;
-    public static int frosted_wounds_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> FROSTED_WOUNDS_DURATION;
-    public static int frosted_wounds_duration;
     public static ForgeConfigSpec.ConfigValue<Double> FROSTED_WOUNDS_DAMAGE_RECEIVED;
-    public static float frosted_wounds_damage_received;
 
     public static ForgeConfigSpec.ConfigValue<Double> FROSTED_SHIELD_DAMAGE_REDUCTION;
-    public static float frosted_shield_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Integer> SHACKLE_ARMOR;
-    public static int shackle_armor;
 
     public static ForgeConfigSpec.ConfigValue<Integer> IGNORE_DAMAGE_CHANCE;
-    public static int ignore_damage_chance;
     public static ForgeConfigSpec.ConfigValue<Double> EXPLOSION_DAMAGE_REDUCTION;
-    public static float explosion_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Integer> HERO_SHIELD_RES_LEVEL;
-    public static int hero_shield_res_level;
     public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_ENHANCED_VISUALS_COMPAT;
-    public static boolean hero_shield_enhanced_visuals_compat;
     public static ForgeConfigSpec.ConfigValue<Boolean> HERO_SHIELD_FIRST_AID_COMPAT;
-    public static boolean hero_shield_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> FIRST_AID_IGNORE_CHANCE;
-    public static float first_aid_ignore_chance;
 
     public static ForgeConfigSpec.ConfigValue<Integer> SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE;
-    public static int shadow_aegis_ignore_damage_chance;
     public static ForgeConfigSpec.ConfigValue<Double> SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION;
-    public static float shadow_aegis_explosion_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Integer> SHADOW_AEGIS_RES_LEVEL;
-    public static int shadow_aegis_res_level;
     public static ForgeConfigSpec.ConfigValue<Boolean> SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT;
-    public static boolean shadow_aegis_enhanced_visuals_compat;
     public static ForgeConfigSpec.ConfigValue<Boolean> SHADOW_AEGIS_FIRST_AID_COMPAT;
-    public static boolean shadow_aegis_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> SHADOW_AEGIS_FIRST_AID_IGNORE_CHANCE;
-    public static float shadow_aegis_first_aid_ignore_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_DAMAGE_REDUCTION;
-    public static float enderian_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_DAMAGE_REDUCTION;
-    public static float true_enderian_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_EVADE;
-    public static float true_enderian_evade;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_REACH;
-    public static float true_enderian_reach;
     public static ForgeConfigSpec.ConfigValue<Double> TRUE_ENDERIAN_LUCK_FACTOR;
-    public static float true_enderian_luck_factor;
     public static ForgeConfigSpec.ConfigValue<Boolean> TRUE_ENDERIAN_COMPAT;
-    public static boolean true_enderian_compat;
 
     public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_REDUCTION;
-    public static float gilded_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> GILDED_DAMAGE_DEALT;
-    public static float gilded_damage_dealt;
 
     public static ForgeConfigSpec.ConfigValue<Double> PLUSHIE_HEALTH;
-    public static float plushie_health;
     public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_HEALTH_BOOST_LEVEL;
-    public static int plushie_health_boost_level;
     public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_DURATION;
-    public static int plushie_duration;
     public static ForgeConfigSpec.ConfigValue<Integer> PLUSHIE_REGEN_LEVEL;
-    public static int plushie_regen_level;
 
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_DAMAGE;
-    public static float emerald_ring_damage;
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_EMERALDS;
-    public static float emerald_ring_emeralds;
     public static ForgeConfigSpec.ConfigValue<Double> EMERALD_RING_LUCK_FACTOR;
-    public static float emerald_ring_luck_factor;
     public static ForgeConfigSpec.ConfigValue<Integer> EMERALD_RING_LUCK;
-    public static int emerald_ring_luck;
 
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_DAMAGE;
-    public static float magic_quiver_damage;
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_VELOCITY;
-    public static float magic_quiver_velocity;
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_AMMO;
-    public static float magic_quiver_ammo;
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_LUCK_FACTOR;
-    public static float magic_quiver_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_DAMAGE;
-    public static float envenomed_quiver_damage;
     public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_VELOCITY;
-    public static float envenomed_quiver_velocity;
     public static ForgeConfigSpec.ConfigValue<Integer> ENVENOMED_QUIVER_POISON_LEVEL;
-    public static int envenomed_quiver_poison_level;
     public static ForgeConfigSpec.ConfigValue<Integer> ENVENOMED_QUIVER_POISON_DURATION;
-    public static int envenomed_quiver_poison_duration;
     public static ForgeConfigSpec.ConfigValue<Integer> ENVENOMED_QUIVER_WITHER_LEVEL;
-    public static int envenomed_quiver_wither_level;
     public static ForgeConfigSpec.ConfigValue<Integer> ENVENOMED_QUIVER_WITHER_DURATION;
-    public static int envenomed_quiver_wither_duration;
     public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_AMMO;
-    public static float envenomed_quiver_ammo;
     public static ForgeConfigSpec.ConfigValue<Double> ENVENOMED_QUIVER_LUCK_FACTOR;
-    public static float envenomed_quiver_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_DAMAGE;
-    public static float molten_quiver_damage;
     public static ForgeConfigSpec.ConfigValue<Double>  MOLTEN_QUIVER_VELOCITY;
-    public static float molten_quiver_velocity;
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_ONFIRE_DAMAGE;
-    public static float molten_quiver_onfire_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> MOLTEN_QUIVER_DURATION;
-    public static int molten_quiver_duration;
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_AMMO;
-    public static float molten_quiver_ammo;
     public static ForgeConfigSpec.ConfigValue<Double> MOLTEN_QUIVER_LUCK_FACTOR;
-    public static float molten_quiver_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> FROZEN_QUIVER_DAMAGE;
-    public static float frozen_quiver_damage;
     public static ForgeConfigSpec.ConfigValue<Double> FROZEN_QUIVER_VELOCITY;
-    public static float frozen_quiver_velocity;
     public static ForgeConfigSpec.ConfigValue<Double> FROZEN_QUIVER_AMMO;
-    public static float frozen_quiver_ammo;
     public static ForgeConfigSpec.ConfigValue<Integer> FROZEN_QUIVER_MULTIPLIER;
-    public static int frozen_quiver_multiplier;
     public static ForgeConfigSpec.ConfigValue<Double> FROZEN_QUIVER_LUCK_FACTOR;
-    public static float frozen_quiver_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARMOR;
-    public static float wooden_headgear_armor;
     public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION;
-    public static float wooden_headgear_arrow_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Boolean> WOODEN_HEADGEAR_FIRST_AID_COMPAT;
-    public static boolean wooden_headgear_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
-    public static float wooden_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARMOR;
-    public static float golden_headgear_armor;
     public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION;
-    public static float golden_headgear_arrow_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Boolean> GOLDEN_HEADGEAR_FIRST_AID_COMPAT;
-    public static boolean golden_headgear_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
-    public static float golden_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARMOR;
-    public static float netherite_headgear_armor;
     public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION;
-    public static float netherite_headgear_arrow_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Boolean> NETHERITE_HEADGEAR_FIRST_AID_COMPAT;
-    public static boolean netherite_headgear_first_aid_compat;
     public static ForgeConfigSpec.ConfigValue<Double> NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION;
-    public static float netherite_headgear_headshot_damage_reduction;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_DAMAGE;
-    public static float ender_dragon_claw_damage;
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_CHANCE;
-    public static float ender_dragon_claw_chance;
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_LUCK_FACTOR;
-    public static float ender_dragon_claw_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Integer> ENDERIAN_EYE_RADIUS;
-    public static int enderian_eye_radius;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_EYE_COOLDOWN;
-    public static float enderian_eye_cooldown;
 
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_DAMAGE;
-    public static float mechanical_claw_damage;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_SPEED;
-    public static float mechanical_claw_speed;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_BLEED_CHANCE;
-    public static float mechanical_claw_bleed_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_CLAW_BLEED_DAMAGE;
-    public static int mechanical_claw_bleed_damage;
     public static ForgeConfigSpec.ConfigValue<Integer> MECHANICAL_CLAW_BLEED_DURATION;
-    public static int mechanical_claw_bleed_duration;
     public static ForgeConfigSpec.ConfigValue<Double> BLEED_DAMAGE_RECEIVED;
-    public static float bleed_damage_received;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_CLAW_LUCK_FACTOR;
-    public static float mechanical_claw_luck_factor;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> BLEED_BLACKLISTED_ENTITIES;
-    public static List<? extends String> bleed_blacklisted_entities;
 
     public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_DAMAGE;
-    public static float echo_glove_damage;
     public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_ATTACK_SPEED;
-    public static float echo_glove_attack_speed;
     public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_IGNORE_CHANCE;
-    public static float echo_glove_ignore_chance;
     public static ForgeConfigSpec.ConfigValue<Double> ECHO_GLOVE_LUCK_FACTOR;
-    public static float echo_glove_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_DAMAGE;
-    public static float venom_stone_damage;
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_CHANCE;
-    public static float venom_stone_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> VENOM_STONE_LEVEL;
-    public static int venom_stone_level;
     public static ForgeConfigSpec.ConfigValue<Integer> VENOM_STONE_DURATION;
-    public static int venom_stone_duration;
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_DEADLY_CHANCE;
-    public static float venom_stone_deadly_chance;
     public static ForgeConfigSpec.ConfigValue<Double> VENOM_STONE_LUCK_FACTOR;
-    public static float venom_stone_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_STONE_DAMAGE;
-    public static float decay_stone_damage;
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_STONE_CHANCE;
-    public static float decay_stone_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_STONE_LEVEL;
-    public static int decay_stone_level;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_STONE_DURATION;
-    public static int decay_stone_duration;
     public static ForgeConfigSpec.ConfigValue<Integer> DECAY_STONE_HEAL_AMOUNT;
-    public static int decay_stone_heal_amount;
     public static ForgeConfigSpec.ConfigValue<Double> DECAY_STONE_LUCK_FACTOR;
-    public static float decay_stone_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> FIRE_STONE_DAMAGE;
-    public static float fire_stone_damage;
     public static ForgeConfigSpec.ConfigValue<Double> FIRE_STONE_CHANCE;
-    public static float fire_stone_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> FIRE_STONE_DURATION;
-    public static int fire_stone_duration;
     public static ForgeConfigSpec.ConfigValue<Double> FIRE_STONE_LUCK_FACTOR;
-    public static float fire_stone_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> ICE_STONE_DAMAGE;
-    public static float ice_stone_damage;
     public static ForgeConfigSpec.ConfigValue<Double> ICE_STONE_CHANCE;
-    public static float ice_stone_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_DURATION;
-    public static int ice_stone_duration;
     public static ForgeConfigSpec.ConfigValue<Double> ICE_STONE_ENCASED_CHANCE;
-    public static float ice_stone_encased_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> ICE_STONE_ENCASED_DURATION;
-    public static int ice_stone_encased_duration;
     public static ForgeConfigSpec.ConfigValue<Boolean> ICE_STONE_COMPAT;
-    public static boolean ice_stone_compat;
     public static ForgeConfigSpec.ConfigValue<Double> ICE_STONE_LUCK_FACTOR;
-    public static float ice_stone_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_USE_TIME;
-    public static int recall_potion_use_time;
     public static ForgeConfigSpec.ConfigValue<Integer> RECALL_POTION_COOLDOWN;
-    public static int recall_potion_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_INTERDIMENSIONAL;
-    public static boolean recall_potion_interdimensional;
     public static ForgeConfigSpec.ConfigValue<Boolean> RECALL_POTION_GLOW;
-    public static boolean recall_potion_glow;
     public static ForgeConfigSpec.ConfigValue<String> RECALL_POTION_INGREDIENT;
-    public static String recall_potion_ingredient;
 
     public static ForgeConfigSpec.ConfigValue<Integer> WORMHOLE_POTION_USE_TIME;
-    public static int wormhole_potion_use_time;
     public static ForgeConfigSpec.ConfigValue<Integer> WORMHOLE_POTION_COOLDOWN;
-    public static int wormhole_potion_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> WORMHOLE_POTION_INTERDIMENSIONAL;
-    public static boolean wormhole_potion_interdimensional;
     public static ForgeConfigSpec.ConfigValue<Boolean> WORMHOLE_POTION_GLOW;
-    public static boolean wormhole_potion_glow;
     public static ForgeConfigSpec.ConfigValue<String> WORMHOLE_POTION_INGREDIENT;
-    public static String wormhole_potion_ingredient;
 
     public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_USE_TIME;
-    public static int grave_scroll_use_time;
     public static ForgeConfigSpec.ConfigValue<Integer> GRAVE_SCROLL_COOLDOWN;
-    public static int grave_scroll_cooldown;
     public static ForgeConfigSpec.ConfigValue<Boolean> GRAVE_SCROLL_GLOW;
-    public static boolean grave_scroll_glow;
     public static ForgeConfigSpec.ConfigValue<Boolean> GRAVE_SCROLL_INTERDIMENSIONAL;
-    public static boolean grave_scroll_interdimensional;
 
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_DAMAGE_INCREASE;
-    public static float vanir_mask_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_HEALTH_INCREASE;
-    public static float vanir_mask_health_increase;
     public static ForgeConfigSpec.ConfigValue<Double>  VANIR_MASK_SPEED_INCREASE;
-    public static float vanir_mask_speed_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_INCREASE;
-    public static float vanir_mask_armor_increase;
     public static ForgeConfigSpec.ConfigValue<Double> VANIR_MASK_ARMOR_TOUGHNESS_INCREASE;
-    public static float vanir_mask_armor_toughness_increase;
 
     public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_DAMAGE_INCREASE;
-    public static float ruby_ring_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_HEALTH_THRESHOLD;
-    public static float ruby_ring_health_threshold;
     public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_HEALTH_CAP;
-    public static float ruby_ring_health_cap;
 
     public static ForgeConfigSpec.ConfigValue<Boolean> TAINTED_MIRROR_PLAYER_DAMAGE;
-    public static boolean tainted_mirror_player_damage;
 
     public static ForgeConfigSpec.ConfigValue<Double> NATURES_MANTLE_SPEED_INCREASE;
-    public static float natures_mantle_speed_increase;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_SUMMON_CHANCE;
-    public static float ender_dragon_eye_summon_chance;
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_FOLLOW_DISTANCE;
-    public static float ender_dragon_eye_follow_distance;
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_LUCK_FACTOR;
-    public static float ender_dragon_eye_luck_factor;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENDER_DRAGON_EYE_COMPAT;
-    public static boolean ender_dragon_eye_compat;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERMAN_HEALTH_MULTIPLIER;
-    public static float enderman_health_multiplier;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERMAN_DAMAGE_MULTIPLIER;
-    public static float enderman_damage_multiplier;
 
     public static ForgeConfigSpec.ConfigValue<Double> LEATHER_TREADS_SPEED;
-    public static float leather_treads_speed;
 
     public static ForgeConfigSpec.ConfigValue<Double> DUNE_TREADS_SPEED;
-    public static float dune_treads_speed;
     public static ForgeConfigSpec.ConfigValue<Double> DUNE_TREADS_SAND_SPEED;
-    public static float dune_treads_sand_speed;
 
     public static ForgeConfigSpec.ConfigValue<Double> HIGH_JUMPERS_SPEED;
-    public static float high_jumpers_speed;
 
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GEARS_SPEED;
-    public static float mechanical_gears_speed;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GEARS_DODGE_CHANCE;
-    public static float mechanical_gears_dodge_chance;
     public static ForgeConfigSpec.ConfigValue<Double> MECHANICAL_GEARS_LUCK_FACTOR;
-    public static float mechanical_gears_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> BLAZING_TREADS_SPEED;
-    public static float blazing_treads_speed;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_TREADS_SPEED;
-    public static float enderian_treads_speed;
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_TREADS_COOLDOWN;
-    public static float enderian_treads_cooldown;
 
     public static ForgeConfigSpec.ConfigValue<Double> SCULK_TREADS_SPEED;
-    public static float sculk_treads_speed;
 
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> CURSED_DOLL_BLACKLIST_EFFECTS;
-    public static List<? extends String> cursed_doll_blacklist_effects;
+
     public static ForgeConfigSpec.ConfigValue<Double> CURSED_DOLL_CHANCE;
-    public static float cursed_doll_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> CURSED_DOLL_MAX_AMPLIFIER;
-    public static int cursed_doll_max_amplifier;
     public static ForgeConfigSpec.ConfigValue<Integer> CURSED_DOLL_MAX_DURATION;
-    public static int cursed_doll_max_duration;
     public static ForgeConfigSpec.ConfigValue<Double> CURSED_DOLL_LUCK_FACTOR;
-    public static float cursed_doll_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_THORN_NECKLACE_ARMOR;
-    public static int guardian_thorn_necklace_armor;
     public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_THORN_NECKLACE_THORNS;
-    public static int guardian_thorn_necklace_thorns;
     public static ForgeConfigSpec.ConfigValue<Integer> GUARDIAN_THORN_NECKLACE_ARMOR_PIERCE;
-    public static int guardian_thorn_necklace_armor_pierce;
 
 
     public static ForgeConfigSpec.ConfigValue<Integer> HOLY_MANTLE_COOLDOWN;
-    public static int holy_mantle_cooldown;
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_ABSORPTION_CHANCE;
-    public static float holy_mantle_absorption_chance;
     public static ForgeConfigSpec.ConfigValue<Integer> HOLY_MANTLE_MAX_HEARTS;
-    public static int holy_mantle_max_hearts;
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_LUCK_FACTOR;
-    public static float holy_mantle_luck_factor;
 
     public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_SNEAK_SPEED;
-    public static float stealth_manual_sneak_speed;
-    public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_DODGE_DISTANCE;
-    public static float stealth_manual_dodge_distance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> STORM_FANG_SPEED_INCREASE;
+    public static ForgeConfigSpec.ConfigValue<Integer> STORM_FANG_SHOCK_DAMAGE;
+    public static ForgeConfigSpec.ConfigValue<Integer> STORM_FANG_SHOCK_RADIUS;
+    public static ForgeConfigSpec.ConfigValue<Integer> STORM_FANG_MANA_COST;
+    public static ForgeConfigSpec.ConfigValue<Double> STORM_FANG_COOLDOWN;
+
+    public static ForgeConfigSpec.ConfigValue<Double> RED_BELT_DODGE_DISTANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ROGUE_BELT_DODGE_DISTANCE;
+    public static ForgeConfigSpec.ConfigValue<Double> ROGUE_BELT_SNEAK_SPEED;
 
     public static ForgeConfigSpec.ConfigValue<Double> BROKEN_HEART_DAMAGE_INCREASE;
-    public static float broken_heart_damage_increase;
 
     public static ForgeConfigSpec.ConfigValue<Boolean> PHANTOM_THREAD_HEAD;
-    public static boolean phantom_thread_head;
     public static ForgeConfigSpec.ConfigValue<Boolean> PHANTOM_THREAD_CHEST;
-    public static boolean phantom_thread_chest;
     public static ForgeConfigSpec.ConfigValue<Boolean> PHANTOM_THREAD_LEGS;
-    public static boolean phantom_thread_legs;
     public static ForgeConfigSpec.ConfigValue<Boolean> PHANTOM_THREAD_FEET;
-    public static boolean phantom_thread_feet;
     public static ForgeConfigSpec.ConfigValue<Boolean> PHANTOM_THREAD_GLOW;
-    public static boolean phantom_thread_glow;
 
     /*
     // Loot
     */
     public static ForgeConfigSpec.ConfigValue<Double> BEZOAR_DROP_CHANCE;
-    public static float bezoar_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> VITAMINS_DROP_CHANCE;
-    public static float vitamins_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> FAST_CLOCK_DROP_CHANCE;
-    public static float fast_clock_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> DESERT_CHARM_DROP_CHANCE;
-    public static float desert_charm_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> WITHER_SHARD_DROP_CHANCE;
-    public static float wither_shard_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> SHULKER_HEART_DROP_CHANCE;
-    public static float shulker_heart_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDERIAN_SCARF_DROP_CHANCE;
-    public static float enderian_scarf_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> SHACKLE_DROP_CHANCE;
-    public static float shackle_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_SKELETON_DROP_CHANCE;
-    public static float magic_quiver_skeleton_drop_chance;
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_PILLAGER_DROP_CHANCE;
-    public static float magic_quiver_pillager_drop_chance;
     public static ForgeConfigSpec.ConfigValue<Double> MAGIC_QUIVER_TRADE_CHANCE;
-    public static float magic_quiver_trade_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_CLAW_DROP_CHANCE;
-    public static float ender_dragon_claw_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ENDER_DRAGON_EYE_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> TAINTED_MIRROR_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> CURSED_DOLL_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> RED_BELT_DROP_CHANCE;
 
     public static ForgeConfigSpec.ConfigValue<Double> SCULK_LENS_DROP_CHANCE;
-    public static float sculk_lens_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> RECALL_POTION_DROP_CHANCE;
-    public static float recall_potion_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> WORMHOLE_POTION_DROP_CHANCE;
 
     public static ForgeConfigSpec.ConfigValue<Double> COBALT_SHIELD_DROP_CHANCE;
-    public static float cobalt_shield_drop_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> MELODY_PLUSHIE_DROP_CHANCE;
-    public static float melody_plushie_drop_chance;
+
+    public static ForgeConfigSpec.ConfigValue<Double> DUNE_TREADS_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> RUBY_RING_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> ICE_CRYSTAL_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> NATURES_MANTLE_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> BROKEN_HEART_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> STORM_FANG_DROP_CHANCE;
+
+    public static ForgeConfigSpec.ConfigValue<Double> SHADOW_DUST_DUNGEON_DROP_CHANCE;
+    public static ForgeConfigSpec.ConfigValue<Double> SHADOW_DUST_ANCIENT_CITY_DROP_CHANCE;
 
     public static ForgeConfigSpec.ConfigValue<Double> HOLY_MANTLE_TRADE_CHANCE;
-    public static float holy_mantle_trade_chance;
 
     public static ForgeConfigSpec.ConfigValue<Double> STEALTH_MANUAL_TRADE_CHANCE;
-    public static float stealth_manual_trade_chance;
 
     /*
     // General
     */
     public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_REDUCTION;
-    public static float max_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> MAX_FIRE_DAMAGE_REDUCTION;
-    public static float max_fire_damage_reduction;
     public static ForgeConfigSpec.ConfigValue<Double> MAX_DAMAGE_INCREASE;
-    public static float max_damage_increase;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_DEBUG;
-    public static boolean enable_debug;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_ENDER_TWEAKS;
-    public static boolean enable_ender_tweaks;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_LOOT_TABLES;
-    public static boolean enable_loot_tables;
     public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_LUCK_FACTOR;
-    public static boolean enable_luck_factor;
-    public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_AIR_DODGE;
-    public static boolean enable_air_dodge;
+    public static ForgeConfigSpec.ConfigValue<Double> DEFAULT_MAX_MANA;
+    public static ForgeConfigSpec.ConfigValue<Double> DEFAULT_MANA_REGEN;
 
     // Souls
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ENVY_ATTRIBUTES;
+    public static ForgeConfigSpec.ConfigValue<String> ENVY_EFFECT;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MAGIC_DAMAGE;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_MAGIC_DAMAGE_CONVERSION;
-    public static float envy_magic_damage_conversion;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_DAMAGE_MULTIPLIER;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_FLIGHT_MANA_COST;
-    public static float envy_flight_mana_cost;
-    public static ForgeConfigSpec.ConfigValue<Double> ENVY_START_COST;
-    public static float envy_start_cost;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_FLIGHT_START_THRESHOLD;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_START_THRESHOLD;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_COST;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_DIMINISHING_FACTOR;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_DIMINISHING_THRESHOLD;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_ARMOR_MULTIPLIER;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_MANA_SHIELD_ARMOR_TOUGHNESS_MULTIPLIER;
+    public static ForgeConfigSpec.ConfigValue<Boolean> MANA_SHIELD_SOUNDS;
+
     public static ForgeConfigSpec.ConfigValue<Boolean> IRONS_SPELLBOOKS_MANA_COMPAT;
-    public static boolean irons_spellbooks_mana_compat;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_DAMAGE_MULTIPLIER;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_FLIGHT_TIME;
-    public static float envy_spellbooks_flight_time;
-    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_OFFSET;
-    public static float envy_spellbooks_mana_offset;
-    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_START_COST;
-    public static float envy_spellbooks_start_cost;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_FLIGHT_START_COST;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_FLIGHT_MANA_OFFSET;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_START_THRESHOLD;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_COST;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_ARMOR_MULTIPLIER;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_ARMOR_TOUGHNESS_MULTIPLIER;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_MANA_SHIELD_MAX_MANA_SCALE;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_SPELLBOOKS_SPELL_COST_REDUCTION;
+    public static ForgeConfigSpec.ConfigValue<Double> ENVY_FIRST_AID_MANA_SHIELD_DAMAGE_MULTIPLIER;
+
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_1;
-    public static float envy_evolve_damage_1;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_2;
-    public static float envy_evolve_damage_2;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_3;
-    public static float envy_evolve_damage_3;
     public static ForgeConfigSpec.ConfigValue<Double> ENVY_EVOLVE_DAMAGE_4;
-    public static float envy_evolve_damage_4;
 
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> WRATH_ATTRIBUTES;
+    public static ForgeConfigSpec.ConfigValue<String> WRATH_EFFECT;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_STAGE_4_SINFUL_CHANCE;
+    public static ForgeConfigSpec.ConfigValue<Integer> WRATH_STAGE_4_SINFUL_DURATION;
+    public static ForgeConfigSpec.ConfigValue<Integer> WRATH_STAGE_4_SINFUL_MAX_LEVEL;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_SINFUL_CHANCE;
+    public static ForgeConfigSpec.ConfigValue<Integer> WRATH_SINFUL_DURATION;
+    public static ForgeConfigSpec.ConfigValue<Integer> WRATH_SINFUL_MAX_LEVEL;
+    public static ForgeConfigSpec.ConfigValue<Double> WRATH_ANNIHILATION_DAMAGE_MULTIPLIER;
+    public static ForgeConfigSpec.ConfigValue<Integer> WRATH_ANNIHILATION_MAX_STACKS;
+
     public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_1;
-    public static float wrath_evolve_damage_1;
     public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_2;
-    public static float wrath_evolve_damage_2;
     public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_3;
-    public static float wrath_evolve_damage_3;
     public static ForgeConfigSpec.ConfigValue<Double> WRATH_EVOLVE_DAMAGE_4;
-    public static float wrath_evolve_damage_4;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent.Loading configEvent) {
         if (configEvent.getConfig().getFileName().equals(FILENAME)) {
             SoulAttributes.bakeConfig();
-            ignore_damage_chance = IGNORE_DAMAGE_CHANCE.get();
-            explosion_damage_reduction = EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
-            hero_shield_res_level = HERO_SHIELD_RES_LEVEL.get();
-            hero_shield_enhanced_visuals_compat = HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get();
-            hero_shield_first_aid_compat = HERO_SHIELD_FIRST_AID_COMPAT.get();
-            first_aid_ignore_chance = FIRST_AID_IGNORE_CHANCE.get().floatValue();
-            shadow_aegis_ignore_damage_chance = SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE.get();
-            shadow_aegis_explosion_damage_reduction = SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION.get().floatValue();
-            shadow_aegis_res_level = SHADOW_AEGIS_RES_LEVEL.get();
-            shadow_aegis_enhanced_visuals_compat = SHADOW_AEGIS_ENHANCED_VISUALS_COMPAT.get();
-            shadow_aegis_first_aid_compat = SHADOW_AEGIS_FIRST_AID_COMPAT.get();
-            shadow_aegis_first_aid_ignore_chance = FIRST_AID_IGNORE_CHANCE.get().floatValue();
-            skull_fire_damage_reduction = SKULL_FIRE_DAMAGE_REDUCTION.get().floatValue();
-            obsidian_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
-            ankh_charm_additional_effects = ANKH_CHARM_ADDITIONAL_EFFECTS.get();
-            ankh_shield_fire_damage_reduction = ANKH_SHIELD_FIRE_DAMAGE_REDUCTION.get().floatValue();
-            ankh_shield_additional_effects = ANKH_SHIELD_ADDITIONAL_EFFECTS.get();
-            decay_amulet_wither_chance = DECAY_AMULET_WITHER_CHANCE.get().floatValue();
-            decay_amulet_wither_duration = DECAY_AMULET_WITHER_DURATION.get();
-            decay_amulet_wither_level = DECAY_AMULET_WITHER_LEVEL.get();
-            decay_amulet_luck_factor = DECAY_AMULET_LUCK_FACTOR.get().floatValue();
-            venom_amulet_poison_chance = VENOM_AMULET_POISON_CHANCE.get().floatValue();
-            venom_amulet_poison_duration = VENOM_AMULET_POISON_DURATION.get();
-            venom_amulet_poison_level = VENOM_AMULET_POISON_LEVEL.get();
-            venom_amulet_luck_factor = VENOM_AMULET_LUCK_FACTOR.get().floatValue();
-            spectre_amulet_heal_chance = SPECTRE_AMULET_HEAL_CHANCE.get().floatValue();
-            spectre_amulet_heal_amount = SPECTRE_AMULET_HEAL_AMOUNT.get().floatValue();
-            spectre_amulet_luck_factor = SPECTRE_AMULET_LUCK_FACTOR.get().floatValue();
-            necroplasm_amulet_heal_chance = NECROPLASM_AMULET_HEAL_CHANCE.get().floatValue();
-            necroplasm_amulet_heal_amount = NECROPLASM_AMULET_HEAL_AMOUNT.get().floatValue();
-            necroplasm_amulet_poison_chance = NECROPLASM_AMULET_POISON_CHANCE.get().floatValue();
-            necroplasm_amulet_poison_level = NECROPLASM_AMULET_POISON_LEVEL.get();
-            necroplasm_amulet_poison_duration = NECROPLASM_AMULET_POISON_DURATION.get();
-            necroplasm_amulet_wither_chance = NECROPLASM_AMULET_WITHER_CHANCE.get().floatValue();
-            necroplasm_amulet_wither_level = NECROPLASM_AMULET_WITHER_LEVEL.get();
-            necroplasm_amulet_wither_duration = MECHANICAL_GLOVE_DAMAGE.get();
-            necroplasm_amulet_luck_factor = NECROPLASM_AMULET_LUCK_FACTOR.get().floatValue();
-            mechanical_glove_damage = MECHANICAL_GLOVE_DAMAGE.get();
-            mechanical_glove_speed = MECHANICAL_GLOVE_SPEED.get().floatValue();
-            frost_gauntlet_damage = FROST_GAUNTLET_DAMAGE.get();
-            frost_gauntlet_attack_speed = FROST_GAUNTLET_ATTACK_SPEED.get().floatValue();
-            frosted_wounds_damage = FROSTED_WOUNDS_DAMAGE.get();
-            frosted_wounds_duration = FROSTED_WOUNDS_DURATION.get();
-            frosted_wounds_damage_received = FROSTED_WOUNDS_DAMAGE_RECEIVED.get().floatValue();
-            frosted_shield_damage_reduction = FROSTED_SHIELD_DAMAGE_REDUCTION.get().floatValue();
-            shackle_armor = SHACKLE_ARMOR.get();
-            plushie_health = PLUSHIE_HEALTH.get().floatValue();
-            plushie_health_boost_level = PLUSHIE_HEALTH_BOOST_LEVEL.get();
-            plushie_duration = PLUSHIE_DURATION.get();
-            plushie_regen_level = PLUSHIE_REGEN_LEVEL.get();
-            enderian_damage_reduction = ENDERIAN_DAMAGE_REDUCTION.get().floatValue();
-            true_enderian_damage_reduction = TRUE_ENDERIAN_DAMAGE_REDUCTION.get().floatValue();
-            true_enderian_evade = TRUE_ENDERIAN_EVADE.get().floatValue();
-            true_enderian_reach = TRUE_ENDERIAN_REACH.get().floatValue();
-            true_enderian_luck_factor = TRUE_ENDERIAN_LUCK_FACTOR.get().floatValue();
-            true_enderian_compat = TRUE_ENDERIAN_COMPAT.get();
-            gilded_damage_reduction = GILDED_DAMAGE_REDUCTION.get().floatValue();
-            gilded_damage_dealt = GILDED_DAMAGE_DEALT.get().floatValue();
-            emerald_ring_damage = EMERALD_RING_DAMAGE.get().floatValue();
-            emerald_ring_emeralds = EMERALD_RING_EMERALDS.get().floatValue();
-            emerald_ring_luck_factor = EMERALD_RING_LUCK_FACTOR.get().floatValue();
-            emerald_ring_luck = EMERALD_RING_LUCK.get();
-            magic_quiver_damage = MAGIC_QUIVER_DAMAGE.get().floatValue();
-            magic_quiver_velocity = MAGIC_QUIVER_VELOCITY.get().floatValue();
-            magic_quiver_ammo = MAGIC_QUIVER_AMMO.get().floatValue();
-            magic_quiver_luck_factor= MAGIC_QUIVER_LUCK_FACTOR.get().floatValue();
-            envenomed_quiver_damage = ENVENOMED_QUIVER_DAMAGE.get().floatValue();
-            envenomed_quiver_velocity = ENVENOMED_QUIVER_VELOCITY.get().floatValue();
-            envenomed_quiver_poison_level = ENVENOMED_QUIVER_POISON_LEVEL.get();
-            envenomed_quiver_poison_duration = ENVENOMED_QUIVER_POISON_DURATION.get();
-            envenomed_quiver_wither_level = ENVENOMED_QUIVER_WITHER_LEVEL.get();
-            envenomed_quiver_wither_duration = ENVENOMED_QUIVER_WITHER_DURATION.get();
-            envenomed_quiver_ammo = ENVENOMED_QUIVER_AMMO.get().floatValue();
-            envenomed_quiver_luck_factor = ENVENOMED_QUIVER_LUCK_FACTOR.get().floatValue();
-            molten_quiver_damage = MOLTEN_QUIVER_DAMAGE.get().floatValue();
-            molten_quiver_velocity = MOLTEN_QUIVER_VELOCITY.get().floatValue();
-            molten_quiver_onfire_damage = MOLTEN_QUIVER_ONFIRE_DAMAGE.get().floatValue();
-            molten_quiver_duration = MOLTEN_QUIVER_DURATION.get();
-            molten_quiver_ammo = MOLTEN_QUIVER_AMMO.get().floatValue();
-            molten_quiver_luck_factor = MOLTEN_QUIVER_LUCK_FACTOR.get().floatValue();
-            frozen_quiver_damage = FROZEN_QUIVER_DAMAGE.get().floatValue();
-            frozen_quiver_velocity = FROZEN_QUIVER_VELOCITY.get().floatValue();
-            frozen_quiver_ammo = FROZEN_QUIVER_AMMO.get().floatValue();
-            frozen_quiver_multiplier = FROZEN_QUIVER_MULTIPLIER.get();
-            frozen_quiver_luck_factor = FROZEN_QUIVER_LUCK_FACTOR.get().floatValue();
-            wooden_headgear_armor = WOODEN_HEADGEAR_ARMOR.get().floatValue();
-            wooden_headgear_arrow_damage_reduction = WOODEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
-            wooden_headgear_first_aid_compat = WOODEN_HEADGEAR_FIRST_AID_COMPAT.get();
-            wooden_headgear_headshot_damage_reduction = WOODEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
-            golden_headgear_armor = GOLDEN_HEADGEAR_ARMOR.get().floatValue();
-            golden_headgear_arrow_damage_reduction = GOLDEN_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
-            golden_headgear_first_aid_compat = GOLDEN_HEADGEAR_FIRST_AID_COMPAT.get();
-            golden_headgear_headshot_damage_reduction = GOLDEN_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
-            netherite_headgear_armor = NETHERITE_HEADGEAR_ARMOR.get().floatValue();
-            netherite_headgear_arrow_damage_reduction = NETHERITE_HEADGEAR_ARROW_DAMAGE_REDUCTION.get().floatValue();
-            netherite_headgear_first_aid_compat = NETHERITE_HEADGEAR_FIRST_AID_COMPAT.get();
-            netherite_headgear_headshot_damage_reduction = NETHERITE_HEADGEAR_HEADSHOT_DAMAGE_REDUCTION.get().floatValue();
-            ender_dragon_claw_damage = ENDER_DRAGON_CLAW_DAMAGE.get().floatValue();
-            ender_dragon_claw_chance = ENDER_DRAGON_CLAW_CHANCE.get().floatValue();
-            ender_dragon_claw_luck_factor = ENDER_DRAGON_CLAW_LUCK_FACTOR.get().floatValue();
-            enderian_eye_cooldown = ENDERIAN_EYE_COOLDOWN.get().floatValue();
-            enderian_eye_radius = ENDERIAN_EYE_RADIUS.get();
-            mechanical_claw_damage = MECHANICAL_CLAW_DAMAGE.get().floatValue();
-            mechanical_claw_speed = MECHANICAL_CLAW_SPEED.get().floatValue();
-            mechanical_claw_bleed_chance = MECHANICAL_CLAW_BLEED_CHANCE.get().floatValue();
-            mechanical_claw_bleed_damage = MECHANICAL_CLAW_BLEED_DAMAGE.get();
-            mechanical_claw_bleed_duration = MECHANICAL_CLAW_BLEED_DURATION.get();
-            mechanical_claw_luck_factor = MECHANICAL_CLAW_LUCK_FACTOR.get().floatValue();
-            bleed_damage_received = BLEED_DAMAGE_RECEIVED.get().floatValue();
-            bleed_blacklisted_entities = BLEED_BLACKLISTED_ENTITIES.get();
-            echo_glove_damage = ECHO_GLOVE_DAMAGE.get().floatValue();
-            echo_glove_attack_speed = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
-            echo_glove_ignore_chance = ECHO_GLOVE_ATTACK_SPEED.get().floatValue();
-            echo_glove_luck_factor = ECHO_GLOVE_LUCK_FACTOR.get().floatValue();
-            venom_stone_damage = VENOM_STONE_DAMAGE.get().floatValue();
-            venom_stone_chance = VENOM_STONE_CHANCE.get().floatValue();
-            venom_stone_level = VENOM_STONE_LEVEL.get();
-            venom_stone_duration = VENOM_STONE_DURATION.get();
-            venom_stone_deadly_chance = VENOM_STONE_DEADLY_CHANCE.get().floatValue();
-            venom_stone_luck_factor = VENOM_STONE_LUCK_FACTOR.get().floatValue();
-            decay_stone_damage = DECAY_STONE_DAMAGE.get().floatValue();
-            decay_stone_chance = DECAY_STONE_CHANCE.get().floatValue();
-            decay_stone_level = DECAY_STONE_LEVEL.get();
-            decay_stone_duration = DECAY_STONE_DURATION.get();
-            decay_stone_heal_amount = DECAY_STONE_HEAL_AMOUNT.get();
-            decay_stone_luck_factor = DECAY_STONE_LUCK_FACTOR.get().floatValue();
-            fire_stone_damage = FIRE_STONE_DAMAGE.get().floatValue();
-            fire_stone_chance = FIRE_STONE_CHANCE.get().floatValue();
-            fire_stone_duration = FIRE_STONE_DURATION.get();
-            fire_stone_luck_factor = FIRE_STONE_LUCK_FACTOR.get().floatValue();
-            ice_stone_damage = ICE_STONE_DAMAGE.get().floatValue();
-            ice_stone_chance = ICE_STONE_CHANCE.get().floatValue();
-            ice_stone_duration = ICE_STONE_DURATION.get();
-            ice_stone_compat = ICE_STONE_COMPAT.get();
-            ice_stone_luck_factor= ICE_STONE_LUCK_FACTOR.get().floatValue();
-            ice_stone_encased_chance = ICE_STONE_ENCASED_CHANCE.get().floatValue();
-            ice_stone_encased_duration = ICE_STONE_ENCASED_DURATION.get();
-            recall_potion_use_time = RECALL_POTION_USE_TIME.get();
-            recall_potion_cooldown = RECALL_POTION_COOLDOWN.get();
-            recall_potion_interdimensional = RECALL_POTION_INTERDIMENSIONAL.get();
-            recall_potion_glow = RECALL_POTION_GLOW.get();
-            recall_potion_ingredient = RECALL_POTION_INGREDIENT.get();
-            wormhole_potion_use_time = WORMHOLE_POTION_USE_TIME.get();
-            wormhole_potion_cooldown = WORMHOLE_POTION_COOLDOWN.get();
-            wormhole_potion_interdimensional = WORMHOLE_POTION_INTERDIMENSIONAL.get();
-            wormhole_potion_glow = WORMHOLE_POTION_GLOW.get();
-            wormhole_potion_ingredient = WORMHOLE_POTION_INGREDIENT.get();
-            grave_scroll_use_time = GRAVE_SCROLL_USE_TIME.get();
-            grave_scroll_cooldown = GRAVE_SCROLL_COOLDOWN.get();
-            grave_scroll_glow = GRAVE_SCROLL_GLOW.get();
-            grave_scroll_interdimensional = GRAVE_SCROLL_INTERDIMENSIONAL.get();
-            vanir_mask_damage_increase = VANIR_MASK_DAMAGE_INCREASE.get().floatValue();
-            vanir_mask_health_increase = VANIR_MASK_HEALTH_INCREASE.get().floatValue();
-            vanir_mask_speed_increase = VANIR_MASK_SPEED_INCREASE.get().floatValue();
-            vanir_mask_armor_increase = VANIR_MASK_ARMOR_INCREASE.get().floatValue();
-            vanir_mask_armor_toughness_increase = VANIR_MASK_ARMOR_TOUGHNESS_INCREASE.get().floatValue();
-            ruby_ring_damage_increase = RUBY_RING_DAMAGE_INCREASE.get().floatValue();
-            ruby_ring_health_threshold = RUBY_RING_HEALTH_THRESHOLD.get().floatValue();
-            ruby_ring_health_cap = RUBY_RING_HEALTH_CAP.get().floatValue();
-            tainted_mirror_player_damage = TAINTED_MIRROR_PLAYER_DAMAGE.get();
-            natures_mantle_speed_increase = NATURES_MANTLE_SPEED_INCREASE.get().floatValue();
-            ender_dragon_eye_summon_chance = ENDER_DRAGON_EYE_SUMMON_CHANCE.get().floatValue();
-            ender_dragon_eye_follow_distance = ENDER_DRAGON_EYE_FOLLOW_DISTANCE.get().floatValue();
-            ender_dragon_eye_luck_factor = ENDER_DRAGON_EYE_LUCK_FACTOR.get().floatValue();
-            enderman_health_multiplier = ENDERMAN_HEALTH_MULTIPLIER.get().floatValue();
-            enderman_damage_multiplier = ENDERMAN_DAMAGE_MULTIPLIER.get().floatValue();
-            ender_dragon_eye_compat = ENDER_DRAGON_EYE_COMPAT.get();
-            leather_treads_speed = LEATHER_TREADS_SPEED.get().floatValue();
-            dune_treads_speed = DUNE_TREADS_SPEED.get().floatValue();
-            dune_treads_sand_speed = DUNE_TREADS_SAND_SPEED.get().floatValue();
-            high_jumpers_speed = HIGH_JUMPERS_SPEED.get().floatValue();
-            mechanical_gears_speed = MECHANICAL_GEARS_SPEED.get().floatValue();
-            mechanical_gears_dodge_chance = MECHANICAL_GEARS_DODGE_CHANCE.get().floatValue();
-            mechanical_gears_luck_factor = MECHANICAL_GEARS_LUCK_FACTOR.get().floatValue();
-            blazing_treads_speed = BLAZING_TREADS_SPEED.get().floatValue();
-            enderian_treads_speed = ENDERIAN_TREADS_SPEED.get().floatValue();
-            enderian_treads_cooldown = ENDERIAN_TREADS_COOLDOWN.get().floatValue();
-            sculk_treads_speed = SCULK_TREADS_SPEED.get().floatValue();
-            cursed_doll_blacklist_effects = CURSED_DOLL_BLACKLIST_EFFECTS.get();
-            cursed_doll_chance = CURSED_DOLL_CHANCE.get().floatValue();
-            cursed_doll_max_amplifier = CURSED_DOLL_MAX_AMPLIFIER.get();
-            cursed_doll_max_duration = CURSED_DOLL_MAX_DURATION.get();
-            cursed_doll_luck_factor = CURSED_DOLL_LUCK_FACTOR.get().floatValue();
-            guardian_thorn_necklace_armor = GUARDIAN_THORN_NECKLACE_ARMOR.get();
-            guardian_thorn_necklace_armor_pierce = GUARDIAN_THORN_NECKLACE_ARMOR_PIERCE.get();
-            guardian_thorn_necklace_thorns = GUARDIAN_THORN_NECKLACE_THORNS.get();
-            holy_mantle_cooldown = HOLY_MANTLE_COOLDOWN.get();
-            holy_mantle_absorption_chance = HOLY_MANTLE_ABSORPTION_CHANCE.get().floatValue();
-            holy_mantle_max_hearts = HOLY_MANTLE_MAX_HEARTS.get();
-            holy_mantle_luck_factor = HOLY_MANTLE_LUCK_FACTOR.get().floatValue();
-            broken_heart_damage_increase = BROKEN_HEART_DAMAGE_INCREASE.get().floatValue();
-            stealth_manual_sneak_speed = STEALTH_MANUAL_SNEAK_SPEED.get().floatValue();
-            stealth_manual_dodge_distance = STEALTH_MANUAL_DODGE_DISTANCE.get().floatValue();
-            phantom_thread_head = PHANTOM_THREAD_HEAD.get();
-            phantom_thread_chest = PHANTOM_THREAD_CHEST.get();
-            phantom_thread_legs = PHANTOM_THREAD_LEGS.get();
-            phantom_thread_feet = PHANTOM_THREAD_FEET.get();
-            phantom_thread_glow = PHANTOM_THREAD_GLOW.get();
-            bezoar_drop_chance = BEZOAR_DROP_CHANCE.get().floatValue();
-            vitamins_drop_chance = VITAMINS_DROP_CHANCE.get().floatValue();
-            fast_clock_drop_chance = FAST_CLOCK_DROP_CHANCE.get().floatValue();
-            desert_charm_drop_chance = DESERT_CHARM_DROP_CHANCE.get().floatValue();
-            wither_shard_drop_chance = WITHER_SHARD_DROP_CHANCE.get().floatValue();
-            shulker_heart_drop_chance = SHULKER_HEART_DROP_CHANCE.get().floatValue();
-            enderian_scarf_drop_chance = ENDERIAN_SCARF_DROP_CHANCE.get().floatValue();
-            shackle_drop_chance = SHACKLE_DROP_CHANCE.get().floatValue();
-            magic_quiver_skeleton_drop_chance = MAGIC_QUIVER_SKELETON_DROP_CHANCE.get().floatValue();
-            magic_quiver_pillager_drop_chance = MAGIC_QUIVER_PILLAGER_DROP_CHANCE.get().floatValue();
-            magic_quiver_trade_chance = MAGIC_QUIVER_TRADE_CHANCE.get().floatValue();
-            ender_dragon_claw_drop_chance = ENDER_DRAGON_CLAW_DROP_CHANCE.get().floatValue();
-            sculk_lens_drop_chance = SCULK_LENS_DROP_CHANCE.get().floatValue();
-            recall_potion_drop_chance = RECALL_POTION_DROP_CHANCE.get().floatValue();
-            cobalt_shield_drop_chance = COBALT_SHIELD_DROP_CHANCE.get().floatValue();
-            melody_plushie_drop_chance = MELODY_PLUSHIE_DROP_CHANCE.get().floatValue();
-            holy_mantle_trade_chance = HOLY_MANTLE_TRADE_CHANCE.get().floatValue();
-            stealth_manual_trade_chance = STEALTH_MANUAL_TRADE_CHANCE.get().floatValue();
-            max_damage_reduction = MAX_DAMAGE_REDUCTION.get().floatValue();
-            max_fire_damage_reduction = MAX_FIRE_DAMAGE_REDUCTION.get().floatValue();
-            max_damage_increase = MAX_DAMAGE_INCREASE.get().floatValue();
-            enable_debug = ENABLE_DEBUG.get();
-            enable_ender_tweaks = ENABLE_ENDER_TWEAKS.get();
-            enable_loot_tables = ENABLE_LOOT_TABLES.get();
-            enable_luck_factor = ENABLE_LUCK_FACTOR.get();
-            enable_air_dodge = ENABLE_AIR_DODGE.get();
-            envy_magic_damage_conversion = ENVY_MAGIC_DAMAGE_CONVERSION.get().floatValue();
-            envy_flight_mana_cost = ENVY_FLIGHT_MANA_COST.get().floatValue();
-            envy_start_cost = ENVY_START_COST.get().floatValue();
-            irons_spellbooks_mana_compat = IRONS_SPELLBOOKS_MANA_COMPAT.get();
-            envy_spellbooks_flight_time = ENVY_SPELLBOOKS_FLIGHT_TIME.get().floatValue();
-            envy_spellbooks_mana_offset = ENVY_SPELLBOOKS_MANA_OFFSET.get().floatValue();
-            envy_spellbooks_start_cost = ENVY_SPELLBOOKS_START_COST.get().floatValue();
-            envy_evolve_damage_1 = ENVY_EVOLVE_DAMAGE_1.get().floatValue();
-            envy_evolve_damage_2 = ENVY_EVOLVE_DAMAGE_2.get().floatValue();
-            envy_evolve_damage_3 = ENVY_EVOLVE_DAMAGE_3.get().floatValue();
-            envy_evolve_damage_4 = ENVY_EVOLVE_DAMAGE_4.get().floatValue();
-            wrath_evolve_damage_1 = WRATH_EVOLVE_DAMAGE_1.get().floatValue();
-            wrath_evolve_damage_2 = WRATH_EVOLVE_DAMAGE_2.get().floatValue();
-            wrath_evolve_damage_3 = WRATH_EVOLVE_DAMAGE_3.get().floatValue();
-            wrath_evolve_damage_4 = WRATH_EVOLVE_DAMAGE_4.get().floatValue();
-
         }
     }
 
@@ -859,7 +445,12 @@ public class CommonConfig {
         ENABLE_ENDER_TWEAKS = BUILDER.comment("Stop the endermen from being able to target or be hurt by the ender dragon/dragon breath").define("Ender_Tweaks", true);
         ENABLE_LOOT_TABLES = BUILDER.comment("Enables loot tables from this mod").define("Enable_Loot_Tables", true);
         ENABLE_LUCK_FACTOR = BUILDER.comment("Enables luck affecting artifact chanced based effects").define("Enable_Luck_Factor", true);
-        ENABLE_AIR_DODGE = BUILDER.comment("Enables being able to dash in the air with artifacts that have the ability to dodge").define("Enable_Air_Dodge", false);
+        BUILDER.comment("Mana Settings").push("Mana");
+        DEFAULT_MAX_MANA = BUILDER.comment("Default maximum mana the player starts with").define("Default_Max_Mana", 100.0);
+        DEFAULT_MANA_REGEN = BUILDER.comment("Amount of mana that regenerates every second").define("Default_Mana_Regen", 2.0);
+        IRONS_SPELLBOOKS_MANA_COMPAT = BUILDER.comment("Enable using irons spellbooks mana system instead of this mods mana system").define("Spellbooks_Mana_System", true);
+        BUILDER.pop();
+
         BUILDER.pop();
 
         /*
@@ -870,15 +461,10 @@ public class CommonConfig {
             String itemID = Objects.requireNonNull(artifact.getId()).toString();
             String itemPath = artifact.getId().getPath();
 
-            String[] words = itemPath.split("_");
-            StringBuilder displayName = new StringBuilder();
+            String displayName = Arrays.stream(itemPath.split("_")).map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining(" "));
+            String configKey = Arrays.stream(itemPath.split("_")).map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining("_"));
 
-            for (String word : words) {
-                displayName.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
-            }
-            displayName = new StringBuilder(displayName.toString().trim());
-
-            ForgeConfigSpec.BooleanValue configValue = BUILDER.comment("Enable " + displayName).define(String.valueOf(displayName), true);
+            ForgeConfigSpec.BooleanValue configValue = BUILDER.comment("Enable " + displayName).define(configKey, true);
             TOGGLE.put(itemID, configValue);
         }
         BUILDER.pop();
@@ -1197,7 +783,23 @@ public class CommonConfig {
 
         BUILDER.push("Stealth_Manual");
         STEALTH_MANUAL_SNEAK_SPEED = BUILDER.comment("Sneak speed increase in percentage").define("Sneak_Speed", 0.50);
-        STEALTH_MANUAL_DODGE_DISTANCE = BUILDER.comment("Dodge distance increase in percentage").define("Dodge_Distance", 1.2);
+        BUILDER.pop();
+
+        BUILDER.push("Storm_Fang");
+        STORM_FANG_SPEED_INCREASE = BUILDER.comment("Speed increase in percentage").define("Speed_Increase", 0.25);
+        STORM_FANG_SHOCK_DAMAGE = BUILDER.comment("Shock damage dealt from the storm shock ability").define("Shock_Damage", 8);
+        STORM_FANG_SHOCK_RADIUS = BUILDER.comment("Maximum radius of the storm shock ability").define("Shock_Radius", 10);
+        STORM_FANG_MANA_COST = BUILDER.comment("Mana cost of the storm shock ability").define("Mana_Cost", 25);
+        STORM_FANG_COOLDOWN = BUILDER.comment("Storm shock ability cooldown in seconds").define("Cooldown", 8.0);
+        BUILDER.pop();
+
+        BUILDER.push("Red_Belt");
+        RED_BELT_DODGE_DISTANCE = BUILDER.comment("Dodge distance increase in percentage").define("Dodge_Distance", 1.25);
+        BUILDER.pop();
+
+        BUILDER.push("Rogue_Belt");
+        ROGUE_BELT_DODGE_DISTANCE = BUILDER.comment("Dodge distance increase in percentage").define("Dodge_Distance", 1.25);
+        ROGUE_BELT_SNEAK_SPEED = BUILDER.comment("Sneak speed increase in percentage").define("Dodge_Distance", 0.50);
         BUILDER.pop();
 
         BUILDER.push("Tainted_Mirror");
@@ -1261,9 +863,19 @@ public class CommonConfig {
         */
         BUILDER.comment("Global soul settings for all of their stats and abilities").push("Souls");
         BUILDER.push("Envy");
-        ENVY_MAGIC_DAMAGE_CONVERSION = BUILDER.comment("Amount of damage that is converted into magic damage per stage").define("Magic_Damage", 0.10);
-        ENVY_FLIGHT_MANA_COST = BUILDER.comment("Mana cost per second of using flight").define("Mana_Cost", 4.0);
-        ENVY_START_COST = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Start_Cost", 10.0);
+        ENVY_EFFECT = BUILDER.comment("Passive effect applied by this soul").define("Passive_Effect", "minecraft:invisibility");
+        ENVY_MAGIC_DAMAGE = BUILDER.comment("Amount of magic damage gained per stage, this config is unused if apothecary is installed").define("Magic_Damage", 0.10);
+        ENVY_MAGIC_DAMAGE_CONVERSION = BUILDER.comment("Amount of damage that is converted into magic damage per stage").define("Magic_Damage_Conversion", 0.10);
+        ENVY_MANA_SHIELD_DAMAGE_MULTIPLIER = BUILDER.comment("Multiplier that applies to the damage the mana shield takes, based on the damage dealt to it").define("Mana_Shield_Damage_Multiplier", 3.0);
+        ENVY_FLIGHT_MANA_COST = BUILDER.comment("Mana cost per second of using flight").define("Flight_Mana_Cost", 4.0);
+        ENVY_FLIGHT_START_THRESHOLD = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Flight_Start_Threshold", 10.0);
+        ENVY_MANA_SHIELD_START_THRESHOLD = BUILDER.comment("Mana required to enable soul mana shield, any number under this value wont enable the shield").define("Mana_Shield_Start_Cost", 50.0);
+        ENVY_MANA_SHIELD_COST = BUILDER.comment("Mana cost for enabling the soul mana shield, this amount of mana is taken away from the player upon enabling").define("Mana_Shield_Mana_Cost", 50.0);
+        ENVY_MANA_SHIELD_DIMINISHING_FACTOR = BUILDER.comment("Diminishing returns factor for mana shield damage absorption, this number is raised to the power of the damage dealt").define("Diminishing_Returns_Factor", 0.75);
+        ENVY_MANA_SHIELD_DIMINISHING_THRESHOLD = BUILDER.comment("The amount of incoming damage needed to be taken before the diminishing factor is active").define("Diminishing_Returns_Threshold", 10.0);
+        ENVY_MANA_SHIELD_ARMOR_MULTIPLIER = BUILDER.comment("Every armor point adds to the total damage multiplier for the mana shield").define("Armor_Multiplier", 0.025);
+        ENVY_MANA_SHIELD_ARMOR_TOUGHNESS_MULTIPLIER = BUILDER.comment("Every armor toughness point adds to the total damage multiplier for the mana shield").define("Armor_Toughness_Multiplier", 0.05);
+        MANA_SHIELD_SOUNDS = BUILDER.comment("Enable mana shield sound effects").define("Mana_Shield_Sounds", true);
         BUILDER.push("Evolve");
         ENVY_EVOLVE_DAMAGE_1 = BUILDER.comment("Damage required to evolve from stage 1 -> 2").define("Stage2", 2000.0);
         ENVY_EVOLVE_DAMAGE_2 = BUILDER.comment("Damage required to evolve from stage 2 -> 3").define("Stage3", 5000.0);
@@ -1271,10 +883,19 @@ public class CommonConfig {
         ENVY_EVOLVE_DAMAGE_4 = BUILDER.comment("Damage required to evolve from stage 4 -> 5").define("Stage5", 50000.0);
         BUILDER.pop();
         BUILDER.push("Irons_Spellbooks");
-        IRONS_SPELLBOOKS_MANA_COMPAT = BUILDER.comment("Enable using irons spellbooks mana system instead of this mods mana system").define("Spellbooks_Mana_System", true);
-        ENVY_SPELLBOOKS_FLIGHT_TIME = BUILDER.comment("Total time the player can fly until their mana runs out in seconds").define("Flight_Time", 25.0);
-        ENVY_SPELLBOOKS_MANA_OFFSET = BUILDER.comment("Mana to take away every second on top of the flight time").define("Mana_Offset", 3.0);
-        ENVY_SPELLBOOKS_START_COST = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Start_Cost", 100.0);
+        ENVY_SPELLBOOKS_MANA_SHIELD_DAMAGE_MULTIPLIER = BUILDER.comment("Multiplier that applies to the damage the mana shield takes, based on the damage dealt to it").define("Mana_Shield_Damage_Multiplier", 5.0);
+        ENVY_SPELLBOOKS_FLIGHT_TIME = BUILDER.comment("Total time the player can fly until their mana runs out in seconds").define("Flight_Time", 40.0);
+        ENVY_SPELLBOOKS_FLIGHT_START_COST = BUILDER.comment("Mana required to start flying, any number under this value wont allow flight").define("Flight_Start_Threshold", 50.0);
+        ENVY_SPELLBOOKS_FLIGHT_MANA_OFFSET = BUILDER.comment("Mana to take away every tick on top of the flight time").define("Flight_Mana_Offset", 0.06);
+        ENVY_SPELLBOOKS_MANA_SHIELD_START_THRESHOLD = BUILDER.comment("Mana required to enable soul mana shield, any number under this value wont enable the shield").define("Mana_Shield_Start_Threshold", 250.0);
+        ENVY_SPELLBOOKS_MANA_SHIELD_COST = BUILDER.comment("Mana cost for enabling the soul mana shield, this amount of mana is taken away from the player upon enabling").define("Mana_Shield_Mana_Cost", 200.0);
+        ENVY_SPELLBOOKS_MANA_SHIELD_ARMOR_MULTIPLIER = BUILDER.comment("Every armor point adds to the total damage multiplier for the mana shield").define("Armor_Multiplier", 0.1);
+        ENVY_SPELLBOOKS_MANA_SHIELD_ARMOR_TOUGHNESS_MULTIPLIER = BUILDER.comment("Every armor toughness point adds to the total damage multiplier for the mana shield").define("Armor_Toughness_Multiplier", 0.2);
+        ENVY_SPELLBOOKS_MANA_SHIELD_MAX_MANA_SCALE = BUILDER.comment("The diminishing factor for max mana, this number is raised to the power of every 100 max mana (100 = 1)").define("Max_Mana_Scale", 0.25);
+        ENVY_SPELLBOOKS_SPELL_COST_REDUCTION = BUILDER.comment("Reduces spell mana costs by this amount in percentage").define("Spell_Cost_Reduction", 0.25);
+        BUILDER.pop();
+        BUILDER.push("First_Aid");
+        ENVY_FIRST_AID_MANA_SHIELD_DAMAGE_MULTIPLIER = BUILDER.comment("Number that is added to the multiplier when first aid is installed, e.g... multiplier = 3, (this) = 2, final = 5").define("Mana_Shield_Added_Damage_Multiplier", 2.0);
         BUILDER.pop();
         ENVY_ATTRIBUTES = BUILDER.comment(
                 "Soul Attributes",
@@ -1284,13 +905,24 @@ public class CommonConfig {
                 "apothecary:magic_damage;0.20;0.075;MULTIPLY_BASE",
                 "minecraft:generic.movement_speed;0.05;0.05;MULTIPLY_BASE",
                 "apothecary:jump_height;0.0;0.05;MULTIPLY_BASE",
-                "apothecary:magic_shielding;2.0;2.0;ADDITION",
-                "minecraft:generic.armor;-0.05;-0.05;MULTIPLY_BASE",
+                "minecraft:generic.attack_damage;-0.05;-0.05;MULTIPLY_BASE",
+                "minecraft:generic.armor;-0.10;-0.10;MULTIPLY_BASE",
                 "minecraft:generic.knockback_resistance;-0.30;-0.05;MULTIPLY_BASE"
         ), o -> o instanceof String);
         BUILDER.pop();
 
         BUILDER.push("Wrath");
+        WRATH_EFFECT = BUILDER.comment("Passive effect applied by this soul").define("Passive_Effect", "minecraft:strength");
+        WRATH_SINFUL_CHANCE = BUILDER.comment("Chance every hit to gain the sinful effect").define("Sinful_Chance", 0.30);
+        WRATH_SINFUL_DURATION = BUILDER.comment("Duration of the sinful effect gained").define("Sinful_Duration", 110);
+        WRATH_SINFUL_MAX_LEVEL = BUILDER.comment("Max level the sinful effect can reach").define("Sinful_Max_Level", 5);
+        WRATH_ANNIHILATION_DAMAGE_MULTIPLIER = BUILDER.comment("Amount of damage percentage added per sinful stack").define("Annihilation_Damage_Multiplier", 0.2);
+        WRATH_ANNIHILATION_MAX_STACKS = BUILDER.comment("Max amount of annihilation stacks the player can achieve").define("Annihilation_Max_Stacks", 5);
+        BUILDER.push("Stage4");
+        WRATH_STAGE_4_SINFUL_CHANCE = BUILDER.comment("Chance every hit to gain the sinful effect").define("Sinful_Chance", 0.15);
+        WRATH_STAGE_4_SINFUL_DURATION = BUILDER.comment("Duration of the sinful effect gained").define("Sinful_Duration", 110);
+        WRATH_STAGE_4_SINFUL_MAX_LEVEL = BUILDER.comment("Max level the sinful effect can reach").define("Sinful_Max_Level", 3);
+        BUILDER.pop();
         BUILDER.push("Evolve");
         WRATH_EVOLVE_DAMAGE_1 = BUILDER.comment("Damage required to evolve from stage 1 -> 2").define("Stage2", 2000.0);
         WRATH_EVOLVE_DAMAGE_2 = BUILDER.comment("Damage required to evolve from stage 2 -> 3").define("Stage3", 5000.0);
@@ -1303,10 +935,10 @@ public class CommonConfig {
                 "Operations: ADDITION, MULTIPLY_BASE, MULTIPLY_TOTAL"
         ).defineList("wrath_attributes", List.of(
                 "minecraft:generic.attack_damage;0.10;0.10;MULTIPLY_BASE",
-                "minecraft:generic.max_health;0.05;0.05;MULTIPLY_BASE",
+                "minecraft:generic.attack_speed;0.03;0.03;MULTIPLY_BASE",
                 "minecraft:generic.knockback_resistance;0.0;0.25;ADDITION",
-                "minecraft:generic.attack_speed;-0.05;-0.05;MULTIPLY_BASE",
                 "minecraft:generic.armor;-0.05;-0.05;MULTIPLY_BASE",
+                "minecraft:generic.armor_toughness;-0.05;-0.05;MULTIPLY_BASE",
                 "apothecary:magic_shielding;-1.0;-1.0;ADDITION"
         ), o -> o instanceof String);
         BUILDER.pop();
@@ -1363,8 +995,53 @@ public class CommonConfig {
         ENDER_DRAGON_CLAW_DROP_CHANCE = BUILDER.comment("Ender Dragon Claw drop chance from the ender dragon in percentage").define("Drop_Chance", 0.25);
         BUILDER.pop();
 
+        BUILDER.push("Ender_Dragon_Eye");
+        ENDER_DRAGON_EYE_DROP_CHANCE = BUILDER.comment("Ender Dragon Eye drop chance from the ender dragon in percentage").define("Drop_Chance", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("Tainted_Mirror");
+        TAINTED_MIRROR_DROP_CHANCE = BUILDER.comment("Tainted Mirror drop chance from the warden in percentage").define("Drop_Chance", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("Cursed_Doll");
+        CURSED_DOLL_DROP_CHANCE = BUILDER.comment("Cursed Doll drop chance from witches in percentage").define("Drop_Chance", 0.02);
+        BUILDER.pop();
+
+        BUILDER.push("Red_Belt");
+        RED_BELT_DROP_CHANCE = BUILDER.comment("Red Belt drop chance from piglin brutes in percentage").define("Drop_Chance", 0.05);
+        BUILDER.pop();
+
         BUILDER.push("Melody_Plushie");
         MELODY_PLUSHIE_DROP_CHANCE = BUILDER.comment("Melody Plushie drop chance from cat morning gifts in percentage").define("Drop_Chance", 0.01);
+        BUILDER.pop();
+
+        BUILDER.push("Dune_Treads");
+        DUNE_TREADS_DROP_CHANCE = BUILDER.comment("Dune Treads loot chance from desert pyramids in percentage").define("Loot_Chance", 0.15);
+        BUILDER.pop();
+
+        BUILDER.push("Ruby_Ring");
+        RUBY_RING_DROP_CHANCE = BUILDER.comment("Ruby Ring loot chance from bastions in percentage").define("Loot_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Ice_Crystal");
+        ICE_CRYSTAL_DROP_CHANCE = BUILDER.comment("Ice Crystal loot chance from igloos in percentage").define("Loot_Chance", 1.0);
+        BUILDER.pop();
+
+        BUILDER.push("Natures_Mantle");
+        NATURES_MANTLE_DROP_CHANCE = BUILDER.comment("Natures Mantle loot chance from jungle temples in percentage").define("Loot_Chance", 0.20);
+        BUILDER.pop();
+
+        BUILDER.push("Broken_Heart");
+        BROKEN_HEART_DROP_CHANCE = BUILDER.comment("Broken Heart loot chance from simple dungeons in percentage").define("Loot_Chance", 0.05);
+        BUILDER.pop();
+
+        BUILDER.push("Storm_Fang");
+        STORM_FANG_DROP_CHANCE = BUILDER.comment("Storm Fang drop chance from charged creepers in percentage").define("Drop_Chance", 0.10);
+        BUILDER.pop();
+
+        BUILDER.push("Shadow_Dust");
+        SHADOW_DUST_DUNGEON_DROP_CHANCE = BUILDER.comment("Shadow Dust loot chance from simple dungeons in percentage").define("Dungeon_Loot_Chance", 0.05);
+        SHADOW_DUST_ANCIENT_CITY_DROP_CHANCE = BUILDER.comment("Shadow Dust loot chance from ancient cities in percentage").define("Ancient_City_Loot_Chance", 0.05);
         BUILDER.pop();
 
         BUILDER.push("Holy_Mantle");
@@ -1372,7 +1049,7 @@ public class CommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Stealth_Manual");
-        STEALTH_MANUAL_TRADE_CHANCE = BUILDER.comment("Stealth Manual trade chance from max level cartographer villagers in percentage").define("Trade_Chance", 0.05);
+        STEALTH_MANUAL_TRADE_CHANCE = BUILDER.comment("Stealth Manual trade chance from max level cartographer villagers in percentage").define("Trade_Chance", 0.25);
         BUILDER.pop();
 
         BUILDER.push("Sculk_Lens");
@@ -1381,6 +1058,10 @@ public class CommonConfig {
 
         BUILDER.push("Recall_Potion");
         RECALL_POTION_DROP_CHANCE = BUILDER.comment("Recall Potion loot chance from simple dungeons in percentage").define("Loot_Chance", 0.25);
+        BUILDER.pop();
+
+        BUILDER.push("Wormhole_Potion");
+        WORMHOLE_POTION_DROP_CHANCE = BUILDER.comment("Wormhole Potion loot chance from simple dungeons in percentage").define("Loot_Chance", 0.25);
         BUILDER.pop();
 
         BUILDER.push("Cobalt_Shield");

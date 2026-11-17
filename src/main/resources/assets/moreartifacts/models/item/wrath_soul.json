@@ -2,5 +2,19 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "moreartifacts:item/wrath_soul"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "moreartifacts:soul_stage": 3.0
+      },
+      "model": "moreartifacts:item/wrath_soul_stage_3"
+    },
+    {
+      "predicate": {
+        "moreartifacts:soul_stage": 5.0
+      },
+      "model": "moreartifacts:item/wrath_soul_stage_5"
+    }
+  ]
 }

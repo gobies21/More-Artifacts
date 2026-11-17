@@ -5,7 +5,7 @@
       "item": "moreartifacts:frost_gauntlet"
     },
     "title": "Iced Out",
-    "description": "Upgrade a Mechanical Glove into a Frost Gauntlet",
+    "description": "Upgrade a mechanical glove into a frost gauntlet",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

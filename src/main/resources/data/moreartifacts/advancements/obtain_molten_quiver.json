@@ -5,7 +5,7 @@
       "item": "moreartifacts:molten_quiver"
     },
     "title": "Hot Shot",
-    "description": "Upgrade a Magic Quiver into a Molten Quiver",
+    "description": "Upgrade a magic quiver into a molten quiver",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

@@ -5,7 +5,7 @@
       "item": "moreartifacts:melody_plushie"
     },
     "title": "Aww, so cute",
-    "description": "Obtain a Melody Plushie from a cat morning gift",
+    "description": "Obtain a melody plushie from a cat morning gift",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

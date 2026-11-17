@@ -5,7 +5,7 @@
       "item": "moreartifacts:envenomed_quiver"
     },
     "title": "Deadly Shot",
-    "description": "Upgrade a Magic Quiver into an Envenomed Quiver",
+    "description": "Upgrade a magic quiver into an envenomed quiver",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

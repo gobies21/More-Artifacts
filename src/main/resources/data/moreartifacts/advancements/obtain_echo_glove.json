@@ -5,7 +5,7 @@
       "item": "moreartifacts:echo_glove"
     },
     "title": "The Vibrations of Light",
-    "description": "Upgrade a Mechanical Glove into a Echo Glove",
+    "description": "Upgrade a mechanical glove into a echo glove",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

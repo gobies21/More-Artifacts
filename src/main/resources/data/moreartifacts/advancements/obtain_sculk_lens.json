@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_sunglasses",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:sculk_lens"
+    },
+    "title": "Darkness no more",
+    "description": "Find a sculk lens in an ancient city",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_sculk_lens": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:sculk_lens"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sculk_lens"
+    ]
+  ]
+}

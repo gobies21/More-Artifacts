@@ -3,8 +3,12 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -83,8 +87,15 @@ public class MelodyPlushieItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.regen").withStyle(ChatFormatting.LIGHT_PURPLE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.regen").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(MobEffects.REGENERATION.getColor()))));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.melody_plushie.sleep"));
+        if (ModLoadedUtil.isLycanitesMobsLoaded()) {
+            if (Screen.hasControlDown()) {
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.lycanites_plush").withStyle(ChatFormatting.GRAY));
+            } else {
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+            }
+        }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

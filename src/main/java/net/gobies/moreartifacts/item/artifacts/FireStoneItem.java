@@ -40,17 +40,17 @@ public class FireStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        Style customOrange = Style.EMPTY.withColor(TextColor.fromRgb(0xF57314));
+        Style orange = Style.EMPTY.withColor(TextColor.fromRgb(0xF57314));
         double fireChance = CommonConfig.FIRE_STONE_CHANCE.get() * 100;
         int fireDuration = CommonConfig.FIRE_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.FIRE_STONE_DAMAGE.get() - 1) * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + MAUtils.formatDecimal(fireChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(customOrange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.immunity").withStyle(orange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.inflame", Component.literal("+" + MAUtils.formatDecimal(fireChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(fireDuration)).withStyle(ChatFormatting.BLUE)).withStyle(orange));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(orange));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone_ignite").withStyle(customOrange));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.fire_stone_ignite").withStyle(orange));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

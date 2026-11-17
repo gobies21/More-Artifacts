@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_fast_clock",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:shulker_heart"
+    },
+    "title": "Looks Squishy",
+    "description": "Obtain a shulker heart from a shulker",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_shulker_heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:shulker_heart"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shulker_heart"
+    ]
+  ]
+}

@@ -5,7 +5,7 @@
       "item": "moreartifacts:ankh_charm"
     },
     "title": "Ankhitional Immunity",
-    "description": "Craft the Ankh Charm",
+    "description": "Craft the ankh charm",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

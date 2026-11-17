@@ -5,7 +5,7 @@
       "item": "moreartifacts:enderian_scarf"
     },
     "title": "Woven in the End",
-    "description": "Obtain an Enderian Scarf from an enderman",
+    "description": "Obtain an enderian scarf from an enderman",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

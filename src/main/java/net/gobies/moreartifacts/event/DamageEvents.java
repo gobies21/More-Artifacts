@@ -9,7 +9,6 @@ import net.gobies.moreartifacts.init.MAParticles;
 import net.gobies.moreartifacts.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -22,17 +21,13 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.animal.AbstractGolem;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -41,7 +36,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 import java.util.*;
@@ -51,7 +45,6 @@ public class DamageEvents {
     private static final Map<UUID, Double> generalDamageReductionMap = new HashMap<>();
     private static final Map<UUID, Double> fireDamageReductionMap = new HashMap<>();
     private static final Map<UUID, Double> generalDamageIncreaseMap = new HashMap<>();
-    private static final Map<UUID, Map<Item, Boolean>> equippedArtifactsMap = new HashMap<>();
     private static final Map<UUID, Long> lastHealTimeMap = new HashMap<>();
 
     public static double getTotalDamageReduction(Player player) {
@@ -92,7 +85,7 @@ public class DamageEvents {
 
             double finalReduction = event.getAmount();
 
-            if (MAUtils.isFire(event)) {
+            if (event.getSource().is(DamageTypes.ON_FIRE) || event.getSource().is(DamageTypes.IN_FIRE)) {
                 // Combines damage reductions to be one value for fire damage reduction
                 double combinedFireReduction = generalReduction + fireReduction;
                 finalReduction = combinedFireReduction >= 1.0 ? 0.0 : finalReduction * (1.0 - combinedFireReduction);
@@ -125,7 +118,7 @@ public class DamageEvents {
             }
 
             if (CurioHandler.isCurioEquipped(player, MAItems.FrostedShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.FrostedShield.get())) {
-                if (player.getHealth() <= player.getMaxHealth() / 2 || player.getHealth() <= (player.getMaxHealth() / 2) + (BrokenHeartSystem.getBrokenHearts(player) * 2)) {
+                if (player.getHealth() <= player.getMaxHealth() / 2 || player.getHealth() <= ((player.getMaxHealth() / 2) + (BrokenHeartSystem.getBrokenHearts(player) * 2))) {
                     finalReduction *= (1.0 - CommonConfig.FROSTED_SHIELD_DAMAGE_REDUCTION.get());
                 }
             }
@@ -260,8 +253,6 @@ public class DamageEvents {
                     if (!ModLoadedUtil.isApothecaryLoaded()) {
                         generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_DAMAGE.get());
                     }
-                    target.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
-
                     if (target.isOnFire()) {
                         generalIncrease += DamageCalculator.getDamageIncrease(player, MAItems.MoltenQuiver.get(), CommonConfig.MOLTEN_QUIVER_ONFIRE_DAMAGE.get());
                     }
@@ -314,10 +305,14 @@ public class DamageEvents {
 
             MAUtils.logDebug("Total Damage Increase for " + player.getName().getString() + ": " + String.format("%.2f", generalIncrease * 100) + "%");
         }
-        if (MAStatusEffects.bleeding().containsKey(targetId)) {
-            event.setAmount((float) (event.getAmount() * (1 + CommonConfig.BLEED_DAMAGE_RECEIVED.get())));
-        } else if (MAStatusEffects.frostedWounds().containsKey(targetId)) {
-            event.setAmount((float) (event.getAmount() * (1 + CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get())));
+        if (event.getSource().getEntity() instanceof LivingEntity entity) {
+            if (MAStatusEffects.bleeding().containsKey(targetId)) {
+                if (!CurioHandler.isCurioEquipped(entity, MAItems.MechanicalClaw.get())) return;
+                event.setAmount((float) (event.getAmount() * (1 + CommonConfig.BLEED_DAMAGE_RECEIVED.get())));
+            } else if (MAStatusEffects.frostedWounds().containsKey(targetId)) {
+                if (!CurioHandler.isCurioEquipped(entity, MAItems.FrostGauntlet.get())) return;
+                event.setAmount((float) (event.getAmount() * (1 + CommonConfig.FROSTED_WOUNDS_DAMAGE_RECEIVED.get())));
+            }
         }
     }
 
@@ -325,13 +320,10 @@ public class DamageEvents {
     public static void onCurioChange(CurioChangeEvent event) {
         if (!(event.getEntity() instanceof Player player) || player.level().isClientSide()) return;
 
-        UUID playerUUID = player.getUUID();
         Map<Item, Boolean> currentEquippedState = DamageCalculator.getCurrentEquipState(player);
 
         updateDamageReduction(player);
         updateDamageIncrease(player);
-
-        equippedArtifactsMap.put(playerUUID, currentEquippedState);
 
         MAUtils.logDebug("Artifacts changed for " + player.getName().getString() + ": " + currentEquippedState);
     }
@@ -346,13 +338,7 @@ public class DamageEvents {
         if (!event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
             return;
         }
-        if (target instanceof AbstractSkeleton || target instanceof AbstractGolem || target instanceof Slime) {
-            return;
-        }
-        ResourceLocation entityName = ForgeRegistries.ENTITY_TYPES.getKey(target.getType());
-        if (entityName != null && CommonConfig.BLEED_BLACKLISTED_ENTITIES.get().contains(entityName.toString())) {
-            return;
-        }
+        if (MAUtils.bleedImmune(target)) return;
         UUID targetId = target.getUUID();
 
         int clawCount = CurioHandler.getCurioCount(player, MAItems.MechanicalClaw.get());
@@ -394,7 +380,8 @@ public class DamageEvents {
             if (remainingTicks % 20 == 0) {
                 DamageSource bleedDamage = entity.level().damageSources().magic();
                 int prevInvulnerableTime = entity.invulnerableTime;
-                entity.hurt(bleedDamage, CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get());
+                float damageAmount = CommonConfig.MECHANICAL_CLAW_BLEED_DAMAGE.get();
+                entity.hurt(bleedDamage, damageAmount);
                 entity.invulnerableTime = prevInvulnerableTime;
             }
             MAStatusEffects.bleeding().put(entityId, remainingTicks - 1);
@@ -465,25 +452,15 @@ public class DamageEvents {
         int moltenQuiverCount = CurioHandler.getCurioCount(player, MAItems.MoltenQuiver.get());
         int frozenQuiverCount = CurioHandler.getCurioCount(player, MAItems.FrozenQuiver.get());
 
-        for (int i = 0; i < magicQuiverCount; i++) {
-            double velocityMultiplier = 1.0 + (CommonConfig.MAGIC_QUIVER_VELOCITY.get() * magicQuiverCount);
-            Vec3 motion = projectile.getDeltaMovement();
-            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
-        }
-        for (int i = 0; i < envenomedQuiverCount; i++) {
-            double velocityMultiplier = 1.0 + (CommonConfig.ENVENOMED_QUIVER_VELOCITY.get() * envenomedQuiverCount);
-            Vec3 motion = projectile.getDeltaMovement();
-            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
-        }
-        for (int i = 0; i < moltenQuiverCount; i++) {
-            double velocityMultiplier = 1.0 + (CommonConfig.MOLTEN_QUIVER_VELOCITY.get() * moltenQuiverCount);
-            Vec3 motion = projectile.getDeltaMovement();
-            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
-        }
-        for (int i = 0; i < frozenQuiverCount; i++) {
-            double velocityMultiplier = 1.0 + (CommonConfig.FROZEN_QUIVER_VELOCITY.get() * frozenQuiverCount);
-            Vec3 motion = projectile.getDeltaMovement();
-            projectile.setDeltaMovement(motion.scale(velocityMultiplier));
+        double velocityMultiplier = 1.0;
+
+        velocityMultiplier *= 1.0 + CommonConfig.MAGIC_QUIVER_VELOCITY.get() * magicQuiverCount;
+        velocityMultiplier *= 1.0 + CommonConfig.ENVENOMED_QUIVER_VELOCITY.get() * envenomedQuiverCount;
+        velocityMultiplier *= 1.0 + CommonConfig.MOLTEN_QUIVER_VELOCITY.get() * moltenQuiverCount;
+        velocityMultiplier *= 1.0 + CommonConfig.FROZEN_QUIVER_VELOCITY.get() * frozenQuiverCount;
+
+        if (velocityMultiplier != 1.0) {
+            projectile.setDeltaMovement(projectile.getDeltaMovement().scale(velocityMultiplier));
         }
         if (CurioHandler.isCurioEquipped(player, MAItems.MoltenQuiver.get())) {
             projectile.setSecondsOnFire(CommonConfig.MOLTEN_QUIVER_DURATION.get());
@@ -494,7 +471,6 @@ public class DamageEvents {
         generalDamageReductionMap.remove(uuid);
         fireDamageReductionMap.remove(uuid);
         generalDamageIncreaseMap.remove(uuid);
-        equippedArtifactsMap.remove(uuid);
         lastHealTimeMap.remove(uuid);
     }
 }

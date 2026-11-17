@@ -6,6 +6,8 @@ import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,9 +29,7 @@ public class IceStoneItem extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) {
-            if (player.isFreezing()) {
-                player.setTicksFrozen(-1);
-            }
+            player.setTicksFrozen(0);
         }
     }
 
@@ -40,27 +40,26 @@ public class IceStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        Style iceColor = Style.EMPTY.withColor(TextColor.fromRgb(0xA1F1FC));
         double iceChance = CommonConfig.ICE_STONE_CHANCE.get() * 100;
         int iceDuration = CommonConfig.ICE_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.ICE_STONE_DAMAGE.get() - 1) * 100;
-        double encaseChance = (CommonConfig.ICE_STONE_ENCASED_CHANCE.get() * 100);
+        double encaseChance = CommonConfig.ICE_STONE_ENCASED_CHANCE.get() * 100;
         int encaseDuration = CommonConfig.ICE_STONE_ENCASED_DURATION.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.immunity").withStyle(ChatFormatting.AQUA));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", MAUtils.formatDecimal(iceChance), iceDuration).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", MAUtils.formatDecimal(increasedDamage)).withStyle(ChatFormatting.BLUE));
-        if (ModLoadedUtil.isIceandFireLoaded() && (CommonConfig.ICE_STONE_COMPAT.get())) {
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.immunity").withStyle(iceColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.freeze", Component.literal("+" + MAUtils.formatDecimal(iceChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(iceDuration)).withStyle(ChatFormatting.BLUE)).withStyle(iceColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(iceColor));
+        if (ModLoadedUtil.isIceandFireLoaded() && CommonConfig.ICE_STONE_COMPAT.get()) {
             pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
             if (Screen.hasControlDown()) {
                 pTooltipComponents.remove(4);
-                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", MAUtils.formatDecimal(encaseChance), encaseDuration).withStyle(ChatFormatting.BLUE));
+                pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.ice_stone.encased", Component.literal("+" + MAUtils.formatDecimal(encaseChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(encaseDuration)).withStyle(ChatFormatting.BLUE)).withStyle(iceColor));
             }
         }
+
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
-
-
-
 
 
 

@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.util.ManaUtil;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,17 +23,22 @@ import java.util.UUID;
 
 public class SoulAttributes {
 
-    private static final String ENVY = "envy_holder:";
-    private static final String WRATH = "wrath_holder";
-
-    public record AttributeHolder(Attribute attribute, String attributeId, UUID uuid, double base, double increment, AttributeModifier.Operation operation) {}
+    // Config driven soul attributes
+    public record AttributeHolder(Attribute attribute, String attributeId, UUID uuid, double base, double increment, double maxStageValue, AttributeModifier.Operation operation) {
+        public double getValueForStage(int stage) {
+            if (stage >= 5 && !Double.isNaN(maxStageValue)) {
+                return maxStageValue;
+            }
+            return base + (increment * (stage - 1));
+        }
+    }
 
     public static List<AttributeHolder> ENVY_ATTRIBUTES = new ArrayList<>();
     public static List<AttributeHolder> WRATH_ATTRIBUTES = new ArrayList<>();
 
     public static void bakeConfig() {
-        ENVY_ATTRIBUTES = parse(CommonConfig.ENVY_ATTRIBUTES.get(), ENVY);
-        WRATH_ATTRIBUTES = parse(CommonConfig.WRATH_ATTRIBUTES.get(), WRATH);
+        ENVY_ATTRIBUTES = parse(CommonConfig.ENVY_ATTRIBUTES.get(), SoulType.ENVY.key);
+        WRATH_ATTRIBUTES = parse(CommonConfig.WRATH_ATTRIBUTES.get(), SoulType.WRATH.key);
     }
 
     private static List<AttributeHolder> parse(List<? extends String> entries, String prefix) {
@@ -53,11 +59,18 @@ public class SoulAttributes {
             try {
                 double base = Double.parseDouble(tokens[1].trim());
                 double increment = Double.parseDouble(tokens[2].trim());
-                AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(tokens[3].trim().toUpperCase());
+                AttributeModifier.Operation operation;
 
+                double maxLevelValue = Double.NaN;
+                if (tokens.length >= 5) {
+                    maxLevelValue = Double.parseDouble(tokens[3].trim());
+                    operation = AttributeModifier.Operation.valueOf(tokens[4].trim().toUpperCase());
+                } else {
+                    operation = AttributeModifier.Operation.valueOf(tokens[3].trim().toUpperCase());
+                }
                 UUID uuid = UUID.nameUUIDFromBytes((prefix + attributeId).getBytes(StandardCharsets.UTF_8));
 
-                holderList.add(new AttributeHolder(attribute, attributeId, uuid, base, increment, operation));
+                holderList.add(new AttributeHolder(attribute, attributeId, uuid, base, increment, maxLevelValue, operation));
             } catch (IllegalArgumentException e) {
                 MoreArtifacts.LOGGER.error("Failed to parse soul config attributes");
             }
@@ -69,34 +82,36 @@ public class SoulAttributes {
         if (attributeList == null) return;
 
         for (AttributeHolder holder : attributeList) {
-            double value = holder.base + (4.0 * holder.increment);
+            double value = holder.getValueForStage(5);
 
             processor.accept(holder.attribute, holder.uuid, holder.attributeId, value, holder.operation);
         }
     }
 
     private static void removeConfigAttributes(Player player, List<AttributeHolder> attributeList) {
-        if (attributeList == null) return;
+        if (attributeList == null || attributeList.isEmpty()) return;
         for (AttributeHolder holder : attributeList) {
             AttributeInstance instance = player.getAttribute(holder.attribute);
             if (instance != null) {
-                instance.removeModifier(holder.uuid);
+                AttributeModifier modifier = instance.getModifier(holder.uuid);
+                if (modifier != null) {
+                    instance.removeModifier(modifier);
+                }
             }
         }
     }
 
-    public static Multimap<Attribute, AttributeModifier> getCurioModifiers(UUID uuid, ItemStack stack, List<AttributeHolder> attributeHolder, String name) {
+    public static Multimap<Attribute, AttributeModifier> getCurioModifiers(UUID uuid, ItemStack stack, List<AttributeHolder> attributeHolder, SoulType type) {
         Multimap<Attribute, AttributeModifier> modifiers = LinkedHashMultimap.create();
         if (attributeHolder == null || attributeHolder.isEmpty()) return modifiers;
 
         int soulStage = SoulUtil.getSoulStage(stack);
-        double factor = (soulStage - 1);
         String uuidString = uuid.toString();
 
         for (AttributeHolder holder : attributeHolder) {
-            double finalValue = holder.base + (factor * holder.increment);
+            double finalValue = holder.getValueForStage(soulStage);
 
-            UUID curioUuid = UUID.nameUUIDFromBytes((name + uuidString + ":" + holder.attributeId).getBytes(StandardCharsets.UTF_8));
+            UUID curioUuid = UUID.nameUUIDFromBytes((type.key + uuidString + ":" + holder.attributeId).getBytes(StandardCharsets.UTF_8));
 
             modifiers.put(holder.attribute, new AttributeModifier(curioUuid, "Curio Soul Bonus: " + holder.attributeId, finalValue, holder.operation));
         }
@@ -136,6 +151,12 @@ public class SoulAttributes {
         if (serverPlayer.hasEffect(MobEffects.INVISIBILITY)) {
             serverPlayer.removeEffect(MobEffects.INVISIBILITY);
         }
+
+        serverPlayer.getAbilities().flying = false;
+        serverPlayer.getAbilities().mayfly = false;
+        serverPlayer.onUpdateAbilities();
+
+        ManaUtil.setMana(serverPlayer, ManaUtil.getMaxMana(serverPlayer));
     }
 
     public static void removeWrathAttributes(ServerPlayer serverPlayer) {

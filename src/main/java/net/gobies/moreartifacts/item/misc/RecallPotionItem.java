@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.misc;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -56,7 +57,9 @@ public class RecallPotionItem extends Item {
             ServerLevel serverWorld = interDimensional ? serverPlayer.server.getLevel(respawnDimension) : (currentDimension == respawnDimension ? Objects.requireNonNull(level.getServer()).getLevel(currentDimension) : null);
             if (serverWorld != null) {
                     try {
-                        Optional<Vec3> respawnLocation = Player.findRespawnPositionAndUseSpawnBlock(serverWorld, Objects.requireNonNull(serverPlayer.getRespawnPosition()), serverPlayer.getRespawnAngle(), false, false);
+                        BlockPos spawnPos = serverPlayer.getRespawnPosition();
+                        if (spawnPos == null) spawnPos = serverWorld.getSharedSpawnPos();
+                        Optional<Vec3> respawnLocation = Player.findRespawnPositionAndUseSpawnBlock(serverWorld, spawnPos, serverPlayer.getRespawnAngle(), false, false);
                         if (respawnLocation.isPresent()) {
                             Vec3 respawnVec = respawnLocation.get();
                             Vec3 currentVec = serverPlayer.position();
@@ -71,7 +74,7 @@ public class RecallPotionItem extends Item {
                             serverWorld.playSound(null, respawnVec.x, respawnVec.y, respawnVec.z, SoundEvents.ENDERMAN_TELEPORT, serverPlayer.getSoundSource(), 1.0F, 1.0F);
                             level.playSound(null, respawnVec.x, respawnVec.y, respawnVec.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                             level.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.RECALL_POTION_COOLDOWN.get()); // 20 ticks = 1 second
+                            serverPlayer.getCooldowns().addCooldown(stack.getItem(), 20 * CommonConfig.RECALL_POTION_COOLDOWN.get());
                             if (!serverPlayer.isCreative()) {
                                 if (stack.getCount() == 1) {
                                     if (serverPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RecallPotionItem) {
@@ -85,15 +88,12 @@ public class RecallPotionItem extends Item {
                                 }
                             }
                         } else {
-                            // no respawn point
                             serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.respawn"), true);
                         }
                     } catch (Exception e) {
-                        // error finding spawn with no spawn point
                         serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.respawn"), true);
                     }
                 } else {
-                    // no dimension teleport
                     serverPlayer.displayClientMessage(Component.translatable("tooltip.moreartifacts.recall_potion.dimension"), true);
                 }
             }

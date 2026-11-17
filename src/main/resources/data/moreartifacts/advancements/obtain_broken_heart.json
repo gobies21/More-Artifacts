@@ -5,7 +5,7 @@
       "item": "moreartifacts:broken_heart"
     },
     "title": "Eternal Sorrow",
-    "description": "Find the Broken heart",
+    "description": "Find the broken heart",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

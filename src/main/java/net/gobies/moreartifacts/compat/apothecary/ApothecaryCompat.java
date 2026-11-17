@@ -1,17 +1,21 @@
 package net.gobies.moreartifacts.compat.apothecary;
 
-import net.gobies.apothecary.init.AAttributes;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ShieldHandler;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.gobies.apothecary.init.AEffects;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ApothecaryCompat {
 
@@ -24,43 +28,40 @@ public class ApothecaryCompat {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
             if (player.level().isClientSide()) return;
+            if (player.tickCount % 10 != 0) return;
             if (player.getActiveEffects().isEmpty()) return;
-            if (player.tickCount % 5 != 0) return;
 
-            //Burning Immunity
-            if (player.hasEffect(AEffects.Burning.get())) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
-                if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
-                if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
-                if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
-                if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
-                if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
-                    MAUtils.removeEffect(player, AEffects.Burning.get());
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
             }
-            if (player.hasEffect(AEffects.BrokenArmor.get())) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
-                    MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianShield.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
             }
-            if (player.hasEffect(AEffects.BrokenArmor.get())) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
-                    MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
-                }
+            if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
             }
-            if (player.hasEffect(AEffects.RupturedArmor.get())) {
-                if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
-                    MAUtils.removeEffect(player, AEffects.RupturedArmor.get());
+            if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
+            }
+            if (ShieldHandler.isShieldEquipped(player, MAItems.ObsidianShield.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
+            }
+            if (ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
+                MAUtils.removeEffect(player, AEffects.Burning.get());
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
+                MAUtils.removeEffect(player, AEffects.BrokenArmor.get());
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.ShadowAegis.get())) {
+                MAUtils.removeEffect(player, AEffects.BrokenArmor.get(), AEffects.RupturedArmor.get());
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.StormFang.get())) {
+                MAUtils.removeEffect(player, AEffects.Shocked.get());
+            }
+            ItemStack stack = CurioHandler.getEquippedCurio(player, MAItems.DragonEye.get());
+            if (!stack.isEmpty()) {
+                if (DragonEyeItem.isLightningDragonEye(stack)) {
+                    MAUtils.removeEffect(player, shocked());
                 }
             }
         }
@@ -69,8 +70,6 @@ public class ApothecaryCompat {
     @SubscribeEvent
     public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof Player player) {
-
-            //Burning Immunity
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
                 MAUtils.makeEffectImmune(event, AEffects.Burning.get());
             }
@@ -92,22 +91,43 @@ public class ApothecaryCompat {
             if (CurioHandler.isCurioEquipped(player, MAItems.HeroShield.get())) {
                 MAUtils.makeEffectImmune(event, AEffects.BrokenArmor.get());
             }
+            if (CurioHandler.isCurioEquipped(player, MAItems.StormFang.get())) {
+                MAUtils.makeEffectImmune(event, AEffects.Shocked.get());
+            }
+            ItemStack stack = CurioHandler.getEquippedCurio(player, MAItems.DragonEye.get());
+            if (!stack.isEmpty()) {
+                if (DragonEyeItem.isLightningDragonEye(stack)) {
+                    MAUtils.makeEffectImmune(event, shocked());
+                }
+            }
         }
     }
 
     public static Attribute damageResistance() {
-        return AAttributes.DAMAGE_RESISTANCE.get();
+        return ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("apothecary", "damage_resistance"));
     }
 
     public static Attribute damageMultiplier() {
-        return AAttributes.DAMAGE_MULTIPLIER.get();
+        return ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("apothecary", "damage_multiplier"));
     }
 
     public static Attribute jumpHeight() {
-        return AAttributes.JUMP_HEIGHT.get();
+        return ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("apothecary", "jump_height"));
     }
 
     public static Attribute projectileDamage() {
-        return AAttributes.PROJECTILE_DAMAGE.get();
+        return ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("apothecary", "projectile_damage"));
+    }
+
+    public static Attribute magicShielding() {
+        return ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("apothecary", "magic_shielding"));
+    }
+
+    public static MobEffect flight() {
+        return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("apothecary", "flight"));
+    }
+
+    public static MobEffect shocked() {
+        return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("apothecary", "shocked"));
     }
 }

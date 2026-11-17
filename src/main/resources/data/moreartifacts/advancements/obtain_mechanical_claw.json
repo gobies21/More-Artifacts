@@ -5,7 +5,7 @@
       "item": "moreartifacts:mechanical_claw"
     },
     "title": "Blood, Sweat, and Gears",
-    "description": "Upgrade a Mechanical Glove into a Mechanical Claw",
+    "description": "Upgrade a mechanical glove into a mechanical claw",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

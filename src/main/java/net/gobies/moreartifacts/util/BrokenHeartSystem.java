@@ -2,7 +2,6 @@ package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.MoreArtifacts;
 import net.gobies.moreartifacts.init.MAItems;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -30,7 +29,7 @@ public class BrokenHeartSystem {
         if (attribute == null) {
             return null;
         }
-        return attribute.getModifier(BrokenHeartSystem.BROKEN_HEART_HEALTH);
+        return attribute.getModifier(BROKEN_HEART_HEALTH);
     }
 
     public static void addBrokenHearts(ServerPlayer player, int hearts) {
@@ -41,13 +40,7 @@ public class BrokenHeartSystem {
 
         applyHealthPenalty(player);
 
-        var server = player.getServer();
-        if (server != null) {
-            var advancement = server.getAdvancements().getAdvancement(new ResourceLocation("moreartifacts:heart_broken"));
-            if (advancement != null && !player.getAdvancements().getOrStartProgress(advancement).isDone()) {
-                player.getAdvancements().award(advancement, "heart_broken");
-            }
-        }
+        MAUtils.awardAdvancement(player, "heart_broken");
 
         MAUtils.logDebug("Broken heart added " + player.getName().getString() + " {Broken Hearts: " + hearts + "}");
     }

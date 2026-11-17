@@ -1,6 +1,7 @@
 package net.gobies.moreartifacts.init;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.gobies.moreartifacts.MoreArtifacts;
@@ -9,6 +10,7 @@ import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.helper.SoulSyncHelper;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
+import net.gobies.moreartifacts.util.ManaUtil;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -37,7 +39,7 @@ public class MACommands {
                         .then(Commands.literal("broken_heart")
                                 // Sub Command: add
                                 .then(Commands.literal("add")
-                                        .then(Commands.argument("amount", IntegerArgumentType.integer(1)) // Minimum 1 heart
+                                        .then(Commands.argument("amount", IntegerArgumentType.integer(1))
                                                 .executes(ctx -> modifyHearts(ctx.getSource(), ctx.getSource().getPlayerOrException(), IntegerArgumentType.getInteger(ctx, "amount"), true))
                                                 .then(Commands.argument("target", EntityArgument.player())
                                                         .executes(ctx -> modifyHearts(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), IntegerArgumentType.getInteger(ctx, "amount"), true))
@@ -80,6 +82,21 @@ public class MACommands {
                                                 .then(Commands.argument("target", EntityArgument.player())
                                                         .executes(ctx -> modifySoulData(ctx.getSource(), EntityArgument.getPlayer(ctx, "target"), SoulType.valueOf(StringArgumentType.getString(ctx, "soulType").toUpperCase(Locale.ROOT)), false))
                                                 )
+                                        )
+                                )
+                        )
+                        .then(Commands.literal("setmana")
+                                .then(Commands.argument("target", EntityArgument.player())
+                                        .then(Commands.argument("amount", FloatArgumentType.floatArg(0.0f))
+                                                .executes(context -> {
+                                                    ServerPlayer player = EntityArgument.getPlayer(context, "target");
+                                                    float amount = FloatArgumentType.getFloat(context, "amount");
+
+                                                    ManaUtil.setMana(player, amount);
+
+                                                    context.getSource().sendSuccess(() -> Component.literal("Set mana for " + player.getScoreboardName() + " to " + (int)amount), true);
+                                                    return 1;
+                                                })
                                         )
                                 )
                         )
@@ -177,10 +194,13 @@ public class MACommands {
             switch (soulType) {
                 case ENVY -> {
                     persistentData.putString(SoulUtil.SOUL_KEY, SoulType.ENVY.key);
-                    persistentData.putBoolean(SoulUtil.ABILITY_TOGGLE, true);
+                    SoulUtil.setPassive(target, false);
+                    SoulUtil.setActive(target, false);
                 }
                 case WRATH -> {
                     persistentData.putString(SoulUtil.SOUL_KEY, SoulType.WRATH.key);
+                    SoulUtil.setPassive(target, false);
+                    SoulUtil.setActive(target, false);
                     // TODO
                 }
                 default -> {
@@ -192,14 +212,15 @@ public class MACommands {
             SoulSyncHelper.syncSouls(target);
             source.sendSuccess(() -> Component.literal("Successfully gave soul data to " + target.getScoreboardName()), true);
         } else {
-            String activeSoul = persistentData.getString(SoulUtil.SOUL_KEY);
-            persistentData.remove(SoulUtil.SOUL_KEY);
-
-            if (SoulType.ENVY.key.equals(activeSoul)) {
+            if (SoulUtil.hasSoul(target, SoulType.ENVY)) {
                 SoulAttributes.removeEnvyAttributes(target);
-            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+            } else if (SoulUtil.hasSoul(target, SoulType.WRATH)) {
                 SoulAttributes.removeWrathAttributes(target);
+            } else if (SoulUtil.hasSoul(target, SoulType.UNKNOWN) || !persistentData.contains(SoulUtil.SOUL_KEY)) {
+                source.sendFailure(Component.literal(target.getScoreboardName() + " has no soul data to remove"));
+                return 0;
             }
+            persistentData.remove(SoulUtil.SOUL_KEY);
             source.sendSuccess(() -> Component.literal("Successfully removed soul data from " + target.getScoreboardName()), true);
         }
 

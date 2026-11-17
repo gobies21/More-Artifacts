@@ -5,7 +5,7 @@
       "item": "moreartifacts:obsidian_skull"
     },
     "title": "Hard Headed",
-    "description": "Craft an Obsidian Skull",
+    "description": "Craft an obsidian skull",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

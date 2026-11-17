@@ -1,12 +1,15 @@
 package net.gobies.moreartifacts;
 
 import com.mojang.logging.LogUtils;
+import net.gobies.moreartifacts.client.ClientUtil;
 import net.gobies.moreartifacts.compat.apothecary.ApothecaryCompat;
 import net.gobies.moreartifacts.compat.coldsweat.ColdSweatCompat;
 import net.gobies.moreartifacts.compat.enhancedvisuals.EnhancedVisualsCompat;
 import net.gobies.moreartifacts.compat.firstaid.FirstAidCompat;
 import net.gobies.moreartifacts.compat.iceandfire.IceandFireCompat;
 import net.gobies.moreartifacts.compat.jei.JeiCompat;
+import net.gobies.moreartifacts.compat.lycanitesmobs.LycanitesCompat;
+import net.gobies.moreartifacts.compat.spellbooks.SpellbooksCompat;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.effect.MAStatusEffects;
@@ -19,8 +22,12 @@ import net.gobies.moreartifacts.item.artifacts.DragonEyeItem;
 import net.gobies.moreartifacts.item.souls.SoulItem;
 import net.gobies.moreartifacts.network.ManageRequests;
 import net.gobies.moreartifacts.network.PacketHandler;
+import net.gobies.moreartifacts.network.SoulSyncPacket;
 import net.gobies.moreartifacts.util.CooldownHandler;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,6 +37,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 @Mod(MoreArtifacts.MOD_ID)
@@ -41,6 +49,7 @@ public class MoreArtifacts {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
         MAItems.register(modBus);
+        MABlocks.register(modBus);
         MAEffects.register(modBus);
         MAParticles.register(modBus);
         MASounds.register(modBus);
@@ -51,6 +60,9 @@ public class MoreArtifacts {
         modBus.addListener(this::commonSetup);
         modBus.addListener(this::clientSetup);
         modBus.addListener(this::setupEntityModelLayers);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            ClientUtil.init(modBus);
+        }
         PacketHandler.registerMessages();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
@@ -89,6 +101,21 @@ public class MoreArtifacts {
             FirstAidCompat.loadCompat();
             log("[More Artifacts] First Aid Compat Loaded");
         }
+        if (ModLoadedUtil.isIronsSpellbooksLoaded()) {
+            SpellbooksCompat.loadCompat();
+            log("[More Artifacts] Irons Spellbooks Compat Loaded");
+        }
+
+        if (ModLoadedUtil.isLycanitesMobsLoaded()) {
+            LycanitesCompat.loadCompat();
+            log("[More Artifacts] Lycanites Mobs Compat Loaded");
+        }
+
+        event.enqueueWork(() -> {
+            if (MABlocks.Nectar.getId() != null) {
+                ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MABlocks.Nectar.getId(), MABlocks.PottedNectar);
+            }
+        });
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -113,6 +140,7 @@ public class MoreArtifacts {
         LifecycleManager.registerCleanupHook(MAStatusEffects::clearMaps);
         LifecycleManager.registerCleanupHook(SoulEvents::clearMaps);
         LifecycleManager.registerCleanupHook(ManageRequests::clearMaps);
+        LifecycleManager.registerCleanupHook(SoulSyncPacket.SoulClientData::clearMaps);
     }
 }
 

@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -14,9 +15,9 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class NectarItem extends Item implements ICurioItem {
-    public NectarItem(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.COMMON));
+public class NectarItem extends BlockItem implements ICurioItem {
+    public NectarItem(Block block, Properties properties) {
+        super(block, properties.stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override
@@ -28,7 +29,7 @@ public class NectarItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
-        return true;
+        return false;
     }
 
     @Override

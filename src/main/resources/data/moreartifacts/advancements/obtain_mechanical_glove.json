@@ -5,7 +5,7 @@
       "item": "moreartifacts:mechanical_glove"
     },
     "title": "Power Punch",
-    "description": "Craft a Mechanical Glove",
+    "description": "Craft a mechanical glove",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

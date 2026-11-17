@@ -87,10 +87,14 @@ public class MAItems {
     public static final RegistryObject<Item> ArtifactSmithingTemplate;
 
     public static final RegistryObject<Item> StealthManual;
+    public static final RegistryObject<Item> RedBelt;
+    public static final RegistryObject<Item> RogueBelt;
     public static final RegistryObject<Item> CursedDoll;
     public static final RegistryObject<Item> ShadowAegis;
     public static final RegistryObject<Item> GuardianThornNecklace;
     public static final RegistryObject<Item> HolyMantle;
+    public static final RegistryObject<Item> StormFang;
+
 
     public static final RegistryObject<Item> BrokenHeart;
 
@@ -113,7 +117,7 @@ public class MAItems {
         Vitamins = ARTIFACTS.register("vitamins", () -> new VitaminsItem(new Item.Properties()));
         FastClock = ARTIFACTS.register("fast_clock", () -> new FastClockItem(new Item.Properties()));
         Sunglasses = ARTIFACTS.register("sunglasses", () -> new SunglassesItem(new Item.Properties()));
-        Nectar = ARTIFACTS.register("nectar", () -> new NectarItem(new Item.Properties()));
+        Nectar = ARTIFACTS.register("nectar", () -> new NectarItem(MABlocks.Nectar.get(), new Item.Properties()));
         DesertCharm = ARTIFACTS.register("desert_charm", () -> new DesertCharmItem(new Item.Properties()));
         ShulkerHeart = ARTIFACTS.register("shulker_heart", () -> new ShulkerHeartItem(new Item.Properties()));
         WitherShard = ARTIFACTS.register("wither_shard", () -> new WitherShardItem(new Item.Properties()));
@@ -171,11 +175,14 @@ public class MAItems {
         HighJumpers = ARTIFACTS.register("high_jumpers", () -> new HighJumpersItem(new Item.Properties()));
         DragonEye = ARTIFACTS.register("dragon_eye", () -> new DragonEyeItem(new Item.Properties()));
         StealthManual = ARTIFACTS.register("stealth_manual", () -> new StealthManualItem(new Item.Properties()));
+        RedBelt = ARTIFACTS.register("red_belt", () -> new RedBeltItem(new Item.Properties()));
+        RogueBelt = ARTIFACTS.register("rogue_belt", () -> new RogueBeltItem(new Item.Properties()));
         CursedDoll = ARTIFACTS.register("cursed_doll", () -> new CursedDollItem(new Item.Properties()));
         ShadowAegis = ARTIFACTS.register("shadow_aegis", () -> new ShadowAegisItem(new Item.Properties()));
         GuardianThornNecklace = ARTIFACTS.register("guardian_thorn_necklace", () -> new GuardianThornNecklaceItem(new Item.Properties()));
         HolyMantle = ARTIFACTS.register("holy_mantle", () -> new HolyMantleItem(new Item.Properties()));
         BrokenHeart = ARTIFACTS.register("broken_heart", () -> new BrokenHeartItem(new Item.Properties()));
+        StormFang = ARTIFACTS.register("storm_fang", () -> new StormFangItem(new Item.Properties()));
         SinRing = ARTIFACTS.register("sin_ring", () -> new SinRingItem(new Item.Properties()));
         EnvyRing = ARTIFACTS.register("envy_ring", () -> new EnvyRingItem(new Item.Properties()));
         WrathRing = ARTIFACTS.register("wrath_ring", () -> new WrathRingItem(new Item.Properties()));

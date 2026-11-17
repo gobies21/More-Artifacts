@@ -1,0 +1,33 @@
+{
+  "parent": "moreartifacts:obtain_desert_charm",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:nectar"
+    },
+    "title": "Tastes Like Honey",
+    "description": "Find a nectar flower in a flower forest or meadow",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_nectar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:nectar"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nectar"
+    ]
+  ]
+}

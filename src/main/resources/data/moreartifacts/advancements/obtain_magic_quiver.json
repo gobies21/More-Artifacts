@@ -5,7 +5,7 @@
       "item": "moreartifacts:magic_quiver"
     },
     "title": "Archery",
-    "description": "Obtain a Magic Quiver from a skeleton or pillager",
+    "description": "Obtain a magic quiver from a skeleton or pillager",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

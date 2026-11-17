@@ -5,19 +5,25 @@
   "refmap": "moreartifacts.mixins.refmap.json",
   "mixins": [
     "ArrowItemMixin",
+    "CreeperAccessor",
+    "EnchantmentHelperMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "VibrationSystemListenerMixin",
     "enhancedvisuals.ExplosionHandlerMixin",
     "mobends.LayerCustomBipedArmorMixin",
+    "neat.HealthBarRendererMixin",
     "potionrings2.PotionRingItemMixin",
-    "spartanweaponry.BoltItemMixin"
+    "spartanweaponry.BoltItemMixin",
+    "spellbooks.MagicManagerMixin",
+    "spellbooks.ManaBarOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "minVersion": "0.8",
   "client": [
+    "GuiMixin",
     "HumanoidArmorLayerMixin",
     "forge.ForgeGuiMixin"
   ]

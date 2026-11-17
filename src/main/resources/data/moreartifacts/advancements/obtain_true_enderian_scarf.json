@@ -5,7 +5,7 @@
       "item": "moreartifacts:true_enderian_scarf"
     },
     "title": "Suited to a T",
-    "description": "Upgrade an Enderian Scarf into a True Enderian Scarf",
+    "description": "Upgrade an enderian scarf into a true enderian scarf",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

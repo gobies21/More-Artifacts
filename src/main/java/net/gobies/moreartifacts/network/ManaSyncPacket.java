@@ -16,7 +16,7 @@ public record ManaSyncPacket(float mana) {
     }
 
     public static void handle(ManaSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ManaHudOverlay.mana = msg.mana);
+        ctx.get().enqueueWork(() -> ManaHudOverlay.setClientMana(msg.mana));
         ctx.get().setPacketHandled(true);
     }
 }

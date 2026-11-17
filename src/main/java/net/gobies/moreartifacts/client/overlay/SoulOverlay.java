@@ -4,6 +4,7 @@ import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.network.SoulSyncPacket;
+import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -42,7 +43,7 @@ public class SoulOverlay {
         if (player == null) return;
 
         String activeSoul = SoulSyncPacket.SoulClientData.getActiveSoul();
-        if (activeSoul.isEmpty() || SoulType.UNKNOWN.key.equals(activeSoul)) return;
+        if (activeSoul.isEmpty() || SoulUtil.hasSoul(player, SoulType.UNKNOWN)) return;
 
         GuiGraphics guiGraphics = event.getGuiGraphics();
 
@@ -54,9 +55,9 @@ public class SoulOverlay {
 
         ItemStack activeSoulStack = ItemStack.EMPTY;
 
-        if (SoulType.ENVY.key.equals(activeSoul)) {
+        if (SoulUtil.hasSoul(player, SoulType.ENVY)) {
             activeSoulStack = new ItemStack(MAItems.EnvySoul.get());
-        } else if (SoulType.WRATH.key.equals(activeSoul)) {
+        } else if (SoulUtil.hasSoul(player, SoulType.WRATH)) {
             activeSoulStack = new ItemStack(MAItems.WrathSoul.get());
         }
 

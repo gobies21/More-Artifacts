@@ -1,8 +1,10 @@
 package net.gobies.moreartifacts.mixin.forge;
 
+import net.gobies.moreartifacts.client.renderer.gui.HeartRenderer;
 import net.gobies.moreartifacts.config.ClientConfig;
 import net.gobies.moreartifacts.util.BrokenHeartSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
@@ -47,19 +49,27 @@ public abstract class ForgeGuiMixin {
             index = 0
     )
     private float modifyHealthRows(float original) {
-        if (ClientConfig.BROKEN_HEART_OVERLAY.get()) {
-            Minecraft mc = Minecraft.getInstance();
-            Player player = mc.player;
-            if (player == null) return original;
-            AttributeModifier modifier = BrokenHeartSystem.getBrokenHeartModifier(player);
-            if (modifier == null) return original;
-
-            float brokenHearts = (float) Math.abs(modifier.getAmount());
-            float unscaled = original * 20.0F;
-            float adjusted = unscaled + brokenHearts;
-            return adjusted / 20.0F;
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null) {
+            HeartRenderer.healthRows = 0;
+            return original;
         }
-        return original;
+
+        float adjusted = original;
+
+        if (ClientConfig.BROKEN_HEART_OVERLAY.get()) {
+            AttributeModifier modifier = BrokenHeartSystem.getBrokenHeartModifier(player);
+
+            if (modifier != null) {
+                float brokenHearts = (float) Math.abs(modifier.getAmount());
+                adjusted = (original * 20.0F + brokenHearts) / 20.0F;
+            }
+        }
+
+        HeartRenderer.healthRows = Mth.ceil(adjusted);
+
+        return adjusted;
     }
 
     @ModifyArg(

@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 public class BloodParticle extends TextureSheetParticle {
-
     protected BloodParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
         super(level, x, y, z, xd, yd, zd);
         this.lifetime = 40 + this.random.nextInt(40); // tick lifespan
@@ -32,7 +31,6 @@ public class BloodParticle extends TextureSheetParticle {
 
     @OnlyIn(Dist.CLIENT)
     public record Factory(SpriteSet sprites) implements ParticleProvider<SimpleParticleType> {
-
         @Override
         public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
             BloodParticle particle = new BloodParticle(level, x, y, z, xd, yd, zd);

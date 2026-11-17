@@ -3,15 +3,11 @@ package net.gobies.moreartifacts.item.artifacts;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.gobies.moreartifacts.compat.betterstealth.BetterStealthCompat;
-import net.gobies.moreartifacts.config.CommonConfig;
-import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.ModLoadedUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -30,15 +26,7 @@ public class StealthManualItem extends Item implements ICurioItem {
         super(properties.stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
-    private static final UUID SPEED = UUID.fromString("2d4cf39b-6519-43a5-b0c8-a378d95c2e7c");
     private static final UUID STEALTH = UUID.fromString("73c64883-b097-4034-9b86-0661d9319213");
-
-    @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if (slotContext.entity() instanceof Player player) {
-            updateSpeedModifier(player);
-        }
-    }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
@@ -49,14 +37,6 @@ public class StealthManualItem extends Item implements ICurioItem {
         return modifiers;
     }
 
-    private void updateSpeedModifier(Player player) {
-        if (player.isCrouching()) {
-            MAUtils.addAttributes(player, Attributes.MOVEMENT_SPEED, CommonConfig.STEALTH_MANUAL_SNEAK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_BASE, String.valueOf(SPEED));
-        } else {
-            MAUtils.removeAttributes(player, Attributes.MOVEMENT_SPEED, String.valueOf(SPEED));
-        }
-    }
-
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
         return true;
@@ -65,7 +45,6 @@ public class StealthManualItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.sneak").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.dodge_distance").withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.stealth_manual.cobweb").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

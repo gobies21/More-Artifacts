@@ -5,7 +5,7 @@
       "item": "moreartifacts:shadow_aegis"
     },
     "title": "Engulfed in Shadow",
-    "description": "Upgrade the Hero Shield into the Aegis of Shadows",
+    "description": "Upgrade the hero shield into the aegis of shadows",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

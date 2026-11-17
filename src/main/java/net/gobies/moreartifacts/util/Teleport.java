@@ -104,7 +104,6 @@ public class Teleport {
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.0F);
                     EnderianEyeItem.enderianEyeParticles(player, Teleport.solveTeleportDestination(level, player, player.blockPosition(), player.getEyePosition(1f)));
                     serverPlayer.getCooldowns().addCooldown(MAItems.EnderianEye.get(), (int) (20 * CommonConfig.ENDERIAN_EYE_COOLDOWN.get()));
-
                 }
             }
         }

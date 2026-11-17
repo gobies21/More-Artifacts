@@ -5,7 +5,7 @@
       "item": "moreartifacts:holy_mantle"
     },
     "title": "Holy Shield",
-    "description": "Obtain the Holy Mantle from a cleric villager trade",
+    "description": "Obtain the holy mantle from a cleric villager trade",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

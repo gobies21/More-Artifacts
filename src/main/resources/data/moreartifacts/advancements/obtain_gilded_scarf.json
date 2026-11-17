@@ -5,7 +5,7 @@
       "item": "moreartifacts:gilded_scarf"
     },
     "title": "The Midas Scarf",
-    "description": "Upgrade an Enderian Scarf into a Gilded Scarf",
+    "description": "Upgrade an enderian scarf into a gilded scarf",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

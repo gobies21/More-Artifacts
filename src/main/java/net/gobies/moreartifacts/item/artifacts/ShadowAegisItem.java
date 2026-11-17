@@ -7,6 +7,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -68,7 +70,7 @@ public class ShadowAegisItem extends Item implements ICurioItem {
         int ignoreDamage = CommonConfig.SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE.get();
         double explosionDamage = CommonConfig.SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION.get() * 100;
         double ignoreChance = CommonConfig.SHADOW_AEGIS_FIRST_AID_IGNORE_CHANCE.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_aegis.resistance").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_aegis.resistance").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(MobEffects.DAMAGE_RESISTANCE.getColor()))));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_aegis.damage_ignore", ignoreDamage, hitCount, ignoreDamage).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.shadow_aegis.explosion_damage", MAUtils.formatDecimal(explosionDamage)).withStyle(ChatFormatting.BLUE));
         if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.HERO_SHIELD_ENHANCED_VISUALS_COMPAT.get() || ModLoadedUtil.isFirstAidLoaded() && CommonConfig.HERO_SHIELD_FIRST_AID_COMPAT.get() || ModLoadedUtil.isApothecaryLoaded()) {

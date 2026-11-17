@@ -5,7 +5,7 @@
       "item": "moreartifacts:ankh_shield"
     },
     "title": "Ankhumulation Complete",
-    "description": "Craft the Ankh Shield",
+    "description": "Craft the ankh shield",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

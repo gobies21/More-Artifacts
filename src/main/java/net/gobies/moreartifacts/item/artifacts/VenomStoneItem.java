@@ -5,6 +5,8 @@ import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -37,18 +39,19 @@ public class VenomStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        Style poisonColor = Style.EMPTY.withColor(TextColor.fromRgb(MobEffects.POISON.getColor()));
         double poisonChance = CommonConfig.VENOM_STONE_CHANCE.get() * 100;
         int poisonLevel = CommonConfig.VENOM_STONE_LEVEL.get();
         int poisonDuration = CommonConfig.VENOM_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.VENOM_STONE_DAMAGE.get() - 1) * 100;
         double deadlyChance = CommonConfig.VENOM_STONE_DEADLY_CHANCE.get() * 100;
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.immunity").withStyle(ChatFormatting.GREEN));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.inflict_poison", MAUtils.formatDecimal(poisonChance), poisonLevel, poisonDuration).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.increased_damage", MAUtils.formatDecimal(increasedDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.immunity").withStyle(poisonColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.inflict_poison", Component.literal("+" + MAUtils.formatDecimal(poisonChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(poisonLevel)).withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(poisonDuration)).withStyle(ChatFormatting.BLUE)).withStyle(poisonColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(poisonColor));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.deadly.chance", MAUtils.formatDecimal(deadlyChance)).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.venom_stone.deadly.chance", Component.literal("+" + MAUtils.formatDecimal(deadlyChance) + "%").withStyle(ChatFormatting.BLUE)).withStyle(poisonColor));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

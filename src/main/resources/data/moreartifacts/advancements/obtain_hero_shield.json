@@ -5,7 +5,7 @@
       "item": "moreartifacts:hero_shield"
     },
     "title": "The Rising of a Hero",
-    "description": "Craft the Hero Shield",
+    "description": "Craft the hero shield",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

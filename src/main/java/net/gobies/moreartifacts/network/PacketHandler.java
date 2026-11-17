@@ -22,14 +22,18 @@ public class PacketHandler {
 
     public static void registerMessages() {
         addNetworkMessage(TeleportBindMessage.class, TeleportBindMessage::buffer, TeleportBindMessage::new, TeleportBindMessage::handle);
-        addNetworkMessage(SoulAbilityBindMessage.class, SoulAbilityBindMessage::buffer, SoulAbilityBindMessage::new, SoulAbilityBindMessage::handle);
         addNetworkMessage(NightVisionBindMessage.class, NightVisionBindMessage::buffer, NightVisionBindMessage::new, NightVisionBindMessage::handle);
         addNetworkMessage(OpenWormholeScreenPacket.class, OpenWormholeScreenPacket::encode, OpenWormholeScreenPacket::new, OpenWormholeScreenPacket::handle);
         addNetworkMessage(SelectWormholeTargetPacket.class, SelectWormholeTargetPacket::encode, SelectWormholeTargetPacket::new, SelectWormholeTargetPacket::handle);
+        addNetworkMessage(SoulPassiveBindMessage.class, SoulPassiveBindMessage::buffer, SoulPassiveBindMessage::new, SoulPassiveBindMessage::handle);
+        addNetworkMessage(SoulAbilityBindMessage.class, SoulAbilityBindMessage::buffer, SoulAbilityBindMessage::new, SoulAbilityBindMessage::handle);
         addNetworkMessage(SoulSyncPacket.class, SoulSyncPacket::encode, SoulSyncPacket::new, SoulSyncPacket::handle);
         addNetworkMessage(CooldownSyncPacket.class, CooldownSyncPacket::encode, CooldownSyncPacket::new, CooldownSyncPacket::handle);
         addNetworkMessage(DodgePacket.class, DodgePacket::encode, DodgePacket::decode, DodgePacket::handle);
         addNetworkMessage(ManaSyncPacket.class, ManaSyncPacket::encode, ManaSyncPacket::new, ManaSyncPacket::handle);
+        addNetworkMessage(AnnihilationStackSyncPacket.class, AnnihilationStackSyncPacket::encode, AnnihilationStackSyncPacket::new, AnnihilationStackSyncPacket::handle);
+        addNetworkMessage(StormShockBindMessage.class, StormShockBindMessage::buffer, StormShockBindMessage::new, StormShockBindMessage::handle);
+        addNetworkMessage(StormShockPacket.class, StormShockPacket::encode, StormShockPacket::new, StormShockPacket::handle);
     }
 
     public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {
@@ -47,5 +51,9 @@ public class PacketHandler {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             INSTANCE.sendToServer(message);
         }
+    }
+
+    public static void sendToTrackingAndSelf(Object message, ServerPlayer player) {
+        INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), message);
     }
 }

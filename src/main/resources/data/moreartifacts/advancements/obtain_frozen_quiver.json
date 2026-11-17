@@ -5,7 +5,7 @@
       "item": "moreartifacts:frozen_quiver"
     },
     "title": "Cold Shot",
-    "description": "Upgrade a Magic Quiver into a Frozen Quiver",
+    "description": "Upgrade a magic quiver into a frozen quiver",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

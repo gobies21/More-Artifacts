@@ -4,9 +4,7 @@ import net.gobies.moreartifacts.config.CommonConfig;
 import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,20 +27,7 @@ public class EnderianEyeItem extends Item implements ICurioItem {
     public static void enderianEyeParticles(Player player, Vec3 targetPosition) {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.teleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
-            spawnPortalParticles(serverPlayer, targetPosition);
-        }
-    }
-
-    private static void spawnPortalParticles(ServerPlayer serverPlayer, Vec3 position) {
-        if (position != null) {
-            for (int x = -1; x <= 1; x++) {
-                for (int y = -1; y <= 1; y++) {
-                    for (int z = -1; z <= 1; z++) {
-                        Vec3 particlePos = position.add(x * 0.3, y * 0.5, z * 0.3);
-                        serverPlayer.connection.send(new ClientboundLevelParticlesPacket(ParticleTypes.PORTAL, true, particlePos.x, particlePos.y, particlePos.z, 0.1F, 0.1F, 0.1F, 0.1F, 10));
-                    }
-                }
-            }
+            MAUtils.spawnPortalParticles(serverPlayer, targetPosition);
         }
     }
 

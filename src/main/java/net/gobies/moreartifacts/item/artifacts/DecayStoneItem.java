@@ -5,6 +5,8 @@ import net.gobies.moreartifacts.util.MAUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -37,25 +39,23 @@ public class DecayStoneItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        Style witherColor = Style.EMPTY.withColor(TextColor.fromRgb(MobEffects.WITHER.getColor()));
         double witherChance = CommonConfig.DECAY_STONE_CHANCE.get() * 100;
         int witherLevel = CommonConfig.DECAY_STONE_LEVEL.get();
         int witherDuration = CommonConfig.DECAY_STONE_DURATION.get();
         double increasedDamage = (CommonConfig.DECAY_STONE_DAMAGE.get() - 1) * 100;
         int healAmount = CommonConfig.DECAY_STONE_HEAL_AMOUNT.get();
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.immunity").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.inflict_wither", MAUtils.formatDecimal(witherChance), witherLevel, witherDuration).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.increased_damage", MAUtils.formatDecimal(increasedDamage)).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.immunity").withStyle(witherColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.inflict_wither", Component.literal("+" + MAUtils.formatDecimal(witherChance) + "%").withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(witherLevel)).withStyle(ChatFormatting.BLUE), Component.literal(String.valueOf(witherDuration)).withStyle(ChatFormatting.BLUE)).withStyle(witherColor));
+        pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.increased_damage", Component.literal("+" + MAUtils.formatDecimal(increasedDamage) + "%").withStyle(ChatFormatting.BLUE)).withStyle(witherColor));
         pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
         if (Screen.hasControlDown()) {
             pTooltipComponents.remove(4);
-            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.heal_amount", healAmount).withStyle(ChatFormatting.BLUE));
+            pTooltipComponents.add(Component.translatable("tooltip.moreartifacts.decay_stone.heal_amount", Component.literal("+" + healAmount).withStyle(ChatFormatting.BLUE)).withStyle(witherColor));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
-
-
-
 
 
 

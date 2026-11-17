@@ -7,5 +7,68 @@
         "stream": false
       }
     ]
+  },
+  "storm_shock": {
+    "subtitle": "subtitles.storm_shock",
+    "sounds": [
+      {
+        "name": "moreartifacts:storm_shock",
+        "stream": false
+      }
+    ]
+  },
+  "mana_shield_hurt": {
+    "subtitle": "subtitles.mana_shield_hurt",
+    "sounds": [
+      {
+        "name": "moreartifacts:mana_shield_hurt",
+        "stream": false
+      }
+    ]
+  },
+  "mana_shield_break": {
+    "subtitle": "subtitles.mana_shield_break",
+    "sounds": [
+      {
+        "name": "moreartifacts:mana_shield_break",
+        "stream": false
+      }
+    ]
+  },
+  "mana_shield_enabled": {
+    "subtitle": "subtitles.mana_shield_enabled",
+    "sounds": [
+      {
+        "name": "moreartifacts:mana_shield_enabled",
+        "stream": false
+      }
+    ]
+  },
+  "mana_shield_disabled": {
+    "subtitle": "subtitles.mana_shield_disabled",
+    "sounds": [
+      {
+        "name": "moreartifacts:mana_shield_disabled",
+        "stream": false
+      }
+    ]
+  },
+  "annihilation_hit": {
+    "subtitle": "subtitles.annihilation_hit",
+    "sounds": [
+      {
+        "name": "moreartifacts:annihilation_hit",
+        "stream": false
+      }
+    ]
+  },
+  "annihilation_stack": {
+    "subtitle": "subtitles.annihilation_stack",
+    "sounds": [
+      {
+        "name": "moreartifacts:annihilation_stack",
+        "stream": false
+      }
+    ]
   }
 }

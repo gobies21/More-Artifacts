@@ -1,17 +1,24 @@
 package net.gobies.moreartifacts.util;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.event.ClientEvents;
 import net.gobies.moreartifacts.init.MAItems;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.util.List;
 
 public record DodgeProperties(double distance, double lift, double cooldown, boolean blink) {
     public DodgeProperties(double distance, double lift, double cooldown) {
@@ -29,9 +36,9 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
     public static String DODGE_COOLDOWN = "dodge_cooldown";
 
     public static DodgeProperties getDodgeProperties(Item item) {
-        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.25, 3.0);
-        if (item == MAItems.HighJumpers.get()) return new DodgeProperties(1.2, 0.5, 3.0);
-        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.25, 2.5);
+        if (item == MAItems.MechanicalGears.get()) return new DodgeProperties(1.0, 0.25, 4.0);
+        if (item == MAItems.HighJumpers.get()) return new DodgeProperties(1.2, 0.5, 3.5);
+        if (item == MAItems.BlazingTreads.get()) return new DodgeProperties(1.2, 0.25, 3.0);
         if (item == MAItems.SculkTreads.get()) return new DodgeProperties(1.5, 0.25, 2.0);
         if (item == MAItems.EnderianTreads.get()) return new DodgeProperties(1.5, 0.0, CommonConfig.ENDERIAN_TREADS_COOLDOWN.get(), true);
         return null;
@@ -60,7 +67,7 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
 
         double distance = properties.distance;
 
-        if (properties.blink && CommonConfig.ENABLE_AIR_DODGE.get()) {
+        if (properties.blink && CurioHandler.isCurioEquipped(entity, MAItems.RogueBelt.get())) {
             if (entity.isSprinting()) {
                 distance -= 0.30;
             }
@@ -69,8 +76,10 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
             }
         }
 
-        if (CurioHandler.isCurioEquipped(entity, MAItems.StealthManual.get())) {
-            distance *= CommonConfig.STEALTH_MANUAL_DODGE_DISTANCE.get();
+        if (CurioHandler.isCurioEquipped(entity, MAItems.RedBelt.get())) {
+            distance *= CommonConfig.RED_BELT_DODGE_DISTANCE.get();
+        } else if (CurioHandler.isCurioEquipped(entity, MAItems.RogueBelt.get())) {
+            distance *= CommonConfig.ROGUE_BELT_DODGE_DISTANCE.get();
         }
 
         distance = Math.ceil(distance * 10) / 10.0;
@@ -84,10 +93,15 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
 
     public static double getDodgeCooldown(ItemStack stack) {
         DodgeProperties properties = getDodgeProperties(stack.getItem());
-        return properties != null ? properties.cooldown : 1.5;
+        return properties != null ? properties.cooldown : 5.0;
     }
 
-    public static int getInvulnerableFrames(LivingEntity entity) {
+    public static int getInvulnerableFrames(Player player) {
+        if (CurioHandler.isCurioEquipped(player, MAItems.RedBelt.get())) {
+            return 10;
+        } else if (CurioHandler.isCurioEquipped(player, MAItems.RogueBelt.get())) {
+            return 10;
+        }
         return 5;
     }
 
@@ -101,21 +115,22 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
         float finalYaw = player.getYRot();
         if (player.isPassenger()) return;
         switch (direction) {
-            case FORWARD  -> {}
-            case LEFT -> finalYaw -= 90.0F;  // Left
-            case RIGHT -> finalYaw += 90.0F;  // Right
-            case BACKWARD -> finalYaw += 180.0F; // Backward
+            case FORWARD -> {
+            }
+            case LEFT -> finalYaw -= 90.0F;
+            case RIGHT -> finalYaw += 90.0F;
+            case BACKWARD -> finalYaw += 180.0F;
         }
 
         double radians = Math.toRadians(finalYaw);
         double motionX = -Math.sin(radians);
         double motionZ = Math.cos(radians);
 
-        ServerLevel world = player.serverLevel();
+        ServerLevel serverLevel = player.serverLevel();
         if (blink) {
             Vec3 originalPosition = player.position();
 
-            world.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+            serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
 
             double teleportDistance = distance * 4.0;
 
@@ -123,25 +138,28 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
             double finalY = player.getY();
             double finalZ = player.getZ();
 
+            boolean flying = player.getAbilities().flying && player.getAbilities().mayfly;
+
             for (int step = 1; step <= (int) teleportDistance; step++) {
                 double nextX = player.getX() + (motionX * step);
                 double nextZ = player.getZ() + (motionZ * step);
 
-                BlockPos basePos = new BlockPos((int) Math.floor(nextX), player.blockPosition().getY(), (int) Math.floor(nextZ));
+                BlockPos basePos = BlockPos.containing(nextX, finalY, nextZ);
 
                 boolean safeDodge = false;
                 double matchedY = finalY;
 
                 for (int yOffset = -3; yOffset <= 3; yOffset++) {
+                    if (flying && yOffset != 0) {
+                        continue;
+                    }
                     BlockPos feet = basePos.above(yOffset);
                     BlockPos head = feet.above();
-                    BlockPos ground = feet.below();
 
-                    boolean hasGround = !world.getBlockState(ground).getCollisionShape(world, ground).isEmpty();
-                    boolean feetClear = world.getBlockState(feet).getCollisionShape(world, feet).isEmpty();
-                    boolean headClear = world.getBlockState(head).getCollisionShape(world, head).isEmpty();
+                    boolean feetClear = serverLevel.getBlockState(feet).getCollisionShape(serverLevel, feet).isEmpty();
+                    boolean headClear = serverLevel.getBlockState(head).getCollisionShape(serverLevel, head).isEmpty();
 
-                    if (hasGround && feetClear && headClear) {
+                    if (feetClear && headClear) {
                         matchedY = feet.getY();
                         safeDodge = true;
                         break;
@@ -157,15 +175,15 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
                 finalZ = nextZ;
             }
 
-            player.teleportTo(finalX, finalY, finalZ);
+            player.teleportTo(finalX, flying ? originalPosition.y : finalY, finalZ);
             player.resetFallDistance();
 
             player.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0F, 1.0F);
-            MAUtils.spawnPortalParticles(world, originalPosition);
-            MAUtils.spawnPortalParticles(world, player.position());
+            MAUtils.spawnPortalParticles(serverLevel, originalPosition);
+            MAUtils.spawnPortalParticles(serverLevel, player.position());
         } else {
             float randomPitch = 1.2F + player.getRandom().nextFloat() * 0.1F;
-            world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, randomPitch);
+            serverLevel.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, randomPitch);
 
             double verticalVelocity = lift;
             if (lift <= 0) {
@@ -181,5 +199,32 @@ public record DodgeProperties(double distance, double lift, double cooldown, boo
 
         }
         MAUtils.logDebug("Dodge triggered for " + player.getName().getString() + " {Direction: " + direction + ", Distance: " + distance + ", Lift: " + lift + "}");
+    }
+
+    public static void addTooltips(Item item, List<Component> tooltips) {
+        DodgeProperties properties = getDodgeProperties(item);
+        if (properties != null) {
+            int index = tooltips.size();
+            for (int i = 0; i < tooltips.size(); i++) {
+                if (tooltips.get(i).getString().contains(":")) {
+                    index = i;
+                    break;
+                }
+            }
+            if (properties.blink) {
+                tooltips.add(index++, Component.translatable("tooltip.moreartifacts.blink").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.DODGE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
+            } else {
+                tooltips.add(index++, Component.translatable("tooltip.moreartifacts.dodge").withStyle(ChatFormatting.GOLD).append(Component.literal(ClientEvents.DODGE_KEY.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.YELLOW)).append(Component.translatable("tooltip.moreartifacts.toggle").withStyle(ChatFormatting.WHITE)));
+            }
+
+            if (Screen.hasControlDown()) {
+                tooltips.add(index++, Component.literal("Dodge Stats:").withStyle(ChatFormatting.GOLD));
+                tooltips.add(index++, Component.literal("- Distance: ").withStyle(ChatFormatting.GRAY).append(Component.literal(String.valueOf(properties.distance())).withStyle(ChatFormatting.GREEN)));
+                tooltips.add(index++, Component.literal("- Lift: ").withStyle(ChatFormatting.GRAY).append(Component.literal(String.valueOf(properties.lift())).withStyle(ChatFormatting.GREEN)));
+                tooltips.add(index, Component.literal("- Cooldown: ").withStyle(ChatFormatting.GRAY).append(Component.literal(properties.cooldown() + "s").withStyle(ChatFormatting.AQUA)));
+            } else {
+                tooltips.add(index, Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+            }
+        }
     }
 }

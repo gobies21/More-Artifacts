@@ -5,7 +5,7 @@
       "item": "moreartifacts:withered_bezoar"
     },
     "title": "Anti D.O.T",
-    "description": "Craft a Withered Bezoar",
+    "description": "Craft a withered bezoar",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

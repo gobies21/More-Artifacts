@@ -1,0 +1,27 @@
+{
+  "parent": "moreartifacts:obtain_soul",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:wrath_soul"
+    },
+    "title": "Devil's Advocate",
+    "description": "Evolve a soul to its maximum stage",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "soul_max": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "soul_max"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
+}

@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -137,7 +136,7 @@ public class MAEvents {
         if (event.phase == TickEvent.Phase.END) {
             if (event.player.level().isClientSide()) return;
             Player player = event.player;
-            if (player.tickCount % 5 != 0) return;
+            if (player.tickCount % 10 != 0) return;
 
             boolean hasAnkhShield = ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get());
             boolean hasAnkhCharm = ShieldHandler.isShieldEquipped(player, MAItems.AnkhCharm.get());
@@ -162,9 +161,6 @@ public class MAEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onLivingAttack(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get()) || CurioHandler.isCurioEquipped(player, MAItems.IceCrystal.get()) || CurioHandler.isCurioEquipped(player, MAItems.FrostedShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.FrostedShield.get())) {
-                MAUtils.makeFreezingImmune(event);
-            }
             if (CurioHandler.isCurioEquipped(player, MAItems.ObsidianSkull.get())) {
                 MAUtils.makeBurningImmune(event);
             }
@@ -174,14 +170,20 @@ public class MAEvents {
             if (CurioHandler.isCurioEquipped(player, MAItems.AnkhShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.AnkhShield.get())) {
                 MAUtils.makeBurningImmune(event);
             }
+            if (CurioHandler.isCurioEquipped(player, MAItems.BlazingTreads.get())) {
+                MAUtils.makeBurningImmune(event);
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
+                MAUtils.makeFireImmune(event);
+            }
+            if (CurioHandler.isCurioEquipped(player, MAItems.IceStone.get()) || CurioHandler.isCurioEquipped(player, MAItems.IceCrystal.get())) {
+                MAUtils.makeFreezingImmune(event);
+            }
             if (CurioHandler.isCurioEquipped(player, MAItems.FrostedShield.get()) || ShieldHandler.isShieldEquipped(player, MAItems.FrostedShield.get())) {
                 MAUtils.makeFreezingImmune(event);
             }
-            if (CurioHandler.isCurioEquipped(player, MAItems.FireStone.get())) {
-                MAUtils.makeBurningImmune(event);
-            }
-            if (CurioHandler.isCurioEquipped(player, MAItems.BlazingTreads.get())) {
-                MAUtils.makeBurningImmune(event);
+            if (CurioHandler.isCurioEquipped(player, MAItems.StormFang.get())) {
+                MAUtils.makeLightningImmune(event);
             }
             if (CurioHandler.isCurioEquipped(player, MAItems.MechanicalGears.get())) {
                 if (LuckHelper.roll(player, CommonConfig.MECHANICAL_GEARS_DODGE_CHANCE.get(), CommonConfig.MECHANICAL_GEARS_LUCK_FACTOR.get()) && event.getSource().getEntity() != null) {
@@ -195,8 +197,7 @@ public class MAEvents {
                     double deltaXZ = Math.cos(angle + (side ? (Math.PI / 2D) : (-Math.PI / 2D)));
                     Vec3 knockbackVector = new Vec3(deltaXZ, 0.3D, deltaXZ).normalize().scale(1.0D);
 
-                    float randomPitch = 1.2F + player.getRandom().nextFloat() * 0.1F;
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, randomPitch);
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, MAUtils.getRandomPitch());
                     player.setDeltaMovement(knockbackVector);
                     player.hurtMarked = true;
                     event.setCanceled(true);
@@ -212,9 +213,9 @@ public class MAEvents {
                         if (!(level instanceof ServerLevel)) return;
                         event.setCanceled(true);
                         LivingEntity livingEntity = event.getEntity();
-                        double d0 = livingEntity.getX();
-                        double d2 = livingEntity.getZ();
-                        double maxRadius = 4d;
+                        double entityX = livingEntity.getX();
+                        double entityZ = livingEntity.getZ();
+                        double maxRadius = 4;
                         var entityRandom = livingEntity.getRandom();
 
                         for (int i = 0; i < 12; ++i) {
@@ -223,10 +224,10 @@ public class MAEvents {
                             int degrees = entityRandom.nextInt(360);
                             vec = vec.yRot(degrees * Mth.DEG_TO_RAD);
 
-                            double x = d0 + vec.x;
+                            double x = entityX + vec.x;
                             if (level instanceof ServerLevel serverLevel) {
                                 double y = Mth.clamp(livingEntity.getY() + (livingEntity.getRandom().nextInt((int) maxRadius) - maxRadius / 2), level.getMinBuildHeight(), (level.getMinBuildHeight() + serverLevel.getLogicalHeight() - 1));
-                                double z = d2 + vec.z;
+                                double z = entityZ + vec.z;
 
                                 if (livingEntity.isPassenger()) livingEntity.stopRiding();
 
@@ -303,7 +304,7 @@ public class MAEvents {
         if (!player.level().isClientSide && player.isSleeping()) {
             if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
                 player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 20 * CommonConfig.PLUSHIE_DURATION.get(), CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get() - 1, true, true));
-                player.heal(8 * CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get());
+                player.heal(4 * CommonConfig.PLUSHIE_HEALTH_BOOST_LEVEL.get());
             }
         }
     }
@@ -346,47 +347,44 @@ public class MAEvents {
 
     private static final String SUMMONED = "MA_Summoned";
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public void onLivingHurt(LivingHurtEvent event) {
         LivingEntity livingEntity = event.getEntity();
         Entity sourceEntity = event.getSource().getEntity();
         DamageSource damageSource = event.getSource();
+        float amount = event.getAmount();
         if (event.getEntity().level().isClientSide) return;
         if (event.getEntity() instanceof Player player && event.getSource().getEntity() != null) {
             ItemStack heroShield = CurioHandler.getEquippedCurio(player, MAItems.HeroShield.get());
             if (!heroShield.isEmpty()) {
                 CompoundTag tag = heroShield.getOrCreateTag();
                 int hitCount = tag.getInt("HitCount");
-                Random random = new Random();
                 hitCount++;
                 tag.putInt("HitCount", hitCount);
                 if (hitCount % CommonConfig.IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                     event.setCanceled(true);
                     player.displayClientMessage(Component.translatable("message.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.GOLD), true);
-                    float randomPitch = 1.0f + random.nextFloat() * 0.2f;
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, randomPitch);
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, MAUtils.getRandomPitch());
                     tag.putInt("HitCount", 0);
                 }
                 if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                    event.setAmount((float) (event.getAmount() * (1 - CommonConfig.EXPLOSION_DAMAGE_REDUCTION.get())));
+                    event.setAmount((float) (amount * (1 - CommonConfig.EXPLOSION_DAMAGE_REDUCTION.get())));
                 }
             }
             ItemStack shadowAegis = CurioHandler.getEquippedCurio(player, MAItems.ShadowAegis.get());
             if (!shadowAegis.isEmpty()) {
                 CompoundTag tag = shadowAegis.getOrCreateTag();
                 int hitCount = tag.getInt("HitCount");
-                Random random = new Random();
                 hitCount++;
                 tag.putInt("HitCount", hitCount);
                 if (hitCount % CommonConfig.SHADOW_AEGIS_IGNORE_DAMAGE_CHANCE.get() == 0 && !event.isCanceled()) {
                     event.setCanceled(true);
                     player.displayClientMessage(Component.translatable("message.moreartifacts.hero_shield.damage_text").withStyle(ChatFormatting.DARK_PURPLE), true);
-                    float randomPitch = 1.0f - random.nextFloat() * 0.2f;
-                    player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, randomPitch);
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.3f, MAUtils.getRandomPitch());
                     tag.putInt("HitCount", 0);
                 }
                 if (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)) {
-                    event.setAmount((float) (event.getAmount() * (1 - CommonConfig.SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION.get())));
+                    event.setAmount((float) (amount * (1 - CommonConfig.SHADOW_AEGIS_EXPLOSION_DAMAGE_REDUCTION.get())));
                 }
             }
         }
@@ -449,7 +447,7 @@ public class MAEvents {
         if (sourceEntity instanceof Player player && event.getEntity() != null) {
             LivingEntity target = event.getEntity();
             if (CurioHandler.isCurioEquipped(player, MAItems.LuckyEmeraldRing.get())) {
-                if (target instanceof LivingEntity) {
+                if (target.isAlive()) {
                     double emeraldChance = CommonConfig.EMERALD_RING_EMERALDS.get();
                     if (LuckHelper.roll(player, emeraldChance, CommonConfig.EMERALD_RING_LUCK_FACTOR.get())) {
                         target.spawnAtLocation(Items.EMERALD, 1);
@@ -494,7 +492,6 @@ public class MAEvents {
         }
         if (!(sourceEntity instanceof LivingEntity attacker)) return;
         int cursedDollCount = CurioHandler.getCurioCount(attacker, MAItems.CursedDoll.get());
-        SoundEvent cursed = ForgeRegistries.SOUND_EVENTS.getValue(MASounds.CURSED.get().getLocation());
         for (int i = 0; i < cursedDollCount; i++) {
             double curseChance = CommonConfig.CURSED_DOLL_CHANCE.get() * cursedDollCount;
             if (attacker instanceof Player player && LuckHelper.roll(player, curseChance, CommonConfig.CURSED_DOLL_LUCK_FACTOR.get())) {
@@ -510,7 +507,7 @@ public class MAEvents {
                     int maxDuration = Math.min(randomEffect.getDuration(), 20 * CommonConfig.CURSED_DOLL_MAX_DURATION.get());
                     int maxAmplifier = Math.min(randomEffect.getAmplifier(), CommonConfig.CURSED_DOLL_MAX_AMPLIFIER.get() - 1);
                     MobEffectInstance copiedEffect = new MobEffectInstance(randomEffect.getEffect(), maxDuration, maxAmplifier, randomEffect.isAmbient(), randomEffect.isVisible(), randomEffect.showIcon());
-                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), Objects.requireNonNull(cursed), SoundSource.PLAYERS, 1.2F, 1.0F);
+                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), MASounds.CURSED.get(), SoundSource.PLAYERS, 1.5F, MAUtils.getRandomPitchRange());
                     livingEntity.addEffect(copiedEffect);
                 }
 
@@ -518,14 +515,14 @@ public class MAEvents {
                 if (fireTicks > 0) {
                     livingEntity.setRemainingFireTicks(fireTicks);
                     attacker.setRemainingFireTicks(0);
-                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), Objects.requireNonNull(cursed), SoundSource.PLAYERS, 1.2F, 1.0F);
+                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), MASounds.CURSED.get(), SoundSource.PLAYERS, 1.1F, MAUtils.getRandomPitch());
                 }
 
                 int freezeTicks = attacker.getTicksFrozen();
                 if (freezeTicks > 0) {
                     livingEntity.setTicksFrozen(freezeTicks);
                     attacker.setTicksFrozen(0);
-                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), Objects.requireNonNull(cursed), SoundSource.PLAYERS, 1.2F, 1.0F);
+                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), MASounds.CURSED.get(), SoundSource.PLAYERS, 1.1F, MAUtils.getRandomPitch());
                 }
             }
         }
@@ -631,61 +628,6 @@ public class MAEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onSoulDamage(LivingDamageEvent event) {
-        if (event.getSource().getEntity() instanceof Player player) {
-            if (event.getSource().getDirectEntity() != player) return;
-
-            ItemStack stack = ItemStack.EMPTY;
-            for (var item : SoulUtil.SOULS) {
-                if (CurioHandler.isCurioEquipped(player, item)) {
-                    stack = CurioHandler.getEquippedCurio(player, item);
-                    break;
-                }
-            }
-
-            if (!stack.isEmpty()) {
-                int currentStage = SoulUtil.getSoulStage(stack);
-
-                if (currentStage >= 1 && currentStage <= 4) {
-                    var nbt = stack.getOrCreateTag();
-
-                    float damageDealt = nbt.getFloat("SoulDamage") + event.getAmount();
-                    nbt.putFloat("SoulDamage", damageDealt);
-
-                    float requiredDamage = getSoulDamage(stack, currentStage);
-
-                    if (requiredDamage > 0f && damageDealt >= requiredDamage) {
-                        SoulUtil.evolveSoul(stack, player);
-                        nbt.putFloat("SoulDamage", 0f);
-                    }
-                }
-            }
-        }
-    }
-
-    private float getSoulDamage(ItemStack stack, int stage) {
-        if (stack.is(MAItems.EnvySoul.get())) {
-            return switch (stage) {
-                case 1 -> CommonConfig.ENVY_EVOLVE_DAMAGE_1.get().floatValue();
-                case 2 -> CommonConfig.ENVY_EVOLVE_DAMAGE_2.get().floatValue();
-                case 3 -> CommonConfig.ENVY_EVOLVE_DAMAGE_3.get().floatValue();
-                case 4 -> CommonConfig.ENVY_EVOLVE_DAMAGE_4.get().floatValue();
-                default -> 0f;
-            };
-        } else if (stack.is(MAItems.WrathSoul.get())) {
-            return switch (stage) {
-                case 1 -> CommonConfig.WRATH_EVOLVE_DAMAGE_1.get().floatValue();
-                case 2 -> CommonConfig.WRATH_EVOLVE_DAMAGE_2.get().floatValue();
-                case 3 -> CommonConfig.WRATH_EVOLVE_DAMAGE_3.get().floatValue();
-                case 4 -> CommonConfig.WRATH_EVOLVE_DAMAGE_4.get().floatValue();
-                default -> 0f;
-            };
-        }
-
-        return 0f;
-    }
-
     @SubscribeEvent
     public void onEntityJoinLevel(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
@@ -704,6 +646,7 @@ public class MAEvents {
         if (!item.isEmpty() && item.hasTag() && Objects.requireNonNull(item.getTag()).getBoolean("Invisible")) {
             tooltip.add(1, Component.literal("Invisible").withStyle(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC));
         }
+        DodgeProperties.addTooltips(item.getItem(), tooltip);
     }
 
     @SubscribeEvent
@@ -727,7 +670,7 @@ public class MAEvents {
     @SubscribeEvent
     public void onInput(MovementInputUpdateEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null || player.isPassenger() || player.getAbilities().flying) return;
+        if (player == null || player.isPassenger()) return;
 
         ItemStack stack = DodgeProperties.getDodgeItem(player);
         if (stack.isEmpty()) return;
@@ -735,7 +678,7 @@ public class MAEvents {
         double cooldown = DodgeProperties.getDodgeCooldown(stack);
         if (!CooldownHandler.isReady(player, DodgeProperties.DODGE_COOLDOWN, cooldown)) return;
 
-        boolean airDodge = CommonConfig.ENABLE_AIR_DODGE.get();
+        boolean airDodge = CurioHandler.isCurioEquipped(player, MAItems.RogueBelt.get());
         if (!airDodge && !player.onGround()) return;
 
         boolean isW = event.getInput().up;
@@ -775,7 +718,6 @@ public class MAEvents {
         }
 
         if (ClientConfig.DOUBLE_TAP_DODGE.get()) {
-
             if (isW && !wasW) {
                 if (currentTime - lastW < pressTime) {
                     triggerDodge(DodgeProperties.DodgeDirection.FORWARD);

@@ -219,23 +219,30 @@ public class DragonEyeItem extends Item implements ICurioItem {
         if (isFireDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.fire_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
             if (ModLoadedUtil.isColdSweatLoaded()) {
-                tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 if (Screen.hasControlDown()) {
-                    tooltip.remove(3);
                     tooltip.add(Component.translatable("tooltip.moreartifacts.hyperthermia.cold_sweat").withStyle(ChatFormatting.GRAY));
+                } else {
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 }
             }
         } else if (isIceDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.ice_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
             if (ModLoadedUtil.isColdSweatLoaded()) {
-                tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 if (Screen.hasControlDown()) {
-                    tooltip.remove(3);
                     tooltip.add(Component.translatable("tooltip.moreartifacts.hypothermia.cold_sweat").withStyle(ChatFormatting.GRAY));
+                } else {
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 }
             }
         } else if (isLightningDragonEye(stack)) {
             tooltip.add(Component.translatable("tooltip.moreartifacts.lightning_dragon_eye.resistance").withStyle(ChatFormatting.GOLD));
+            if (ModLoadedUtil.isLycanitesMobsLoaded()) {
+                if (Screen.hasControlDown()) {
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.lycanites_paralysis").withStyle(ChatFormatting.GRAY));
+                } else {
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
+                }
+            }
         } else {
             double summonChance = CommonConfig.ENDER_DRAGON_EYE_SUMMON_CHANCE.get() * 100;
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
@@ -243,15 +250,15 @@ public class DragonEyeItem extends Item implements ICurioItem {
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.strong_endermen").withStyle(ChatFormatting.LIGHT_PURPLE));
             tooltip.add(Component.translatable("tooltip.moreartifacts.ender_dragon_eye.visibility").withStyle(ChatFormatting.LIGHT_PURPLE));
             if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get() || ModLoadedUtil.isColdSweatLoaded()) {
-                tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 if (Screen.hasControlDown()) {
-                    tooltip.remove(6);
                     if (ModLoadedUtil.isColdSweatLoaded()) {
                         tooltip.add(Component.translatable("tooltip.moreartifacts.hypothermia.cold_sweat").withStyle(ChatFormatting.GRAY));
                     }
                     if (ModLoadedUtil.isEnhancedVisualsLoaded() && CommonConfig.ENDER_DRAGON_EYE_COMPAT.get()) {
                         tooltip.add(Component.translatable("tooltip.moreartifacts.true_enderian_scarf.enhanced_visuals").withStyle(ChatFormatting.GRAY));
                     }
+                } else {
+                    tooltip.add(Component.translatable("tooltip.moreartifacts.hold.ctrl"));
                 }
             }
         }

@@ -1,0 +1,36 @@
+{
+  "parent": "moreartifacts:obtain_sculk_lens",
+  "display": {
+    "icon": {
+      "item": "moreartifacts:tainted_mirror"
+    },
+    "title": "Mirror, Mirror, on the... Warden?",
+    "description": "Obtain a tainted mirror from a warden",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "has_tainted_mirror": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "moreartifacts:tainted_mirror"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tainted_mirror"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
+}

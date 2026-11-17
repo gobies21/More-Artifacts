@@ -1,7 +1,8 @@
 package net.gobies.moreartifacts.network;
 
-import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.init.MAItems;
 import net.gobies.moreartifacts.util.CooldownHandler;
+import net.gobies.moreartifacts.util.CurioHandler;
 import net.gobies.moreartifacts.util.DodgeProperties;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,7 +32,7 @@ public record DodgePacket(DodgeProperties.DodgeDirection direction) {
                 double cooldown = DodgeProperties.getDodgeCooldown(stack);
 
                 if (CooldownHandler.isReady(player, DodgeProperties.DODGE_COOLDOWN, cooldown)) {
-                    boolean airDodge = CommonConfig.ENABLE_AIR_DODGE.get();
+                    boolean airDodge = CurioHandler.isCurioEquipped(player, MAItems.RogueBelt.get());
                     if (!airDodge && !player.onGround()) return;
                     double distance = DodgeProperties.getDistance(stack, player);
                     double lift = DodgeProperties.getLift(stack);

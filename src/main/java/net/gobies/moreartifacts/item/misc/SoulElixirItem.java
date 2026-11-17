@@ -3,6 +3,7 @@ package net.gobies.moreartifacts.item.misc;
 import net.gobies.moreartifacts.helper.SoulAttributes;
 import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.helper.SoulSyncHelper;
+import net.gobies.moreartifacts.util.MAUtils;
 import net.gobies.moreartifacts.util.SoulUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -63,22 +64,32 @@ public class SoulElixirItem extends Item {
 
             serverPlayer.awardStat(Stats.ITEM_USED.get(this));
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
-
-            persistentData.remove(SoulUtil.SOUL_KEY);
-
-            if (SoulType.ENVY.key.equals(activeSoul)) {
+            if (SoulUtil.hasSoul(serverPlayer, SoulType.ENVY)) {
                 SoulAttributes.removeEnvyAttributes(serverPlayer);
-            } else if (SoulType.WRATH.key.equals(activeSoul)) {
+            } else if (SoulUtil.hasSoul(serverPlayer, SoulType.WRATH)) {
                 SoulAttributes.removeWrathAttributes(serverPlayer);
             }
+            persistentData.remove(SoulUtil.SOUL_KEY);
             SoulSyncHelper.syncSouls(serverPlayer);
             serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.5F, 0.8F);
             if (!activeSoul.isEmpty()) {
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 600, 0));
+                MAUtils.awardAdvancement(serverPlayer, "soul_remove");
             } else {
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
             }
-            stack.shrink(1);
+            if (!serverPlayer.isCreative()) {
+                if (stack.getCount() == 1) {
+                    if (serverPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SoulElixirItem) {
+                        serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                    } else {
+                        serverPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.GLASS_BOTTLE, 1));
+                    }
+                } else {
+                    stack.shrink(1);
+                    serverPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
+                }
+            }
         }
         return stack;
     }

@@ -5,7 +5,7 @@
       "item": "moreartifacts:shulked_clock"
     },
     "title": "Does this thing work?",
-    "description": "Craft a Shulked Clock",
+    "description": "Craft a shulked clock",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

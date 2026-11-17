@@ -1,8 +1,12 @@
 package net.gobies.moreartifacts.mixin.potionrings2;
 
 import net.gobies.moreartifacts.config.CommonConfig;
+import net.gobies.moreartifacts.helper.SoulType;
 import net.gobies.moreartifacts.init.MAItems;
+import net.gobies.moreartifacts.soul.EnvyHandler;
+import net.gobies.moreartifacts.soul.WrathHandler;
 import net.gobies.moreartifacts.util.CurioHandler;
+import net.gobies.moreartifacts.util.SoulUtil;
 import net.gobies.potionrings2.PRConfig;
 import net.gobies.potionrings2.init.PRItems;
 import net.gobies.potionrings2.item.potionrings.PotionRingItem;
@@ -56,9 +60,26 @@ public class PotionRingItemMixin {
                         if (CurioHandler.isCurioEquipped(player, MAItems.MelodyPlushie.get())) {
                             effectLevel += CommonConfig.PLUSHIE_REGEN_LEVEL.get();
                         }
-                    }   
+                    }
+                    if (effect == WrathHandler.getEffect()) {
+                        if (SoulUtil.hasSoul(player, SoulType.WRATH)) {
+                            if (SoulUtil.getPassive(player)) {
+                                effectLevel += 1;
+                            } else {
+                                effectLevel -= 1;
+                            }
+                        }
+                    }
+                    if (effect == EnvyHandler.getEffect()) {
+                        if (SoulUtil.hasSoul(player, SoulType.ENVY)) {
+                            if (SoulUtil.getPassive(player)) {
+                                effectLevel += 1;
+                            } else {
+                                effectLevel -= 1;
+                            }
+                        }
+                    }
                 }
-
                 effectLevel = Math.min(effectLevel, maxLevel);
                 MobEffectInstance mobEffect = entity.getEffect(effect);
                 if (mobEffect == null || mobEffect.getDuration() <= 110 || mobEffect.getAmplifier() < effectLevel) {

@@ -4,8 +4,8 @@
     "icon": {
       "item": "moreartifacts:purification_charm"
     },
-    "title": "Purified",
-    "description": "Craft a Purification Charm",
+    "title": "Sickness Begone",
+    "description": "Craft a purification charm",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

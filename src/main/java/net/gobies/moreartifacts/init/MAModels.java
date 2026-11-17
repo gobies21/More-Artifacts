@@ -1,7 +1,15 @@
 package net.gobies.moreartifacts.init;
 
-import net.gobies.moreartifacts.client.models.*;
-import net.gobies.moreartifacts.client.renderer.*;
+import net.gobies.moreartifacts.client.models.curio.*;
+import net.gobies.moreartifacts.client.models.soul.EnvyHoodModel;
+import net.gobies.moreartifacts.client.models.soul.WrathHornsModel;
+import net.gobies.moreartifacts.client.renderer.curio.*;
+import net.gobies.moreartifacts.client.renderer.soul.EnvyHoodRenderer;
+import net.gobies.moreartifacts.client.renderer.soul.WrathHornsRenderer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
@@ -13,7 +21,9 @@ public class MAModels {
         CuriosRendererRegistry.register(MAItems.CobaltShield.get(), CobaltShieldRenderer::new);
         CuriosRendererRegistry.register(MAItems.ObsidianShield.get(), ObsidianShieldRenderer::new);
         CuriosRendererRegistry.register(MAItems.AnkhShield.get(), AnkhShieldRenderer::new);
+        CuriosRendererRegistry.register(MAItems.FrostedShield.get(), FrostedShieldRenderer::new);
         CuriosRendererRegistry.register(MAItems.HeroShield.get(), HeroShieldRenderer::new);
+        CuriosRendererRegistry.register(MAItems.ShadowAegis.get(), ShadowAegisRenderer::new);
         CuriosRendererRegistry.register(MAItems.MelodyPlushie.get(), MelodyPlushieRenderer::new);
         CuriosRendererRegistry.register(MAItems.EnderianScarf.get(), EnderianScarfRenderer::new);
         CuriosRendererRegistry.register(MAItems.GildedScarf.get(), GildedScarfRenderer::new);
@@ -32,9 +42,11 @@ public class MAModels {
         event.registerLayerDefinition(MAModelLayer.SUNGLASSES, SunglassesModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.SCULK_SHADES, SculkShadesModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.COBALT_SHIELD, CobaltShieldModel::createBodyLayer);
-        event.registerLayerDefinition(MAModelLayer.ANKH_SHIELD, AnkhShieldModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.OBSIDIAN_SHIELD, ObsidianShieldModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.ANKH_SHIELD, AnkhShieldModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.FROSTED_SHIELD, FrostedShieldModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.HERO_SHIELD, HeroShieldModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.SHADOW_AEGIS, ShadowAegisModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MELODY_PLUSHIE, MelodyPlushieModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.ENDERIAN_SCARF, EnderianScarfModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.GILDED_SCARF, GildedScarfModel::createBodyLayer);
@@ -47,5 +59,20 @@ public class MAModels {
         event.registerLayerDefinition(MAModelLayer.MECHANICAL_GLOVE, MechanicalGloveModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.MECHANICAL_CLAW, MechanicalClawModel::createBodyLayer);
         event.registerLayerDefinition(MAModelLayer.NATURES_MANTLE, NaturesMantleModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.WRATH_HORNS, WrathHornsModel::createBodyLayer);
+        event.registerLayerDefinition(MAModelLayer.ENVY_HOOD, EnvyHoodModel::createBodyLayer);
+    }
+
+    public static void addPlayerLayers(EntityRenderersEvent.AddLayers event) {
+        addLayer(event, "default");
+        addLayer(event, "slim");
+    }
+
+    private static void addLayer(EntityRenderersEvent.AddLayers event, String skin) {
+        LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> renderer = event.getSkin(skin);
+        if (!(renderer instanceof PlayerRenderer playerRenderer)) return;
+
+        playerRenderer.addLayer(new WrathHornsRenderer(playerRenderer));
+        playerRenderer.addLayer(new EnvyHoodRenderer(playerRenderer));
     }
 }
